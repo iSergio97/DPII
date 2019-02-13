@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2018 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+
+	<!-- Handy workers can edit their finder -->
+
+	<definition name="finder/handyWorker/edit" extends="master.page">
+		<put-attribute name="title" value="Editar buscador" />
+		<put-attribute name="body" value="/views/finder/edit.jsp" />
+	</definition>
+
+	<!-- Handy workers can edit their finder -->
+
+	<definition name="finder/handyWorker/listfixuptasks" extends="master.page">
+		<put-attribute name="title" value="Listar resultados de búsqueda" />
+		<put-attribute name="body" value="/views/finder/listfixuptasks.jsp" />
+	</definition>
+
+</tiles-definitions>

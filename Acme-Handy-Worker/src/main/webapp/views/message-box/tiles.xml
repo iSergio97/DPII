@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles.xml
+ *
+ * Copyright (C) 2018 Nozotro
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="message-box/list" extends="master.page">
+		<put-attribute name="title" value="List Boxes" />
+		<put-attribute name="body" value="/views/message-box/list.jsp" />
+	</definition>
+	
+	<definition name="message-box/create" extends="master.page">
+		<put-attribute name="title" value="Create Box" />
+		<put-attribute name="body" value="/views/message-box/edit.jsp" />
+	</definition>
+	
+	<definition name="message-box/edit" extends="master.page">
+		<put-attribute name="title" value="Edit Box" />
+		<put-attribute name="body" value="/views/message-box/edit.jsp" />
+	</definition>
+
+	<definition name="message-box/show" extends="master.page">
+		<put-attribute name="title" value="Show Box" />
+		<put-attribute name="body" value="/views/message-box/edit.jsp" />
+	</definition>
+
+</tiles-definitions>
+ 

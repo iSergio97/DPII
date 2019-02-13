@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles.xml
+ *
+ * Copyright (C) 2018 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<!-- Handy workers can display the applications they have sent -->
+
+	<definition name="application/handyworker" extends="master.page">
+		<put-attribute name="title" value="Sent applications" />
+		<put-attribute name="body" value="/views/application/handyworker.jsp" />
+	</definition>
+
+	<!-- Customers can display the applications they have received -->
+
+	<definition name="application/customer" extends="master.page">
+		<put-attribute name="title" value="Received applications" />
+		<put-attribute name="body" value="/views/application/customer.jsp" />
+	</definition>
+
+	<!-- Handy workers can create an application for a fix-up task -->
+
+	<definition name="application/create" extends="master.page">
+		<put-attribute name="title" value="Apply" />
+		<put-attribute name="body" value="/views/application/create.jsp" />
+	</definition>
+
+	<!-- Handy workers and customers can display an application -->
+
+	<definition name="application/display" extends="master.page">
+		<put-attribute name="title" value="Application" />
+		<put-attribute name="body" value="/views/application/display.jsp" />
+	</definition>
+	
+	<definition name="application/add-credit-card" extends="master.page">
+		<put-attribute name="title" value="Add Credit Card" />
+		<put-attribute name="body" value="/views/application/add-credit-card.jsp" />
+	</definition>
+
+</tiles-definitions>

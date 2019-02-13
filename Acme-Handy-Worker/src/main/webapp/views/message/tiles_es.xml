@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="message/sendMessage" extends="master.page">
+		<put-attribute name="title" value="Enviar mensaje" />
+		<put-attribute name="body" value="/views/message/sendMessage.jsp" />
+	</definition>
+
+	<definition name="message/displaybox" extends="master.page">
+		<put-attribute name="title" value="Mostrar bandeja" />
+		<put-attribute name="body" value="/views/message/displaybox.jsp" />
+	</definition>
+	
+	<definition name="message/show" extends="master.page">
+		<put-attribute name="title" value="Mostrar Mensaje" />
+		<put-attribute name="body" value="/views/message/show.jsp" />
+	</definition>
+
+</tiles-definitions>

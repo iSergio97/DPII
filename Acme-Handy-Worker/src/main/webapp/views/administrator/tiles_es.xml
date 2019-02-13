@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2018 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+
+	<definition name="administrator/dashboard" extends="master.page">	
+		<put-attribute name="title" value="Panel de control" />
+		<put-attribute name="body" value="/views/administrator/dashboard.jsp" />
+	</definition>
+
+	<definition name="administrator/systemconfiguration" extends="master.page">	
+		<put-attribute name="title" value="Configuración de sistema" />
+		<put-attribute name="body" value="/views/administrator/systemconfiguration.jsp" />
+	</definition>
+
+	<definition name="administrator/registeradmin" extends="master.page">	
+		<put-attribute name="title" value="Registrar administrador" />
+		<put-attribute name="body" value="/views/administrator/registeradmin.jsp" />
+	</definition>
+
+	<definition name="administrator/registerreferee" extends="master.page">	
+		<put-attribute name="title" value="Registrar árbitro" />
+		<put-attribute name="body" value="/views/administrator/registerreferee.jsp" />
+	</definition>
+
+	<definition name="administrator/suspicious" extends="master.page">	
+		<put-attribute name="title" value="Actores sospechosos" />
+		<put-attribute name="body" value="/views/administrator/suspicious.jsp" />
+	</definition>
+
+	<definition name="administrator/broadcast" extends="master.page">	
+		<put-attribute name="title" value="Enviar un mensaje a todos" />
+		<put-attribute name="body" value="/views/administrator/broadcast.jsp" />
+	</definition>
+
+	<definition name="administrator/score" extends="master.page">	
+		<put-attribute name="title" value="Puntuación de actores" />
+		<put-attribute name="body" value="/views/administrator/score.jsp" />
+	</definition>
+
+</tiles-definitions>
