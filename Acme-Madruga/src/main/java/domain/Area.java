@@ -1,19 +1,17 @@
 package domain;
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class Enrolment {
+public class Area {
 
     // Fields -----------------------------------------------------------------
-    private Date moment;
-    private String position;
-
+    private String name;
+    private List<String> pictures;
     // Relationships ----------------------------------------------------------
-    private Member member;
     private Brotherhood brotherhood;
 
 
@@ -21,23 +19,24 @@ public class Enrolment {
 
     @NotBlank
     @NotNull
-    public Date getMoment(){
-        return this.moment;
+    public String getName() {
+        return name;
     }
 
-    public void setMoment(Date moment) {
-        this.moment = moment;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @NotBlank
-    @NotNull
-    public String getPosition() {
-        return position;
+    //Optional
+    @URL
+    public List<String> getPictures() {
+        return pictures;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
     }
+
 
 
     // Relationship access methods --------------------------------------------
@@ -48,14 +47,6 @@ public class Enrolment {
 
     public void setBrotherhood(Brotherhood brotherhood) {
         this.brotherhood = brotherhood;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
     }
 
 }

@@ -18,6 +18,10 @@ public class Brotherhood extends Actor{
     // Relationships ----------------------------------------------------------
     private List<Procession> procession;
     private List<AcmeFloat> acmeFloats;
+    private Area area;
+
+
+    // Field access methods ---------------------------------------------------
 
     public String getTitle(){
         return this.title;
@@ -30,7 +34,7 @@ public class Brotherhood extends Actor{
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     public Date getEstablishmentDate(){
-        return this.getEstablishmentDate();
+        return this.establishmentDate;
     }
 
     public void setEstablishmentDate(Date establishmentDate){
@@ -46,9 +50,13 @@ public class Brotherhood extends Actor{
         this.pictures = pictures;
     }
 
+
+
+    // Relationship access methods --------------------------------------------
+
     //Falta añadir anotación YToX
     public List<Procession> getProcession(){
-        return this.getProcession();
+        return this.procession;
     }
 
     public void setProcession(List<Procession> procession) {
@@ -61,5 +69,13 @@ public class Brotherhood extends Actor{
 
     public void setAcmeFloats(List<AcmeFloat> acmeFloats) {
         this.acmeFloats = acmeFloats;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

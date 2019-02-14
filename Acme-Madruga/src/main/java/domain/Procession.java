@@ -19,6 +19,9 @@ public class Procession {
     // Relationships ----------------------------------------------------------
     private Brotherhood brotherhood;
 
+
+    // Field access methods ---------------------------------------------------
+
     @NotBlank
     @NotNull
     public String getTitle(){
@@ -56,9 +59,15 @@ public class Procession {
         return this.ticker;
     }
 
+
+    // Relationship access methods --------------------------------------------
+
     //Falta añadir anotación XToY
     public Brotherhood getBrotherhood() {
         return this.brotherhood;
     }
 
+    public void setBrotherhood(Brotherhood brotherhood) {
+        this.brotherhood = brotherhood;
+    }
 }

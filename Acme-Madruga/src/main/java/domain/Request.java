@@ -20,6 +20,8 @@ public class Request {
     private Procession procession;
 
 
+    // Field access methods ---------------------------------------------------
+
     @NotNull
     @NotBlank
     @Pattern(regexp = "^APPROVED|REJECTED|PENDING$")
@@ -60,6 +62,9 @@ public class Request {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
+
+    // Relationship access methods --------------------------------------------
 
     //Falta anotación XToY
     public Procession getProcession() {

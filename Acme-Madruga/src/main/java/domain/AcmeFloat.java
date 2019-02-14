@@ -20,6 +20,10 @@ public class AcmeFloat {
     //Posible cambio de Procession a List<Procession>
     private Procession procession;
 
+
+    // Field access methods ---------------------------------------------------
+
+
     @NotNull
     @NotBlank
     public String getTitle() {
@@ -49,6 +53,9 @@ public class AcmeFloat {
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
     }
+
+
+    // Relationship access methods --------------------------------------------
 
     public Brotherhood getBrotherhood() {
         return this.brotherhood;
