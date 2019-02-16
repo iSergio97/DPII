@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Éste script se usa para crear los convertidores.
+Éste script se usa para crear los repositorios.
 
-Funciona leyendo los archivos "ActorToStringConverter.java" y
-"StringToActorConverter.java" y creando copias cambiando la palabra "Actor" por
-los nombres del resto de entidades de dominio tal y como se encuentran en la
-variable "lista" declarada al principio del script.
+Funciona leyendo el archivos "ActorRepository.java" y creando copias cambiando
+la palabra "Actor" por los nombres del resto de entidades de dominio tal y como
+se encuentran en la variable "lista" declarada al principio del script.
 
-Para usarlo, hay que poner este script en la carpeta converters con los archivos
-"ActorToStringConverter.java" y "StringToActorConverter.java" y ejecutarlo.
+Para usarlo, hay que poner este script en la carpeta repositories con el archivo
+"ActorRepository.java" y ejecutarlo.
 
 @author: Javier Centeno Vega
 """
