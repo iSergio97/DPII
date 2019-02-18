@@ -1,10 +1,10 @@
+
 package converters;
 
-import org.springframework.beans.fsocialProfiley.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import repositories.SocialProfileRepository;
 import domain.SocialProfile;
@@ -18,6 +18,7 @@ public class StringToSocialProfileConverter implements Converter<String, SocialP
 
 	@Autowired
 	private SocialProfileRepository	socialProfileRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods

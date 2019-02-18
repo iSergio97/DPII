@@ -1,31 +1,33 @@
+
 package converters;
 
-import org.springframework.beans.fisRegisteredy.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import repositories.IsRegisteredRepository;
-import domain.IsRegistered;
+import domain.Enrolment;
+
+import repositories.EnrolmentRepository;
 
 @Component
 @Transactional
-public class StringToIsRegisteredConverter implements Converter<String, IsRegistered> {
+public class StringToIsRegisteredConverter implements Converter<String, Enrolment> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Repository
 
 	@Autowired
-	private IsRegisteredRepository	isRegisteredRepository;
+	private EnrolmentRepository	enrolmentRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods
 
 	@Override
-	public IsRegistered convert(final String text) {
+	public Enrolment convert(final String text) {
 		try {
-			return this.isRegisteredRepository.findOne(Integer.parseInt(text));
+			return this.enrolmentRepository.findOne(Integer.parseInt(text));
 		} catch (final Throwable throwable) {
 			throw new IllegalArgumentException(throwable);
 		}

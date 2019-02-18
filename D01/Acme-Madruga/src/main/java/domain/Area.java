@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-public class Area {
+public class Area extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 	private String			name;

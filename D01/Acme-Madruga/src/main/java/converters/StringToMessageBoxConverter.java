@@ -1,10 +1,10 @@
+
 package converters;
 
-import org.springframework.beans.fmessageBoxy.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import repositories.MessageBoxRepository;
 import domain.MessageBox;
@@ -18,6 +18,7 @@ public class StringToMessageBoxConverter implements Converter<String, MessageBox
 
 	@Autowired
 	private MessageBoxRepository	messageBoxRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods

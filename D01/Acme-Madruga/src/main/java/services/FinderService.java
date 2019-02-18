@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.FinderRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.Finder;
 
 @Service
@@ -20,11 +19,11 @@ public class FinderService {
 	// Managed repository
 
 	@Autowired
-	private FinderRepository		finderRepository;
+	private FinderRepository	finderRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

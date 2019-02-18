@@ -5,18 +5,18 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import security.UserAccount;
+import domain.Enrolment;
 
 @Component
 @Transactional
-public class UserAccountToStringConverter implements Converter<UserAccount, String> {
+public class EnrolmentToStringConverter implements Converter<Enrolment, String> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods
 
 	@Override
-	public String convert(final UserAccount userAccount) {
-		return userAccount == null ? null : String.valueOf(userAccount.getId());
+	public String convert(final Enrolment isRegistered) {
+		return isRegistered == null ? null : String.valueOf(isRegistered.getId());
 	}
 
 }

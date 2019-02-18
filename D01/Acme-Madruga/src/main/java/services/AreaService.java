@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AreaRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.Area;
 
 @Service
@@ -20,11 +19,11 @@ public class AreaService {
 	// Managed repository
 
 	@Autowired
-	private AreaRepository		areaRepository;
+	private AreaRepository	areaRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

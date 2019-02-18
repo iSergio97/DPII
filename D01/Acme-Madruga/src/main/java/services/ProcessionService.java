@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProcessionRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.Procession;
 
 @Service
@@ -20,11 +19,11 @@ public class ProcessionService {
 	// Managed repository
 
 	@Autowired
-	private ProcessionRepository		processionRepository;
+	private ProcessionRepository	processionRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

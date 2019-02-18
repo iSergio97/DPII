@@ -1,3 +1,4 @@
+
 package services;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ public class SystemConfigurationService {
 	@Autowired
 	private SystemConfigurationRepository	systemConfigurationRepository;
 
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -43,8 +44,8 @@ public class SystemConfigurationService {
 		return this.systemConfigurationRepository.findAll().get(0);
 	}
 
-	public String getMessage() {
-		return "master.page.message." + this.getSystemConfiguration().getMessage();
+	public String getWelcomeMessage() {
+		return "master.page.message." + this.getSystemConfiguration().getWelcomeMessage();
 	}
 
 }

@@ -1,10 +1,10 @@
+
 package converters;
 
-import org.springframework.beans.facmeFloaty.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import repositories.AcmeFloatRepository;
 import domain.AcmeFloat;
@@ -18,6 +18,7 @@ public class StringToAcmeFloatConverter implements Converter<String, AcmeFloat> 
 
 	@Autowired
 	private AcmeFloatRepository	acmeFloatRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods

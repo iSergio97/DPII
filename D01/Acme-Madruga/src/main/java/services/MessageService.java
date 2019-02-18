@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MessageRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.Message;
 
 @Service
@@ -20,11 +19,11 @@ public class MessageService {
 	// Managed repository
 
 	@Autowired
-	private MessageRepository		messageRepository;
+	private MessageRepository	messageRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

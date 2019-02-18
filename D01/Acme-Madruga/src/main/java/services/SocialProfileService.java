@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SocialProfileRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.SocialProfile;
 
 @Service
@@ -20,11 +19,11 @@ public class SocialProfileService {
 	// Managed repository
 
 	@Autowired
-	private SocialProfileRepository		socialProfileRepository;
+	private SocialProfileRepository	socialProfileRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

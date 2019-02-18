@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -8,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AcmeFloatRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.AcmeFloat;
 
 @Service
@@ -20,11 +19,11 @@ public class AcmeFloatService {
 	// Managed repository
 
 	@Autowired
-	private AcmeFloatRepository		acmeFloatRepository;
+	private AcmeFloatRepository	acmeFloatRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors

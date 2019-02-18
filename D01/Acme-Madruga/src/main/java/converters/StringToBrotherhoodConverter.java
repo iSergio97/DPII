@@ -1,10 +1,10 @@
+
 package converters;
 
-import org.springframework.beans.fbrotherhoody.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import repositories.BrotherhoodRepository;
 import domain.Brotherhood;
@@ -18,6 +18,7 @@ public class StringToBrotherhoodConverter implements Converter<String, Brotherho
 
 	@Autowired
 	private BrotherhoodRepository	brotherhoodRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods

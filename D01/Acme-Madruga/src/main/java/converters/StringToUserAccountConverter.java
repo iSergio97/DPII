@@ -1,13 +1,13 @@
+
 package converters;
 
-import org.springframework.beans.fuserAccounty.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import repositories.UserAccountRepository;
-import domain.UserAccount;
+import security.UserAccount;
+import security.UserAccountRepository;
 
 @Component
 @Transactional
@@ -18,6 +18,7 @@ public class StringToUserAccountConverter implements Converter<String, UserAccou
 
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods
