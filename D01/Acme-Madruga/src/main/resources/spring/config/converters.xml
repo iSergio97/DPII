@@ -22,6 +22,36 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
+		<bean class="converters.AcmeFloatToStringConverter" />
+		<bean class="converters.ActorToStringConverter" />
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.AreaToStringConverter" />
+		<bean class="converters.BrotherhoodToStringConverter" />
+		<bean class="converters.FinderToStringConverter" />
+		<bean class="converters.EnrolmentToStringConverter" />
+		<bean class="converters.MemberToStringConverter" />
+		<bean class="converters.MessageBoxToStringConverter" />
+		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.ProcessionToStringConverter" />
+		<bean class="converters.RequestToStringConverter" />
+		<bean class="converters.SocialProfileToStringConverter" />
+		<bean class="converters.StringToActorConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+		<bean class="converters.StringToAreaConverter" />
+		<bean class="converters.StringToBrotherhoodConverter" />
+		<bean class="converters.StringToFinderConverter" />
+		<bean class="converters.StringToEnrolmentConverter" />
+		<bean class="converters.StringToMemberConverter" />
+		<bean class="converters.StringToMessageBoxConverter" />
+		<bean class="converters.StringToMessageConverter" />
+		<bean class="converters.StringToProcessionConverter" />
+		<bean class="converters.StringToRequestConverter" />
+		<bean class="converters.StringToSocialProfileConverter" />
+		<bean class="converters.StringToSystemConfigurationConverter" />
+		<bean class="converters.SystemConfigurationToStringConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
+		<bean class="converters.UserAccountToStringConverter" />
+		
 	</util:list>
 	
 </beans>
