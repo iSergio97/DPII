@@ -12,7 +12,7 @@ import repositories.EnrolmentRepository;
 
 @Component
 @Transactional
-public class StringToIsRegisteredConverter implements Converter<String, Enrolment> {
+public class StringToEnrolmentConverter implements Converter<String, Enrolment> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Repository

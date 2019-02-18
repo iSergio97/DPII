@@ -4,6 +4,9 @@ package domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -11,6 +14,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class Brotherhood extends Actor {
 
 	// Fields -----------------------------------------------------------------

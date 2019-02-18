@@ -142,4 +142,12 @@ public class Actor extends DomainEntity {
 	public void setIsBanned(final boolean isBanned) {
 		this.isBanned = isBanned;
 	}
+
+	public UserAccount getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
 }

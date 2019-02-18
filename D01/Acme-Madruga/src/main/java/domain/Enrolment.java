@@ -1,61 +1,66 @@
+
 package domain;
 
-import com.sun.istack.internal.NotNull;
+import java.util.Date;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.Date;
-import java.util.List;
+@Entity
+@Access(AccessType.PROPERTY)
+public class Enrolment extends DomainEntity {
 
-public class Enrolment {
+	// Fields -----------------------------------------------------------------
+	private Date		moment;
+	private String		position;
 
-    // Fields -----------------------------------------------------------------
-    private Date moment;
-    private String position;
-
-    // Relationships ----------------------------------------------------------
-    private Member member;
-    private Brotherhood brotherhood;
-
-
-    // Field access methods ---------------------------------------------------
-
-    @NotBlank
-    @NotNull
-    public Date getMoment(){
-        return this.moment;
-    }
-
-    public void setMoment(Date moment) {
-        this.moment = moment;
-    }
-
-    @NotBlank
-    @NotNull
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
+	// Relationships ----------------------------------------------------------
+	private Member		member;
+	private Brotherhood	brotherhood;
 
 
-    // Relationship access methods --------------------------------------------
+	// Field access methods ---------------------------------------------------
 
-    public Brotherhood getBrotherhood() {
-        return brotherhood;
-    }
+	@NotBlank
+	@NotNull
+	public Date getMoment() {
+		return this.moment;
+	}
 
-    public void setBrotherhood(Brotherhood brotherhood) {
-        this.brotherhood = brotherhood;
-    }
+	public void setMoment(final Date moment) {
+		this.moment = moment;
+	}
 
-    public Member getMember() {
-        return member;
-    }
+	@NotBlank
+	@NotNull
+	public String getPosition() {
+		return this.position;
+	}
 
-    public void setMember(Member member) {
-        this.member = member;
-    }
+	public void setPosition(final String position) {
+		this.position = position;
+	}
+
+	// Relationship access methods --------------------------------------------
+
+	public Brotherhood getBrotherhood() {
+		return this.brotherhood;
+	}
+
+	public void setBrotherhood(final Brotherhood brotherhood) {
+		this.brotherhood = brotherhood;
+	}
+
+	public Member getMember() {
+		return this.member;
+	}
+
+	public void setMember(final Member member) {
+		this.member = member;
+	}
 
 }
