@@ -1,52 +1,54 @@
+
 package domain;
+
+import java.util.List;
+
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
-
 public class Area {
 
-    // Fields -----------------------------------------------------------------
-    private String name;
-    private List<String> pictures;
-    // Relationships ----------------------------------------------------------
-    private Brotherhood brotherhood;
+	// Fields -----------------------------------------------------------------
+	private String			name;
+	private List<String>	pictures;
+	// Relationships ----------------------------------------------------------
+	private Brotherhood		brotherhood;
 
 
-    // Field access methods ---------------------------------------------------
+	// Field access methods ---------------------------------------------------
 
-    @NotBlank
-    @NotNull
-    public String getName() {
-        return name;
-    }
+	@NotBlank
+	@NotNull
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    //Optional
-    @URL
-    public List<String> getPictures() {
-        return pictures;
-    }
+	//Optional
+	@URL
+	public List<String> getPictures() {
+		return this.pictures;
+	}
 
-    public void setPictures(List<String> pictures) {
-        this.pictures = pictures;
-    }
+	public void setPictures(final List<String> pictures) {
+		this.pictures = pictures;
+	}
 
+	// Relationship access methods --------------------------------------------
 
+	@OneToOne
+	public Brotherhood getBrotherhood() {
+		return this.brotherhood;
+	}
 
-    // Relationship access methods --------------------------------------------
-
-    public Brotherhood getBrotherhood() {
-        return brotherhood;
-    }
-
-    public void setBrotherhood(Brotherhood brotherhood) {
-        this.brotherhood = brotherhood;
-    }
+	public void setBrotherhood(final Brotherhood brotherhood) {
+		this.brotherhood = brotherhood;
+	}
 
 }

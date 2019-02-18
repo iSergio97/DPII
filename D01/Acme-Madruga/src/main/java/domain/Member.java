@@ -1,42 +1,45 @@
+
 package domain;
 
 import java.util.List;
 
-public class Member extends Actor{
+import javax.persistence.OneToOne;
+
+public class Member extends Actor {
+
+	// Fields -----------------------------------------------------------------
+
+	// Relationships ----------------------------------------------------------
+
+	// Relationship access methods --------------------------------------------
+
+	private List<Enrolment>	enrolment;
+	private List<Request>	requests;
+	private Finder			finder;
 
 
-    // Fields -----------------------------------------------------------------
+	public List<Enrolment> getEnrolment() {
+		return this.enrolment;
+	}
 
-    // Relationships ----------------------------------------------------------
+	public void setEnrolment(final List<Enrolment> enrolment) {
+		this.enrolment = enrolment;
+	}
 
+	public List<Request> getRequests() {
+		return this.requests;
+	}
 
-    // Relationship access methods --------------------------------------------
+	public void setRequests(final List<Request> requests) {
+		this.requests = requests;
+	}
 
-    private List<Enrolment> enrolment;
-    private List<Request> requests;
-    private Finder finder;
+	@OneToOne
+	public Finder getFinder() {
+		return this.finder;
+	}
 
-    public List<Enrolment> getEnrolment() {
-        return this.enrolment;
-    }
-
-    public void setEnrolment(List<Enrolment> enrolment){
-        this.enrolment = enrolment;
-    }
-
-    public List<Request> getRequests (){
-        return this.requests;
-    }
-
-    public void setRequests(List<Request> requests) {
-        this.requests = requests;
-    }
-
-    public Finder getFinder() {
-        return finder;
-    }
-
-    public void setFinder(Finder finder) {
-        this.finder = finder;
-    }
+	public void setFinder(final Finder finder) {
+		this.finder = finder;
+	}
 }
