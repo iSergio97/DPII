@@ -1,5 +1,5 @@
 /*
- * @author Sergio Garrido Domínguez
+ * @author Sergio Garrido Domï¿½nguez
  */
 /*
  * Comments:
@@ -8,6 +8,9 @@
 
 package domain;
 
+import javax.validation.Valid;
+import javax.validation.Valid;
+import javax.persistence.OneToOne;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -84,7 +87,7 @@ public class Actor extends DomainEntity {
 		this.photo = photo;
 	}
 
-	//Falta añadir patrón de email
+	//Falta aï¿½adir patrï¿½n de email
 	@NotBlank
 	@NotNull
 	public String getEmail() {
@@ -96,7 +99,7 @@ public class Actor extends DomainEntity {
 	}
 	/*
 	Optional
-	Falta añadir patrón teléfono con prefijo
+	Falta aï¿½adir patrï¿½n telï¿½fono con prefijo
 	 */
 	public String getPhoneNumber() {
 		return this.phoneNumber;
@@ -143,6 +146,9 @@ public class Actor extends DomainEntity {
 		this.isBanned = isBanned;
 	}
 
+	@OneToOne
+	@Valid
+	@NotNull
 	public UserAccount getUserAccount() {
 		return userAccount;
 	}

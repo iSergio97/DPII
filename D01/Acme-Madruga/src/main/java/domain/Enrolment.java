@@ -1,6 +1,7 @@
 
 package domain;
 
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -46,7 +47,7 @@ public class Enrolment extends DomainEntity {
 	}
 
 	// Relationship access methods --------------------------------------------
-
+	@ManyToOne
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}
@@ -54,7 +55,7 @@ public class Enrolment extends DomainEntity {
 	public void setBrotherhood(final Brotherhood brotherhood) {
 		this.brotherhood = brotherhood;
 	}
-
+	@ManyToOne
 	public Member getMember() {
 		return this.member;
 	}

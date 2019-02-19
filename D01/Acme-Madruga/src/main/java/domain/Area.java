@@ -20,7 +20,6 @@ public class Area extends DomainEntity {
 	private String			name;
 	private List<String>	pictures;
 	// Relationships ----------------------------------------------------------
-	private Brotherhood		brotherhood;
 
 
 	// Field access methods ---------------------------------------------------
@@ -46,14 +45,5 @@ public class Area extends DomainEntity {
 	}
 
 	// Relationship access methods --------------------------------------------
-
-	@OneToOne
-	public Brotherhood getBrotherhood() {
-		return this.brotherhood;
-	}
-
-	public void setBrotherhood(final Brotherhood brotherhood) {
-		this.brotherhood = brotherhood;
-	}
 
 }

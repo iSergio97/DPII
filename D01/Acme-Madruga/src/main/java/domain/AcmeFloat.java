@@ -1,6 +1,9 @@
 
 package domain;
 
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 import javax.persistence.Access;
@@ -19,12 +22,7 @@ public class AcmeFloat extends DomainEntity {
 	private String			title;
 	private String			description;
 	private List<String>	pictures;
-
-	// Relationships ----------------------------------------------------------
-	private Brotherhood		brotherhood;
-
-	//Posible cambio de Procession a List<Procession>
-	private Procession		procession;
+	private List<Procession>		processions;
 
 
 	// Field access methods ---------------------------------------------------
@@ -61,19 +59,12 @@ public class AcmeFloat extends DomainEntity {
 
 	// Relationship access methods --------------------------------------------
 
-	public Brotherhood getBrotherhood() {
-		return this.brotherhood;
+	@ManyToMany
+	public List<Procession> getProcessions() {
+		return this.processions;
 	}
 
-	public void setBrotherhood(final Brotherhood brotherhood) {
-		this.brotherhood = brotherhood;
-	}
-
-	public Procession getProcession() {
-		return this.procession;
-	}
-
-	public void setProcession(final Procession procession) {
-		this.procession = procession;
+	public void setProcession(final List<Procession> processions) {
+		this.processions = processions;
 	}
 }

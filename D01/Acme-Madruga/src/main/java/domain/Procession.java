@@ -1,6 +1,8 @@
 
 package domain;
 
+import javax.persistence.ManyToMany;
+import java.util.List;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -25,6 +27,7 @@ public class Procession extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	private Brotherhood	brotherhood;
+	private List<AcmeFloat> acmeFloats;
 
 
 	// Field access methods ---------------------------------------------------
@@ -61,19 +64,28 @@ public class Procession extends DomainEntity {
 
 	@NotBlank
 	@NotNull
-	//Falta añadir patron YYMMDD-XXXXX donde XXXXX son 5 letras en mayúsculas
+	//Falta aï¿½adir patron YYMMDD-XXXXX donde XXXXX son 5 letras en mayï¿½sculas
 	public String getTicker() {
 		return this.ticker;
 	}
 
 	// Relationship access methods --------------------------------------------
 
-	//Falta añadir anotación XToY
+	//Falta aï¿½adir anotaciï¿½n XToY
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}
 
 	public void setBrotherhood(final Brotherhood brotherhood) {
 		this.brotherhood = brotherhood;
+	}
+
+	@ManyToMany
+	public List<AcmeFloat> getAcmeFloats(){
+		return this.acmeFloats;
+	}
+
+	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
+		this.acmeFloats = acmeFloats;
 	}
 }

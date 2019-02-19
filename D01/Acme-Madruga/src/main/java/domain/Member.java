@@ -1,6 +1,7 @@
 
 package domain;
 
+import javax.persistence.OneToMany;
 import java.util.List;
 
 import javax.persistence.Access;
@@ -22,7 +23,7 @@ public class Member extends Actor {
 	private List<Request>	requests;
 	private Finder			finder;
 
-
+	@OneToMany
 	public List<Enrolment> getEnrolment() {
 		return this.enrolment;
 	}
@@ -31,6 +32,7 @@ public class Member extends Actor {
 		this.enrolment = enrolment;
 	}
 
+	@OneToMany
 	public List<Request> getRequests() {
 		return this.requests;
 	}

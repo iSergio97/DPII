@@ -1,6 +1,8 @@
 
 package domain;
 
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class Brotherhood extends Actor {
 	private List<Procession>	procession;
 	private List<AcmeFloat>		acmeFloats;
 	private Area				area;
+	private List<Enrolment> enrolments;
 
 
 	// Field access methods ---------------------------------------------------
@@ -60,7 +63,7 @@ public class Brotherhood extends Actor {
 
 	// Relationship access methods --------------------------------------------
 
-	//Falta añadir anotación YToX
+	@ManyToMany
 	public List<Procession> getProcession() {
 		return this.procession;
 	}
@@ -69,6 +72,7 @@ public class Brotherhood extends Actor {
 		this.procession = procession;
 	}
 
+@ManyToOne(optional = false)
 	public List<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
@@ -77,12 +81,21 @@ public class Brotherhood extends Actor {
 		this.acmeFloats = acmeFloats;
 	}
 
-	@OneToOne
+	@ManyToOne(optional = false)
 	public Area getArea() {
 		return this.area;
 	}
 
 	public void setArea(final Area area) {
 		this.area = area;
+	}
+
+	@ManyToOne(optional = true)
+	public List<Enrolment> getEnrolments(){
+		return this.getEnrolments();
+	}
+
+	public void setEnrolment(final List<Enrolment> enrolments){
+		this.enrolments = enrolments;
 	}
 }

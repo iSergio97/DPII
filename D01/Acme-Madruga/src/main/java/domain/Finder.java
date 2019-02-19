@@ -24,8 +24,6 @@ public class Finder extends DomainEntity {
 	private Date	maximumDate;
 
 	// Relationships ----------------------------------------------------------
-	private Member	member;
-
 
 	// Field access methods ---------------------------------------------------
 
@@ -62,13 +60,4 @@ public class Finder extends DomainEntity {
 	}
 
 	// Relationship access methods --------------------------------------------
-
-	@OneToOne
-	public Member getMember() {
-		return this.member;
-	}
-
-	public void setMember(final Member member) {
-		this.member = member;
-	}
 }
