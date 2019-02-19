@@ -1,5 +1,6 @@
 package utilities;
 
+import java.util.BitSet;
 import java.util.Date;
 
 /**
@@ -29,23 +30,23 @@ public class TickerGenerator {
 	 * 
 	 * @see Date#getDay()
 	 */
-	private static LAST_DAY;
+	private static int LAST_DAY;
 	/**
 	 * Cached last month of the year when a date string was generated.
 	 * 
 	 * @see Date#getMonth()
 	 */
-	private static LAST_MONTH;
+	private static int LAST_MONTH;
 	/**
 	 * Cached last year when a date string was generated.
 	 * 
 	 * @see Date#getYear()
 	 */
-	private static LAST_YEAR;
+	private static int LAST_YEAR;
 	/**
 	 * Cached last date string generated.
 	 */
-	private static LAST_DATE_STRING;
+	private static String LAST_DATE_STRING;
 	/**
 	 * Whether each ticker value has already been generated today.
 	 */
@@ -85,7 +86,7 @@ public class TickerGenerator {
 		int result = 1;
 		while (exponent > 0) {
 			if ((exponent & 1) == 1) {
-				re *= base;
+				result *= base;
 			}
 			exponent >>= 1;
 			base *= base; 
@@ -104,7 +105,6 @@ public class TickerGenerator {
 	 * @see Date#getDay()
 	 */
 	private static String generateDateString(int year, int month, int day) {
-		Date date = new Date();
 		String dateString = "";
 		dateString += String.format("%02d", year % 100);
 		dateString += String.format("%02d", month + 1);
@@ -115,10 +115,11 @@ public class TickerGenerator {
 	/**
 	 * Resets the data about already generated random strings that have already been
 	 * generated.
+	 * @return 
 	 * 
 	 * @see RandomTickerGenerator#GENERATED_RANDOM_STRINGS
 	 */
-	private static resetGeneratedRandomStrings() {
+	private static void resetGeneratedRandomStrings() {
 		GENERATED_RANDOM_STRINGS = new BitSet(POSSIBLE_RANDOM_STRINGS);
 	}
 
