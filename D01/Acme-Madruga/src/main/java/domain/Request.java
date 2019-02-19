@@ -17,8 +17,8 @@ public class Request extends DomainEntity {
 	// Fields -----------------------------------------------------------------
 
 	private String		status;
-	private int			row;
-	private int			column;
+	private int			hLine;
+	private int			vLine;
 	private String		reason;
 	// Relationships ----------------------------------------------------------
 
@@ -42,22 +42,22 @@ public class Request extends DomainEntity {
 	@NotNull
 	@Range(min = 1)
 	public int getRow() {
-		return this.row;
+		return this.hLine;
 	}
 
 	@NotBlank
 	@NotNull
 	@Range(min = 1)
-	public void setRow(final int row) {
-		this.row = row;
+	public void setRow(final int hLine) {
+		this.hLine = hLine;
 	}
 
 	public int getColumn() {
-		return this.column;
+		return this.vLine;
 	}
 
-	public void setColumn(final int column) {
-		this.column = column;
+	public void setColumn(final int vLine) {
+		this.vLine = vLine;
 	}
 
 	public String getReason() {

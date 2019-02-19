@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- 
- * PopulateDatabase.xml
- *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
- -->
+<!-- * PopulateDatabase.xml * * Copyright (C) 2018 Universidad de Sevilla 
+	* * The use of this project is hereby constrained to the conditions of the 
+	* TDG Licence, a copy of which you may download from * http://www.tdg-seville.info/License.html -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	">
-	
+
 	<!-- User accounts -->
 
 	<bean id="userAccount1" class="security.UserAccount">
@@ -31,19 +25,19 @@
 	</bean>
 
 	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="customer" />
+		<property name="username" value="brotherhood" />
 		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="BROTHERHOOD" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="super" />
+		<property name="username" value="member" />
 		<property name="password" value="1b3231655cebb7a1f783eddf27d254ca" />
 		<property name="authorities">
 			<list>
@@ -51,12 +45,101 @@
 					<property name="authority" value="ADMIN" />
 				</bean>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="MEMBER" />
 				</bean>
 			</list>
 		</property>
 	</bean>
+
+	<!-- MESSAGE BOXES -->
 	
-	<!-- Other domain beans come here -->	
 	
+	<bean id="inBoxC1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="actor" ref="brotherhood1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="outBoxC1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="actor" ref="brotherhood1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="spamBoxC1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="actor" ref="brotherhood1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="trashBoxC1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="actor" ref="brotherhood1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="notificationBoxC1" class="domain.MessageBox">
+		<property name="name" value="NewBox" />
+		<property name="actor" ref="brotherhood1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+
+	<!-- BROTHERHOODS -->
+	
+	<bean id="brotherhood1" class="domain.Brotherhood">
+		<property name="title" value="Santísima cofradía del silencio bibliotecario"/>
+		<property name="establishmentDate" value="1975/06/12"/>
+		<property name="pictures">
+			<list/>
+		</property>
+		<property name="procession">
+		<list>
+		<ref bean="procession1"/>
+		</list>
+		</property>
+		<property name="acmeFloats">
+		<list>
+		<ref bean="acmeFloat1"/>
+		</list>
+		</property>
+		<property name="area" ref="area1"/>
+	</bean>
+	
+	<!-- MEMBERS -->
+	
+	<bean id="member1" class="domain.Member">
+	<property name="name" value="Abel"/>
+	<property name="middleName" value=""/>
+	<property name="surname" value="Pérez"/>
+	<property name="photo" value=""/>
+	<property name="email" value="abelp@gmail.com"/>
+	<property name="phoneNumber" value=""/>
+	<property name="address" value=""/>
+	<property name="flag" value="0"/>
+	<property name="polarityScore" value=""/>
+	<property name="isBanned" value=""/>
+	<property name="userAccount" ref="userAccount3"/>
+	<property name="enrolment">
+	<list>
+	</list>
+	</property>
+	<property name="requests">
+	<list>
+	</list>
+	</property>
+	<property name="finder"/>
+	</bean>
+
+	<!-- Other domain beans come here -->
+
 </beans>
