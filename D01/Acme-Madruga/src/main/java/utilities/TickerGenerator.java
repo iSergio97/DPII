@@ -3,9 +3,9 @@ package utilities;
 import java.util.Date;
 
 /**
- * Utility class used to generate random tickers.
+ * Utility class used to generate tickers.
  */
-public class RandomTickerGenerator {
+public class TickerGenerator {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Internal fields
