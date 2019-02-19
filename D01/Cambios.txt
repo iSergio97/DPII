@@ -1,0 +1,8 @@
+--------------------------Sergio--------------------------------------------------------------------
+Eliminación UserAccount y Authority del modelo conceptual
+Eliminación {Pattern} de teléfono en Actor
+Añadida relación entre Finder (*) y Procession (*) con navegabilidad cortada de Procession a Finder
+Eliminada navegabilidad en modelo conceptual
+Añadida lista de posiciones por defecto
+Añadida variable caché a Finder para trabajar con la caché
+----------------------------------------------------------------------------------------------------
