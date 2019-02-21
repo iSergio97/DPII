@@ -4,6 +4,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -17,9 +18,10 @@ public class Request extends DomainEntity {
 	// Fields -----------------------------------------------------------------
 
 	private String		status;
-	private int			hLine;
-	private int			vLine;
+	private Integer		hLine;
+	private Integer		vLine;
 	private String		reason;
+
 	// Relationships ----------------------------------------------------------
 
 	private Procession	procession;
@@ -38,25 +40,21 @@ public class Request extends DomainEntity {
 		this.status = status;
 	}
 
-	@NotBlank
-	@NotNull
 	@Range(min = 1)
-	public int getRow() {
+	public Integer getHLine() {
 		return this.hLine;
 	}
 
-	@NotBlank
-	@NotNull
-	@Range(min = 1)
-	public void setRow(final int hLine) {
+	public void setHLine(final Integer hLine) {
 		this.hLine = hLine;
 	}
 
-	public int getColumn() {
+	@Range(min = 1)
+	public Integer getVLine() {
 		return this.vLine;
 	}
 
-	public void setColumn(final int vLine) {
+	public void setVLine(final Integer vLine) {
 		this.vLine = vLine;
 	}
 
@@ -70,7 +68,7 @@ public class Request extends DomainEntity {
 
 	// Relationship access methods --------------------------------------------
 
-	//Falta anotación XToY
+	@ManyToOne
 	public Procession getProcession() {
 		return this.procession;
 	}

@@ -8,19 +8,24 @@
 
 package domain;
 
-import javax.validation.Valid;
-import javax.validation.Valid;
-import javax.persistence.OneToOne;
+import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+
 import security.UserAccount;
 
 @Entity
@@ -30,20 +35,24 @@ public class Actor extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String		name;
-	private String		middleName;
-	private String		surname;
-	private String		photo;
-	private String		email;
-	private String		phoneNumber;
-	private String		address;
-	private int			flag;
-	private int			polarityScore;
-	private boolean		isBanned;
+	private String				name;
+	private String				middleName;
+	private String				surname;
+	private String				photo;
+	private String				email;
+	private String				phoneNumber;
+	private String				address;
+	private boolean				isSuspicious;
+	private Integer				polarityScore;
+	private boolean				isBanned;
 
 	// Relationships ----------------------------------------------------------
 
-	private UserAccount	userAccount;
+	private UserAccount			userAccount;
+	private List<MessageBox>	messageBoxes;
+	private List<Message>		messagesSent;
+	private List<Message>		messagesReceived;
+	private List<SocialProfile>	socialProfiles;
 
 
 	// Field access methods ---------------------------------------------------
@@ -87,9 +96,9 @@ public class Actor extends DomainEntity {
 		this.photo = photo;
 	}
 
-	//Falta a�adir patr�n de email
 	@NotBlank
 	@NotNull
+	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -97,10 +106,9 @@ public class Actor extends DomainEntity {
 	public void setEmail(final String email) {
 		this.email = email;
 	}
-	/*
-	Optional
-	Falta a�adir patr�n tel�fono con prefijo
-	 */
+
+	//Optional
+	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -118,23 +126,19 @@ public class Actor extends DomainEntity {
 		this.address = address;
 	}
 
-	@NotNull
-	@NotBlank
-	public int getFlag() {
-		return this.flag;
+	public boolean getIsSuspicious() {
+		return this.isSuspicious;
 	}
 
-	public void setFlag(final int flag) {
-		this.flag = flag;
+	public void setIsSuspicious(final boolean isSuspicious) {
+		this.isSuspicious = isSuspicious;
 	}
 
-	@NotNull
-	@NotBlank
-	public int getPolarityScore() {
+	public Integer getPolarityScore() {
 		return this.polarityScore;
 	}
 
-	public void setPolarityScore(final int polarityScore) {
+	public void setPolarityScore(final Integer polarityScore) {
 		this.polarityScore = polarityScore;
 	}
 
@@ -146,14 +150,60 @@ public class Actor extends DomainEntity {
 		this.isBanned = isBanned;
 	}
 
+	// Relationship access methods --------------------------------------------
+
 	@OneToOne
 	@Valid
 	@NotNull
 	public UserAccount getUserAccount() {
-		return userAccount;
+		return this.userAccount;
 	}
 
-	public void setUserAccount(UserAccount userAccount) {
+	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
+
+	@Valid
+	@NotNull
+	@NotEmpty
+	@OneToMany(mappedBy = "actor")
+	public List<MessageBox> getMessageBoxes() {
+		return this.messageBoxes;
+	}
+
+	public void setMessageBoxes(final List<MessageBox> messageBoxes) {
+		this.messageBoxes = messageBoxes;
+	}
+
+	@Valid
+	@OneToMany(mappedBy = "sender")
+	public List<Message> getMessagesSent() {
+		return this.messagesSent;
+	}
+
+	public void setMessagesSent(final List<Message> messagesSent) {
+		this.messagesSent = messagesSent;
+	}
+
+	@Valid
+	@ManyToMany(mappedBy = "recipients")
+	public List<Message> getMessagesReceived() {
+		return this.messagesReceived;
+	}
+
+	public void setMessagesReceived(final List<Message> messagesReceived) {
+		this.messagesReceived = messagesReceived;
+	}
+
+	@NotNull
+	@Valid
+	@OneToMany(mappedBy = "actor")
+	public List<SocialProfile> getSocialProfiles() {
+		return this.socialProfiles;
+	}
+
+	public void setSocialProfiles(final List<SocialProfile> socialProfiles) {
+		this.socialProfiles = socialProfiles;
+	}
+
 }

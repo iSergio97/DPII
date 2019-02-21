@@ -5,22 +5,23 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Area extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
+
 	private String			name;
 	private List<String>	pictures;
-	// Relationships ----------------------------------------------------------
 
+
+	// Relationships ----------------------------------------------------------
 
 	// Field access methods ---------------------------------------------------
 
@@ -35,7 +36,8 @@ public class Area extends DomainEntity {
 	}
 
 	//Optional
-	@URL
+	//@URL
+	@ElementCollection
 	public List<String> getPictures() {
 		return this.pictures;
 	}

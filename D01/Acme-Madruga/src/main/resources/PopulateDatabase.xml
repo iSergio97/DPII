@@ -12,9 +12,9 @@
 
 	<!-- User accounts -->
 
-	<bean id="userAccount1" class="security.UserAccount">
-		<property name="username" value="admin" />
-		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+	<bean id="userAccountAdmin1" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -24,9 +24,9 @@
 		</property>
 	</bean>
 
-	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="brotherhood" />
-		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
+	<bean id="userAccountBrotherhood1" class="security.UserAccount">
+		<property name="username" value="brotherhood1" />
+		<property name="password" value="479e3180a45b21ea8e88beb0c45aa8ed" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -36,25 +36,61 @@
 		</property>
 	</bean>
 
-	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="member" />
-		<property name="password" value="1b3231655cebb7a1f783eddf27d254ca" />
+	<bean id="userAccountMember1" class="security.UserAccount">
+		<property name="username" value="member1" />
+		<property name="password" value="c7764cfed23c5ca3bb393308a0da2306" />
 		<property name="authorities">
 			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="ADMIN" />
-				</bean>
 				<bean class="security.Authority">
 					<property name="authority" value="MEMBER" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-
-	<!-- MESSAGE BOXES -->
 	
+	<!-- Message boxes -->
 	
-	<bean id="inBoxC1" class="domain.MessageBox">
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="NewBox" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="inBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
@@ -62,7 +98,7 @@
 		</property>
 	</bean>
 	
-	<bean id="outBoxC1" class="domain.MessageBox">
+	<bean id="outBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
@@ -70,7 +106,7 @@
 		</property>
 	</bean>
 	
-	<bean id="spamBoxC1" class="domain.MessageBox">
+	<bean id="spamBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
@@ -78,7 +114,7 @@
 		</property>
 	</bean>
 	
-	<bean id="trashBoxC1" class="domain.MessageBox">
+	<bean id="trashBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
@@ -86,60 +122,209 @@
 		</property>
 	</bean>
 	
-	<bean id="notificationBoxC1" class="domain.MessageBox">
+	<bean id="notificationBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
 		</property>
 	</bean>
-
-	<!-- BROTHERHOODS -->
+	
+	<bean id="inBoxMember1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="actor" ref="member1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="outBoxMember1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="actor" ref="member1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="spamBoxMember1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="actor" ref="member1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="trashBoxMember1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="actor" ref="member1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="notificationBoxMember1" class="domain.MessageBox">
+		<property name="name" value="NewBox" />
+		<property name="actor" ref="member1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<!-- Administrators -->
+	
+	<bean id="admin1" class="domain.Administrator">
+		<property name="name" value="Señor" />
+		<property name="middleName" value="" />
+		<property name="surname" value="X" />
+		<property name="photo" value="" />
+		<property name="email" value="x@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 4206969" />
+		<property name="address" value="" />
+		<property name="isSuspicious" value="false" />
+		<property name="polarityScore" value="0" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountAdmin1" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxAdmin1"/>
+				<ref bean="outBoxAdmin1"/>
+				<ref bean="spamBoxAdmin1"/>
+				<ref bean="trashBoxAdmin1"/>
+				<ref bean="notificationBoxAdmin1"/>
+			</list>
+		</property>
+		<property name="messagesSent">
+			<list>
+			</list>
+		</property>
+		<property name="messagesReceived">
+			<list>
+			</list>
+		</property>
+		<property name="socialProfiles">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Brotherhoods -->
 	
 	<bean id="brotherhood1" class="domain.Brotherhood">
+		<property name="name" value="Cofradía" />
+		<property name="middleName" value="Santísima" />
+		<property name="surname" value="del silencio bibliotecario" />
+		<property name="photo" value="" />
+		<property name="email" value="csdsb@gmail.com" />
+		<property name="phoneNumber" value="+34 (954) 000000" />
+		<property name="address" value="" />
+		<property name="isSuspicious" value="false" />
+		<property name="polarityScore" value="0" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountBrotherhood1" />
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxBrotherhood1"/>
+				<ref bean="outBoxBrotherhood1"/>
+				<ref bean="spamBoxBrotherhood1"/>
+				<ref bean="trashBoxBrotherhood1"/>
+				<ref bean="notificationBoxBrotherhood1"/>
+			</list>
+		</property>
+		<property name="messagesSent">
+			<list>
+			</list>
+		</property>
+		<property name="messagesReceived">
+			<list>
+			</list>
+		</property>
+		<property name="socialProfiles">
+			<list>
+			</list>
+		</property>
 		<property name="title" value="Santísima cofradía del silencio bibliotecario"/>
 		<property name="establishmentDate" value="1975/06/12"/>
 		<property name="pictures">
 			<list/>
 		</property>
-		<property name="procession">
-		<list>
-		<ref bean="procession1"/>
-		</list>
+		<property name="processions">
+			<list>
+				<!-- <ref bean="procession1"/> -->
+			</list>
 		</property>
 		<property name="acmeFloats">
-		<list>
-		<ref bean="acmeFloat1"/>
-		</list>
+			<list>
+				<!-- <ref bean="acmeFloat1"/> -->
+			</list>
 		</property>
 		<property name="area" ref="area1"/>
 	</bean>
 	
-	<!-- MEMBERS -->
+	<!-- Members -->
 	
 	<bean id="member1" class="domain.Member">
-	<property name="name" value="Abel"/>
-	<property name="middleName" value=""/>
-	<property name="surname" value="Pérez"/>
-	<property name="photo" value=""/>
-	<property name="email" value="abelp@gmail.com"/>
-	<property name="phoneNumber" value=""/>
-	<property name="address" value=""/>
-	<property name="flag" value="0"/>
-	<property name="polarityScore" value=""/>
-	<property name="isBanned" value=""/>
-	<property name="userAccount" ref="userAccount3"/>
-	<property name="enrolment">
-	<list>
-	</list>
-	</property>
-	<property name="requests">
-	<list>
-	</list>
-	</property>
-	<property name="finder"/>
+		<property name="name" value="Abel" />
+		<property name="middleName" value="" />
+		<property name="surname" value="Pérez" />
+		<property name="photo" value="" />
+		<property name="email" value="abelp@gmail.com" />
+		<property name="phoneNumber" value="+34 (954) 696969" />
+		<property name="address" value="" />
+		<property name="isSuspicious" value="false" />
+		<property name="polarityScore" value="0" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountMember1"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="inBoxMember1"/>
+				<ref bean="outBoxMember1"/>
+				<ref bean="spamBoxMember1"/>
+				<ref bean="trashBoxMember1"/>
+				<ref bean="notificationBoxMember1"/>
+			</list>
+		</property>
+		<property name="messagesSent">
+			<list>
+			</list>
+		</property>
+		<property name="messagesReceived">
+			<list>
+			</list>
+		</property>
+		<property name="socialProfiles">
+			<list>
+			</list>
+		</property>
+		<property name="enrolments">
+			<list>
+			</list>
+		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="finder" ref="finder1"/>
 	</bean>
 
+	<!-- Areas -->
+	
+	<bean id="area1" class="domain.Area">
+		<property name="name" value="area 1" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Finders -->
+	
+	<bean id="finder1" class="domain.Finder">
+		<property name="keyword" value="macarena" />
+		<property name="area" value="" />
+		<property name="minimumDate" value="2006/01/01" />
+		<property name="maximumDate" value="2016/01/01" />
+	</bean>
+	
 	<!-- Other domain beans come here -->
 
 </beans>

@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,6 +21,7 @@ public class Finder extends DomainEntity {
 	private String	area;
 	private Date	minimumDate;
 	private Date	maximumDate;
+
 
 	// Relationships ----------------------------------------------------------
 
@@ -59,5 +59,10 @@ public class Finder extends DomainEntity {
 		return this.maximumDate;
 	}
 
+	public void setMaximumDate(final Date maximumDate) {
+		this.maximumDate = maximumDate;
+	}
+
 	// Relationship access methods --------------------------------------------
+
 }

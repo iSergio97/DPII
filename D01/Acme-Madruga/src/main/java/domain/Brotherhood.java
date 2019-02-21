@@ -1,19 +1,18 @@
 
 package domain;
 
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -21,15 +20,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Brotherhood extends Actor {
 
 	// Fields -----------------------------------------------------------------
+
 	private String				title;
 	private Date				establishmentDate;
 	private List<String>		pictures;
 
 	// Relationships ----------------------------------------------------------
-	private List<Procession>	procession;
+
+	private List<Procession>	processions;
 	private List<AcmeFloat>		acmeFloats;
 	private Area				area;
-	private List<Enrolment> enrolments;
+	private List<Enrolment>		enrolments;
 
 
 	// Field access methods ---------------------------------------------------
@@ -52,7 +53,8 @@ public class Brotherhood extends Actor {
 		this.establishmentDate = establishmentDate;
 	}
 
-	@URL
+	//@URL
+	@ElementCollection
 	public List<String> getPictures() {
 		return this.pictures;
 	}
@@ -63,16 +65,16 @@ public class Brotherhood extends Actor {
 
 	// Relationship access methods --------------------------------------------
 
-	@ManyToMany
-	public List<Procession> getProcession() {
-		return this.procession;
+	@OneToMany(mappedBy = "brotherhood")
+	public List<Procession> getProcessions() {
+		return this.processions;
 	}
 
-	public void setProcession(final List<Procession> procession) {
-		this.procession = procession;
+	public void setProcessions(final List<Procession> processions) {
+		this.processions = processions;
 	}
 
-@ManyToOne(optional = false)
+	@OneToMany
 	public List<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
@@ -90,12 +92,13 @@ public class Brotherhood extends Actor {
 		this.area = area;
 	}
 
-	@ManyToOne(optional = true)
-	public List<Enrolment> getEnrolments(){
-		return this.getEnrolments();
+	@OneToMany(mappedBy = "brotherhood")
+	public List<Enrolment> getEnrolments() {
+		return this.enrolments;
 	}
 
-	public void setEnrolment(final List<Enrolment> enrolments){
+	public void setEnrolments(final List<Enrolment> enrolments) {
 		this.enrolments = enrolments;
 	}
+
 }

@@ -13,6 +13,8 @@ public class Administrator extends Actor {
 
 	// Relationships ----------------------------------------------------------
 
+	// Field access methods ---------------------------------------------------
+
 	// Relationship access methods --------------------------------------------
 
 }

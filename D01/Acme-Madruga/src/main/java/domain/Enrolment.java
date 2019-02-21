@@ -1,12 +1,12 @@
 
 package domain;
 
-import javax.persistence.ManyToOne;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,10 +16,12 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Enrolment extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
+
 	private Date		moment;
 	private String		position;
 
 	// Relationships ----------------------------------------------------------
+
 	private Member		member;
 	private Brotherhood	brotherhood;
 
@@ -47,7 +49,8 @@ public class Enrolment extends DomainEntity {
 	}
 
 	// Relationship access methods --------------------------------------------
-	@ManyToOne
+
+	@ManyToOne(optional = false)
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}

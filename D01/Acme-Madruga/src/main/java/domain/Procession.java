@@ -1,16 +1,18 @@
 
 package domain;
 
-import javax.persistence.ManyToMany;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,14 +22,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Procession extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
-	private String		title;
-	private String		description;
-	private Date		moment;
-	private String		ticker;
+
+	private String			title;
+	private String			description;
+	private Date			moment;
+	private String			ticker;
 
 	// Relationships ----------------------------------------------------------
-	private Brotherhood	brotherhood;
-	private List<AcmeFloat> acmeFloats;
+
+	private Brotherhood		brotherhood;
+	private List<AcmeFloat>	acmeFloats;
 
 
 	// Field access methods ---------------------------------------------------
@@ -64,14 +68,18 @@ public class Procession extends DomainEntity {
 
 	@NotBlank
 	@NotNull
-	//Falta a�adir patron YYMMDD-XXXXX donde XXXXX son 5 letras en may�sculas
+	@Pattern(regexp = "^([\\d]){6}-([A-Z\\d]){6}$")
 	public String getTicker() {
 		return this.ticker;
 	}
 
+	public void setTicker(final String ticker) {
+		this.ticker = ticker;
+	}
+
 	// Relationship access methods --------------------------------------------
 
-	//Falta a�adir anotaci�n XToY
+	@ManyToOne(optional = false)
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}
@@ -80,8 +88,8 @@ public class Procession extends DomainEntity {
 		this.brotherhood = brotherhood;
 	}
 
-	@ManyToMany
-	public List<AcmeFloat> getAcmeFloats(){
+	@ManyToMany(mappedBy = "processions")
+	public List<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
 

@@ -1,12 +1,12 @@
 
 package domain;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -17,19 +17,20 @@ public class Member extends Actor {
 
 	// Relationships ----------------------------------------------------------
 
-	// Relationship access methods --------------------------------------------
-
-	private List<Enrolment>	enrolment;
+	private List<Enrolment>	enrolments;
 	private List<Request>	requests;
 	private Finder			finder;
 
+
+	// Relationship access methods --------------------------------------------
+
 	@OneToMany
-	public List<Enrolment> getEnrolment() {
-		return this.enrolment;
+	public List<Enrolment> getEnrolments() {
+		return this.enrolments;
 	}
 
-	public void setEnrolment(final List<Enrolment> enrolment) {
-		this.enrolment = enrolment;
+	public void setEnrolments(final List<Enrolment> enrolments) {
+		this.enrolments = enrolments;
 	}
 
 	@OneToMany
@@ -49,4 +50,5 @@ public class Member extends Actor {
 	public void setFinder(final Finder finder) {
 		this.finder = finder;
 	}
+
 }

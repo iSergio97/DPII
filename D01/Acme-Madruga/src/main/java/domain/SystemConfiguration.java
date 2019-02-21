@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -40,6 +41,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotNull
+	@ElementCollection
 	public List<String> getPositions() {
 		return this.positions;
 	}
@@ -93,6 +95,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotNull
+	@ElementCollection
 	public List<String> getAdditionalPriorities() {
 		return this.additionalPriorities;
 	}
@@ -102,6 +105,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotNull
+	@ElementCollection
 	public List<String> getPositiveWords() {
 		return this.positiveWords;
 	}
@@ -111,6 +115,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotNull
+	@ElementCollection
 	public List<String> getNegativeWords() {
 		return this.negativeWords;
 	}
@@ -120,6 +125,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@NotNull
+	@ElementCollection
 	public List<String> getSpamWords() {
 		return this.spamWords;
 	}
