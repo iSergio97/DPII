@@ -1,8 +1,12 @@
 
 package services;
 
+import java.util.Date;
 import java.util.List;
 
+import domain.Brotherhood;
+import domain.Member;
+import domain.SystemConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +14,8 @@ import org.springframework.util.Assert;
 
 import repositories.EnrolmentRepository;
 import domain.Enrolment;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -24,7 +30,10 @@ public class EnrolmentService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+	@Autowired
+	MemberService memberService;
 
+	SystemConfiguration systemConfiguration;
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
 
@@ -34,6 +43,16 @@ public class EnrolmentService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	public Enrolment create() {
+		Enrolment enrolment = new Enrolment();
+		Member member;
+		int id = LoginService.getPrincipal().getId();
+		enrolment.setMember(memberService.findByUserAccountId(id));
+		enrolment.setMoment(new Date());
+
+		return enrolment;
+	}
 
 	public Enrolment save(final Enrolment enrolment) {
 		Assert.isTrue(enrolment != null);
@@ -65,5 +84,10 @@ public class EnrolmentService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
+
+	public Enrolment findPrincipal() {
+		final UserAccount userAccount = LoginService.getPrincipal();
+		return this.findOne(userAccount.getId());
+	}
 
 }

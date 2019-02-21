@@ -1,5 +1,25 @@
 #./src/main/resources/Entities.map
-#Thu Sep 20 13:19:36 CEST 2018
-userAccount3=6
-userAccount2=5
-userAccount1=4
+#Thu Feb 21 22:07:44 CET 2019
+outBoxMember1=167
+notificationBoxBrotherhood1=176
+notificationBoxMember1=170
+admin1=157
+member1=158
+userAccountMember1=156
+inBoxMember1=166
+trashBoxAdmin1=164
+brotherhood1=171
+outBoxBrotherhood1=173
+trashBoxBrotherhood1=175
+spamBoxBrotherhood1=174
+userAccountAdmin1=154
+trashBoxMember1=169
+spamBoxAdmin1=163
+area1=159
+finder1=160
+inBoxAdmin1=161
+inBoxBrotherhood1=172
+notificationBoxAdmin1=165
+spamBoxMember1=168
+userAccountBrotherhood1=155
+outBoxAdmin1=162

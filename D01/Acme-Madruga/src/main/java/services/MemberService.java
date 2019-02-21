@@ -67,13 +67,13 @@ public class MemberService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Member findByUserAccountId(final int id) {
-		return this.memberRepository.findByUserAccountId(id);
-	}
-
 	public Member findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		return this.findOne(userAccount.getId());
+	}
+
+	public Member findByUserAccountId(final int id) {
+		return this.memberRepository.findByUserAccountId(id);
 	}
 
 }

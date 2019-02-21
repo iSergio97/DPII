@@ -30,12 +30,11 @@
 			</li>
 		</security:authorize>
 		
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
+		<security:authorize access="hasRole('MEMBER')">
+			<li><a class="fNiv"><spring:message	code="master.page.member" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
+					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
@@ -64,5 +63,3 @@
 
 <div>
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
-</div>
-
