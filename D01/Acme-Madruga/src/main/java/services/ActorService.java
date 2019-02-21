@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -20,11 +21,11 @@ public class ActorService {
 	// Managed repository
 
 	@Autowired
-	private ActorRepository		actorRepository;
+	private ActorRepository	actorRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -67,13 +68,9 @@ public class ActorService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Actor findByUserAccountId(final int id) {
-		return this.actorRepository.findByUserAccountId(id);
-	}
-
 	public Actor findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		return this.findOne(userAccount.getId());
 	}
 
 }

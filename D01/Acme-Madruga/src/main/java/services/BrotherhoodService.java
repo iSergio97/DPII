@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.List;
@@ -20,11 +21,11 @@ public class BrotherhoodService {
 	// Managed repository
 
 	@Autowired
-	private BrotherhoodRepository		brotherhoodRepository;
+	private BrotherhoodRepository	brotherhoodRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -66,7 +67,6 @@ public class BrotherhoodService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
-
 
 	public Brotherhood findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();

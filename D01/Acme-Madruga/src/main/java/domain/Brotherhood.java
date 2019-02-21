@@ -33,6 +33,18 @@ public class Brotherhood extends Actor {
 	private List<Enrolment>		enrolments;
 
 
+	public List<Exit> getExit() {
+		return this.exit;
+	}
+
+	public void setExit(final List<Exit> exit) {
+		this.exit = exit;
+	}
+
+
+	private List<Exit>	exit;
+
+
 	// Field access methods ---------------------------------------------------
 
 	public String getTitle() {
