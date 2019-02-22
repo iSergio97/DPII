@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import services.BrotherhoodService;
 import services.ExitService;
 import services.MemberService;
 import domain.Brotherhood;
+import domain.Enrolment;
 import domain.Exit;
 import domain.Member;
 
@@ -61,7 +63,7 @@ public class ExitController {
 	public ModelAndView save(@Valid final Exit exit, final BindingResult binding) {
 		ModelAndView result;
 
-		if(
+		if (!binding.hasErrors())
 			result = this.createEditModelAndView(exit);
 		else
 			try {
@@ -78,7 +80,7 @@ public class ExitController {
 		ModelAndView result;
 
 		try {
-			this.exitService.delete(exit);
+			this.exitService.save(exit);
 			result = new ModelAndView("redirect::list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(exit, "exit.commit.error");
@@ -98,15 +100,21 @@ public class ExitController {
 	private ModelAndView createEditModelAndView(final Exit exit, final String messageCode) {
 		ModelAndView result;
 		final Date moment;
-		final Brotherhood brotherhood;
+		final List<Brotherhood> brotherhoods;
 		final Member member;
 
+		moment = new Date();
 		final int principalId = LoginService.getPrincipal().getId();
 		member = this.memberService.findOne(principalId);
+		brotherhoods = new ArrayList<>();
+		final List<Enrolment> ls = member.getEnrolments();
+
+		for (int i = 0; i < ls.size(); i++)
+			brotherhoods.add(ls.get(i).getBrotherhood());
 
 		result = new ModelAndView("exit/member/edit");
 		result.addObject("moment", moment);
-		result.addObject("brotherhood", brotherhood);
+		result.addObject("brotherhoods", brotherhoods);
 		result.addObject("member", member);
 		result.addObject("exit", exit);
 
