@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -13,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Exit {
+public class Exit extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
@@ -27,6 +28,7 @@ public class Exit {
 
 	// Field access methods ---------------------------------------------------
 
+	@ManyToOne
 	public Member getMember() {
 		return this.member;
 	}
@@ -46,7 +48,7 @@ public class Exit {
 	}
 
 	// Relationship access methods --------------------------------------------
-
+	@ManyToOne
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}

@@ -1,6 +1,7 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -21,19 +22,20 @@ public class Brotherhood extends Actor {
 
 	// Fields -----------------------------------------------------------------
 
-	private String				title;
-	private Date				establishmentDate;
-	private List<String>		pictures;
+	private String					title;
+	private Date					establishmentDate;
+	private List<String>			pictures;
 
 	// Relationships ----------------------------------------------------------
 
-	private List<Procession>	processions;
-	private List<AcmeFloat>		acmeFloats;
-	private Area				area;
-	private List<Enrolment>		enrolments;
+	private Collection<Procession>	processions;
+	private Collection<AcmeFloat>	acmeFloats;
+	private Area					area;
+	private Collection<Enrolment>	enrolments;
 
 
-	public List<Exit> getExit() {
+	@OneToMany
+	public Collection<Exit> getExit() {
 		return this.exit;
 	}
 
@@ -42,7 +44,7 @@ public class Brotherhood extends Actor {
 	}
 
 
-	private List<Exit>	exit;
+	private Collection<Exit>	exit;
 
 
 	// Field access methods ---------------------------------------------------
@@ -78,16 +80,16 @@ public class Brotherhood extends Actor {
 	// Relationship access methods --------------------------------------------
 
 	@OneToMany(mappedBy = "brotherhood")
-	public List<Procession> getProcessions() {
+	public Collection<Procession> getProcessions() {
 		return this.processions;
 	}
 
-	public void setProcessions(final List<Procession> processions) {
+	public void setProcessions(final Collection<Procession> processions) {
 		this.processions = processions;
 	}
 
 	@OneToMany
-	public List<AcmeFloat> getAcmeFloats() {
+	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
 
@@ -105,11 +107,11 @@ public class Brotherhood extends Actor {
 	}
 
 	@OneToMany(mappedBy = "brotherhood")
-	public List<Enrolment> getEnrolments() {
+	public Collection<Enrolment> getEnrolments() {
 		return this.enrolments;
 	}
 
-	public void setEnrolments(final List<Enrolment> enrolments) {
+	public void setEnrolments(final Collection<Enrolment> enrolments) {
 		this.enrolments = enrolments;
 	}
 

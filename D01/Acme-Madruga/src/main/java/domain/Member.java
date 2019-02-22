@@ -1,6 +1,7 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Access;
@@ -17,9 +18,10 @@ public class Member extends Actor {
 
 	// Relationships ----------------------------------------------------------
 
-	private List<Enrolment>	enrolments;
-	private List<Request>	requests;
-	private Finder			finder;
+	private List<Enrolment>		enrolments;
+	private List<Request>		requests;
+	private Finder				finder;
+	private Collection<Exit>	exits;
 
 
 	// Relationship access methods --------------------------------------------
@@ -49,6 +51,15 @@ public class Member extends Actor {
 
 	public void setFinder(final Finder finder) {
 		this.finder = finder;
+	}
+
+	@OneToMany
+	public Collection<Exit> getExit() {
+		return this.exits;
+	}
+
+	public void setExit(final Collection<Exit> exits) {
+		this.exits = exits;
 	}
 
 }
