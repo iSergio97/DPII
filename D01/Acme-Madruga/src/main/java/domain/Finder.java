@@ -21,6 +21,7 @@ public class Finder extends DomainEntity {
 	private String	area;
 	private Date	minimumDate;
 	private Date	maximumDate;
+	private float	cache;
 
 
 	// Relationships ----------------------------------------------------------
@@ -61,6 +62,14 @@ public class Finder extends DomainEntity {
 
 	public void setMaximumDate(final Date maximumDate) {
 		this.maximumDate = maximumDate;
+	}
+
+	public float getCache() {
+		return this.cache;
+	}
+
+	public void setCache(final float cache) {
+		this.cache = cache;
 	}
 
 	// Relationship access methods --------------------------------------------

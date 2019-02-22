@@ -22,6 +22,7 @@ public class Enrolment extends DomainEntity {
 
 	private Date		moment;
 	private String		position;
+	private Date		exitMoment;
 
 	// Relationships ----------------------------------------------------------
 
@@ -31,6 +32,7 @@ public class Enrolment extends DomainEntity {
 
 	// Field access methods ---------------------------------------------------
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getMoment() {
@@ -41,8 +43,8 @@ public class Enrolment extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@NotBlank
 	@NotNull
+	@NotBlank
 	public String getPosition() {
 		return this.position;
 	}
@@ -51,9 +53,20 @@ public class Enrolment extends DomainEntity {
 		this.position = position;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getExitMoment() {
+		return this.exitMoment;
+	}
+
+	public void setExitMoment(final Date exitMoment) {
+		this.exitMoment = exitMoment;
+	}
+
 	// Relationship access methods --------------------------------------------
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
+	// TODO: Why was this set to false?
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}
@@ -61,7 +74,8 @@ public class Enrolment extends DomainEntity {
 	public void setBrotherhood(final Brotherhood brotherhood) {
 		this.brotherhood = brotherhood;
 	}
-	@ManyToOne
+
+	@ManyToOne(optional = true)
 	public Member getMember() {
 		return this.member;
 	}

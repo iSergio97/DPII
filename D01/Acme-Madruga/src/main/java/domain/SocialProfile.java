@@ -17,24 +17,25 @@ public class SocialProfile extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String	nickName;
+	private String	nick;
 	private String	socialNetworkName;
-	private String	link;
+	private String	profileLink;
 
 	// Relationships ----------------------------------------------------------
 
+	// TODO: Why is it here if the relationship is not navigable this side?
 	private Actor	actor;
 
 
 	// Field access methods ---------------------------------------------------
 
 	@NotBlank
-	public String getNickName() {
-		return this.nickName;
+	public String getNick() {
+		return this.nick;
 	}
 
-	public void setNickName(final String nickName) {
-		this.nickName = nickName;
+	public void setNick(final String nick) {
+		this.nick = nick;
 	}
 
 	@NotBlank
@@ -46,21 +47,21 @@ public class SocialProfile extends DomainEntity {
 		this.socialNetworkName = socialNetworkName;
 	}
 
-	@NotBlank
 	@URL
-	public String getLink() {
-		return this.link;
+	public String getProfileLink() {
+		return this.profileLink;
 	}
 
-	public void setLink(final String link) {
-		this.link = link;
+	public void setProfileLink(final String profileLink) {
+		this.profileLink = profileLink;
 	}
 
 	// Relationship access methods --------------------------------------------
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
+	// TODO: Why was it set to false?
 	public Actor getActor() {
 		return this.actor;
 	}

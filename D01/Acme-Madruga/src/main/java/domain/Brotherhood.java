@@ -13,7 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -34,21 +36,10 @@ public class Brotherhood extends Actor {
 	private Collection<Enrolment>	enrolments;
 
 
-	@OneToMany
-	public Collection<Exit> getExit() {
-		return this.exit;
-	}
-
-	public void setExit(final List<Exit> exit) {
-		this.exit = exit;
-	}
-
-
-	private Collection<Exit>	exit;
-
-
 	// Field access methods ---------------------------------------------------
 
+	@NotNull
+	@NotBlank
 	public String getTitle() {
 		return this.title;
 	}
@@ -67,7 +58,7 @@ public class Brotherhood extends Actor {
 		this.establishmentDate = establishmentDate;
 	}
 
-	//@URL
+	// TODO: "@URL"
 	@ElementCollection
 	public List<String> getPictures() {
 		return this.pictures;
@@ -89,6 +80,7 @@ public class Brotherhood extends Actor {
 	}
 
 	@OneToMany
+	// TODO: MappedBy?
 	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
@@ -97,7 +89,8 @@ public class Brotherhood extends Actor {
 		this.acmeFloats = acmeFloats;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
+	// TODO: Check why was this set to false
 	public Area getArea() {
 		return this.area;
 	}

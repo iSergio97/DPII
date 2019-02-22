@@ -99,6 +99,7 @@ public class Actor extends DomainEntity {
 	@NotBlank
 	@NotNull
 	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
+	// TODO: Check
 	public String getEmail() {
 		return this.email;
 	}
@@ -108,7 +109,8 @@ public class Actor extends DomainEntity {
 	}
 
 	//Optional
-	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
+	// @Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
+	// TODO
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -152,9 +154,10 @@ public class Actor extends DomainEntity {
 
 	// Relationship access methods --------------------------------------------
 
-	@OneToOne
 	@Valid
 	@NotNull
+	@OneToOne
+	// @MappedBy?
 	public UserAccount getUserAccount() {
 		return this.userAccount;
 	}
@@ -176,6 +179,7 @@ public class Actor extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull
 	@OneToMany(mappedBy = "sender")
 	public List<Message> getMessagesSent() {
 		return this.messagesSent;
@@ -195,8 +199,9 @@ public class Actor extends DomainEntity {
 		this.messagesReceived = messagesReceived;
 	}
 
-	@NotNull
 	@Valid
+	@NotNull
+	// TODO: What does NotNull here?
 	@OneToMany(mappedBy = "actor")
 	public List<SocialProfile> getSocialProfiles() {
 		return this.socialProfiles;

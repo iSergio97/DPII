@@ -4,18 +4,16 @@ package services;
 import java.util.Date;
 import java.util.List;
 
-import domain.Brotherhood;
-import domain.Member;
-import domain.SystemConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.EnrolmentRepository;
-import domain.Enrolment;
 import security.LoginService;
 import security.UserAccount;
+import domain.Enrolment;
+import domain.SystemConfiguration;
 
 @Service
 @Transactional
@@ -27,13 +25,14 @@ public class EnrolmentService {
 	@Autowired
 	private EnrolmentRepository	enrolmentRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 	@Autowired
-	MemberService memberService;
+	MemberService				memberService;
 
-	SystemConfiguration systemConfiguration;
+	SystemConfiguration			systemConfiguration;
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
 
@@ -45,10 +44,9 @@ public class EnrolmentService {
 	// CRUD methods
 
 	public Enrolment create() {
-		Enrolment enrolment = new Enrolment();
-		Member member;
-		int id = LoginService.getPrincipal().getId();
-		enrolment.setMember(memberService.findByUserAccountId(id));
+		final Enrolment enrolment = new Enrolment();
+		final int id = LoginService.getPrincipal().getId();
+		enrolment.setMember(this.memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
 
 		return enrolment;
