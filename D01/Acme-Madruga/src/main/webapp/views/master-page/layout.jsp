@@ -69,16 +69,18 @@
 			<tiles:insertAttribute name="title" />
 		</h1>
 		<tiles:insertAttribute name="body" />	
-		<br />
-		<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
-		<jstl:choose>
-			<jstl:when test="${localeCode != 'en'}">
-				<span class="message"><spring:message code="${systemConfiguration.welcomeMessage}" /></span>
-			</jstl:when>
-			<jstl:when test="${localeCode != 'es'}">
-				<span class="message"><spring:message code="${systemConfiguration.welcomeMessageEs}" /></span>
-			</jstl:when>
-		</jstl:choose>
+		<jstl:if test="${systemConfiguration != null}" >
+			<br />
+			<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
+			<jstl:choose>
+				<jstl:when test="${localeCode != 'en'}">
+					<span class="message"><spring:message code="${systemConfiguration.welcomeMessage}" /></span>
+				</jstl:when>
+				<jstl:when test="${localeCode != 'es'}">
+					<span class="message"><spring:message code="${systemConfiguration.welcomeMessageEs}" /></span>
+				</jstl:when>
+			</jstl:choose>
+		</jstl:if>
 	</div>
 	<div>
 		<tiles:insertAttribute name="footer" />
