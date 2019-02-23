@@ -10,6 +10,11 @@
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="date" class="java.util.Date" />
@@ -18,5 +23,7 @@
 
 <b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Madruga Co., Inc.</b>
 <p>
-<b>If you continue using this web page, we (Acme-Madruga Co., Inc) understand that you have accepterd the terms and conditions that you can read <a href="welcome/termsandconditions.do">here</a>.</b>
+<b>
+<spring:message code="master.page.tac.pre" /><a href="welcome/termsandconditions.do"><spring:message code="master.page.tac.link" /></a><spring:message code="master.page.tac.post" />
+</b>
 </p>
