@@ -7,9 +7,12 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -27,6 +30,7 @@ public class Area extends DomainEntity {
 
 	@NotBlank
 	@NotNull
+	@Valid
 	public String getName() {
 		return this.name;
 	}
@@ -36,8 +40,8 @@ public class Area extends DomainEntity {
 	}
 
 	//Optional
-	//@URL
 	@ElementCollection
+	@URL.List(value = {@URL})
 	public List<String> getPictures() {
 		return this.pictures;
 	}

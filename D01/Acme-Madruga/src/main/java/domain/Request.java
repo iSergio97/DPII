@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -25,6 +26,7 @@ public class Request extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private Procession	procession;
+	private Member member;
 
 
 	// Field access methods ---------------------------------------------------
@@ -69,11 +71,22 @@ public class Request extends DomainEntity {
 	// Relationship access methods --------------------------------------------
 
 	@ManyToOne
+	@Valid
 	public Procession getProcession() {
 		return this.procession;
 	}
 
 	public void setProcession(final Procession procession) {
 		this.procession = procession;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Member getMember() {
+		return this.member;
+	}
+
+	public void setMember(final Member member) {
+		this.member = member;
 	}
 }

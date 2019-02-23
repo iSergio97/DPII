@@ -8,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -60,6 +61,7 @@ public class AcmeFloat extends DomainEntity {
 	// Relationship access methods --------------------------------------------
 
 	@ManyToMany
+	@Valid
 	public List<Procession> getProcessions() {
 		return this.processions;
 	}

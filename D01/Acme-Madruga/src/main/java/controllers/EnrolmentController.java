@@ -1,7 +1,6 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -37,8 +36,8 @@ public class EnrolmentController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		Enrolment enrolment;
-		enrolment = this.enrolmentService.create();
 
+		enrolment = this.enrolmentService.create();
 		result = this.createAndEditModelAndView(enrolment);
 
 		return result;
@@ -52,7 +51,7 @@ public class EnrolmentController extends AbstractController {
 		else
 			try {
 				this.enrolmentService.save(enrolment);
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:..welcome/index.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
@@ -70,27 +69,13 @@ public class EnrolmentController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final Enrolment enrolment, final String message) {
 		ModelAndView result;
-		List<String> positions;
 		List<Brotherhood> brotherhoods;
 
-		if (enrolment.getBrotherhood() == null) {
-			positions = null;
-			brotherhoods = null;
-		} else {
-			brotherhoods = this.brotherhoodService.findAll();
-			positions = new ArrayList<>();
-			positions.add("enrolment.president");
-			positions.add("enrolment.vicePresident");
-			positions.add("enrolment.secretary");
-			positions.add("enrolment.treasurer");
-			positions.add("enrolment.historian");
-			positions.add("enrolment.fundraiser");
-			positions.add("enrolment.officer");
-		}
+		//TODO: Cambiar los add por la lista del systemConfiguration
+		brotherhoods = this.brotherhoodService.findAll();
 
 		result = new ModelAndView("enrolment/create");
-		result.addObject("brothergoods", brotherhoods);
-		result.addObject("positons", positions);
+		result.addObject("brotherhoods", brotherhoods);
 
 		return result;
 	}

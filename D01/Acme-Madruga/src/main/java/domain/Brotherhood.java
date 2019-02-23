@@ -13,9 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -26,7 +28,7 @@ public class Brotherhood extends Actor {
 
 	private String					title;
 	private Date					establishmentDate;
-	private List<String>			pictures;
+	private Collection<String>		pictures;
 
 	// Relationships ----------------------------------------------------------
 
@@ -60,17 +62,21 @@ public class Brotherhood extends Actor {
 
 	// TODO: "@URL"
 	@ElementCollection
-	public List<String> getPictures() {
+	@URL.List(value = {
+		@URL
+	})
+	public Collection<String> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(final List<String> pictures) {
+	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
 
 	// Relationship access methods --------------------------------------------
 
 	@OneToMany(mappedBy = "brotherhood")
+	@Valid
 	public Collection<Procession> getProcessions() {
 		return this.processions;
 	}
@@ -79,8 +85,9 @@ public class Brotherhood extends Actor {
 		this.processions = processions;
 	}
 
-	@OneToMany
-	// TODO: MappedBy?
+	// TODO: Falta añadir el elemento del mappedBy de AcmeFloat
+	@OneToMany(mappedBy = "")
+	@Valid
 	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
@@ -89,8 +96,9 @@ public class Brotherhood extends Actor {
 		this.acmeFloats = acmeFloats;
 	}
 
-	@ManyToOne(optional = true)
 	// TODO: Check why was this set to false
+	@ManyToOne(optional = true)
+	@Valid
 	public Area getArea() {
 		return this.area;
 	}
@@ -100,6 +108,7 @@ public class Brotherhood extends Actor {
 	}
 
 	@OneToMany(mappedBy = "brotherhood")
+	@Valid
 	public Collection<Enrolment> getEnrolments() {
 		return this.enrolments;
 	}

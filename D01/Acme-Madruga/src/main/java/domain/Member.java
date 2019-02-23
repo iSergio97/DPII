@@ -8,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -24,8 +25,8 @@ public class Member extends Actor {
 
 	// Relationship access methods --------------------------------------------
 
-	@OneToMany
-	// TODO: @MappedBy?
+	@OneToMany(mappedBy = "member")
+	@Valid
 	public List<Enrolment> getEnrolments() {
 		return this.enrolments;
 	}
@@ -34,8 +35,8 @@ public class Member extends Actor {
 		this.enrolments = enrolments;
 	}
 
-	@OneToMany
-	// TODO: @MappedBy?
+	@OneToMany(mappedBy = "member")
+	@Valid
 	public List<Request> getRequests() {
 		return this.requests;
 	}
@@ -45,6 +46,7 @@ public class Member extends Actor {
 	}
 
 	@OneToOne(optional = false)
+	@Valid
 	public Finder getFinder() {
 		return this.finder;
 	}

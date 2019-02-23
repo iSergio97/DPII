@@ -156,8 +156,7 @@ public class Actor extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@OneToOne
-	// @MappedBy?
+	@OneToOne(optional = false)
 	public UserAccount getUserAccount() {
 		return this.userAccount;
 	}
