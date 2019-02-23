@@ -22,6 +22,7 @@ public class SystemConfiguration extends DomainEntity {
 	private String			systemName;
 	private String			banner;
 	private String			welcomeMessage;
+	private String			welcomeMessageEs;
 	private int				finderDuration;
 	private int				maximumFinderResults;
 	private List<String>	additionalPriorities;
@@ -72,6 +73,14 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setWelcomeMessage(final String welcomeMessage) {
 		this.welcomeMessage = welcomeMessage;
+	}
+
+	public String getWelcomeMessageEs() {
+		return this.welcomeMessageEs;
+	}
+
+	public void setWelcomeMessageEs(final String welcomeMessageEs) {
+		this.welcomeMessageEs = welcomeMessageEs;
 	}
 
 	@Min(value = 3600)
