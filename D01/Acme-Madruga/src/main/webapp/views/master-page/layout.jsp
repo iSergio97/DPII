@@ -74,10 +74,10 @@
 			<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
 			<jstl:choose>
 				<jstl:when test="${localeCode != 'en'}">
-					<span class="message"><spring:message code="${systemConfiguration.welcomeMessage}" /></span>
+					<span class="message"><jstl:out value="${systemConfiguration.welcomeMessage}" /></span>
 				</jstl:when>
 				<jstl:when test="${localeCode != 'es'}">
-					<span class="message"><spring:message code="${systemConfiguration.welcomeMessageEs}" /></span>
+					<span class="message"><jstl:out value="${systemConfiguration.welcomeMessageEs}" /></span>
 				</jstl:when>
 			</jstl:choose>
 		</jstl:if>
