@@ -46,12 +46,13 @@ public class WelcomeController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/termsAndConditions")
-	public ModelAndView tac() {
+	@RequestMapping(value = "/termsandconditions")
+	public ModelAndView termsAndConditions() {
 		ModelAndView result;
 
-		result = new ModelAndView("welcome/termsAndConditions");
+		result = new ModelAndView("welcome/termsandconditions");
 
 		return result;
 	}
+
 }

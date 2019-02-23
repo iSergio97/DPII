@@ -18,5 +18,5 @@
 
 <b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Madruga Co., Inc.</b>
 <p>
-<b>If you continue using this web page, we (Acme-Madruga Co., Inc) understand that you have accepterd the terms and conditions that you can read <a href="welcome/termsAndConditions.do">here</a>.</b>
+<b>If you continue using this web page, we (Acme-Madruga Co., Inc) understand that you have accepterd the terms and conditions that you can read <a href="welcome/termsandconditions.do">here</a>.</b>
 </p>
