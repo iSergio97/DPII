@@ -23,6 +23,9 @@ public class AcmeFloat extends DomainEntity {
 	private String				title;
 	private String				description;
 	private List<String>		pictures;
+
+	// Relationships ----------------------------------------------------------
+
 	private List<Procession>	processions;
 	private Brotherhood			brotherhood;
 
@@ -51,6 +54,7 @@ public class AcmeFloat extends DomainEntity {
 
 	//Optional
 	//@URL
+	@NotNull
 	@ElementCollection
 	public List<String> getPictures() {
 		return this.pictures;

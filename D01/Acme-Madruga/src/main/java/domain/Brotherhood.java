@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -28,7 +27,7 @@ public class Brotherhood extends Actor {
 
 	private String					title;
 	private Date					establishmentDate;
-	private Collection<String>		pictures;
+	private List<String>			pictures;
 
 	// Relationships ----------------------------------------------------------
 
@@ -60,16 +59,19 @@ public class Brotherhood extends Actor {
 		this.establishmentDate = establishmentDate;
 	}
 
-	// TODO: "@URL"
+	@NotNull
 	@ElementCollection
-	@URL.List(value = {
-		@URL
-	})
-	public Collection<String> getPictures() {
+	/*
+	 * @URL.List(value = {
+	 * 
+	 * @URL
+	 * })
+	 */
+	public List<String> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(final Collection<String> pictures) {
+	public void setPictures(final List<String> pictures) {
 		this.pictures = pictures;
 	}
 

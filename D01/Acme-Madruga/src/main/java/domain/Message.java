@@ -81,6 +81,7 @@ public class Message extends DomainEntity {
 	}
 
 	//	@NotBlank
+	@NotNull
 	@ElementCollection
 	public Collection<String> getTags() {
 		return this.tags;

@@ -26,7 +26,7 @@ public class Request extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private Procession	procession;
-	private Member member;
+	private Member		member;
 
 
 	// Field access methods ---------------------------------------------------
@@ -89,4 +89,5 @@ public class Request extends DomainEntity {
 	public void setMember(final Member member) {
 		this.member = member;
 	}
+
 }

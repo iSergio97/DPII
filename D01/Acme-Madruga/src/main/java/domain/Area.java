@@ -10,9 +10,7 @@ import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -40,8 +38,14 @@ public class Area extends DomainEntity {
 	}
 
 	//Optional
+	@NotNull
 	@ElementCollection
-	@URL.List(value = {@URL})
+	/*
+	 * @URL.List(value = {
+	 * 
+	 * @URL
+	 * })
+	 */
 	public List<String> getPictures() {
 		return this.pictures;
 	}

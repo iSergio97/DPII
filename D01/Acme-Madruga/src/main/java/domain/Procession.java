@@ -69,7 +69,7 @@ public class Procession extends DomainEntity {
 
 	@NotBlank
 	@NotNull
-	@Pattern(regexp = "^([\\d]){6}-([A-Z\\d]){6}$")
+	@Pattern(regexp = "^([\\d]){6}-([A-Z]){5}$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -99,4 +99,5 @@ public class Procession extends DomainEntity {
 	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
 		this.acmeFloats = acmeFloats;
 	}
+
 }
