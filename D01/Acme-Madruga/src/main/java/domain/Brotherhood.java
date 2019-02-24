@@ -85,8 +85,7 @@ public class Brotherhood extends Actor {
 		this.processions = processions;
 	}
 
-	// TODO: Falta añadir el elemento del mappedBy de AcmeFloat
-	@OneToMany(mappedBy = "")
+	@OneToMany(mappedBy = "brotherhood")
 	@Valid
 	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;

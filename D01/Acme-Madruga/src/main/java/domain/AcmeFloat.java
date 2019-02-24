@@ -8,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -23,6 +24,7 @@ public class AcmeFloat extends DomainEntity {
 	private String				description;
 	private List<String>		pictures;
 	private List<Procession>	processions;
+	private Brotherhood			brotherhood;
 
 
 	// Field access methods ---------------------------------------------------
@@ -68,6 +70,16 @@ public class AcmeFloat extends DomainEntity {
 
 	public void setProcessions(final List<Procession> processions) {
 		this.processions = processions;
+	}
+
+	@ManyToOne
+	@Valid
+	public Brotherhood getBrotherhood() {
+		return this.brotherhood;
+	}
+
+	public void setBrotherhood(final Brotherhood brotherhood) {
+		this.brotherhood = brotherhood;
 	}
 
 }
