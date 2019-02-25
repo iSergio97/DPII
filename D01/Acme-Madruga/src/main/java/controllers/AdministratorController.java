@@ -178,7 +178,7 @@ public class AdministratorController extends AbstractController {
 			result.addObject("showError", binding);
 			result.addObject("erroresBinding", binding.getAllErrors());
 			for (int i = 0; i < binding.getAllErrors().size(); i++)
-				System.out.println("Error " + i + binding.getAllErrors().get(i));
+				System.out.println("Error " + i + ": " + binding.getAllErrors().get(i));
 		}
 
 		return result;
