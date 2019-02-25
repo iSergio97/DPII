@@ -1,7 +1,7 @@
 
 package controllers;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -22,10 +22,10 @@ import domain.Enrolment;
 public class EnrolmentController extends AbstractController {
 
 	@Autowired
-	EnrolmentService	enrolmentService;
+	private EnrolmentService	enrolmentService;
 
 	@Autowired
-	BrotherhoodService	brotherhoodService;
+	private BrotherhoodService	brotherhoodService;
 
 
 	public EnrolmentController() {
@@ -46,6 +46,7 @@ public class EnrolmentController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
+
 		if (bindingResult.hasErrors())
 			result = this.createAndEditModelAndView(enrolment);
 		else
@@ -55,7 +56,6 @@ public class EnrolmentController extends AbstractController {
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
-
 		return result;
 	}
 
@@ -69,13 +69,15 @@ public class EnrolmentController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final Enrolment enrolment, final String message) {
 		ModelAndView result;
-		List<Brotherhood> brotherhoods;
+		Collection<Brotherhood> brotherhoods;
 
-		//TODO: Cambiar los add por la lista del systemConfiguration
+		//TODO: La solicitud se hace al cargo más pequeño y la hermanada decide si cambiarlo a otro o no
 		brotherhoods = this.brotherhoodService.findAll();
 
 		result = new ModelAndView("enrolment/create");
+		result.addObject("enrolment", enrolment);
 		result.addObject("brotherhoods", brotherhoods);
+		result.addObject("message", message);
 
 		return result;
 	}
