@@ -61,12 +61,6 @@ public class Brotherhood extends Actor {
 
 	@NotNull
 	@ElementCollection
-	/*
-	 * @URL.List(value = {
-	 * 
-	 * @URL
-	 * })
-	 */
 	public List<String> getPictures() {
 		return this.pictures;
 	}
