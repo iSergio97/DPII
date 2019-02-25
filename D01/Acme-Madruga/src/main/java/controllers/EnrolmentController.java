@@ -1,7 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -12,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.BrotherhoodService;
 import services.EnrolmentService;
+import services.MemberService;
 import domain.Brotherhood;
 import domain.Enrolment;
+import domain.Member;
 
 @Controller
 @RequestMapping("/enrolment")
@@ -26,6 +31,9 @@ public class EnrolmentController extends AbstractController {
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+
+	@Autowired
+	private MemberService		memberService;
 
 
 	public EnrolmentController() {
@@ -43,7 +51,8 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	//TODO: Falta añadir vista /edit para probar método save
+	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
 
@@ -52,7 +61,14 @@ public class EnrolmentController extends AbstractController {
 		else
 			try {
 				this.enrolmentService.save(enrolment);
-				result = new ModelAndView("redirect:..welcome/index.do");
+				final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+				final List<Enrolment> enrolments = member.getEnrolments();
+				final List<Brotherhood> bhs = new ArrayList<>();
+				for (final Enrolment e : enrolments)
+					bhs.add(e.getBrotherhood());
+
+				result = new ModelAndView("enrolment/edit.do");
+				result.addObject("brotherhood", bhs);
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}

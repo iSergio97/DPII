@@ -24,6 +24,6 @@
 <b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Madruga Co., Inc.</b>
 <p>
 <b>
-<spring:message code="master.page.tac.pre" /><a href="welcome/termsandconditions.do"><spring:message code="master.page.tac.link" /></a><spring:message code="master.page.tac.post" />
+<spring:message code="master.page.tac.pre" /><a href="welcome/termsandconditions.do" target="_blank"><spring:message code="master.page.tac.link" /></a><spring:message code="master.page.tac.post" />
 </b>
 </p>

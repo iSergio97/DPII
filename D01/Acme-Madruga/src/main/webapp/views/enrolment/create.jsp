@@ -14,8 +14,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-
-<form:form commandName="enrolment">
+<form:form modelAttribute="enrolment" method="POST" action="enrolment/list.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -26,7 +25,7 @@
 	<form:hidden path="position" />
 
 	<!-- Input fields -->
-	
+
 	<div id="brotherhood" class="brotherhood">
 		<form:label path="brotherhood">
 			<spring:message code="enrolment.brotherhood" />
@@ -39,11 +38,12 @@
 
 
 	<div id="soc" class="soc">
-		<input type="submit" name="save"
+		<input type="submit" name="edit"
 			value="<spring:message code='security.send'/>" /> <input
-			type="submit" name="cancel"
-			value="<spring:message code='security.cancel'/>"
+			type="button" name="cancel"
+			value="<spring:message code='security.cancel' />"
 			onclick="javascript: relativeRedir('welcome/index.do');" />
+
 	</div>
 
 </form:form>
