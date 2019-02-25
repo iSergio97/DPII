@@ -99,7 +99,7 @@ public class AcmeFloatController extends AbstractController {
 
 		if (!binding.hasErrors()) {
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
-			result = new ModelAndView("redirect:list.do");
+			result = this.show(acmeFloat.getId());
 		} else {
 			result = new ModelAndView("acmefloat/create");
 			result.addObject("acmeFloat", acmeFloat);
@@ -112,12 +112,63 @@ public class AcmeFloatController extends AbstractController {
 		return result;
 	}
 
-	// Update -----------------------------------------------------------------
+	// Edit -------------------------------------------------------------------
 
-	// TODO: update method
+	@RequestMapping(value = "/brotherhood/update", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final AcmeFloat acmeFloat;
+		final Brotherhood brotherhood;
+
+		acmeFloat = this.acmeFloatService.findOne(id);
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+
+		result = new ModelAndView("acmefloat/edit");
+		result.addObject("acmeFloat", acmeFloat);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST)
+	public ModelAndView update(AcmeFloat acmeFloat, final BindingResult binding) {
+		final ModelAndView result;
+		final Brotherhood brotherhood;
+
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+
+		if (!binding.hasErrors()) {
+			acmeFloat = this.acmeFloatService.save(acmeFloat);
+			result = this.show(acmeFloat.getId());
+		} else {
+			result = new ModelAndView("acmefloat/edit");
+			result.addObject("acmeFloat", acmeFloat);
+			result.addObject("showError", binding);
+			result.addObject("erroresBinding", binding.getAllErrors());
+			for (int i = 0; i < binding.getAllErrors().size(); i++)
+				System.out.println("Error " + i + ": " + binding.getAllErrors().get(i));
+		}
+
+		return result;
+	}
 
 	// Delete -----------------------------------------------------------------
 
-	// TODO: delete method
+	@RequestMapping(value = "/brotherhood/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final AcmeFloat acmeFloat;
+		final Brotherhood brotherhood;
+
+		acmeFloat = this.acmeFloatService.findOne(id);
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+		this.acmeFloatService.delete(acmeFloat);
+
+		result = this.list();
+
+		return result;
+	}
 
 }
