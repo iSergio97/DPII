@@ -68,9 +68,13 @@ public class ActorService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
+	public Actor findByUserAccountId(final int id) {
+		return this.actorRepository.findByUserAccountId(id);
+	}
+
 	public Actor findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findOne(userAccount.getId());
+		return this.findByUserAccountId(userAccount.getId());
 	}
 
 }

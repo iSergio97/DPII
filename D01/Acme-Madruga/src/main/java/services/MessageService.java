@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MessageRepository;
+import security.LoginService;
 import domain.Message;
 
 @Service
@@ -21,9 +24,12 @@ public class MessageService {
 	@Autowired
 	private MessageRepository	messageRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	@Autowired
+	private ActorService		actorService;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -34,6 +40,17 @@ public class MessageService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	public Message create() {
+		final Message message = new Message();
+		message.setBody("");
+		message.setDate(new Date());
+		message.setPriority("");
+		message.setTags(new ArrayList<String>());
+		message.setSender(this.actorService.findByUserAccountId(LoginService.getPrincipal().getId()));
+		message.setSubject("");
+		return message;
+	}
 
 	public Message save(final Message message) {
 		Assert.isTrue(message != null);

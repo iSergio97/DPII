@@ -68,9 +68,13 @@ public class BrotherhoodService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
+	public Brotherhood findByUserAccountId(final int id) {
+		return this.brotherhoodRepository.findByUserAccountId(id);
+	}
+
 	public Brotherhood findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findOne(userAccount.getId());
+		return this.findByUserAccountId(userAccount.getId());
 	}
 
 }
