@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
+import domain.Member;
 import domain.Request;
 
 @Service
@@ -24,6 +25,13 @@ public class RequestService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+	
+	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private ProcessionService processionService;
+	
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -34,9 +42,25 @@ public class RequestService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+	
+	public Request create() {
+		Request request = new Request();
+		
+		Member member = this.memberService.findPrincipal();
+		request.setMember(member);
+		request.setProcession(this.processionService.create());
+		request.setHLine(0);
+		request.setVLine(0);
+		request.setStatus("PENDING");
+		request.setReason("");
+		return request;
+	}
 
 	public Request save(final Request request) {
 		Assert.isTrue(request != null);
+		if(request.getStatus().equals("REJECTED")) {
+			Assert.isTrue(request.getReason() != null);
+		}
 		return this.requestRepository.save(request);
 	}
 
