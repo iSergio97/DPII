@@ -10,6 +10,89 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	">
 
+	<!-- System configuration -->
+
+	<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="defaultCountryCode" value="+34" />
+		<property name="positions">
+			<list>
+				<value>President</value>
+				<value>Presidente</value>
+				<value>Vice President</value>
+				<value>Vicepresidente</value>
+				<value>Secretary</value>
+				<value>Secretario</value>
+				<value>Treasurer</value>
+				<value>Tesorero</value>
+				<value>Historian</value>
+				<value>Historiador</value>
+				<value>Fundraiser</value>
+				<value>Promotor</value>
+				<value>Officer</value>
+				<value>Vocal</value>
+				<value>Brother</value>
+				<value>Hermano</value>
+			</list>
+		</property>
+		<property name="systemName" value="Acme Madrugá" />
+		<property name="banner" value="https://tinyurl.com/acme-madruga" />
+		<property name="welcomeMessage"
+			value="Welcome to Acme Madrugá, the site to organise your processions." />
+		<property name="welcomeMessageEs"
+			value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+		<property name="finderDuration" value="3600" />
+		<property name="maximumFinderResults" value="10" />
+		<property name="additionalPriorities">
+			<list>
+			</list>
+		</property>
+		<property name="positiveWords">
+			<list>
+				<value>good</value>
+				<value>bueno</value>
+				<value>fantastic</value>
+				<value>fantástico</value>
+				<value>excellent</value>
+				<value>excelente</value>
+				<value>great</value>
+				<value>genial</value>
+				<value>amazing</value>
+				<value>asombroso</value>
+				<value>terrific</value>
+				<value>magnífico</value>
+				<value>beautiful</value>
+				<value>bonito</value>
+			</list>
+		</property>
+		<property name="negativeWords">
+			<list>
+				<value>not</value>
+				<value>no</value>
+				<value>bad</value>
+				<value>malo</value>
+				<value>horrible</value>
+				<value>horrible</value>
+				<value>average</value>
+				<value>mediocre</value>
+				<value>disaster</value>
+				<value>desastroso</value>
+			</list>
+		</property>
+		<property name="spamWords">
+			<list>
+				<value>sex</value>
+				<value>viagra</value>
+				<value>cialis</value>
+				<value>one million</value>
+				<value>you've been selected</value>
+				<value>Nigeria</value>
+				<value>sexo</value>
+				<value>un millón</value>
+				<value>ha sido seleccionado</value> 
+			</list>
+		</property>
+	</bean>
+
 	<!-- User accounts -->
 
 	<bean id="userAccountAdmin1" class="security.UserAccount">
@@ -35,7 +118,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccountBrotherhood2" class="security.UserAccount">
 		<property name="username" value="brotherhood2" />
 		<property name="password" value="88f1b810c40cd63107fb758fef4d77db" />
@@ -47,7 +130,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccountBrotherhood3" class="security.UserAccount">
 		<property name="username" value="brotherhood3" />
 		<property name="password" value="cb8f36c7d5bbbc6aa5798a0e5796ebd5" />
@@ -59,7 +142,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccountBrotherhood4" class="security.UserAccount">
 		<property name="username" value="brotherhood4" />
 		<property name="password" value="ddeb3302b54a2e0dbc83f2bd3c866124" />
@@ -83,9 +166,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Message boxes -->
-	
+
 	<bean id="inBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="admin1" />
@@ -93,7 +176,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="admin1" />
@@ -101,7 +184,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="admin1" />
@@ -109,7 +192,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="admin1" />
@@ -117,7 +200,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="admin1" />
@@ -125,7 +208,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="inBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="brotherhood1" />
@@ -133,7 +216,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="brotherhood1" />
@@ -141,7 +224,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="brotherhood1" />
@@ -149,7 +232,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="brotherhood1" />
@@ -157,7 +240,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="brotherhood1" />
@@ -165,7 +248,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="inBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="brotherhood2" />
@@ -173,7 +256,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="brotherhood2" />
@@ -181,7 +264,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="brotherhood2" />
@@ -189,7 +272,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="brotherhood2" />
@@ -197,7 +280,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="brotherhood2" />
@@ -205,7 +288,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="inBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="brotherhood3" />
@@ -213,7 +296,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="brotherhood3" />
@@ -221,7 +304,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="brotherhood3" />
@@ -229,7 +312,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="brotherhood3" />
@@ -237,7 +320,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="brotherhood3" />
@@ -245,7 +328,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="inBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="brotherhood4" />
@@ -253,7 +336,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="brotherhood4" />
@@ -261,7 +344,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="brotherhood4" />
@@ -269,7 +352,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="brotherhood4" />
@@ -277,7 +360,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="brotherhood4" />
@@ -285,7 +368,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="inBoxMember1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
 		<property name="actor" ref="member1" />
@@ -293,7 +376,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="outBoxMember1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="actor" ref="member1" />
@@ -301,7 +384,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="spamBoxMember1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
 		<property name="actor" ref="member1" />
@@ -309,7 +392,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="trashBoxMember1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
 		<property name="actor" ref="member1" />
@@ -317,7 +400,7 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<bean id="notificationBoxMember1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
 		<property name="actor" ref="member1" />
@@ -325,9 +408,9 @@
 			<list />
 		</property>
 	</bean>
-	
+
 	<!-- Administrators -->
-	
+
 	<bean id="admin1" class="domain.Administrator">
 		<property name="name" value="Señor" />
 		<property name="middleName" value="" />
@@ -342,11 +425,11 @@
 		<property name="userAccount" ref="userAccountAdmin1" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxAdmin1"/>
-				<ref bean="outBoxAdmin1"/>
-				<ref bean="spamBoxAdmin1"/>
-				<ref bean="trashBoxAdmin1"/>
-				<ref bean="notificationBoxAdmin1"/>
+				<ref bean="inBoxAdmin1" />
+				<ref bean="outBoxAdmin1" />
+				<ref bean="spamBoxAdmin1" />
+				<ref bean="trashBoxAdmin1" />
+				<ref bean="notificationBoxAdmin1" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -362,9 +445,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Brotherhoods -->
-	
+
 	<bean id="brotherhood1" class="domain.Brotherhood">
 		<property name="name" value="Cofradía" />
 		<property name="middleName" value="Santísima" />
@@ -379,11 +462,11 @@
 		<property name="userAccount" ref="userAccountBrotherhood1" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxBrotherhood1"/>
-				<ref bean="outBoxBrotherhood1"/>
-				<ref bean="spamBoxBrotherhood1"/>
-				<ref bean="trashBoxBrotherhood1"/>
-				<ref bean="notificationBoxBrotherhood1"/>
+				<ref bean="inBoxBrotherhood1" />
+				<ref bean="outBoxBrotherhood1" />
+				<ref bean="spamBoxBrotherhood1" />
+				<ref bean="trashBoxBrotherhood1" />
+				<ref bean="notificationBoxBrotherhood1" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -398,26 +481,27 @@
 			<list>
 			</list>
 		</property>
-		<property name="title" value="Santísima cofradía del silencio bibliotecario"/>
-		<property name="establishmentDate" value="1975/06/12"/>
+		<property name="title"
+			value="Santísima cofradía del silencio bibliotecario" />
+		<property name="establishmentDate" value="1975/06/12" />
 		<property name="pictures">
-			<list/>
+			<list />
 		</property>
 		<property name="processions">
 			<list>
-				<ref bean="procession1"/>
-				<ref bean="procession5"/>
+				<ref bean="procession1" />
+				<ref bean="procession5" />
 			</list>
 		</property>
 		<property name="acmeFloats">
 			<list>
-				<ref bean="acmeFloat1"/>
-				<ref bean="acmeFloat5"/>
+				<ref bean="acmeFloat1" />
+				<ref bean="acmeFloat5" />
 			</list>
 		</property>
-		<property name="area" ref="area1"/>
+		<property name="area" ref="area1" />
 	</bean>
-	
+
 	<bean id="brotherhood2" class="domain.Brotherhood">
 		<property name="name" value="Cofradía" />
 		<property name="middleName" value="Santísima" />
@@ -432,11 +516,11 @@
 		<property name="userAccount" ref="userAccountBrotherhood2" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxBrotherhood2"/>
-				<ref bean="outBoxBrotherhood2"/>
-				<ref bean="spamBoxBrotherhood2"/>
-				<ref bean="trashBoxBrotherhood2"/>
-				<ref bean="notificationBoxBrotherhood2"/>
+				<ref bean="inBoxBrotherhood2" />
+				<ref bean="outBoxBrotherhood2" />
+				<ref bean="spamBoxBrotherhood2" />
+				<ref bean="trashBoxBrotherhood2" />
+				<ref bean="notificationBoxBrotherhood2" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -451,24 +535,25 @@
 			<list>
 			</list>
 		</property>
-		<property name="title" value="Santísima cofradía del programador resucitado"/>
-		<property name="establishmentDate" value="1986/03/29"/>
+		<property name="title"
+			value="Santísima cofradía del programador resucitado" />
+		<property name="establishmentDate" value="1986/03/29" />
 		<property name="pictures">
-			<list/>
+			<list />
 		</property>
 		<property name="processions">
 			<list>
-				<ref bean="procession2"/>
+				<ref bean="procession2" />
 			</list>
 		</property>
 		<property name="acmeFloats">
 			<list>
-				<ref bean="acmeFloat2"/>
+				<ref bean="acmeFloat2" />
 			</list>
 		</property>
-		<property name="area" ref="area2"/>
+		<property name="area" ref="area2" />
 	</bean>
-	
+
 	<bean id="brotherhood3" class="domain.Brotherhood">
 		<property name="name" value="Cofradía" />
 		<property name="middleName" value="Santísima" />
@@ -483,11 +568,11 @@
 		<property name="userAccount" ref="userAccountBrotherhood3" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxBrotherhood3"/>
-				<ref bean="outBoxBrotherhood3"/>
-				<ref bean="spamBoxBrotherhood3"/>
-				<ref bean="trashBoxBrotherhood3"/>
-				<ref bean="notificationBoxBrotherhood3"/>
+				<ref bean="inBoxBrotherhood3" />
+				<ref bean="outBoxBrotherhood3" />
+				<ref bean="spamBoxBrotherhood3" />
+				<ref bean="trashBoxBrotherhood3" />
+				<ref bean="notificationBoxBrotherhood3" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -502,25 +587,25 @@
 			<list>
 			</list>
 		</property>
-		<property name="title" value="Santísima cofradía del debug misericordioso"/>
-		<property name="establishmentDate" value="1975/02/12"/>
+		<property name="title" value="Santísima cofradía del debug misericordioso" />
+		<property name="establishmentDate" value="1975/02/12" />
 		<property name="pictures">
-			<list/>
+			<list />
 		</property>
 		<property name="processions">
 			<list>
-				<ref bean="procession3"/>
-				<ref bean="procession4"/>
+				<ref bean="procession3" />
+				<ref bean="procession4" />
 			</list>
 		</property>
 		<property name="acmeFloats">
 			<list>
-				<ref bean="acmeFloat3"/>
+				<ref bean="acmeFloat3" />
 			</list>
 		</property>
-		<property name="area" ref="area3"/>
+		<property name="area" ref="area3" />
 	</bean>
-	
+
 	<bean id="brotherhood4" class="domain.Brotherhood">
 		<property name="name" value="Cofradía" />
 		<property name="middleName" value="Santísima" />
@@ -535,11 +620,11 @@
 		<property name="userAccount" ref="userAccountBrotherhood4" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxBrotherhood4"/>
-				<ref bean="outBoxBrotherhood4"/>
-				<ref bean="spamBoxBrotherhood4"/>
-				<ref bean="trashBoxBrotherhood4"/>
-				<ref bean="notificationBoxBrotherhood4"/>
+				<ref bean="inBoxBrotherhood4" />
+				<ref bean="outBoxBrotherhood4" />
+				<ref bean="spamBoxBrotherhood4" />
+				<ref bean="trashBoxBrotherhood4" />
+				<ref bean="notificationBoxBrotherhood4" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -554,10 +639,10 @@
 			<list>
 			</list>
 		</property>
-		<property name="title" value="Santísima cofradía de la sangre informática"/>
-		<property name="establishmentDate" value="1996/11/21"/>
+		<property name="title" value="Santísima cofradía de la sangre informática" />
+		<property name="establishmentDate" value="1996/11/21" />
 		<property name="pictures">
-			<list/>
+			<list />
 		</property>
 		<property name="processions">
 			<list>
@@ -565,15 +650,15 @@
 		</property>
 		<property name="acmeFloats">
 			<list>
-				<ref bean="acmeFloat4"/>
-				<ref bean="acmeFloat6"/>
+				<ref bean="acmeFloat4" />
+				<ref bean="acmeFloat6" />
 			</list>
 		</property>
-		<property name="area" ref="area4"/>
+		<property name="area" ref="area4" />
 	</bean>
-	
+
 	<!-- Members -->
-	
+
 	<bean id="member1" class="domain.Member">
 		<property name="name" value="Abel" />
 		<property name="middleName" value="" />
@@ -585,14 +670,14 @@
 		<property name="isSuspicious" value="false" />
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
-		<property name="userAccount" ref="userAccountMember1"/>
+		<property name="userAccount" ref="userAccountMember1" />
 		<property name="messageBoxes">
 			<list>
-				<ref bean="inBoxMember1"/>
-				<ref bean="outBoxMember1"/>
-				<ref bean="spamBoxMember1"/>
-				<ref bean="trashBoxMember1"/>
-				<ref bean="notificationBoxMember1"/>
+				<ref bean="inBoxMember1" />
+				<ref bean="outBoxMember1" />
+				<ref bean="spamBoxMember1" />
+				<ref bean="trashBoxMember1" />
+				<ref bean="notificationBoxMember1" />
 			</list>
 		</property>
 		<property name="messagesSent">
@@ -615,11 +700,11 @@
 			<list>
 			</list>
 		</property>
-		<property name="finder" ref="finder1"/>
+		<property name="finder" ref="finder1" />
 	</bean>
 
 	<!-- Areas -->
-	
+
 	<bean id="area1" class="domain.Area">
 		<property name="name" value="area 1" />
 		<property name="pictures">
@@ -627,7 +712,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="area2" class="domain.Area">
 		<property name="name" value="area 2" />
 		<property name="pictures">
@@ -635,7 +720,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="area3" class="domain.Area">
 		<property name="name" value="area 3" />
 		<property name="pictures">
@@ -643,7 +728,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="area4" class="domain.Area">
 		<property name="name" value="area 4" />
 		<property name="pictures">
@@ -651,172 +736,172 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Finders -->
-	
+
 	<bean id="finder1" class="domain.Finder">
 		<property name="keyword" value="macarena" />
 		<property name="area" value="" />
 		<property name="minimumDate" value="2006/01/01" />
 		<property name="maximumDate" value="2016/01/01" />
 	</bean>
-	
+
 	<!-- ACME FLOATS -->
-	
+
 	<bean id="acmeFloat1" class="domain.AcmeFloat">
-	<property name="title" value="Nuestra señora de DP"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-		<ref bean="procession1"/>
-	</list>
-	</property>
+		<property name="title" value="Nuestra señora de DP" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession1" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="acmeFloat2" class="domain.AcmeFloat">
-	<property name="title" value="Nuestra Señora de las Necesidades Académicas"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-		<ref bean="procession2"/>
-	</list>
-	</property>
+		<property name="title" value="Nuestra Señora de las Necesidades Académicas" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession2" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="acmeFloat3" class="domain.AcmeFloat">
-	<property name="title" value="Nuestra Señora de las pruebas unitarias"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-		<ref bean="procession3"/>
-		<ref bean="procession4"/>
-	</list>
-	</property>
+		<property name="title" value="Nuestra Señora de las pruebas unitarias" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession3" />
+				<ref bean="procession4" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="acmeFloat4" class="domain.AcmeFloat">
-	<property name="title" value="Santísimo Cristo del programa incorrupto"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-	</list>
-	</property>
+		<property name="title" value="Santísimo Cristo del programa incorrupto" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="acmeFloat5" class="domain.AcmeFloat">
-	<property name="title" value="Santísimo Cristo del A+"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-		<ref bean="procession1"/>
-		<ref bean="procession5"/>
-	</list>
-	</property>
+		<property name="title" value="Santísimo Cristo del A+" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+				<ref bean="procession1" />
+				<ref bean="procession5" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="acmeFloat6" class="domain.AcmeFloat">
-	<property name="title" value="Santísimo Cristo del compilador crucificado"/>
-	<property name="description" value="this is a description for an AcmeFloat"/>
-	<property name="pictures">
-	<list>
-	</list>
-	</property>
-	<property name="processions">
-	<list>
-	</list>
-	</property>
+		<property name="title" value="Santísimo Cristo del compilador crucificado" />
+		<property name="description" value="this is a description for an AcmeFloat" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="processions">
+			<list>
+			</list>
+		</property>
 	</bean>
-	
-	
+
+
 	<!-- PROCESSIONS -->
-	
+
 	<bean id="procession1" class="domain.Procession">
-	<property name="title" value="La Santa Entrega"/>
-	<property name="description" value="this is a description for a Procession"/>
-	<property name="moment" value="2019/04/18"/>
-	<property name="ticker" value="190418-AAAAA"/>
-	<property name="brotherhood" ref="brotherhood1"/>
-	<property name="acmeFloats">
-	<list>
-		<ref bean="acmeFloat1"/>
-		<ref bean="acmeFloat5"/>
-	</list>
-	</property>
+		<property name="title" value="La Santa Entrega" />
+		<property name="description" value="this is a description for a Procession" />
+		<property name="moment" value="2019/04/18" />
+		<property name="ticker" value="190418-AAAAA" />
+		<property name="brotherhood" ref="brotherhood1" />
+		<property name="acmeFloats">
+			<list>
+				<ref bean="acmeFloat1" />
+				<ref bean="acmeFloat5" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="procession2" class="domain.Procession">
-	<property name="title" value="La Carrera"/>
-	<property name="description" value="this is a description for a Procession"/>
-	<property name="moment" value="2019/04/18"/>
-	<property name="ticker" value="190415-AAAAB"/>
-	<property name="brotherhood" ref="brotherhood2"/>
-	<property name="acmeFloats">
-	<list>
-		<ref bean="acmeFloat2"/>
-	</list>
-	</property>
+		<property name="title" value="La Carrera" />
+		<property name="description" value="this is a description for a Procession" />
+		<property name="moment" value="2019/04/18" />
+		<property name="ticker" value="190415-AAAAB" />
+		<property name="brotherhood" ref="brotherhood2" />
+		<property name="acmeFloats">
+			<list>
+				<ref bean="acmeFloat2" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="procession3" class="domain.Procession">
-	<property name="title" value="La Prueba"/>
-	<property name="description" value="this is a description for a Procession"/>
-	<property name="moment" value="2019/04/18"/>
-	<property name="ticker" value="190416-AAAAC"/>
-	<property name="brotherhood" ref="brotherhood3"/>
-	<property name="acmeFloats">
-	<list>
-		<ref bean="acmeFloat3"/>
-	</list>
-	</property>
+		<property name="title" value="La Prueba" />
+		<property name="description" value="this is a description for a Procession" />
+		<property name="moment" value="2019/04/18" />
+		<property name="ticker" value="190416-AAAAC" />
+		<property name="brotherhood" ref="brotherhood3" />
+		<property name="acmeFloats">
+			<list>
+				<ref bean="acmeFloat3" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="procession4" class="domain.Procession">
-	<property name="title" value="El Buen Fin"/>
-	<property name="description" value="this is a description for a Procession"/>
-	<property name="moment" value="2019/04/18"/>
-	<property name="ticker" value="190417-AAAAD"/>
-	<property name="brotherhood" ref="brotherhood3"/>
-	<property name="acmeFloats">
-	<list>
-		<ref bean="acmeFloat1"/>
-		<ref bean="acmeFloat5"/>
-	</list>
-	</property>
+		<property name="title" value="El Buen Fin" />
+		<property name="description" value="this is a description for a Procession" />
+		<property name="moment" value="2019/04/18" />
+		<property name="ticker" value="190417-AAAAD" />
+		<property name="brotherhood" ref="brotherhood3" />
+		<property name="acmeFloats">
+			<list>
+				<ref bean="acmeFloat1" />
+				<ref bean="acmeFloat5" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="procession5" class="domain.Procession">
-	<property name="title" value="La Pasión"/>
-	<property name="description" value="this is a description for a Procession"/>
-	<property name="moment" value="2019/04/18"/>
-	<property name="ticker" value="190417-AAAAE"/>
-	<property name="brotherhood" ref="brotherhood1"/>
-	<property name="acmeFloats">
-	<list>
-		<ref bean="acmeFloat5"/>
-	</list>
-	</property>
+		<property name="title" value="La Pasión" />
+		<property name="description" value="this is a description for a Procession" />
+		<property name="moment" value="2019/04/18" />
+		<property name="ticker" value="190417-AAAAE" />
+		<property name="brotherhood" ref="brotherhood1" />
+		<property name="acmeFloats">
+			<list>
+				<ref bean="acmeFloat5" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<!-- Other domain beans come here -->
 
 </beans>
