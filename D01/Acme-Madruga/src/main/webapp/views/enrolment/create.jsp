@@ -26,23 +26,16 @@
 	<form:hidden path="position" />
 
 	<!-- Input fields -->
-	<!--
+	
 	<div id="brotherhood" class="brotherhood">
 		<form:label path="brotherhood">
 			<spring:message code="enrolment.brotherhood" />
 		</form:label>
-		<form:select multiple="false" id="brotherhood" path="brotherhoods">
-			<form:options items="${brotherhoods}" itemLabel="title" itemValue="title" />
+		<form:select multiple="false" id="brotherhood" path="brotherhood">
+			<form:options items="${brotherhoods}" itemLabel="title"
+				itemValue="title" />
 		</form:select>
 	</div>
--->
-
-	<form:label path="brotherhood">
-		<spring:message code="enrolment.brotherhood" />
-	</form:label>
-	<form:select path="brotherhood" multiple="false">
-		<form:options items="${brotherhoods}" itemValue="id" itemLabel="name" />
-	</form:select>
 
 
 	<div id="soc" class="soc">
