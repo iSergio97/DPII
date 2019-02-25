@@ -75,6 +75,22 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		final ModelAndView result;
+
+		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final List<Enrolment> enrolments = actual.getEnrolments();
+		final List<Brotherhood> bhs = new ArrayList<>();
+		for (final Enrolment e : enrolments)
+			bhs.add(e.getBrotherhood());
+
+		result = new ModelAndView("enrolment/list.do");
+		result.addObject("brotherhood", bhs);
+
+		return result;
+	}
+
 	protected ModelAndView createAndEditModelAndView(final Enrolment enrolment) {
 		ModelAndView result;
 

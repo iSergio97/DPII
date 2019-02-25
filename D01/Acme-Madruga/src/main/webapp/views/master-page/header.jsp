@@ -34,7 +34,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.member" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment" /></a></li>					
+					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
+					<li><a href="enrolment/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
