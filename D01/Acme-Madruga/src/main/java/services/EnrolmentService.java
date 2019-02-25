@@ -28,10 +28,7 @@ public class EnrolmentService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 	@Autowired
-	private MemberService		memberService;
-
-	private SystemConfiguration	systemConfiguration;
-
+	private MemberService				memberService;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -46,9 +43,9 @@ public class EnrolmentService {
 	public Enrolment create() {
 		final Enrolment enrolment = new Enrolment();
 		final int id = LoginService.getPrincipal().getId();
-		enrolment.setMember(this.memberService.findByUserAccountId(id));
+		enrolment.setMember(memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
-		enrolment.setPosition("Prueba de posición");
+		enrolment.setPosition("enrolment.officer");
 
 		return enrolment;
 	}
