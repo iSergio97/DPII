@@ -13,7 +13,6 @@ import repositories.EnrolmentRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Enrolment;
-import domain.SystemConfiguration;
 
 @Service
 @Transactional
@@ -27,10 +26,9 @@ public class EnrolmentService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
 	@Autowired
 	private MemberService		memberService;
-
-	private SystemConfiguration	systemConfiguration;
 
 
 	////////////////////////////////////////////////////////////////////////////////

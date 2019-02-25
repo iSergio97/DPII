@@ -1,18 +1,18 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,21 +24,20 @@ public class Procession extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String			title;
-	private String			description;
-	private Date			moment;
-	private String			ticker;
+	private String					title;
+	private String					description;
+	private Date					moment;
+	private String					ticker;
 
 	// Relationships ----------------------------------------------------------
 
-	private Brotherhood		brotherhood;
-	private List<AcmeFloat>	acmeFloats;
+	private Brotherhood				brotherhood;
+	private Collection<AcmeFloat>	acmeFloats;
 
 
 	// Field access methods ---------------------------------------------------
 
 	@NotBlank
-	@NotNull
 	public String getTitle() {
 		return this.title;
 	}
@@ -48,7 +47,6 @@ public class Procession extends DomainEntity {
 	}
 
 	@NotBlank
-	@NotNull
 	public String getDescription() {
 		return this.description;
 	}
@@ -68,8 +66,8 @@ public class Procession extends DomainEntity {
 	}
 
 	@NotBlank
-	@NotNull
 	@Pattern(regexp = "^([\\d]){6}-([A-Z]){5}$")
+	@Column(unique = true)
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -80,8 +78,8 @@ public class Procession extends DomainEntity {
 
 	// Relationship access methods --------------------------------------------
 
-	@ManyToOne(optional = false)
 	@Valid
+	@ManyToOne(optional = true)
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}
@@ -90,13 +88,13 @@ public class Procession extends DomainEntity {
 		this.brotherhood = brotherhood;
 	}
 
-	@ManyToMany(mappedBy = "processions")
 	@Valid
-	public List<AcmeFloat> getAcmeFloats() {
+	@ManyToMany(mappedBy = "processions")
+	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}
 
-	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
+	public void setAcmeFloats(final Collection<AcmeFloat> acmeFloats) {
 		this.acmeFloats = acmeFloats;
 	}
 

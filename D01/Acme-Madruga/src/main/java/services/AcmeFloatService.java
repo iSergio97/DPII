@@ -1,7 +1,7 @@
 
 package services;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AcmeFloatRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.AcmeFloat;
-import domain.Procession;
 
 @Service
 @Transactional
@@ -49,7 +50,7 @@ public class AcmeFloatService {
 		result.setBrotherhood(null);
 
 		return result;
-	}
+		}
 
 	public AcmeFloat save(final AcmeFloat acmeFloat) {
 		Assert.isTrue(acmeFloat != null);
@@ -81,5 +82,10 @@ public class AcmeFloatService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
+
+	public Collection<AcmeFloat> findAcmeFloats() {
+		final UserAccount userAccount = LoginService.getPrincipal();
+		return this.acmeFloatRepository.findFloats(userAccount.getId());
+	}
 
 }

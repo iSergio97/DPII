@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.BrotherhoodRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountRepository;
 import domain.Brotherhood;
+import domain.Message;
+import domain.SocialProfile;
 
 @Service
 @Transactional
@@ -23,9 +28,15 @@ public class BrotherhoodService {
 	@Autowired
 	private BrotherhoodRepository	brotherhoodRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	@Autowired
+	private UserAccountRepository	userAccountRepository;
+
+	@Autowired
+	private MessageBoxService		messageBoxService;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -37,6 +48,35 @@ public class BrotherhoodService {
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	public Brotherhood create() {
+		UserAccount userAccount = new UserAccount();
+		final List<Authority> authorities = new ArrayList<>();
+		Authority authority;
+		authority = new Authority();
+		authority.setAuthority(Authority.BROTHERHOOD);
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+		userAccount = this.userAccountRepository.save(userAccount);
+
+		final Brotherhood brotherhood = new Brotherhood();
+		brotherhood.setUserAccount(userAccount);
+		brotherhood.setName("");
+		brotherhood.setMiddleName("");
+		brotherhood.setSurname("");
+		brotherhood.setPhoto("");
+		brotherhood.setEmail("");
+		brotherhood.setPhoneNumber("");
+		brotherhood.setAddress("");
+		brotherhood.setIsSuspicious(false);
+		brotherhood.setPolarityScore(null);
+		brotherhood.setIsBanned(false);
+		brotherhood.setSocialProfiles(new ArrayList<SocialProfile>());
+		brotherhood.setMessagesSent(new ArrayList<Message>());
+		brotherhood.setMessagesReceived(new ArrayList<Message>());
+		brotherhood.setMessageBoxes(this.messageBoxService.createSystemBoxes());
+
+		return brotherhood;
+	}
 	public Brotherhood save(final Brotherhood brotherhood) {
 		Assert.isTrue(brotherhood != null);
 		return this.brotherhoodRepository.save(brotherhood);
@@ -74,7 +114,7 @@ public class BrotherhoodService {
 
 	public Brotherhood findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		return this.findOne(userAccount.getId());
 	}
 
 }

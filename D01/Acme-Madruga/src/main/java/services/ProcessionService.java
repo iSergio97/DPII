@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProcessionRepository;
+import domain.AcmeFloat;
 import domain.Procession;
 
 @Service
@@ -20,6 +23,9 @@ public class ProcessionService {
 
 	@Autowired
 	private ProcessionRepository	processionRepository;
+
+	@Autowired
+	private BrotherhoodService		brotherhoodService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -35,23 +41,31 @@ public class ProcessionService {
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	public Procession create() {
+		final Procession procession = new Procession();
+		procession.setTitle("");
+		procession.setDescription("");
+		procession.setMoment(new Date());
+		procession.setBrotherhood(this.brotherhoodService.create());
+		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
+
+		return procession;
+	}
+
 	public Procession save(final Procession procession) {
 		Assert.isTrue(procession != null);
 		return this.processionRepository.save(procession);
 	}
 
-	public Iterable<Procession> save(final Iterable<Procession> processions) {
-		Assert.isTrue(processions != null);
-		return this.processionRepository.save(processions);
-	}
-
 	public void delete(final Procession procession) {
 		Assert.isTrue(procession != null);
+
 		this.processionRepository.delete(procession);
 	}
 
 	public void delete(final Iterable<Procession> processions) {
 		Assert.isTrue(processions != null);
+
 		this.processionRepository.delete(processions);
 	}
 

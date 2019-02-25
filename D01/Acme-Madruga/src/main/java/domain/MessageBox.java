@@ -30,6 +30,7 @@ public class MessageBox extends DomainEntity {
 	// Fields -----------------------------------------------------------------
 
 	private String				name;
+	private Boolean				isSystem;
 
 	// Relationships ----------------------------------------------------------
 
@@ -48,10 +49,19 @@ public class MessageBox extends DomainEntity {
 		this.name = name;
 	}
 
+	@NotNull
+	public Boolean getIsSystem() {
+		return this.isSystem;
+	}
+
+	public void setIsSystem(final Boolean isSystem) {
+		this.isSystem = isSystem;
+	}
+
 	// Relationship access methods --------------------------------------------
 
-	@NotNull
 	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Actor getActor() {
 		return this.actor;
@@ -61,8 +71,8 @@ public class MessageBox extends DomainEntity {
 		this.actor = actor;
 	}
 
-	@NotNull
 	@Valid
+	@NotNull
 	@ManyToMany(mappedBy = "messageBoxes")
 	public Collection<Message> getMessages() {
 		return this.messages;

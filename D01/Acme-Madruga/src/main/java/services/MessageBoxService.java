@@ -23,12 +23,9 @@ public class MessageBoxService {
 	@Autowired
 	private MessageBoxRepository	messageBoxRepository;
 
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private ActorService			actorService;
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -41,10 +38,10 @@ public class MessageBoxService {
 	// CRUD methods
 
 	public MessageBox create() {
-		final MessageBox mb = new MessageBox();
-		mb.setActor(this.actorService.findPrincipal());
-		mb.setName("");
-		mb.setMessages(new ArrayList<Message>());
+		final MessageBox messageBoxg = new MessageBox();
+		messageBox.setActor(this.actorService.findPrincipal());
+		messageBox.setName("");
+		messageBox.setMessages(new ArrayList<Message>());
 		return mb;
 	}
 
@@ -80,32 +77,42 @@ public class MessageBoxService {
 	// Ancillary methods
 
 	public List<MessageBox> createSystemBoxes() {
-		final List<MessageBox> mbls = new ArrayList<>();
+		final List<MessageBox> messageBoxes = new ArrayList<>();
 		final MessageBox inBox = new MessageBox();
 		inBox.setName("InBox");
 		inBox.setMessages(new ArrayList<Message>());
+		inBox.setIsSystem(true);
 		//inBox.setActor(this.actorService.findPrincipal());
-		mbls.add(inBox);
+		messageBoxes.add(inBox);
 
 		final MessageBox outBox = new MessageBox();
 		outBox.setName("OutBox");
 		outBox.setMessages(new ArrayList<Message>());
+		outBox.setIsSystem(true);
 		//outBox.setActor(this.actorService.findPrincipal());
-		mbls.add(outBox);
+		messageBoxes.add(outBox);
 
 		final MessageBox trashBox = new MessageBox();
-		trashBox.setName("SpamBox");
+		trashBox.setName("TrashBox");
 		trashBox.setMessages(new ArrayList<Message>());
+		trashBox.setIsSystem(true);
 		//trashBox.setActor(this.actorService.findPrincipal());
-		mbls.add(trashBox);
+		messageBoxes.add(trashBox);
 
 		final MessageBox spamBox = new MessageBox();
-		spamBox.setName("TrashBox");
+		spamBox.setName("SpamBox");
 		spamBox.setMessages(new ArrayList<Message>());
+		spamBox.setIsSystem(true);
 		//spamBox.setActor(this.actorService.findPrincipal());
-		mbls.add(spamBox);
+		messageBoxes.add(spamBox);
 
-		return mbls;
+		final MessageBox notifications = new MessageBox();
+		notifications.setName("Notifications");
+		notifications.setMessages(new ArrayList<Message>());
+		notifications.setIsSystem(true);
+		//notifications.setActor(this.actorService.findPrincipal());
+		messageBoxes.add(notifications);
+
+		return messageBoxes;
 	}
-
 }
