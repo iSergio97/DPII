@@ -51,7 +51,7 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
-	//TODO: Falta aÒadir vista /edit para probar mÈtodo save
+	//TODO: Falta a√±adir vista /edit para probar m√©todo save
 	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
@@ -67,7 +67,7 @@ public class EnrolmentController extends AbstractController {
 				for (final Enrolment e : enrolments)
 					bhs.add(e.getBrotherhood());
 
-				result = new ModelAndView("enrolment/edit.do");
+				result = new ModelAndView("enrolment/edit");
 				result.addObject("brotherhood", bhs);
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
@@ -85,7 +85,7 @@ public class EnrolmentController extends AbstractController {
 		for (final Enrolment e : enrolments)
 			bhs.add(e.getBrotherhood());
 
-		result = new ModelAndView("enrolment/list.do");
+		result = new ModelAndView("enrolment/list");
 		result.addObject("brotherhood", bhs);
 
 		return result;
@@ -103,7 +103,7 @@ public class EnrolmentController extends AbstractController {
 		ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
 
-		//TODO: La solicitud se hace al cargo m·s pequeÒo y la hermanada decide si cambiarlo a otro o no
+		//TODO: La solicitud se hace al cargo m√°s peque√±o y la hermanada decide si cambiarlo a otro o no
 		brotherhoods = this.brotherhoodService.findAll();
 
 		result = new ModelAndView("enrolment/create");
