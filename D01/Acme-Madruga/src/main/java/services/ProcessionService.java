@@ -44,9 +44,6 @@ public class ProcessionService {
 
 	public Procession create() {
 		final Procession procession = new Procession();
-		procession.setTitle("");
-		procession.setDescription("");
-		procession.setMoment(new Date());
 		procession.setBrotherhood(this.brotherhoodService.create());
 		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
 
@@ -57,9 +54,10 @@ public class ProcessionService {
 		Assert.isTrue(procession != null);
 		if (procession.getTicker() == null || procession.getTicker().isEmpty())
 			procession.setTicker(TickerGenerator.generateTicker());
+		if (procession.getMoment() == null)
+			procession.setMoment(new Date());
 		return this.processionRepository.save(procession);
 	}
-
 	public void delete(final Procession procession) {
 		Assert.isTrue(procession != null);
 

@@ -141,7 +141,7 @@ public class ProcessionController extends AbstractController {
 
 		result = new ModelAndView("procession/edit");
 		result.addObject("brotherhood", brotherhood);
-		result.addObject("acmeFloat", acmeFloats);
+		result.addObject("acmeFloats", acmeFloats);
 
 		result.addObject("procession", procession);
 
