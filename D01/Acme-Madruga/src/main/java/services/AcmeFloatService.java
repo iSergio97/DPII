@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import repositories.AcmeFloatRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.AcmeFloat;
+import domain.Procession;
 
 @Service
 @Transactional
@@ -50,7 +52,7 @@ public class AcmeFloatService {
 		result.setBrotherhood(null);
 
 		return result;
-		}
+	}
 
 	public AcmeFloat save(final AcmeFloat acmeFloat) {
 		Assert.isTrue(acmeFloat != null);

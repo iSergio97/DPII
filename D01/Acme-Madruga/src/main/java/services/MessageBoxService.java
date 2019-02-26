@@ -23,6 +23,9 @@ public class MessageBoxService {
 	@Autowired
 	private MessageBoxRepository	messageBoxRepository;
 
+	@Autowired
+	private ActorService			actorService;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
@@ -38,11 +41,11 @@ public class MessageBoxService {
 	// CRUD methods
 
 	public MessageBox create() {
-		final MessageBox messageBoxg = new MessageBox();
+		final MessageBox messageBox = new MessageBox();
 		messageBox.setActor(this.actorService.findPrincipal());
 		messageBox.setName("");
 		messageBox.setMessages(new ArrayList<Message>());
-		return mb;
+		return messageBox;
 	}
 
 	public MessageBox save(final MessageBox messageBox) {

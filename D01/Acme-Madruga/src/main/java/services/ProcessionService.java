@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProcessionRepository;
+import utilities.TickerGenerator;
 import domain.AcmeFloat;
 import domain.Procession;
 
@@ -54,6 +55,8 @@ public class ProcessionService {
 
 	public Procession save(final Procession procession) {
 		Assert.isTrue(procession != null);
+		if (procession.getTicker() == null || procession.getTicker().isEmpty())
+			procession.setTicker(TickerGenerator.generateTicker());
 		return this.processionRepository.save(procession);
 	}
 
@@ -61,12 +64,6 @@ public class ProcessionService {
 		Assert.isTrue(procession != null);
 
 		this.processionRepository.delete(procession);
-	}
-
-	public void delete(final Iterable<Procession> processions) {
-		Assert.isTrue(processions != null);
-
-		this.processionRepository.delete(processions);
 	}
 
 	public Procession findOne(final int id) {
