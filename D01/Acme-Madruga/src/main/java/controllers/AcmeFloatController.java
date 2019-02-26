@@ -11,6 +11,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import services.AcmeFloatService;
 import services.BrotherhoodService;
 import domain.AcmeFloat;
 import domain.Brotherhood;
+import domain.Procession;
 
 @Controller
 @RequestMapping("/acmefloat")
@@ -62,6 +64,24 @@ public class AcmeFloatController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.POST)
+	public ModelAndView show(@RequestParam(value = "id") final int id, @RequestParam(value = "text") final String text) {
+		AcmeFloat acmeFloat;
+		final Brotherhood brotherhood;
+
+		acmeFloat = this.acmeFloatService.findOne(id);
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+
+		final List<String> pictures = acmeFloat.getPictures();
+		pictures.add(text);
+		acmeFloat.setPictures(pictures);
+
+		acmeFloat = this.acmeFloatService.save(acmeFloat);
+
+		return this.show(acmeFloat.getId());
+	}
+
 	// List -------------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/list", method = RequestMethod.GET)
@@ -85,9 +105,13 @@ public class AcmeFloatController extends AbstractController {
 	public ModelAndView create() {
 		final ModelAndView result;
 		final AcmeFloat acmeFloat;
+		final Brotherhood brotherhood;
 
 		acmeFloat = this.acmeFloatService.create();
+		brotherhood = this.brotherhoodService.findPrincipal();
+		acmeFloat.setBrotherhood(brotherhood);
 		result = new ModelAndView("acmefloat/create");
+		result.addObject("processions", brotherhood.getProcessions());
 		result.addObject("acmeFloat", acmeFloat);
 
 		return result;
@@ -96,13 +120,20 @@ public class AcmeFloatController extends AbstractController {
 	@RequestMapping(value = "/brotherhood/create", method = RequestMethod.POST)
 	public ModelAndView create(AcmeFloat acmeFloat, final BindingResult binding) {
 		final ModelAndView result;
+		Brotherhood brotherhood;
 
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+		for (final Procession procession : acmeFloat.getProcessions())
+			Assert.isTrue(procession.getBrotherhood().equals(brotherhood));
 		if (!binding.hasErrors()) {
+			acmeFloat.setBrotherhood(brotherhood);
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {
 			result = new ModelAndView("acmefloat/create");
 			result.addObject("acmeFloat", acmeFloat);
+			result.addObject("processions", brotherhood.getProcessions());
 			result.addObject("showError", binding);
 			result.addObject("erroresBinding", binding.getAllErrors());
 			for (int i = 0; i < binding.getAllErrors().size(); i++)
@@ -126,17 +157,20 @@ public class AcmeFloatController extends AbstractController {
 
 		result = new ModelAndView("acmefloat/edit");
 		result.addObject("acmeFloat", acmeFloat);
+		result.addObject("processions", this.brotherhoodService.findPrincipal().getProcessions());
 
 		return result;
 	}
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST)
-	public ModelAndView update(AcmeFloat acmeFloat, final BindingResult binding) {
+	public ModelAndView edit(AcmeFloat acmeFloat, final BindingResult binding) {
 		final ModelAndView result;
 		final Brotherhood brotherhood;
 
 		brotherhood = this.brotherhoodService.findPrincipal();
 		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+		for (final Procession procession : acmeFloat.getProcessions())
+			Assert.isTrue(procession.getBrotherhood().equals(brotherhood));
 
 		if (!binding.hasErrors()) {
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
@@ -144,6 +178,7 @@ public class AcmeFloatController extends AbstractController {
 		} else {
 			result = new ModelAndView("acmefloat/edit");
 			result.addObject("acmeFloat", acmeFloat);
+			result.addObject("processions", this.brotherhoodService.findPrincipal().getProcessions());
 			result.addObject("showError", binding);
 			result.addObject("erroresBinding", binding.getAllErrors());
 			for (int i = 0; i < binding.getAllErrors().size(); i++)
