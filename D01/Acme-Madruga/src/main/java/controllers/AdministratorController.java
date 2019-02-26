@@ -11,7 +11,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,14 +58,14 @@ public class AdministratorController extends AbstractController {
 
 	// Utility methods -------------------------------------------------------------
 
-	private static String collectionToString(final Collection<String> collection) {
+	private static String listToString(final List<String> list) {
 		String result = "";
-		for (final String string : collection)
+		for (final String string : list)
 			result = result + string + ",";
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static List<String> stringToCollection(final String string) {
+	private static List<String> stringToList(final String string) {
 		final List<String> result = new ArrayList<>();
 		for (final String s : string.split(","))
 			result.add(s);
@@ -76,15 +75,31 @@ public class AdministratorController extends AbstractController {
 	private static String mapToString(final Map<String, String> map) {
 		String result = "";
 		for (final Entry<String, String> entry : map.entrySet())
-			result = result + entry.getKey() + "," + entry.getValue() + ";";
+			result = result + entry.getKey() + ":" + entry.getValue() + ";";
 		return result.substring(0, result.length() - 1);
 	}
 
 	private static Map<String, String> stringToMap(final String string) {
 		final Map<String, String> result = new HashMap<>();
 		for (final String entry : string.split(";")) {
-			final String[] pair = entry.split(",");
+			final String[] pair = entry.split(":");
 			result.put(pair[0], pair[1]);
+		}
+		return result;
+	}
+
+	private static String listMapToString(final Map<String, List<String>> map) {
+		String result = "";
+		for (final Entry<String, List<String>> entry : map.entrySet())
+			result = result + entry.getKey() + ":" + AdministratorController.listToString(entry.getValue()) + ";";
+		return result.substring(0, result.length() - 1);
+	}
+
+	private static Map<String, List<String>> stringToListMap(final String string) {
+		final Map<String, List<String>> result = new HashMap<>();
+		for (final String entry : string.split(";")) {
+			final String[] pair = entry.split(":");
+			result.put(pair[0], AdministratorController.stringToList(pair[1]));
 		}
 		return result;
 	}
@@ -111,17 +126,17 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/systemconfiguration");
 		result.addObject("defaultCountryCode", systemConfiguration.getDefaultCountryCode());
-		result.addObject("positions", AdministratorController.collectionToString(systemConfiguration.getPositions()));
+		result.addObject("positions", AdministratorController.listToString(systemConfiguration.getPositions()));
 		result.addObject("systemName", systemConfiguration.getSystemName());
 		result.addObject("banner", systemConfiguration.getBanner());
 		result.addObject("welcomeMessage", systemConfiguration.getWelcomeMessage());
 		result.addObject("welcomeMessageEs", systemConfiguration.getWelcomeMessageEs());
 		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
 		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("additionalPriorities", AdministratorController.collectionToString(systemConfiguration.getAdditionalPriorities()));
-		result.addObject("positiveWords", AdministratorController.collectionToString(systemConfiguration.getPositiveWords()));
-		result.addObject("negativeWords", AdministratorController.collectionToString(systemConfiguration.getNegativeWords()));
-		result.addObject("spamWords", AdministratorController.collectionToString(systemConfiguration.getSpamWords()));
+		result.addObject("additionalPriorities", AdministratorController.listToString(systemConfiguration.getAdditionalPriorities()));
+		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords()));
+		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords()));
+		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords()));
 		return result;
 	}
 
@@ -135,17 +150,17 @@ public class AdministratorController extends AbstractController {
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
 		systemConfiguration.setDefaultCountryCode(defaultCountryCode);
-		systemConfiguration.setPositions(AdministratorController.stringToCollection(positions));
+		systemConfiguration.setPositions(AdministratorController.stringToList(positions));
 		systemConfiguration.setSystemName(systemName);
 		systemConfiguration.setBanner(banner);
 		systemConfiguration.setWelcomeMessage(welcomeMessage);
 		systemConfiguration.setWelcomeMessageEs(welcomeMessageEs);
 		systemConfiguration.setFinderDuration(finderDuration);
 		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setAdditionalPriorities(AdministratorController.stringToCollection(additionalPriorities));
-		systemConfiguration.setPositiveWords(AdministratorController.stringToCollection(positiveWords));
-		systemConfiguration.setNegativeWords(AdministratorController.stringToCollection(negativeWords));
-		systemConfiguration.setSpamWords(AdministratorController.stringToCollection(spamWords));
+		systemConfiguration.setAdditionalPriorities(AdministratorController.stringToList(additionalPriorities));
+		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords));
+		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords));
+		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords));
 		this.systemConfigurationService.save(systemConfiguration);
 
 		result = this.systemConfiguration();
