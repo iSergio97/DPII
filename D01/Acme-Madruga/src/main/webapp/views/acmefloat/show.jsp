@@ -9,8 +9,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<!-- TODO: SHOW SHOULD HAVE A FORM TO ADD PICTURES -->
-
 <p>
 	<spring:message code="show" />
 </p>
@@ -45,17 +43,24 @@
 
 <p>
 	<spring:message code="pictures" />
+	<jstl:set var="pictureIndex" value="${0}" />
 	<jstl:forEach items="${acmeFloat.pictures}" var="picture">
+		<jstl:set var="pictureIndex" value="${pictureIndex + 1}" />
 		<br>
 		<jstl:out value="${picture}" />
+		<form action="acmefloat/show.do" method="POST">
+			<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
+			<input type="hidden" name="pictureIndex" value="<jstl:out value='${pictureIndex}' />" />
+			<input type="submit" name="deletePicture" value="<spring:message code='deletePicture' />" />
+		</form>
 	</jstl:forEach>
 </p>
 
 <form action="acmefloat/show.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
 	<p>
-		<spring:message code="addpicture" />
-		<br><input type="text" name="addpicture" />
+		<spring:message code="addPicture" />
+		<br><input type="text" name="addPicture" />
 	</p>
-	<input type="submit" name="addpicture" value="<spring:message code='save' />" />
+	<input type="submit" name="addPicture" value="<spring:message code='addPicture' />" />
 </form>

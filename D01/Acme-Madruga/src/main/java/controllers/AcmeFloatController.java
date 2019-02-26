@@ -64,7 +64,7 @@ public class AcmeFloatController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.POST)
+	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.POST, params = "addPicture")
 	public ModelAndView show(@RequestParam(value = "id") final int id, @RequestParam(value = "text") final String text) {
 		AcmeFloat acmeFloat;
 		final Brotherhood brotherhood;
@@ -75,6 +75,24 @@ public class AcmeFloatController extends AbstractController {
 
 		final List<String> pictures = acmeFloat.getPictures();
 		pictures.add(text);
+		acmeFloat.setPictures(pictures);
+
+		acmeFloat = this.acmeFloatService.save(acmeFloat);
+
+		return this.show(acmeFloat.getId());
+	}
+
+	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.POST, params = "deletePicture")
+	public ModelAndView show(@RequestParam(value = "id") final int id, @RequestParam(value = "pictureIndex") final int pictureIndex) {
+		AcmeFloat acmeFloat;
+		final Brotherhood brotherhood;
+
+		acmeFloat = this.acmeFloatService.findOne(id);
+		brotherhood = this.brotherhoodService.findPrincipal();
+		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+
+		final List<String> pictures = acmeFloat.getPictures();
+		pictures.remove(pictureIndex);
 		acmeFloat.setPictures(pictures);
 
 		acmeFloat = this.acmeFloatService.save(acmeFloat);
