@@ -12,7 +12,10 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -56,17 +59,33 @@ public class AdministratorController extends AbstractController {
 
 	// Utility methods -------------------------------------------------------------
 
-	private static String join(final Collection<String> strings) {
+	private static String collectionToString(final Collection<String> collection) {
 		String result = "";
-		for (final String string : strings)
+		for (final String string : collection)
 			result = result + string + ",";
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static List<String> breakUp(final String string) {
+	private static List<String> stringToCollection(final String string) {
 		final List<String> result = new ArrayList<>();
 		for (final String s : string.split(","))
 			result.add(s);
+		return result;
+	}
+
+	private static String mapToString(final Map<String, String> map) {
+		String result = "";
+		for (final Entry<String, String> entry : map.entrySet())
+			result = result + entry.getKey() + "," + entry.getValue() + ";";
+		return result.substring(0, result.length() - 1);
+	}
+
+	private static Map<String, String> stringToMap(final String string) {
+		final Map<String, String> result = new HashMap<>();
+		for (final String entry : string.split(";")) {
+			final String[] pair = entry.split(",");
+			result.put(pair[0], pair[1]);
+		}
 		return result;
 	}
 
@@ -92,17 +111,17 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/systemconfiguration");
 		result.addObject("defaultCountryCode", systemConfiguration.getDefaultCountryCode());
-		result.addObject("positions", AdministratorController.join(systemConfiguration.getPositions()));
+		result.addObject("positions", AdministratorController.collectionToString(systemConfiguration.getPositions()));
 		result.addObject("systemName", systemConfiguration.getSystemName());
 		result.addObject("banner", systemConfiguration.getBanner());
 		result.addObject("welcomeMessage", systemConfiguration.getWelcomeMessage());
 		result.addObject("welcomeMessageEs", systemConfiguration.getWelcomeMessageEs());
 		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
 		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("additionalPriorities", AdministratorController.join(systemConfiguration.getAdditionalPriorities()));
-		result.addObject("positiveWords", AdministratorController.join(systemConfiguration.getPositiveWords()));
-		result.addObject("negativeWords", AdministratorController.join(systemConfiguration.getNegativeWords()));
-		result.addObject("spamWords", AdministratorController.join(systemConfiguration.getSpamWords()));
+		result.addObject("additionalPriorities", AdministratorController.collectionToString(systemConfiguration.getAdditionalPriorities()));
+		result.addObject("positiveWords", AdministratorController.collectionToString(systemConfiguration.getPositiveWords()));
+		result.addObject("negativeWords", AdministratorController.collectionToString(systemConfiguration.getNegativeWords()));
+		result.addObject("spamWords", AdministratorController.collectionToString(systemConfiguration.getSpamWords()));
 		return result;
 	}
 
@@ -116,17 +135,17 @@ public class AdministratorController extends AbstractController {
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
 		systemConfiguration.setDefaultCountryCode(defaultCountryCode);
-		systemConfiguration.setPositions(AdministratorController.breakUp(positions));
+		systemConfiguration.setPositions(AdministratorController.stringToCollection(positions));
 		systemConfiguration.setSystemName(systemName);
 		systemConfiguration.setBanner(banner);
 		systemConfiguration.setWelcomeMessage(welcomeMessage);
 		systemConfiguration.setWelcomeMessageEs(welcomeMessageEs);
 		systemConfiguration.setFinderDuration(finderDuration);
 		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setAdditionalPriorities(AdministratorController.breakUp(additionalPriorities));
-		systemConfiguration.setPositiveWords(AdministratorController.breakUp(positiveWords));
-		systemConfiguration.setNegativeWords(AdministratorController.breakUp(negativeWords));
-		systemConfiguration.setSpamWords(AdministratorController.breakUp(spamWords));
+		systemConfiguration.setAdditionalPriorities(AdministratorController.stringToCollection(additionalPriorities));
+		systemConfiguration.setPositiveWords(AdministratorController.stringToCollection(positiveWords));
+		systemConfiguration.setNegativeWords(AdministratorController.stringToCollection(negativeWords));
+		systemConfiguration.setSpamWords(AdministratorController.stringToCollection(spamWords));
 		this.systemConfigurationService.save(systemConfiguration);
 
 		result = this.systemConfiguration();
