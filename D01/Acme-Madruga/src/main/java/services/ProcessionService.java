@@ -2,8 +2,11 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProcessionRepository;
-import utilities.TickerGenerator;
 import domain.AcmeFloat;
 import domain.Procession;
 
@@ -25,12 +27,19 @@ public class ProcessionService {
 	@Autowired
 	private ProcessionRepository	processionRepository;
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
+
 	@Autowired
 	private BrotherhoodService		brotherhoodService;
 
-
 	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
+	// Ticker generation fields
+
+	private static final String		TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final int		TICKER_LENGTH	= 5;
+	private final Random			random			= new Random();
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -52,12 +61,26 @@ public class ProcessionService {
 
 	public Procession save(final Procession procession) {
 		Assert.isTrue(procession != null);
-		if (procession.getTicker() == null || procession.getTicker().isEmpty())
-			procession.setTicker(TickerGenerator.generateTicker());
+		if (procession.getTicker() == null || procession.getTicker().isEmpty()) {
+			final Calendar calendar = new GregorianCalendar();
+			String dateString = "";
+			dateString += String.format("%02d", calendar.get(Calendar.YEAR) % 100);
+			dateString += String.format("%02d", calendar.get(Calendar.MONTH) + 1);
+			dateString += String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
+			dateString += "-";
+			String ticker;
+			do {
+				ticker = dateString;
+				for (int i = 0; i < ProcessionService.TICKER_LENGTH; ++i)
+					ticker += ProcessionService.TICKER_ALPHABET.charAt(this.random.nextInt(ProcessionService.TICKER_ALPHABET.length()));
+			} while (this.processionRepository.findByTicker(ticker).size() > 0);
+			procession.setTicker(ticker);
+		}
 		if (procession.getMoment() == null)
 			procession.setMoment(new Date());
 		return this.processionRepository.save(procession);
 	}
+
 	public void delete(final Procession procession) {
 		Assert.isTrue(procession != null);
 
