@@ -790,6 +790,7 @@
 				<ref bean="procession1" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood1" />
 	</bean>
 
 	<bean id="acmeFloat2" class="domain.AcmeFloat">
@@ -804,6 +805,7 @@
 				<ref bean="procession2" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood2" />
 	</bean>
 
 	<bean id="acmeFloat3" class="domain.AcmeFloat">
@@ -819,6 +821,7 @@
 				<ref bean="procession4" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood3" />
 	</bean>
 
 	<bean id="acmeFloat4" class="domain.AcmeFloat">
@@ -832,6 +835,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood4" />
 	</bean>
 
 	<bean id="acmeFloat5" class="domain.AcmeFloat">
@@ -847,6 +851,7 @@
 				<ref bean="procession5" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood1" />
 	</bean>
 
 	<bean id="acmeFloat6" class="domain.AcmeFloat">
@@ -860,6 +865,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood4" />
 	</bean>
 
 
