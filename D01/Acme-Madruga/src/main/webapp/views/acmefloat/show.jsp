@@ -10,10 +10,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <p>
-	<spring:message code="show" />
-</p>
-
-<p>
 	<spring:message code="title" />
 	<br>
 	<jstl:out value="${acmeFloat.title}" />
@@ -45,22 +41,27 @@
 	<spring:message code="pictures" />
 	<jstl:set var="pictureIndex" value="${0}" />
 	<jstl:forEach items="${acmeFloat.pictures}" var="picture">
-		<jstl:set var="pictureIndex" value="${pictureIndex + 1}" />
 		<br>
 		<jstl:out value="${picture}" />
-		<form action="acmefloat/show.do" method="POST">
+		<form action="acmefloat/brotherhood/show.do" method="POST">
 			<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
 			<input type="hidden" name="pictureIndex" value="<jstl:out value='${pictureIndex}' />" />
 			<input type="submit" name="deletePicture" value="<spring:message code='deletePicture' />" />
 		</form>
+		<jstl:set var="pictureIndex" value="${pictureIndex + 1}" />
 	</jstl:forEach>
 </p>
 
-<form action="acmefloat/show.do" method="POST">
+<form action="acmefloat/brotherhood/show.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
 	<p>
 		<spring:message code="addPicture" />
-		<br><input type="text" name="addPicture" />
+		<br><input type="text" name="picture" />
 	</p>
 	<input type="submit" name="addPicture" value="<spring:message code='addPicture' />" />
+</form>
+
+<form action="acmefloat/brotherhood/delete.do" method="POST">
+	<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
+	<input type="submit" name="delete" value="<spring:message code='delete' />" />
 </form>
