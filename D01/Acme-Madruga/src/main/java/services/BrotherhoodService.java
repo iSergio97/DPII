@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,7 @@ public class BrotherhoodService {
 	}
 	public Brotherhood save(final Brotherhood brotherhood) {
 		Assert.isTrue(brotherhood != null);
+		brotherhood.setEstablishmentDate(new Date());
 		return this.brotherhoodRepository.save(brotherhood);
 	}
 

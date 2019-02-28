@@ -1,5 +1,7 @@
+
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MemberRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountRepository;
 import domain.Member;
+import domain.Message;
+import domain.SocialProfile;
 
 @Service
 @Transactional
@@ -22,9 +28,15 @@ public class MemberService {
 	@Autowired
 	private MemberRepository		memberRepository;
 
+	@Autowired
+	private UserAccountRepository	userAccountRepository;
+
+	@Autowired
+	private MessageBoxService		messageBoxService;
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -35,6 +47,36 @@ public class MemberService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	public Member create() {
+		UserAccount userAccount = new UserAccount();
+		final List<Authority> authorities = new ArrayList<>();
+		Authority authority;
+		authority = new Authority();
+		authority.setAuthority(Authority.MEMBER);
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+		userAccount = this.userAccountRepository.save(userAccount);
+
+		final Member member = new Member();
+		member.setUserAccount(userAccount);
+		member.setName("");
+		member.setMiddleName("");
+		member.setSurname("");
+		member.setPhoto("");
+		member.setEmail("");
+		member.setPhoneNumber("");
+		member.setAddress("");
+		member.setIsSuspicious(false);
+		member.setPolarityScore(null);
+		member.setIsBanned(false);
+		member.setSocialProfiles(new ArrayList<SocialProfile>());
+		member.setMessagesSent(new ArrayList<Message>());
+		member.setMessagesReceived(new ArrayList<Message>());
+		member.setMessageBoxes(this.messageBoxService.createSystemBoxes());
+
+		return member;
+	}
 
 	public Member save(final Member member) {
 		Assert.isTrue(member != null);

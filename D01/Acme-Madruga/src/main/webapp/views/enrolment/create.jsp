@@ -14,7 +14,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="enrolment" method="POST" action="enrolment/list.do">
+<form:form modelAttribute="enrolment" method="POST" action="enrolment/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />

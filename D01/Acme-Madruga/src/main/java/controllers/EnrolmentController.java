@@ -92,8 +92,6 @@ public class EnrolmentController extends AbstractController {
 	}
 
 	// Save -------------------------------------------------------------------
-
-	//TODO: Falta añadir vista /edit para probar método save
 	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
@@ -109,8 +107,7 @@ public class EnrolmentController extends AbstractController {
 				for (final Enrolment e : enrolments)
 					bhs.add(e.getBrotherhood());
 
-				result = new ModelAndView("enrolment/edit");
-				result.addObject("brotherhood", bhs);
+				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
@@ -118,21 +115,21 @@ public class EnrolmentController extends AbstractController {
 	}
 
 	// Delete -----------------------------------------------------------------
-
-	@RequestMapping(value = "/edit", params = "delete", method = RequestMethod.POST)
-	public ModelAndView delete(final Enrolment enrolment, final BindingResult bindingResult) {
-		ModelAndView result;
-
-		try {
-			this.enrolmentService.delete(enrolment);
-
-			result = new ModelAndView("enrolment/edit");
-		} catch (final Throwable oops) {
-			result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
-		}
-		return result;
-	}
-
+	/*
+	 * @RequestMapping(value = "/edit", params = "delete", method = RequestMethod.POST)
+	 * public ModelAndView delete(final Enrolment enrolment, final BindingResult bindingResult) {
+	 * ModelAndView result;
+	 * 
+	 * try {
+	 * this.enrolmentService.delete(enrolment);
+	 * 
+	 * result = new ModelAndView("enrolment/edit");
+	 * } catch (final Throwable oops) {
+	 * result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
+	 * }
+	 * return result;
+	 * }
+	 */
 	// Ancillary Methods ------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Enrolment enrolment) {
