@@ -111,7 +111,7 @@ public class MemberService {
 
 	public Member findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findOne(userAccount.getId());
+		return this.findByUserAccountId(userAccount.getId());
 	}
 
 	public Member findByUserAccountId(final int id) {

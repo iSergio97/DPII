@@ -116,7 +116,7 @@ public class BrotherhoodService {
 
 	public Brotherhood findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findOne(userAccount.getId());
+		return this.findByUserAccountId(userAccount.getId());
 	}
 
 }
