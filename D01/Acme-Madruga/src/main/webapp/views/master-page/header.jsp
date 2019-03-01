@@ -20,25 +20,6 @@
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
-				</ul>
-			</li>
-		</security:authorize>
-		
-		<security:authorize access="hasRole('MEMBER')">
-			<li><a class="fNiv"><spring:message	code="master.page.member" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
-					<li><a href="enrolment/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>					
-				</ul>
-			</li>
-		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
@@ -61,6 +42,37 @@
 				</ul>
 			</li>
 		</security:authorize>
+		
+		<security:authorize access="hasRole('ADMIN')">
+			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
+					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('MEMBER')">
+			<li><a class="fNiv"><spring:message	code="master.page.member" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
+					<li><a href="enrolment/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('BROTHERHOOD')">
+			<li><a class="fNiv"><spring:message	code="master.page.brotherhood.processions" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="procession/create.do"><spring:message code="master.page.brotherhood.procession.create" /></a></li>
+					<li><a href="procession/list.do"><spring:message code="master.page.brotherhood.procession.list" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+	
 	</ul>
 </div>
 
