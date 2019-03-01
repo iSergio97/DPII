@@ -37,7 +37,7 @@
 					<li class="arrow"></li>
 					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
 					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
+					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
@@ -47,8 +47,9 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
+					<li><a href="administrator/systemconfiguration.do"><spring:message code="master.page.administrator.systemconfiguration" /></a></li>
+					<li><a href="administrator/viewpositions.do"><spring:message code="master.page.administrator.viewpositions" /></a></li>
+					<li><a href="administrator/viewpriorities.do"><spring:message code="master.page.administrator.viewpriorities" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -58,7 +59,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="enrolment/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
-					<li><a href="enrolment/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>					
+					<li><a href="enrolment/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -68,7 +69,8 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="procession/create.do"><spring:message code="master.page.brotherhood.procession.create" /></a></li>
-					<li><a href="procession/list.do"><spring:message code="master.page.brotherhood.procession.list" /></a></li>					
+					<li><a href="procession/list.do"><spring:message code="master.page.brotherhood.procession.list" /></a></li>
+					<li><a href="acmefloat/brotherhood/list.do"><spring:message code="master.page.brotherhood.acmefloat.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
