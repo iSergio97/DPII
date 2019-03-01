@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+
 import repositories.BrotherhoodRepository;
 import security.Authority;
 import security.LoginService;
@@ -43,7 +42,7 @@ public class BrotherhoodService {
 	private MessageBoxService		messageBoxService;
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -130,14 +129,14 @@ public class BrotherhoodService {
 		return this.findByUserAccountId(userAccount.getId());
 	}
 
-	public Brotherhood reconstruct(Brotherhood brotherhood, BindingResult bindingResult) {
+	public Brotherhood reconstruct(final Brotherhood brotherhood, final BindingResult bindingResult) {
 
 		Brotherhood result;
 
-		if (brotherhood.getId() == 0) {
+		if (brotherhood.getId() == 0)
 			result = brotherhood;
-		} else {
-			result = brotherhoodRepository.findOne(brotherhood.getId());
+		else {
+			result = this.brotherhoodRepository.findOne(brotherhood.getId());
 			result.setName(brotherhood.getName());
 			result.setMiddleName(brotherhood.getMiddleName());
 			result.setSurname(brotherhood.getSurname());
@@ -146,7 +145,7 @@ public class BrotherhoodService {
 			result.setPhoneNumber(brotherhood.getPhoneNumber());
 			result.setAddress(brotherhood.getAddress());
 
-			validator.validate(result, bindingResult);
+			this.validator.validate(result, bindingResult);
 		}
 		return result;
 	}

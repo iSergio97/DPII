@@ -8,25 +8,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.UserAccount;
+import security.UserAccountRepository;
 import services.BrotherhoodService;
 import services.MemberService;
 import services.MessageBoxService;
 import domain.Brotherhood;
 import domain.Member;
 import domain.MessageBox;
+import forms.MemberForm;
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController extends AbstractController {
 
 	@Autowired
-	private MemberService		memberService;
+	private MemberService			memberService;
 
 	@Autowired
-	private BrotherhoodService	brotherhoodService;
+	private BrotherhoodService		brotherhoodService;
 
 	@Autowired
-	private MessageBoxService	messageBoxService;
+	private MessageBoxService		messageBoxService;
+
+	@Autowired
+	private UserAccountRepository	userAccountRepository;
 
 
 	public RegisterController() {
@@ -48,25 +54,29 @@ public class RegisterController extends AbstractController {
 
 	//Save --------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Member member, final BindingResult bindingResult) {
+	public ModelAndView save(final MemberForm member, final BindingResult bindingResult) {
 		ModelAndView result;
+		final Member member2;
 
-		member = this.memberService.reconstruct(member, bindingResult);
+		member2 = this.memberService.reconstruct(member, bindingResult);
 		if (bindingResult.hasErrors())
-			result = this.createEditModelAndView(member);
+			result = this.createEditModelAndView(member2);
 		else
 			try {
 				if (member.getId() == 0) {
-					this.memberService.save(member);
-					for (final MessageBox mb : member.getMessageBoxes()) {
-						mb.setActor(member);
+					final UserAccount ua = member2.getUserAccount();
+					this.userAccountRepository.save(ua);
+					member2.setUserAccount(ua);
+					this.memberService.save(member2);
+					for (final MessageBox mb : member2.getMessageBoxes()) {
+						mb.setActor(member2);
 						this.messageBoxService.save(mb);
 					}
 				} else
-					this.memberService.save(member);
+					this.memberService.save(member2);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
-				result = this.createAndEditModelAndView(member, "register.member.error");
+				result = this.createAndEditModelAndView(member2, "register.member.error");
 			}
 
 		return result;
