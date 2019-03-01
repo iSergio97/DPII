@@ -22,6 +22,7 @@
 		<value>/views/enrolment/tiles.xml</value>
 		<value>/views/profile/tiles.xml</value>
 		<value>/views/procession/tiles.xml</value>
+		<value>/views/register/tiles.xml</value>
 	</util:list>
 
 </beans>

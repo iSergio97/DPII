@@ -28,6 +28,7 @@
 		<value>/views/enrolment/messages</value>
 		<value>/views/profile/messages</value>
 		<value>/views/procession/messages</value>
+		<value>/views/register/messages</value>
 	</util:list>
 
 </beans>

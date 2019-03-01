@@ -48,6 +48,8 @@
 		<security:intercept-url pattern="/procession/**" access="hasRole('BROTHERHOOD')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
+		<security:intercept-url pattern="/register/member/create.do" access="hasRole('NONE')" />
+		<security:intercept-url pattern="/register/brotherhood/create.do" access="hasRole('NONE')" />
 
 		<security:form-login 
 			login-page="/security/login.do"

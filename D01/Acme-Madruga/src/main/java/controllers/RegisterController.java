@@ -113,9 +113,10 @@ public class RegisterController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final Member member, final String message) {
 		ModelAndView result;
-
+		final String s = "member";
 		result = new ModelAndView("register/member/create");
-
+		result.addObject("member", member);
+		result.addObject("requestURI", s);
 		return result;
 	}
 
@@ -131,8 +132,11 @@ public class RegisterController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final Brotherhood brotherhood, final String message) {
 		ModelAndView result;
+		final String s = "brotherhood";
 
 		result = new ModelAndView("register/brotherhood/create");
+		result.addObject("brotherhood", brotherhood);
+		result.addObject("brotherhood", s);
 
 		return result;
 	}

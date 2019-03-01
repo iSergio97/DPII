@@ -27,7 +27,7 @@ public class Brotherhood extends Actor {
 
 	private String					title;
 	private Date					establishmentDate;
-	private List<String>			pictures;
+	private Collection<String>		pictures;
 
 	// Relationships ----------------------------------------------------------
 
@@ -61,11 +61,11 @@ public class Brotherhood extends Actor {
 
 	@NotNull
 	@ElementCollection
-	public List<String> getPictures() {
+	public Collection<String> getPictures() {
 		return this.pictures;
 	}
 
-	public void setPictures(final List<String> pictures) {
+	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
 

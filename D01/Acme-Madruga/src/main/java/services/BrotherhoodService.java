@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -75,12 +76,16 @@ public class BrotherhoodService {
 		brotherhood.setMessagesSent(new ArrayList<Message>());
 		brotherhood.setMessagesReceived(new ArrayList<Message>());
 		brotherhood.setMessageBoxes(this.messageBoxService.createSystemBoxes());
+		brotherhood.setPictures(new ArrayList<String>());
 
 		return brotherhood;
 	}
 	public Brotherhood save(final Brotherhood brotherhood) {
 		Assert.isTrue(brotherhood != null);
 		brotherhood.setEstablishmentDate(new Date());
+		final String pass = brotherhood.getUserAccount().getPassword();
+		final String hashed = new Md5PasswordEncoder().encodePassword(pass, null);
+		brotherhood.getUserAccount().setPassword(hashed);
 		return this.brotherhoodRepository.save(brotherhood);
 	}
 
