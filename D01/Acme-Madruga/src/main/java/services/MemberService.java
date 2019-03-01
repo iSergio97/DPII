@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import repositories.MemberRepository;
 import security.Authority;
 import security.LoginService;
@@ -34,6 +36,9 @@ public class MemberService {
 
 	@Autowired
 	private MessageBoxService		messageBoxService;
+
+	@Autowired
+	private Validator validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -122,4 +127,28 @@ public class MemberService {
 		return this.memberRepository.findByUserAccountId(id);
 	}
 
+
+
+	//Reconstruct method
+
+	public Member reconstruct(Member member, BindingResult bindingResult) {
+
+		Member result;
+
+		if (member.getId() == 0) {
+			result = member;
+		} else {
+			result = memberRepository.findOne(member.getId());
+			result.setName(member.getName());
+			result.setMiddleName(member.getMiddleName());
+			result.setSurname(member.getSurname());
+			result.setPhoto(member.getPhoto());
+			result.setEmail(member.getEmail());
+			result.setPhoneNumber(member.getPhoneNumber());
+			result.setAddress(member.getAddress());
+
+			validator.validate(result, bindingResult);
+		}
+		return result;
+	}
 }

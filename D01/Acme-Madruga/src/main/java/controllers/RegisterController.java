@@ -48,17 +48,22 @@ public class RegisterController extends AbstractController {
 
 	//Save --------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Member member, final BindingResult bindingResult) {
+	public ModelAndView save(Member member, final BindingResult bindingResult) {
 		ModelAndView result;
+
+		member = this.memberService.reconstruct(member, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(member);
 		else
 			try {
-				this.memberService.save(member);
-				for (final MessageBox mb : member.getMessageBoxes()) {
-					mb.setActor(member);
-					this.messageBoxService.save(mb);
-				}
+				if (member.getId() == 0) {
+					this.memberService.save(member);
+					for (final MessageBox mb : member.getMessageBoxes()) {
+						mb.setActor(member);
+						this.messageBoxService.save(mb);
+					}
+				} else
+					this.memberService.save(member);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(member, "register.member.error");
@@ -82,17 +87,22 @@ public class RegisterController extends AbstractController {
 
 	//Save --------------------------------------------------------------------
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Brotherhood brotherhood, final BindingResult bindingResult) {
+	public ModelAndView save(Brotherhood brotherhood, final BindingResult bindingResult) {
 		ModelAndView result;
+
+		brotherhood = this.brotherhoodService.reconstruct(brotherhood, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(brotherhood);
 		else
 			try {
-				this.brotherhoodService.save(brotherhood);
-				for (final MessageBox mb : brotherhood.getMessageBoxes()) {
-					mb.setActor(brotherhood);
-					this.messageBoxService.save(mb);
-				}
+				if (brotherhood.getId() == 0) {
+					this.brotherhoodService.save(brotherhood);
+					for (final MessageBox mb : brotherhood.getMessageBoxes()) {
+						mb.setActor(brotherhood);
+						this.messageBoxService.save(mb);
+					}
+				} else
+					this.brotherhoodService.save(brotherhood);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
