@@ -14,38 +14,10 @@
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="defaultCountryCode" value="+34" />
-		<property name="positions">
-			<list>
-				<value>President</value>
-				<value>Presidente</value>
-				<value>Vice President</value>
-				<value>Vicepresidente</value>
-				<value>Secretary</value>
-				<value>Secretario</value>
-				<value>Treasurer</value>
-				<value>Tesorero</value>
-				<value>Historian</value>
-				<value>Historiador</value>
-				<value>Fundraiser</value>
-				<value>Promotor</value>
-				<value>Officer</value>
-				<value>Vocal</value>
-				<value>Brother</value>
-				<value>Hermano</value>
-			</list>
-		</property>
 		<property name="systemName" value="Acme Madrugá" />
 		<property name="banner" value="https://tinyurl.com/acme-madruga" />
-		<property name="welcomeMessage"
-			value="Welcome to Acme Madrugá, the site to organise your processions." />
-		<property name="welcomeMessageEs"
-			value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
 		<property name="finderDuration" value="3600" />
 		<property name="maximumFinderResults" value="10" />
-		<property name="additionalPriorities">
-			<list>
-			</list>
-		</property>
 		<property name="positiveWords">
 			<list>
 				<value>good</value>
@@ -90,6 +62,115 @@
 				<value>un millón</value>
 				<value>ha sido seleccionado</value> 
 			</list>
+		</property>
+		<property name="welcomeMessages">
+			<map>
+				<entry key="en" value="Welcome to Acme Madrugá, the site to organise your processions." />
+				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Positions -->
+
+	<bean id="positionPresident" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="President" />
+				<entry key="es" value="Presidente" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionVicePresident" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Vice President" />
+				<entry key="es" value="Vicepresidente" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionSecretary" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Secretary" />
+				<entry key="es" value="Secretario" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionTreasurer" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Treasurer" />
+				<entry key="es" value="Tesorero" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionHistorian" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Historian" />
+				<entry key="es" value="Historiador" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionFundraiser" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Fundraiser" />
+				<entry key="es" value="Promotor" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionOfficer" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Officer" />
+				<entry key="es" value="Vocal" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionBrother" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Brother" />
+				<entry key="es" value="Hermano" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Priorities -->
+
+	<bean id="priotityHigh" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="HIGH" />
+				<entry key="es" value="ALTA" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="priotityNeutral" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="NEUTRAL" />
+				<entry key="es" value="NEUTRAL" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="priotityLow" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="LOW" />
+				<entry key="es" value="BAJA" />
+			</map>
 		</property>
 	</bean>
 

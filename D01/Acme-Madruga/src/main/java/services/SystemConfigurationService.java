@@ -44,8 +44,4 @@ public class SystemConfigurationService {
 		return this.systemConfigurationRepository.findAll().get(0);
 	}
 
-	public String getWelcomeMessage() {
-		return "master.page.message." + this.getSystemConfiguration().getWelcomeMessage();
-	}
-
 }

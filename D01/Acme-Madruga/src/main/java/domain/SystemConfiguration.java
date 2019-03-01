@@ -2,11 +2,13 @@
 package domain;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.MapKeyClass;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,18 +19,15 @@ public class SystemConfiguration extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String			defaultCountryCode;
-	private List<String>	positions;
-	private String			systemName;
-	private String			banner;
-	private String			welcomeMessage;
-	private String			welcomeMessageEs;
-	private int				finderDuration;
-	private int				maximumFinderResults;
-	private List<String>	additionalPriorities;
-	private List<String>	positiveWords;
-	private List<String>	negativeWords;
-	private List<String>	spamWords;
+	private String				defaultCountryCode;
+	private String				systemName;
+	private String				banner;
+	private int					finderDuration;
+	private int					maximumFinderResults;
+	private List<String>		positiveWords;
+	private List<String>		negativeWords;
+	private List<String>		spamWords;
+	private Map<String, String>	welcomeMessages;
 
 
 	// Field access methods ---------------------------------------------------
@@ -39,16 +38,6 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setDefaultCountryCode(final String defaultCountryCode) {
 		this.defaultCountryCode = defaultCountryCode;
-	}
-
-	@NotNull
-	@ElementCollection
-	public List<String> getPositions() {
-		return this.positions;
-	}
-
-	public void setPositions(final List<String> positions) {
-		this.positions = positions;
 	}
 
 	public String getSystemName() {
@@ -65,22 +54,6 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setBanner(final String banner) {
 		this.banner = banner;
-	}
-
-	public String getWelcomeMessage() {
-		return this.welcomeMessage;
-	}
-
-	public void setWelcomeMessage(final String welcomeMessage) {
-		this.welcomeMessage = welcomeMessage;
-	}
-
-	public String getWelcomeMessageEs() {
-		return this.welcomeMessageEs;
-	}
-
-	public void setWelcomeMessageEs(final String welcomeMessageEs) {
-		this.welcomeMessageEs = welcomeMessageEs;
 	}
 
 	@Min(value = 3600)
@@ -101,16 +74,6 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setMaximumFinderResults(final int maximumFinderResults) {
 		this.maximumFinderResults = maximumFinderResults;
-	}
-
-	@NotNull
-	@ElementCollection
-	public List<String> getAdditionalPriorities() {
-		return this.additionalPriorities;
-	}
-
-	public void setAdditionalPriorities(final List<String> additionalPriorities) {
-		this.additionalPriorities = additionalPriorities;
 	}
 
 	@NotNull
@@ -141,6 +104,17 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setSpamWords(final List<String> spamWords) {
 		this.spamWords = spamWords;
+	}
+
+	@NotNull
+	@ElementCollection(targetClass = String.class)
+	@MapKeyClass(String.class)
+	public Map<String, String> getWelcomeMessages() {
+		return this.welcomeMessages;
+	}
+
+	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
+		this.welcomeMessages = welcomeMessages;
 	}
 
 }

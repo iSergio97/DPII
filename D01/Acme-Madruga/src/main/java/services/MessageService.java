@@ -45,7 +45,7 @@ public class MessageService {
 		final Message message = new Message();
 		message.setBody("");
 		message.setDate(new Date());
-		message.setPriority("");
+		message.setPriority(null);
 		message.setTags(new ArrayList<String>());
 		message.setSender(this.actorService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		message.setSubject("");

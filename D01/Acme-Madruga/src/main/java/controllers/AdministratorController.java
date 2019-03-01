@@ -29,28 +29,36 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
 import services.MessageBoxService;
+import services.PositionService;
+import services.PriorityService;
 import services.SystemConfigurationService;
 import domain.Administrator;
 import domain.MessageBox;
+import domain.Position;
+import domain.Priority;
 import domain.SystemConfiguration;
 
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController extends AbstractController {
 
-	// Services ---------------------------------------------------------------
+	// Services --------------------------------------------------------------------
 
 	@Autowired
 	private AdministratorService		administratorService;
 	@Autowired
 	private MessageBoxService			messageBoxService;
 	@Autowired
+	private PositionService				positionService;
+	@Autowired
+	private PriorityService				priorityService;
+	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 	@Autowired
 	private UserAccountRepository		userAccountRepository;
 
 
-	// Constructors -----------------------------------------------------------
+	// Constructors ----------------------------------------------------------------
 
 	public AdministratorController() {
 		super();
@@ -88,23 +96,7 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	private static String listMapToString(final Map<String, List<String>> map) {
-		String result = "";
-		for (final Entry<String, List<String>> entry : map.entrySet())
-			result = result + entry.getKey() + ":" + AdministratorController.listToString(entry.getValue()) + ";";
-		return result.substring(0, result.length() - 1);
-	}
-
-	private static Map<String, List<String>> stringToListMap(final String string) {
-		final Map<String, List<String>> result = new HashMap<>();
-		for (final String entry : string.split(";")) {
-			final String[] pair = entry.split(":");
-			result.put(pair[0], AdministratorController.stringToList(pair[1]));
-		}
-		return result;
-	}
-
-	// System configuration --------------------------------------------------------	
+	// System configuration --------------------------------------------------------
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard() {
@@ -126,46 +118,91 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/systemconfiguration");
 		result.addObject("defaultCountryCode", systemConfiguration.getDefaultCountryCode());
-		result.addObject("positions", AdministratorController.listToString(systemConfiguration.getPositions()));
 		result.addObject("systemName", systemConfiguration.getSystemName());
 		result.addObject("banner", systemConfiguration.getBanner());
-		result.addObject("welcomeMessage", systemConfiguration.getWelcomeMessage());
-		result.addObject("welcomeMessageEs", systemConfiguration.getWelcomeMessageEs());
 		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
 		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("additionalPriorities", AdministratorController.listToString(systemConfiguration.getAdditionalPriorities()));
 		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords()));
 		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords()));
 		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords()));
+		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages()));
 		return result;
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
 	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "positions") final String positions, @RequestParam(value = "systemName") final String systemName, @RequestParam(
-		value = "banner") final String banner, @RequestParam(value = "welcomeMessage") final String welcomeMessage, @RequestParam(value = "welcomeMessageEs") final String welcomeMessageEs, @RequestParam(value = "finderDuration") final int finderDuration,
-		@RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "additionalPriorities") final String additionalPriorities, @RequestParam(value = "positiveWords") final String positiveWords, @RequestParam(
-			value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords) {
-		final ModelAndView result;
+		value = "banner") final String banner, @RequestParam(value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults,
+		@RequestParam(value = "additionalPriorities") final String additionalPriorities, @RequestParam(value = "positiveWords") final String positiveWords, @RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(
+			value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages) {
 		final SystemConfiguration systemConfiguration;
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
 		systemConfiguration.setDefaultCountryCode(defaultCountryCode);
-		systemConfiguration.setPositions(AdministratorController.stringToList(positions));
 		systemConfiguration.setSystemName(systemName);
 		systemConfiguration.setBanner(banner);
-		systemConfiguration.setWelcomeMessage(welcomeMessage);
-		systemConfiguration.setWelcomeMessageEs(welcomeMessageEs);
 		systemConfiguration.setFinderDuration(finderDuration);
 		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setAdditionalPriorities(AdministratorController.stringToList(additionalPriorities));
 		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords));
 		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords));
 		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords));
+		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages));
 		this.systemConfigurationService.save(systemConfiguration);
 
-		result = this.systemConfiguration();
+		return this.systemConfiguration();
+	}
+
+	// Position --------------------------------------------------------------------
+
+	@RequestMapping(value = "/viewpositions", method = RequestMethod.GET)
+	public ModelAndView viewPositions() {
+		final ModelAndView result;
+
+		result = new ModelAndView("administrator/viewpositions");
+		result.addObject("positions", this.positionService.findAll());
 
 		return result;
+	}
+
+	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
+	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
+		final Position position = this.positionService.create();
+		position.setStrings(AdministratorController.stringToMap(positionString));
+		this.positionService.save(position);
+		return this.viewPositions();
+	}
+
+	@RequestMapping(value = "/deleteposition", method = RequestMethod.POST)
+	public ModelAndView deletePosition(@RequestParam(value = "id") final int id) {
+		final Position position = this.positionService.findOne(id);
+		this.positionService.delete(position);
+		return this.viewPositions();
+	}
+
+	// Priority --------------------------------------------------------------------
+
+	@RequestMapping(value = "/viewpriorities", method = RequestMethod.GET)
+	public ModelAndView viewPriorities() {
+		final ModelAndView result;
+
+		result = new ModelAndView("administrator/viewpriorities");
+		result.addObject("priorities", this.priorityService.findAll());
+
+		return result;
+	}
+
+	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
+	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
+		final Priority priority = this.priorityService.create();
+		priority.setStrings(AdministratorController.stringToMap(priorityString));
+		this.priorityService.save(priority);
+		return this.viewPriorities();
+	}
+
+	@RequestMapping(value = "/deletepriority", method = RequestMethod.POST)
+	public ModelAndView deletePriority(@RequestParam(value = "id") final int id) {
+		final Priority priority = this.priorityService.findOne(id);
+		this.priorityService.delete(priority);
+		return this.viewPriorities();
 	}
 
 	// Register administrator ------------------------------------------------------

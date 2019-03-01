@@ -72,14 +72,7 @@
 		<jstl:if test="${systemConfiguration != null}" >
 			<br />
 			<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
-			<jstl:choose>
-				<jstl:when test="${localeCode != 'en'}">
-					<span class="message"><jstl:out value="${systemConfiguration.welcomeMessage}" /></span>
-				</jstl:when>
-				<jstl:when test="${localeCode != 'es'}">
-					<span class="message"><jstl:out value="${systemConfiguration.welcomeMessageEs}" /></span>
-				</jstl:when>
-			</jstl:choose>
+			<jstl:out value="${systemConfiguration.welcomeMessages[localeCode]}" />
 		</jstl:if>
 	</div>
 	<div>

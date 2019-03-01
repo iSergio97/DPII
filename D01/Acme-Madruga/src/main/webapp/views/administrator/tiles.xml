@@ -21,4 +21,14 @@
 		<put-attribute name="body" value="/views/administrator/systemconfiguration.jsp" />
 	</definition>
 	
+	<definition name="administrator/viewpositions" extends="master.page">
+		<put-attribute name="title" value="View positions" />
+		<put-attribute name="body" value="/views/administrator/viewpositions.jsp" />
+	</definition>
+	
+	<definition name="administrator/viewpriorities" extends="master.page">
+		<put-attribute name="title" value="View priorities" />
+		<put-attribute name="body" value="/views/administrator/viewpriorities.jsp" />
+	</definition>
+	
 </tiles-definitions>

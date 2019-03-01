@@ -14,7 +14,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,7 +28,6 @@ public class Message extends DomainEntity {
 	private Date					date;
 	private String					subject;
 	private String					body;
-	private String					priority;
 	private Collection<String>		tags;
 
 	// Relationships ----------------------------------------------------------
@@ -37,6 +35,7 @@ public class Message extends DomainEntity {
 	private Actor					sender;
 	private Collection<Actor>		recipients;
 	private Collection<MessageBox>	messageBoxes;
+	private Priority				priority;
 
 
 	// Field access methods ---------------------------------------------------
@@ -68,15 +67,6 @@ public class Message extends DomainEntity {
 
 	public void setBody(final String body) {
 		this.body = body;
-	}
-
-	@NotBlank
-	public String getPriority() {
-		return this.priority;
-	}
-
-	public void setPriority(final String priority) {
-		this.priority = priority;
 	}
 
 	//	@NotBlank
@@ -124,6 +114,16 @@ public class Message extends DomainEntity {
 
 	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
 		this.messageBoxes = messageBoxes;
+	}
+
+	@Valid
+	@ManyToOne
+	public Priority getPriority() {
+		return this.priority;
+	}
+
+	public void setPriority(final Priority priority) {
+		this.priority = priority;
 	}
 
 }

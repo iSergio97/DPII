@@ -12,7 +12,6 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -22,11 +21,11 @@ public class Enrolment extends DomainEntity {
 	// Fields -----------------------------------------------------------------
 
 	private Date		moment;
-	private String		position;
 	private Date		exitMoment;
 
 	// Relationships ----------------------------------------------------------
 
+	private Position	position;
 	private Member		member;
 	private Brotherhood	brotherhood;
 
@@ -44,16 +43,6 @@ public class Enrolment extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@NotNull
-	@NotBlank
-	public String getPosition() {
-		return this.position;
-	}
-
-	public void setPosition(final String position) {
-		this.position = position;
-	}
-
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getExitMoment() {
@@ -65,6 +54,16 @@ public class Enrolment extends DomainEntity {
 	}
 
 	// Relationship access methods --------------------------------------------
+
+	@Valid
+	@ManyToOne
+	public Position getPosition() {
+		return this.position;
+	}
+
+	public void setPosition(final Position position) {
+		this.position = position;
+	}
 
 	// TODO: Why was this set to false?
 	@ManyToOne(optional = true)

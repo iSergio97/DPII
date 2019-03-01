@@ -46,7 +46,7 @@ public class EnrolmentService {
 		final int id = LoginService.getPrincipal().getId();
 		enrolment.setMember(this.memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
-		enrolment.setPosition("Prueba de posición");
+		enrolment.setPosition(null);
 
 		return enrolment;
 	}
