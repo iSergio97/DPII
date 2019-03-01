@@ -171,6 +171,7 @@
 
 	<bean id="inBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="admin1" />
 		<property name="messages">
 			<list />
@@ -179,6 +180,7 @@
 
 	<bean id="outBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="admin1" />
 		<property name="messages">
 			<list />
@@ -187,6 +189,7 @@
 
 	<bean id="spamBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="admin1" />
 		<property name="messages">
 			<list />
@@ -195,6 +198,7 @@
 
 	<bean id="trashBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="admin1" />
 		<property name="messages">
 			<list />
@@ -203,6 +207,7 @@
 
 	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="admin1" />
 		<property name="messages">
 			<list />
@@ -211,6 +216,7 @@
 
 	<bean id="inBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
@@ -219,6 +225,7 @@
 
 	<bean id="outBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
@@ -227,6 +234,7 @@
 
 	<bean id="spamBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
@@ -235,6 +243,7 @@
 
 	<bean id="trashBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
@@ -243,6 +252,7 @@
 
 	<bean id="notificationBoxBrotherhood1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood1" />
 		<property name="messages">
 			<list />
@@ -251,6 +261,7 @@
 
 	<bean id="inBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood2" />
 		<property name="messages">
 			<list />
@@ -259,6 +270,7 @@
 
 	<bean id="outBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood2" />
 		<property name="messages">
 			<list />
@@ -267,6 +279,7 @@
 
 	<bean id="spamBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood2" />
 		<property name="messages">
 			<list />
@@ -275,6 +288,7 @@
 
 	<bean id="trashBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood2" />
 		<property name="messages">
 			<list />
@@ -283,6 +297,7 @@
 
 	<bean id="notificationBoxBrotherhood2" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood2" />
 		<property name="messages">
 			<list />
@@ -291,6 +306,7 @@
 
 	<bean id="inBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood3" />
 		<property name="messages">
 			<list />
@@ -299,6 +315,7 @@
 
 	<bean id="outBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood3" />
 		<property name="messages">
 			<list />
@@ -307,6 +324,7 @@
 
 	<bean id="spamBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood3" />
 		<property name="messages">
 			<list />
@@ -315,6 +333,7 @@
 
 	<bean id="trashBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood3" />
 		<property name="messages">
 			<list />
@@ -323,6 +342,7 @@
 
 	<bean id="notificationBoxBrotherhood3" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood3" />
 		<property name="messages">
 			<list />
@@ -331,6 +351,7 @@
 
 	<bean id="inBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood4" />
 		<property name="messages">
 			<list />
@@ -339,6 +360,7 @@
 
 	<bean id="outBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood4" />
 		<property name="messages">
 			<list />
@@ -347,6 +369,7 @@
 
 	<bean id="spamBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood4" />
 		<property name="messages">
 			<list />
@@ -355,6 +378,7 @@
 
 	<bean id="trashBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood4" />
 		<property name="messages">
 			<list />
@@ -363,6 +387,7 @@
 
 	<bean id="notificationBoxBrotherhood4" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="brotherhood4" />
 		<property name="messages">
 			<list />
@@ -371,6 +396,7 @@
 
 	<bean id="inBoxMember1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="member1" />
 		<property name="messages">
 			<list />
@@ -379,6 +405,7 @@
 
 	<bean id="outBoxMember1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="member1" />
 		<property name="messages">
 			<list />
@@ -387,6 +414,7 @@
 
 	<bean id="spamBoxMember1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="member1" />
 		<property name="messages">
 			<list />
@@ -395,6 +423,7 @@
 
 	<bean id="trashBoxMember1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="member1" />
 		<property name="messages">
 			<list />
@@ -403,6 +432,7 @@
 
 	<bean id="notificationBoxMember1" class="domain.MessageBox">
 		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
 		<property name="actor" ref="member1" />
 		<property name="messages">
 			<list />
@@ -760,6 +790,7 @@
 				<ref bean="procession1" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood1" />
 	</bean>
 
 	<bean id="acmeFloat2" class="domain.AcmeFloat">
@@ -774,6 +805,7 @@
 				<ref bean="procession2" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood2" />
 	</bean>
 
 	<bean id="acmeFloat3" class="domain.AcmeFloat">
@@ -789,6 +821,7 @@
 				<ref bean="procession4" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood3" />
 	</bean>
 
 	<bean id="acmeFloat4" class="domain.AcmeFloat">
@@ -802,6 +835,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood4" />
 	</bean>
 
 	<bean id="acmeFloat5" class="domain.AcmeFloat">
@@ -817,6 +851,7 @@
 				<ref bean="procession5" />
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood1" />
 	</bean>
 
 	<bean id="acmeFloat6" class="domain.AcmeFloat">
@@ -830,6 +865,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="brotherhood" ref="brotherhood4" />
 	</bean>
 
 
