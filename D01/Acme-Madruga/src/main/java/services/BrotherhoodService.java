@@ -83,9 +83,6 @@ public class BrotherhoodService {
 	public Brotherhood save(final Brotherhood brotherhood) {
 		Assert.isTrue(brotherhood != null);
 		brotherhood.setEstablishmentDate(new Date());
-		final String pass = brotherhood.getUserAccount().getPassword();
-		final String hashed = new Md5PasswordEncoder().encodePassword(pass, null);
-		brotherhood.getUserAccount().setPassword(hashed);
 		return this.brotherhoodRepository.save(brotherhood);
 	}
 

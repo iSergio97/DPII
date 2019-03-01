@@ -2,6 +2,7 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,16 +65,16 @@ public class RegisterController extends AbstractController {
 		else
 			try {
 				final UserAccount ua = member2.getUserAccount();
-				this.userAccountRepository.save(ua);
+				this.memberService.save(member2);
+				final String pass = new Md5PasswordEncoder().encodePassword(ua.getPassword(), null);
+				ua.setPassword(pass);
 				member2.setUserAccount(ua);
-				if (member.getId() == 0) {
-					this.memberService.save(member2);
-					for (final MessageBox mb : member2.getMessageBoxes()) {
-						mb.setActor(member2);
-						this.messageBoxService.save(mb);
-					}
-				} else
-					this.memberService.save(member2);
+				this.memberService.save(member2);
+				for (final MessageBox mb : member2.getMessageBoxes()) {
+					mb.setActor(member2);
+					this.messageBoxService.save(mb);
+				}
+				this.memberService.save(member2);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(member2, "register.member.error");

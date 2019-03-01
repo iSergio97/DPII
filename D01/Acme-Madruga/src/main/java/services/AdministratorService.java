@@ -85,9 +85,6 @@ public class AdministratorService {
 
 	public Administrator save(final Administrator administrator) {
 		Assert.isTrue(administrator != null);
-		final HashPassword a = new HashPassword();
-		final String password = new Md5PasswordEncoder().encodePassword(administrator.getUserAccount().getPassword(), null);
-		administrator.getUserAccount().setPassword(password);
 		return this.administratorRepository.save(administrator);
 	}
 

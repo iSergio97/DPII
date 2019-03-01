@@ -35,31 +35,39 @@
 			<form:hidden path="messagesReceived" />
 
 			<!-- Campos de entrada -->
-			<acme:register code="name" path="name" />
-			<br>
-			<acme:register code="middleName" path="middleName" />
-			<br>
-			<acme:register code="surname" path="surname" />
-			<br>
-			<acme:register code="photo" path="photo" />
-			<br>
-			<acme:register code="email" path="email" />
-			<br>
-			<acme:register code="phoneNumber" path="phoneNumber" />
-			<br>
-			<acme:register code="address" path="address" />
-			<br>
-
-			<acme:register code="userAccount.username"
+				<acme:register code="userAccount.username"
 				path="userAccount.username" />
+				<form:errors cssClass="error" path="userAccount.username"/>
 			<br>
 			<acme:password code="userAccount.password"
 				path="userAccount.password" />
+				<form:errors cssClass="error" path="userAccount.password"/>
+			<br>
+			<acme:register code="name" path="name" />
+			<form:errors cssClass="error" path="name"/>
+			<br>
+			<acme:register code="middleName" path="middleName" />
+			<form:errors cssClass="error" path="middleName"/>
+			<br>
+			<acme:register code="surname" path="surname" />
+			<form:errors cssClass="error" path="surname"/>
+			<br>
+			<acme:register code="photo" path="photo" />
+			<form:errors cssClass="error" path="photo"/>
+			<br>
+			<acme:register code="email" path="email" />
+			<form:errors cssClass="error" path="email"/>
+			<br>
+			<acme:register code="phoneNumber" path="phoneNumber" />
+			<form:errors cssClass="error" path="phoneNumber"/>
+			<br>
+			<acme:register code="address" path="address" />
+			<form:errors cssClass="error" path="address"/>
 			<br>
 
 			<!--  <input type="submit" name="save"
 			value="<spring:message code='register.send'/>" />-->
-			<acme:submit name="submit" code="save" />
+			<acme:submit name="save" code="save" />
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 			<!--<input type="button" name="cancel"
@@ -94,30 +102,40 @@
 			<!-- Campos de entrada -->
 			<acme:register code="userAccount.username"
 				path="userAccount.username" />
+				<form:errors cssClass="error" path="userAccount.username"/>
 			<br>
 			<acme:password code="userAccount.password"
 				path="userAccount.password" />
+				<form:errors cssClass="error" path="userAccount.password"/>
 			<br>
 			<acme:register code="name" path="name" />
+			<form:errors cssClass="error" path="name"/>
 			<br>
 			<acme:register code="middleName" path="middleName" />
+			<form:errors cssClass="error" path="middleName"/>
 			<br>
 			<acme:register code="surname" path="surname" />
+			<form:errors cssClass="error" path="surname"/>
 			<br>
 			<acme:register code="photo" path="photo" />
+			<form:errors cssClass="error" path="photo"/>
 			<br>
 			<acme:register code="email" path="email" />
+			<form:errors cssClass="error" path="email"/>
 			<br>
 			<acme:register code="phoneNumber" path="phoneNumber" />
+			<form:errors cssClass="error" path="phoneNumber"/>
 			<br>
 			<acme:register code="address" path="address" />
+			<form:errors cssClass="error" path="address"/>
 			<br>
 			<acme:register code="title" path="title" />
+			<form:errors cssClass="error" path="title"/>
 			<br>
 
-			<!--  <input type="submit" name="save"
+			<!--   <input type="save" name="save"
 			value="<spring:message code='register.send'/>" />-->
-			<acme:submit name="submit" code="save" />
+			<acme:submit name="save" code="save"/>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 			<!--<input type="button" name="cancel"
