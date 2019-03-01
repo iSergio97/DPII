@@ -17,7 +17,6 @@ import repositories.BrotherhoodRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 import domain.Brotherhood;
 import domain.Message;
 import domain.SocialProfile;
@@ -34,9 +33,6 @@ public class BrotherhoodService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
 
 	@Autowired
 	private MessageBoxService		messageBoxService;
@@ -56,14 +52,13 @@ public class BrotherhoodService {
 	// CRUD methods
 
 	public Brotherhood create() {
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
 		authority.setAuthority(Authority.BROTHERHOOD);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
 
 		final Brotherhood brotherhood = new Brotherhood();
 		brotherhood.setUserAccount(userAccount);

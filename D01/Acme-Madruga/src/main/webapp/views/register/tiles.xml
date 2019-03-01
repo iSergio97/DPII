@@ -18,12 +18,12 @@
 
 <definition name="register/member/create" extends="master.page">
 		<put-attribute name="title" value="Register as member" />
-		<put-attribute name="body" value="/views/profile/register.jsp" />
+		<put-attribute name="body" value="/views/register/register.jsp" />
 	</definition>
 	
 	<definition name="register/brotherhood/create" extends="master.page">
 		<put-attribute name="title" value="Register as brotherhood" />
-		<put-attribute name="body" value="/views/profile/register.jsp" />
+		<put-attribute name="body" value="/views/register/register.jsp" />
 	</definition>
 	
 </tiles-definitions>

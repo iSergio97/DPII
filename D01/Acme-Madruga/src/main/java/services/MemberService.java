@@ -16,7 +16,6 @@ import repositories.MemberRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 import domain.Member;
 import domain.Message;
 import domain.SocialProfile;
@@ -30,16 +29,13 @@ public class MemberService {
 	// Managed repository
 
 	@Autowired
-	private MemberRepository		memberRepository;
+	private MemberRepository	memberRepository;
 
 	@Autowired
-	private UserAccountRepository	userAccountRepository;
+	private MessageBoxService	messageBoxService;
 
 	@Autowired
-	private MessageBoxService		messageBoxService;
-
-	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -56,14 +52,13 @@ public class MemberService {
 	// CRUD methods
 
 	public Member create() {
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
 		authority.setAuthority(Authority.MEMBER);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
 
 		final Member member = new Member();
 		member.setUserAccount(userAccount);
@@ -75,7 +70,7 @@ public class MemberService {
 		member.setPhoneNumber("");
 		member.setAddress("");
 		member.setIsSuspicious(false);
-		member.setPolarityScore(null);
+		member.setPolarityScore(0);
 		member.setIsBanned(false);
 		member.setSocialProfiles(new ArrayList<SocialProfile>());
 		member.setMessagesSent(new ArrayList<Message>());

@@ -63,10 +63,10 @@ public class RegisterController extends AbstractController {
 			result = this.createEditModelAndView(member2);
 		else
 			try {
+				final UserAccount ua = member2.getUserAccount();
+				this.userAccountRepository.save(ua);
+				member2.setUserAccount(ua);
 				if (member.getId() == 0) {
-					final UserAccount ua = member2.getUserAccount();
-					this.userAccountRepository.save(ua);
-					member2.setUserAccount(ua);
 					this.memberService.save(member2);
 					for (final MessageBox mb : member2.getMessageBoxes()) {
 						mb.setActor(member2);
@@ -81,6 +81,38 @@ public class RegisterController extends AbstractController {
 
 		return result;
 	}
+	/*
+	 * //Save --------------------------------------------------------------------
+	 * 
+	 * @RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
+	 * public ModelAndView save(final Member member, final BindingResult bindingResult) {
+	 * ModelAndView result;
+	 * final Member member2;
+	 * 
+	 * member2 = this.memberService.reconstruct(member, bindingResult);
+	 * if (bindingResult.hasErrors())
+	 * result = this.createEditModelAndView(member2);
+	 * else
+	 * try {
+	 * final UserAccount ua = member2.getUserAccount();
+	 * this.userAccountRepository.save(ua);
+	 * member2.setUserAccount(ua);
+	 * if (member.getId() == 0) {
+	 * this.memberService.save(member2);
+	 * for (final MessageBox mb : member2.getMessageBoxes()) {
+	 * mb.setActor(member2);
+	 * this.messageBoxService.save(mb);
+	 * }
+	 * } else
+	 * this.memberService.save(member2);
+	 * result = new ModelAndView("redirect:../profile/show.do");
+	 * } catch (final Throwable e) {
+	 * result = this.createAndEditModelAndView(member2, "register.member.error");
+	 * }
+	 * 
+	 * return result;
+	 * }
+	 */
 
 	//Create -----------------------------------------------------------------
 	@RequestMapping(value = "/brotherhood/create", method = RequestMethod.GET)
