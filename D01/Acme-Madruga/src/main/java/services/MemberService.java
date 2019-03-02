@@ -16,6 +16,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Enrolment;
 import domain.Member;
 import domain.Message;
 import domain.SocialProfile;
@@ -31,6 +32,9 @@ public class MemberService {
 	@Autowired
 	private MemberRepository		memberRepository;
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
+
 	@Autowired
 	private MessageBoxService		messageBoxService;
 
@@ -40,9 +44,9 @@ public class MemberService {
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
+	@Autowired
+	private FinderService			finderService;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -79,6 +83,8 @@ public class MemberService {
 		member.setMessagesSent(new ArrayList<Message>());
 		member.setMessagesReceived(new ArrayList<Message>());
 		member.setMessageBoxes(this.messageBoxService.createSystemBoxes());
+		member.setEnrolments(new ArrayList<Enrolment>());
+		member.setFinder(this.finderService.create());
 
 		return member;
 	}

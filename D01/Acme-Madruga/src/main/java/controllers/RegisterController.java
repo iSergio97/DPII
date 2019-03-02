@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.UserAccount;
 import security.UserAccountRepository;
 import services.BrotherhoodService;
+import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
 import domain.Brotherhood;
@@ -35,6 +40,9 @@ public class RegisterController extends AbstractController {
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
+	@Autowired
+	private FinderService			finderService;
+
 
 	public RegisterController() {
 		super();
@@ -44,9 +52,9 @@ public class RegisterController extends AbstractController {
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
 	public ModelAndView registerMember() {
 		ModelAndView result;
-		Member member;
+		MemberForm member;
 
-		member = this.memberService.create();
+		member = new MemberForm();
 		result = this.createEditModelAndView(member);
 
 		return result;
@@ -61,23 +69,28 @@ public class RegisterController extends AbstractController {
 
 		member2 = this.memberService.reconstruct(member, bindingResult);
 		if (bindingResult.hasErrors())
-			result = this.createEditModelAndView(member2);
+			result = this.createEditModelAndView(member);
 		else
 			try {
-				final UserAccount ua = member2.getUserAccount();
-				this.memberService.save(member2);
-				final String pass = new Md5PasswordEncoder().encodePassword(ua.getPassword(), null);
-				ua.setPassword(pass);
+				this.finderService.save(member2.getFinder());
+				final List<Authority> ls = new ArrayList<>();
+				final Authority au = new Authority();
+				au.setAuthority(Authority.MEMBER);
+				ls.add(au);
+				final UserAccount ua = new UserAccount();
+				ua.setAuthorities(ls);
+				ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+				ua.setUsername(member.getUsername());
+				this.userAccountRepository.save(ua);
 				member2.setUserAccount(ua);
 				this.memberService.save(member2);
 				for (final MessageBox mb : member2.getMessageBoxes()) {
 					mb.setActor(member2);
 					this.messageBoxService.save(mb);
 				}
-				this.memberService.save(member2);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
-				result = this.createAndEditModelAndView(member2, "register.member.error");
+				result = this.createAndEditModelAndView(member, "register.member.error");
 			}
 
 		return result;
@@ -156,7 +169,7 @@ public class RegisterController extends AbstractController {
 
 	// Ancillary Methods for members ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Member member) {
+	protected ModelAndView createEditModelAndView(final MemberForm member) {
 		ModelAndView result;
 
 		result = this.createAndEditModelAndView(member, null);
@@ -164,7 +177,7 @@ public class RegisterController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createAndEditModelAndView(final Member member, final String message) {
+	protected ModelAndView createAndEditModelAndView(final MemberForm member, final String message) {
 		ModelAndView result;
 		final String s = "member";
 		result = new ModelAndView("register/member/create");

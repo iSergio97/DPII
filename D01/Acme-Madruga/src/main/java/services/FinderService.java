@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,17 @@ public class FinderService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	public Finder create() {
+		final Finder f = new Finder();
+		f.setKeyword("");
+		final Date minDate = new Date();
+		f.setMinimumDate(minDate);
+		final Date maxDate = minDate;
+		maxDate.setYear(minDate.getYear() + 1);
+		f.setMaximumDate(maxDate);
+		return f;
+	}
 
 	public Finder save(final Finder finder) {
 		Assert.isTrue(finder != null);
