@@ -9,19 +9,15 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<p>
-	<spring:message code="systemconfiguration" />
-</p>
-
 <jstl:if test="${error}">
 	<p>
-		<spring:message code="systemconfiguration.error" />
+		<spring:message code="systemConfiguration.error" />
 	</p>
 </jstl:if>
 
 <jstl:if test="${success}">
 	<p>
-		<spring:message code="systemconfiguration.success" />
+		<spring:message code="systemConfiguration.success" />
 	</p>
 </jstl:if>
 
@@ -29,10 +25,6 @@
 	<p>
 		<spring:message code="systemConfiguration.defaultCountryCode" />
 		<br><input type="text" name="defaultCountryCode" value="<jstl:out value="${defaultCountryCode}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.positions" />
-		<br><input type="text" name="positions" value="<jstl:out value="${positions}" />">
 	</p>
 	<p>
 		<spring:message code="systemConfiguration.systemName" />
@@ -43,24 +35,12 @@
 		<br><input type="text" name="banner" value="<jstl:out value="${banner}" />">
 	</p>
 	<p>
-		<spring:message code="systemConfiguration.welcomeMessage" />
-		<br><input type="text" name="welcomeMessage" value="<jstl:out value="${welcomeMessage}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.welcomeMessageEs" />
-		<br><input type="text" name="welcomeMessageEs" value="<jstl:out value="${welcomeMessageEs}" />">
-	</p>
-	<p>
 		<spring:message code="systemConfiguration.finderDuration" />
 		<br><input type="text" name="finderDuration" value="<jstl:out value="${finderDuration}" />">
 	</p>
 	<p>
 		<spring:message code="systemConfiguration.maximumFinderResults" />
 		<br><input type="text" name="maximumFinderResults" value="<jstl:out value="${maximumFinderResults}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.additionalPriorities" />
-		<br><input type="text" name="additionalPriorities" value="<jstl:out value="${additionalPriorities}" />">
 	</p>
 	<p>
 		<spring:message code="systemConfiguration.positiveWords" />
@@ -73,6 +53,10 @@
 	<p>
 		<spring:message code="systemConfiguration.spamWords" />
 		<br><input type="text" name="spamWords" value="<jstl:out value="${spamWords}" />">
+	</p>
+	<p>
+		<spring:message code="systemConfiguration.welcomeMessages" />
+		<br><input type="text" name="welcomeMessages" value="<jstl:out value="${welcomeMessages}" />">
 	</p>
 	<input type="submit" name="save" value="<spring:message code="systemConfiguration.save" />" />
 </form>

@@ -130,10 +130,9 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
-	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "positions") final String positions, @RequestParam(value = "systemName") final String systemName, @RequestParam(
-		value = "banner") final String banner, @RequestParam(value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults,
-		@RequestParam(value = "additionalPriorities") final String additionalPriorities, @RequestParam(value = "positiveWords") final String positiveWords, @RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(
-			value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages) {
+	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "systemName") final String systemName, @RequestParam(value = "banner") final String banner, @RequestParam(
+		value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "positiveWords") final String positiveWords,
+		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages) {
 		final SystemConfiguration systemConfiguration;
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
