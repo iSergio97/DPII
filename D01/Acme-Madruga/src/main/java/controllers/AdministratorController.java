@@ -28,11 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
+import services.AreaService;
 import services.MessageBoxService;
 import services.PositionService;
 import services.PriorityService;
 import services.SystemConfigurationService;
 import domain.Administrator;
+import domain.Area;
 import domain.MessageBox;
 import domain.Position;
 import domain.Priority;
@@ -46,6 +48,8 @@ public class AdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService		administratorService;
+	@Autowired
+	private AreaService					areaService;
 	@Autowired
 	private MessageBoxService			messageBoxService;
 	@Autowired
@@ -150,6 +154,43 @@ public class AdministratorController extends AbstractController {
 		return this.systemConfiguration();
 	}
 
+	// Area ------------------------------------------------------------------------
+
+	@RequestMapping(value = "/viewareas", method = RequestMethod.GET)
+	public ModelAndView viewAreas() {
+		final ModelAndView result;
+
+		result = new ModelAndView("administrator/viewareas");
+		result.addObject("areas", this.areaService.findAll());
+
+		return result;
+	}
+
+	@RequestMapping(value = "/addarea", method = RequestMethod.POST)
+	public ModelAndView addArea(@RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
+		final Area area = this.areaService.create();
+		area.setName(name);
+		area.setPictures(AdministratorController.stringToList(pictures));
+		this.areaService.save(area);
+		return this.viewAreas();
+	}
+
+	@RequestMapping(value = "/editarea", method = RequestMethod.POST)
+	public ModelAndView editArea(@RequestParam(value = "id") final int id, @RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
+		final Area area = this.areaService.findOne(id);
+		area.setName(name);
+		area.setPictures(AdministratorController.stringToList(pictures));
+		this.areaService.save(area);
+		return this.viewAreas();
+	}
+
+	@RequestMapping(value = "/deletearea", method = RequestMethod.POST)
+	public ModelAndView deleteArea(@RequestParam(value = "id") final int id) {
+		final Area area = this.areaService.findOne(id);
+		this.areaService.delete(area);
+		return this.viewAreas();
+	}
+
 	// Position --------------------------------------------------------------------
 
 	@RequestMapping(value = "/viewpositions", method = RequestMethod.GET)
@@ -165,6 +206,14 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
 	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
 		final Position position = this.positionService.create();
+		position.setStrings(AdministratorController.stringToMap(positionString));
+		this.positionService.save(position);
+		return this.viewPositions();
+	}
+
+	@RequestMapping(value = "/editposition", method = RequestMethod.POST)
+	public ModelAndView editPosition(@RequestParam(value = "id") final int id, @RequestParam(value = "position") final String positionString) {
+		final Position position = this.positionService.findOne(id);
 		position.setStrings(AdministratorController.stringToMap(positionString));
 		this.positionService.save(position);
 		return this.viewPositions();
@@ -192,6 +241,14 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
 	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
 		final Priority priority = this.priorityService.create();
+		priority.setStrings(AdministratorController.stringToMap(priorityString));
+		this.priorityService.save(priority);
+		return this.viewPriorities();
+	}
+
+	@RequestMapping(value = "/editpriority", method = RequestMethod.POST)
+	public ModelAndView editPriority(@RequestParam(value = "id") final int id, @RequestParam(value = "priority") final String priorityString) {
+		final Priority priority = this.priorityService.findOne(id);
 		priority.setStrings(AdministratorController.stringToMap(priorityString));
 		this.priorityService.save(priority);
 		return this.viewPriorities();
