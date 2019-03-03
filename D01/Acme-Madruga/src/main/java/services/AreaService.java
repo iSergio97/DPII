@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class AreaService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	public Area create() {
+		final Area area = new Area();
+		area.setName("");
+		area.setPictures(new ArrayList<String>());
+		return area;
+	}
 
 	public Area save(final Area area) {
 		Assert.isTrue(area != null);
