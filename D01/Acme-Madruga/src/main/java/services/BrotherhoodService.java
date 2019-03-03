@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,6 +16,7 @@ import repositories.BrotherhoodRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Area;
 import domain.Brotherhood;
 import domain.Message;
 import domain.SocialProfile;
@@ -140,6 +140,10 @@ public class BrotherhoodService {
 			this.validator.validate(result, bindingResult);
 		}
 		return result;
+	}
+
+	public boolean existWithArea(final Area area) {
+		return this.brotherhoodRepository.countWithAreaId(area.getId()) > 0;
 	}
 
 }

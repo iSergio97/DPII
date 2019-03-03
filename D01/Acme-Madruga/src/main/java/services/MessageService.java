@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.MessageRepository;
 import security.LoginService;
 import domain.Message;
+import domain.Priority;
 
 @Service
 @Transactional
@@ -82,5 +83,9 @@ public class MessageService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
+
+	public boolean existWithPriority(final Priority priority) {
+		return this.messageRepository.countWithPriorityId(priority.getId()) > 0;
+	}
 
 }

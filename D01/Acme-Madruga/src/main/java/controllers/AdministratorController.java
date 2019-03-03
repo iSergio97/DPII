@@ -29,7 +29,10 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
 import services.AreaService;
+import services.BrotherhoodService;
+import services.EnrolmentService;
 import services.MessageBoxService;
+import services.MessageService;
 import services.PositionService;
 import services.PriorityService;
 import services.SystemConfigurationService;
@@ -51,7 +54,13 @@ public class AdministratorController extends AbstractController {
 	@Autowired
 	private AreaService					areaService;
 	@Autowired
+	private BrotherhoodService			brotherhoodService;
+	@Autowired
+	private EnrolmentService			enrolmentService;
+	@Autowired
 	private MessageBoxService			messageBoxService;
+	@Autowired
+	private MessageService				messageService;
 	@Autowired
 	private PositionService				positionService;
 	@Autowired
@@ -189,7 +198,8 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/deletearea", method = RequestMethod.POST)
 	public ModelAndView deleteArea(@RequestParam(value = "id") final int id) {
 		final Area area = this.areaService.findOne(id);
-		this.areaService.delete(area);
+		if (!this.brotherhoodService.existWithArea(area))
+			this.areaService.delete(area);
 		return this.viewAreas();
 	}
 
@@ -224,7 +234,8 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/deleteposition", method = RequestMethod.POST)
 	public ModelAndView deletePosition(@RequestParam(value = "id") final int id) {
 		final Position position = this.positionService.findOne(id);
-		this.positionService.delete(position);
+		if (!this.enrolmentService.existWithPosition(position))
+			this.positionService.delete(position);
 		return this.viewPositions();
 	}
 
@@ -259,7 +270,8 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/deletepriority", method = RequestMethod.POST)
 	public ModelAndView deletePriority(@RequestParam(value = "id") final int id) {
 		final Priority priority = this.priorityService.findOne(id);
-		this.priorityService.delete(priority);
+		if (!this.messageService.existWithPriority(priority))
+			this.priorityService.delete(priority);
 		return this.viewPriorities();
 	}
 

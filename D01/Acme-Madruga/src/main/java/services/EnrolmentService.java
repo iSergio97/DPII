@@ -13,6 +13,7 @@ import repositories.EnrolmentRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Enrolment;
+import domain.Position;
 
 @Service
 @Transactional
@@ -85,6 +86,10 @@ public class EnrolmentService {
 	public Enrolment findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.findOne(userAccount.getId());
+	}
+
+	public boolean existWithPosition(final Position position) {
+		return this.enrolmentRepository.countWithPositionId(position.getId()) > 0;
 	}
 
 }
