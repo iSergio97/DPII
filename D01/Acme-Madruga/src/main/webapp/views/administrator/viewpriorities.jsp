@@ -12,10 +12,11 @@
 <display:table name="priorities" id="row" class="displaytag">
 
 	<display:column titleKey="priority.value">
-		<jstl:forEach items="${row.strings}" var="entry">
-			<jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />
-			<br />
-		</jstl:forEach>
+		<form action="administrator/editpriority.do" method="POST">
+			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
+			<input type="text" name="priority" value="<jstl:forEach items="${row.strings}" var="entry"><jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />;</jstl:forEach>" />
+			<input type="submit" name="editpriority" value="<spring:message code='priority.edit' />" />
+		</form>
 	</display:column>
 
 	<display:column titleKey="priority.delete">

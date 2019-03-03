@@ -12,10 +12,11 @@
 <display:table name="positions" id="row" class="displaytag">
 
 	<display:column titleKey="position.value">
-		<jstl:forEach items="${row.strings}" var="entry">
-			<jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />
-			<br />
-		</jstl:forEach>
+		<form action="administrator/editposition.do" method="POST">
+			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
+			<input type="text" name="position" value="<jstl:forEach items="${row.strings}" var="entry"><jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />;</jstl:forEach>" />
+			<input type="submit" name="editposition" value="<spring:message code='position.edit' />" />
+		</form>
 	</display:column>
 
 	<display:column titleKey="position.delete">

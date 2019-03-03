@@ -21,6 +21,11 @@
 		<put-attribute name="body" value="/views/administrator/systemconfiguration.jsp" />
 	</definition>
 	
+	<definition name="administrator/viewareas" extends="master.page">
+		<put-attribute name="title" value="Ver áreas" />
+		<put-attribute name="body" value="/views/administrator/viewareas.jsp" />
+	</definition>
+	
 	<definition name="administrator/viewpositions" extends="master.page">
 		<put-attribute name="title" value="Ver posiciones" />
 		<put-attribute name="body" value="/views/administrator/viewpositions.jsp" />

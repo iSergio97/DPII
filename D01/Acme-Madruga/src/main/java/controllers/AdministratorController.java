@@ -70,33 +70,35 @@ public class AdministratorController extends AbstractController {
 
 	// Utility methods -------------------------------------------------------------
 
-	private static String listToString(final List<String> list) {
+	private static String listToString(final List<String> list, final String elementSeparator) {
 		String result = "";
 		for (final String string : list)
-			result = result + string + ",";
+			result = result + string + elementSeparator;
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static List<String> stringToList(final String string) {
+	private static List<String> stringToList(final String string, final String elementSeparator) {
 		final List<String> result = new ArrayList<>();
-		for (final String s : string.split(","))
-			result.add(s);
+		for (final String s : string.split(elementSeparator))
+			if (s.length() > 0)
+				result.add(s);
 		return result;
 	}
 
-	private static String mapToString(final Map<String, String> map) {
+	private static String mapToString(final Map<String, String> map, final String pairSeparator, final String entrySeparator) {
 		String result = "";
 		for (final Entry<String, String> entry : map.entrySet())
-			result = result + entry.getKey() + ":" + entry.getValue() + ";";
+			result = result + entry.getKey() + pairSeparator + entry.getValue() + entrySeparator;
 		return result.substring(0, result.length() - 1);
 	}
 
-	private static Map<String, String> stringToMap(final String string) {
+	private static Map<String, String> stringToMap(final String string, final String pairSeparator, final String entrySeparator) {
 		final Map<String, String> result = new HashMap<>();
-		for (final String entry : string.split(";")) {
-			final String[] pair = entry.split(":");
-			result.put(pair[0], pair[1]);
-		}
+		for (final String entry : string.split(entrySeparator))
+			if (entry.length() > 0) {
+				final String[] pair = entry.split(pairSeparator);
+				result.put(pair[0], pair[1]);
+			}
 		return result;
 	}
 
@@ -126,10 +128,10 @@ public class AdministratorController extends AbstractController {
 		result.addObject("banner", systemConfiguration.getBanner());
 		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
 		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords()));
-		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords()));
-		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords()));
-		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages()));
+		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords(), ","));
+		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords(), ","));
+		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords(), ","));
+		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
 		return result;
 	}
 
@@ -145,10 +147,10 @@ public class AdministratorController extends AbstractController {
 		systemConfiguration.setBanner(banner);
 		systemConfiguration.setFinderDuration(finderDuration);
 		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords));
-		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords));
-		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords));
-		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages));
+		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords, ","));
+		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords, ","));
+		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords, ","));
+		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages, ":", ";"));
 		this.systemConfigurationService.save(systemConfiguration);
 
 		return this.systemConfiguration();
@@ -170,7 +172,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView addArea(@RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
 		final Area area = this.areaService.create();
 		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures));
+		area.setPictures(AdministratorController.stringToList(pictures, " "));
 		this.areaService.save(area);
 		return this.viewAreas();
 	}
@@ -179,7 +181,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView editArea(@RequestParam(value = "id") final int id, @RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
 		final Area area = this.areaService.findOne(id);
 		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures));
+		area.setPictures(AdministratorController.stringToList(pictures, " "));
 		this.areaService.save(area);
 		return this.viewAreas();
 	}
@@ -206,7 +208,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
 	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
 		final Position position = this.positionService.create();
-		position.setStrings(AdministratorController.stringToMap(positionString));
+		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
 		this.positionService.save(position);
 		return this.viewPositions();
 	}
@@ -214,7 +216,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/editposition", method = RequestMethod.POST)
 	public ModelAndView editPosition(@RequestParam(value = "id") final int id, @RequestParam(value = "position") final String positionString) {
 		final Position position = this.positionService.findOne(id);
-		position.setStrings(AdministratorController.stringToMap(positionString));
+		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
 		this.positionService.save(position);
 		return this.viewPositions();
 	}
@@ -241,7 +243,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
 	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
 		final Priority priority = this.priorityService.create();
-		priority.setStrings(AdministratorController.stringToMap(priorityString));
+		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
 		this.priorityService.save(priority);
 		return this.viewPriorities();
 	}
@@ -249,7 +251,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/editpriority", method = RequestMethod.POST)
 	public ModelAndView editPriority(@RequestParam(value = "id") final int id, @RequestParam(value = "priority") final String priorityString) {
 		final Priority priority = this.priorityService.findOne(id);
-		priority.setStrings(AdministratorController.stringToMap(priorityString));
+		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
 		this.priorityService.save(priority);
 		return this.viewPriorities();
 	}
