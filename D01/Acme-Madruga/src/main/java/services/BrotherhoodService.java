@@ -20,6 +20,7 @@ import domain.Area;
 import domain.Brotherhood;
 import domain.Message;
 import domain.SocialProfile;
+import forms.BrotherhoodForm;
 
 @Service
 @Transactional
@@ -80,6 +81,24 @@ public class BrotherhoodService {
 
 		return brotherhood;
 	}
+
+	public BrotherhoodForm createForm() {
+
+		final BrotherhoodForm brotherhood = new BrotherhoodForm();
+		brotherhood.setName("");
+		brotherhood.setMiddleName("");
+		brotherhood.setSurname("");
+		brotherhood.setPhoto("");
+		brotherhood.setEmail("");
+		brotherhood.setPhoneNumber("");
+		brotherhood.setAddress("");
+		brotherhood.setUsername("");
+		brotherhood.setPassword("");
+		brotherhood.setConfirmPassword("");
+
+		return brotherhood;
+	}
+
 	public Brotherhood save(final Brotherhood brotherhood) {
 		Assert.isTrue(brotherhood != null);
 		brotherhood.setEstablishmentDate(new Date());
@@ -121,29 +140,58 @@ public class BrotherhoodService {
 		return this.findByUserAccountId(userAccount.getId());
 	}
 
-	public Brotherhood reconstruct(final Brotherhood brotherhood, final BindingResult bindingResult) {
+	public Brotherhood reconstruct(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
 
 		Brotherhood result;
 
 		if (brotherhood.getId() == 0)
-			result = brotherhood;
-		else {
+			result = this.create();
+		else
 			result = this.brotherhoodRepository.findOne(brotherhood.getId());
-			result.setName(brotherhood.getName());
-			result.setMiddleName(brotherhood.getMiddleName());
-			result.setSurname(brotherhood.getSurname());
-			result.setPhoto(brotherhood.getPhoto());
-			result.setEmail(brotherhood.getEmail());
-			result.setPhoneNumber(brotherhood.getPhoneNumber());
-			result.setAddress(brotherhood.getAddress());
 
-			this.validator.validate(result, bindingResult);
-		}
+		result.setName(brotherhood.getName());
+		result.setMiddleName(brotherhood.getMiddleName());
+		result.setSurname(brotherhood.getSurname());
+		result.setPhoto(brotherhood.getPhoto());
+		result.setEmail(brotherhood.getEmail());
+		result.setPhoneNumber(brotherhood.getPhoneNumber());
+		result.setAddress(brotherhood.getAddress());
+
+		this.validator.validate(result, bindingResult);
+
 		return result;
 	}
 
 	public boolean existWithArea(final Area area) {
 		return this.brotherhoodRepository.countWithAreaId(area.getId()) > 0;
+	}
+
+	public Brotherhood reconstructForm(final BrotherhoodForm member, final BindingResult bindingResult) {
+
+		Brotherhood result;
+
+		if (member.getId() == 0)
+			result = this.create();
+		else
+			result = this.brotherhoodRepository.findOne(member.getId());
+
+		result.setName(member.getName());
+		result.setMiddleName(member.getMiddleName());
+		result.setSurname(member.getSurname());
+		result.setPhoto(member.getPhoto());
+		result.setEmail(member.getEmail());
+		result.setPhoneNumber(member.getPhoneNumber());
+		result.setAddress(member.getAddress());
+
+		//Note:
+		//Si lo comento, falla en que no guarda userAccount y Finder, pero si no lo comento, peta aquí con las cajas de mensajes
+		/*
+		 * Fallo
+		 * JSR-303 validated property 'messageBoxes[4].actor' does not have a corresponding accessor for Spring data binding - check your DataBinder's configuration (bean property versus direct field access)
+		 */
+		this.validator.validate(result, bindingResult);
+
+		return result;
 	}
 
 }

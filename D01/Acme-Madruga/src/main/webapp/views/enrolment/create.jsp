@@ -14,7 +14,10 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="enrolment" method="POST" action="enrolment/edit.do">
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
+<form:form modelAttribute="enrolment" method="POST"
+	action="enrolment/member/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -32,18 +35,14 @@
 		</form:label>
 		<form:select multiple="false" id="brotherhood" path="brotherhood">
 			<form:options items="${brotherhoods}" itemLabel="title"
-				itemValue="title" />
+				itemValue="id" />
 		</form:select>
 	</div>
 
 
 	<div id="soc" class="soc">
-		<input type="submit" name="edit"
-			value="<spring:message code='security.send'/>" /> <input
-			type="button" name="cancel"
-			value="<spring:message code='security.cancel' />"
-			onclick="javascript: relativeRedir('welcome/index.do');" />
-
+		<acme:submit name="save" code="save" />
+		<acme:cancel url="welcome/index.do" code="cancel"/>
 	</div>
 
 </form:form>

@@ -170,7 +170,6 @@ public class MemberService {
 	public Member reconstructForm(final MemberForm member, final BindingResult bindingResult) {
 
 		Member result;
-		final MemberForm member2 = member;
 
 		if (member.getId() == 0)
 			result = this.create();
@@ -185,6 +184,12 @@ public class MemberService {
 		result.setPhoneNumber(member.getPhoneNumber());
 		result.setAddress(member.getAddress());
 
+		//Note:
+		//Si lo comento, falla en que no guarda userAccount y Finder, pero si no lo comento, peta aquí con las cajas de mensajes
+		/*
+		 * Fallo
+		 * JSR-303 validated property 'messageBoxes[4].actor' does not have a corresponding accessor for Spring data binding - check your DataBinder's configuration (bean property versus direct field access)
+		 */
 		this.validator.validate(result, bindingResult);
 
 		return result;

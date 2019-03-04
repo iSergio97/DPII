@@ -48,7 +48,7 @@ public class EnrolmentController extends AbstractController {
 
 	// List -------------------------------------------------------------------
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/member-brotherhood/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 
@@ -58,7 +58,7 @@ public class EnrolmentController extends AbstractController {
 		for (final Enrolment e : enrolments)
 			bhs.add(e.getBrotherhood());
 
-		result = new ModelAndView("enrolment/list");
+		result = new ModelAndView("enrolment/member-brotherhood/list");
 		result.addObject("brotherhood", bhs);
 
 		return result;
@@ -66,7 +66,7 @@ public class EnrolmentController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
 		Enrolment enrolment;
@@ -79,7 +79,7 @@ public class EnrolmentController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int enrolmentId) {
 		ModelAndView result;
 		final Enrolment enrolment;
@@ -92,7 +92,7 @@ public class EnrolmentController extends AbstractController {
 	}
 
 	// Save -------------------------------------------------------------------
-	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
 
@@ -147,7 +147,7 @@ public class EnrolmentController extends AbstractController {
 		//TODO: La solicitud se hace al cargo más pequeño y la hermandad decide si cambiarlo a otro o no
 		brotherhoods = this.brotherhoodService.findAll();
 
-		result = new ModelAndView("enrolment/create");
+		result = new ModelAndView("enrolment/member/create");
 		result.addObject("enrolment", enrolment);
 		result.addObject("brotherhoods", brotherhoods);
 		result.addObject("message", message);

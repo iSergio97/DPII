@@ -19,6 +19,7 @@ import services.MessageBoxService;
 import domain.Brotherhood;
 import domain.Member;
 import domain.MessageBox;
+import forms.BrotherhoodForm;
 import forms.MemberForm;
 
 @Controller
@@ -78,6 +79,7 @@ public class RegisterController extends AbstractController {
 					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
 					for (final MessageBox mb : mbs) {
 						mb.setActor(member2);
+						System.out.println(mb.getName());
 						this.messageBoxService.save(mb);
 					}
 				} else
@@ -126,9 +128,9 @@ public class RegisterController extends AbstractController {
 	@RequestMapping(value = "/brotherhood/create", method = RequestMethod.GET)
 	public ModelAndView registerBrotherhood() {
 		ModelAndView result;
-		Brotherhood brotherhood;
+		BrotherhoodForm brotherhood;
 
-		brotherhood = this.brotherhoodService.create();
+		brotherhood = this.brotherhoodService.createForm();
 		result = this.createEditModelAndView(brotherhood);
 
 		return result;
@@ -137,22 +139,23 @@ public class RegisterController extends AbstractController {
 
 	//Save --------------------------------------------------------------------
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Brotherhood brotherhood, final BindingResult bindingResult) {
+	public ModelAndView save(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
 		ModelAndView result;
+		Brotherhood brotherhood2;
 
-		brotherhood = this.brotherhoodService.reconstruct(brotherhood, bindingResult);
+		brotherhood2 = this.brotherhoodService.reconstruct(brotherhood, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(brotherhood);
 		else
 			try {
 				if (brotherhood.getId() == 0) {
-					this.brotherhoodService.save(brotherhood);
-					for (final MessageBox mb : brotherhood.getMessageBoxes()) {
-						mb.setActor(brotherhood);
+					this.brotherhoodService.save(brotherhood2);
+					for (final MessageBox mb : brotherhood2.getMessageBoxes()) {
+						mb.setActor(brotherhood2);
 						this.messageBoxService.save(mb);
 					}
 				} else
-					this.brotherhoodService.save(brotherhood);
+					this.brotherhoodService.save(brotherhood2);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
@@ -182,7 +185,7 @@ public class RegisterController extends AbstractController {
 
 	// Ancillary Methods for brotherhoods ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Brotherhood brotherhood) {
+	protected ModelAndView createEditModelAndView(final BrotherhoodForm brotherhood) {
 		ModelAndView result;
 
 		result = this.createAndEditModelAndView(brotherhood, null);
@@ -190,13 +193,13 @@ public class RegisterController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createAndEditModelAndView(final Brotherhood brotherhood, final String message) {
+	protected ModelAndView createAndEditModelAndView(final BrotherhoodForm brotherhood, final String message) {
 		ModelAndView result;
 		final String s = "brotherhood";
 
 		result = new ModelAndView("register/brotherhood/create");
 		result.addObject("brotherhood", brotherhood);
-		result.addObject("brotherhood", s);
+		result.addObject("requestURI", s);
 
 		return result;
 	}

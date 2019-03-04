@@ -23,13 +23,16 @@ public class EnrolmentService {
 	// Managed repository
 
 	@Autowired
-	private EnrolmentRepository	enrolmentRepository;
+	private EnrolmentRepository			enrolmentRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 
 	@Autowired
-	private MemberService		memberService;
+	private MemberService				memberService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +50,9 @@ public class EnrolmentService {
 		final int id = LoginService.getPrincipal().getId();
 		enrolment.setMember(this.memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
+		//TODO: Añadir la posición más baja
 		enrolment.setPosition(null);
+		enrolment.setExitMoment(null);
 
 		return enrolment;
 	}

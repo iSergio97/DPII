@@ -16,17 +16,17 @@
        
 <tiles-definitions>
 
-	<definition name="enrolment/create" extends="master.page">	
+	<definition name="enrolment/member/create" extends="master.page">	
 		<put-attribute name="title" value="Enrol" />
 		<put-attribute name="body" value="/views/enrolment/create.jsp" />
 	</definition>
 	
-	<definition name="enrolment/edit" extends="master.page">	
+	<definition name="enrolment/member/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit brotherhoods" />
 		<put-attribute name="body" value="/views/enrolment/edit.jsp" />
 	</definition>
 	
-	<definition name="enrolment/list" extends="master.page">	
+	<definition name="enrolment/member-brotherhood/list" extends="master.page">	
 		<put-attribute name="title" value="List of brotherhoods" />
 		<put-attribute name="body" value="/views/enrolment/list.jsp" />
 	</definition>
