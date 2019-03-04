@@ -129,16 +129,16 @@
 
 			<!-- Campos de usuario -->
 
-			<acme:register code="userAccount.username"
+			<acme:register code="username"
 				path="userAccount.username" />
 			<form:errors cssClass="error" path="userAccount.username" />
 			<br>
-			<acme:password code="userAccount.password"
+			<acme:password code="password"
 				path="userAccount.password" />
 			<form:errors cssClass="error" path="userAccount.password" />
 			<br>
-			<acme:password code="userAccount.confirmPassword"
-				path="userAccount.confirmPassword" />
+			<acme:password code="confirmPassword"
+				path="confirmPassword" />
 			<form:errors cssClass="error" path="userAccount.password" />
 
 

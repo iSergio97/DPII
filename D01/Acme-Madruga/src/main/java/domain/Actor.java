@@ -8,7 +8,7 @@
 
 package domain;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -34,24 +34,24 @@ public class Actor extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String				name;
-	private String				middleName;
-	private String				surname;
-	private String				photo;
-	private String				email;
-	private String				phoneNumber;
-	private String				address;
-	private boolean				isSuspicious;
-	private Integer				polarityScore;
-	private boolean				isBanned;
+	private String						name;
+	private String						middleName;
+	private String						surname;
+	private String						photo;
+	private String						email;
+	private String						phoneNumber;
+	private String						address;
+	private boolean						isSuspicious;
+	private Integer						polarityScore;
+	private boolean						isBanned;
 
 	// Relationships ----------------------------------------------------------
 
-	private UserAccount			userAccount;
-	private List<MessageBox>	messageBoxes;
-	private List<Message>		messagesSent;
-	private List<Message>		messagesReceived;
-	private List<SocialProfile>	socialProfiles;
+	private UserAccount					userAccount;
+	private Collection<MessageBox>		messageBoxes;
+	private Collection<Message>			messagesSent;
+	private Collection<Message>			messagesReceived;
+	private Collection<SocialProfile>	socialProfiles;
 
 
 	// Field access methods ---------------------------------------------------
@@ -168,32 +168,32 @@ public class Actor extends DomainEntity {
 	@NotNull
 	@NotEmpty
 	@OneToMany(mappedBy = "actor")
-	public List<MessageBox> getMessageBoxes() {
+	public Collection<MessageBox> getMessageBoxes() {
 		return this.messageBoxes;
 	}
 
-	public void setMessageBoxes(final List<MessageBox> messageBoxes) {
+	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
 		this.messageBoxes = messageBoxes;
 	}
 
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "sender")
-	public List<Message> getMessagesSent() {
+	public Collection<Message> getMessagesSent() {
 		return this.messagesSent;
 	}
 
-	public void setMessagesSent(final List<Message> messagesSent) {
+	public void setMessagesSent(final Collection<Message> messagesSent) {
 		this.messagesSent = messagesSent;
 	}
 
 	@Valid
 	@ManyToMany(mappedBy = "recipients")
-	public List<Message> getMessagesReceived() {
+	public Collection<Message> getMessagesReceived() {
 		return this.messagesReceived;
 	}
 
-	public void setMessagesReceived(final List<Message> messagesReceived) {
+	public void setMessagesReceived(final Collection<Message> messagesReceived) {
 		this.messagesReceived = messagesReceived;
 	}
 
@@ -201,11 +201,11 @@ public class Actor extends DomainEntity {
 	@NotNull
 	// TODO: What does NotNull here?
 	@OneToMany(mappedBy = "actor")
-	public List<SocialProfile> getSocialProfiles() {
+	public Collection<SocialProfile> getSocialProfiles() {
 		return this.socialProfiles;
 	}
 
-	public void setSocialProfiles(final List<SocialProfile> socialProfiles) {
+	public void setSocialProfiles(final Collection<SocialProfile> socialProfiles) {
 		this.socialProfiles = socialProfiles;
 	}
 

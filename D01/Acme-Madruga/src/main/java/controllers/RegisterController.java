@@ -1,8 +1,7 @@
 
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.Authority;
-import security.UserAccount;
 import security.UserAccountRepository;
 import services.BrotherhoodService;
 import services.FinderService;
@@ -54,7 +51,7 @@ public class RegisterController extends AbstractController {
 		ModelAndView result;
 		MemberForm member;
 
-		member = new MemberForm();
+		member = this.memberService.createForm();
 		result = this.createEditModelAndView(member);
 
 		return result;
@@ -65,29 +62,26 @@ public class RegisterController extends AbstractController {
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final MemberForm member, final BindingResult bindingResult) {
 		ModelAndView result;
-		final Member member2;
+		Member member2;
 
-		member2 = this.memberService.reconstruct(member, bindingResult);
+		member2 = this.memberService.reconstructForm(member, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(member);
 		else
 			try {
-				this.finderService.save(member2.getFinder());
-				final List<Authority> ls = new ArrayList<>();
-				final Authority au = new Authority();
-				au.setAuthority(Authority.MEMBER);
-				ls.add(au);
-				final UserAccount ua = new UserAccount();
-				ua.setAuthorities(ls);
-				ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-				ua.setUsername(member.getUsername());
-				this.userAccountRepository.save(ua);
-				member2.setUserAccount(ua);
-				this.memberService.save(member2);
-				for (final MessageBox mb : member2.getMessageBoxes()) {
-					mb.setActor(member2);
-					this.messageBoxService.save(mb);
-				}
+				if (member2.getId() == 0) {
+					this.finderService.save(member2.getFinder());
+					member2.getUserAccount().setUsername(member.getUsername());
+					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+					this.userAccountRepository.save(member2.getUserAccount());
+					this.memberService.save(member2);
+					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+					for (final MessageBox mb : mbs) {
+						mb.setActor(member2);
+						this.messageBoxService.save(mb);
+					}
+				} else
+					this.memberService.save(member2);
 				result = new ModelAndView("redirect:../profile/show.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(member, "register.member.error");

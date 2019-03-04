@@ -85,35 +85,30 @@ public class MessageBoxService {
 		inBox.setName("InBox");
 		inBox.setMessages(new ArrayList<Message>());
 		inBox.setIsSystem(true);
-		//inBox.setActor(this.actorService.findPrincipal());
 		messageBoxes.add(inBox);
 
 		final MessageBox outBox = new MessageBox();
 		outBox.setName("OutBox");
 		outBox.setMessages(new ArrayList<Message>());
 		outBox.setIsSystem(true);
-		//outBox.setActor(this.actorService.findPrincipal());
 		messageBoxes.add(outBox);
 
 		final MessageBox trashBox = new MessageBox();
 		trashBox.setName("TrashBox");
 		trashBox.setMessages(new ArrayList<Message>());
 		trashBox.setIsSystem(true);
-		//trashBox.setActor(this.actorService.findPrincipal());
 		messageBoxes.add(trashBox);
 
 		final MessageBox spamBox = new MessageBox();
 		spamBox.setName("SpamBox");
 		spamBox.setMessages(new ArrayList<Message>());
 		spamBox.setIsSystem(true);
-		//spamBox.setActor(this.actorService.findPrincipal());
 		messageBoxes.add(spamBox);
 
 		final MessageBox notifications = new MessageBox();
 		notifications.setName("Notifications");
 		notifications.setMessages(new ArrayList<Message>());
 		notifications.setIsSystem(true);
-		//notifications.setActor(this.actorService.findPrincipal());
 		messageBoxes.add(notifications);
 
 		return messageBoxes;

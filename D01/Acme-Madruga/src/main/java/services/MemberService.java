@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ import repositories.MemberRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 import domain.Enrolment;
 import domain.Member;
 import domain.Message;
+import domain.MessageBox;
 import domain.SocialProfile;
 import forms.MemberForm;
 
@@ -30,22 +31,19 @@ public class MemberService {
 	// Managed repository
 
 	@Autowired
-	private MemberRepository		memberRepository;
+	private MemberRepository	memberRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 
 	@Autowired
-	private MessageBoxService		messageBoxService;
+	private MessageBoxService	messageBoxService;
 
 	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 	@Autowired
-	private UserAccountRepository	userAccountRepository;
-
-	@Autowired
-	private FinderService			finderService;
+	private FinderService		finderService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +80,27 @@ public class MemberService {
 		member.setSocialProfiles(new ArrayList<SocialProfile>());
 		member.setMessagesSent(new ArrayList<Message>());
 		member.setMessagesReceived(new ArrayList<Message>());
-		member.setMessageBoxes(this.messageBoxService.createSystemBoxes());
+		final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+		member.setMessageBoxes(mbs);
 		member.setEnrolments(new ArrayList<Enrolment>());
 		member.setFinder(this.finderService.create());
+
+		return member;
+	}
+
+	public MemberForm createForm() {
+
+		final MemberForm member = new MemberForm();
+		member.setName("");
+		member.setMiddleName("");
+		member.setSurname("");
+		member.setPhoto("");
+		member.setEmail("");
+		member.setPhoneNumber("");
+		member.setAddress("");
+		member.setUsername("");
+		member.setPassword("");
+		member.setConfirmPassword("");
 
 		return member;
 	}
@@ -137,40 +153,40 @@ public class MemberService {
 
 		if (member.getId() == 0)
 			result = member;
-		else {
+		else
 			result = this.memberRepository.findOne(member.getId());
-			result.setName(member.getName());
-			result.setMiddleName(member.getMiddleName());
-			result.setSurname(member.getSurname());
-			result.setPhoto(member.getPhoto());
-			result.setEmail(member.getEmail());
-			result.setPhoneNumber(member.getPhoneNumber());
-			result.setAddress(member.getAddress());
+		result.setName(member.getName());
+		result.setMiddleName(member.getMiddleName());
+		result.setSurname(member.getSurname());
+		result.setPhoto(member.getPhoto());
+		result.setEmail(member.getEmail());
+		result.setPhoneNumber(member.getPhoneNumber());
+		result.setAddress(member.getAddress());
 
-			this.validator.validate(result, bindingResult);
-		}
+		this.validator.validate(result, bindingResult);
 		return result;
 	}
 
-	public Member reconstruct(final MemberForm member, final BindingResult bindingResult) {
+	public Member reconstructForm(final MemberForm member, final BindingResult bindingResult) {
 
 		Member result;
+		final MemberForm member2 = member;
 
 		if (member.getId() == 0)
 			result = this.create();
-		else {
+		else
 			result = this.memberRepository.findOne(member.getId());
-			result.setName(member.getName());
-			result.setMiddleName(member.getMiddleName());
-			result.setSurname(member.getSurname());
-			result.setPhoto(member.getPhoto());
-			result.setEmail(member.getEmail());
-			result.setPhoneNumber(member.getPhoneNumber());
-			result.setAddress(member.getAddress());
 
-			this.validator.validate(result, bindingResult);
-		}
+		result.setName(member.getName());
+		result.setMiddleName(member.getMiddleName());
+		result.setSurname(member.getSurname());
+		result.setPhoto(member.getPhoto());
+		result.setEmail(member.getEmail());
+		result.setPhoneNumber(member.getPhoneNumber());
+		result.setAddress(member.getAddress());
+
+		this.validator.validate(result, bindingResult);
+
 		return result;
 	}
-
 }
