@@ -69,6 +69,7 @@
 				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
 			</map>
 		</property>
+		<property name="lowestPosition" ref="positionBrother" />
 	</bean>
 
 	<!-- Positions -->

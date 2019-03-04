@@ -58,5 +58,11 @@
 		<spring:message code="systemConfiguration.welcomeMessages" />
 		<br><input type="text" name="welcomeMessages" value="<jstl:out value="${welcomeMessages}" />">
 	</p>
+	<p>
+		<spring:message code="systemConfiguration.lowestPosition" />
+		<jstl:forEach items="${positionsMap}" var="entry">
+			<input type="checkbox" name="positionId" value="${entry.key}" /><jstl:out value="${entry.value}" /><br>
+		</jstl:forEach>
+	</p>
 	<input type="submit" name="save" value="<spring:message code="systemConfiguration.save" />" />
 </form>

@@ -119,7 +119,39 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/dashboard");
 
-		// TODO: add queries
+		// QUERY C.1
+		// The average, the minimum, the maximum, and the standard deviation of the number of members per brotherhood.
+
+		// final Double[] brotherhoodMemberStatistics = this.brotherhoodService.getMemberStatistics();
+		// result.addObject("brotherhoodMemberStatisticsMinimum", brotherhoodMemberStatistics[0]);
+		// result.addObject("brotherhoodMemberStatisticsMaximum", brotherhoodMemberStatistics[1]);
+		// result.addObject("brotherhoodMemberStatisticsAverage", brotherhoodMemberStatistics[2]);
+		// result.addObject("brotherhoodMemberStatisticsStandardDeviation", brotherhoodMemberStatistics[3]);
+
+		// QUERY C.2
+		// The largest brotherhoods.
+
+		// result.addObject("largestBrotherhoods", this.brotherhoodService.findLargestBrotherhoods(3));
+
+		// QUERY C.3
+		// The smallest brotherhoods.
+
+		// result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
+
+		// QUERY C.4
+		// The ratio of requests to march in a procession, grouped by their status.
+
+		// QUERY C.5
+		// The processions that are going to be organised in 30 days or less.
+
+		// QUERY C.6
+		// The ratio of requests to march grouped by status.
+
+		// QUERY C.7
+		// The listing of members who have got at least 10% the maximum number of request to march accepted.
+
+		// QUERY C.8
+		// A histogram of positions.
 
 		return result;
 	}
@@ -141,13 +173,18 @@ public class AdministratorController extends AbstractController {
 		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords(), ","));
 		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords(), ","));
 		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
+		final Map<Integer, String> positionsMap = new HashMap<>();
+		for (final Position position : this.positionService.findAll())
+			positionsMap.put(position.getId(), position.getStrings().get("en"));
+		result.addObject("positionsMap", positionsMap);
 		return result;
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
 	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "systemName") final String systemName, @RequestParam(value = "banner") final String banner, @RequestParam(
 		value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "positiveWords") final String positiveWords,
-		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages) {
+		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages,
+		@RequestParam(value = "positionId") final int positionId) {
 		final SystemConfiguration systemConfiguration;
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
@@ -160,6 +197,7 @@ public class AdministratorController extends AbstractController {
 		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords, ","));
 		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords, ","));
 		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages, ":", ";"));
+		systemConfiguration.setLowestPosition(this.positionService.findOne(positionId));
 		this.systemConfigurationService.save(systemConfiguration);
 
 		return this.systemConfiguration();

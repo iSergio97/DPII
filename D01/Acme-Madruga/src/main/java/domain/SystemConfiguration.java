@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.MapKeyClass;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class SystemConfiguration extends DomainEntity {
 	private List<String>		negativeWords;
 	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessages;
+	private Position			lowestPosition;
 
 
 	// Field access methods ---------------------------------------------------
@@ -115,6 +117,16 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
 		this.welcomeMessages = welcomeMessages;
+	}
+
+	@NotNull
+	@OneToOne
+	public Position getLowestPosition() {
+		return this.lowestPosition;
+	}
+
+	public void setLowestPosition(final Position lowestPosition) {
+		this.lowestPosition = lowestPosition;
 	}
 
 }
