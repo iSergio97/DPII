@@ -51,7 +51,7 @@ public class EnrolmentService {
 		enrolment.setMember(this.memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
 		//TODO: Añadir la posición más baja
-		enrolment.setPosition(null);
+		enrolment.setPosition(this.systemConfigurationService.getSystemConfiguration().getLowestPosition());
 		enrolment.setExitMoment(null);
 
 		return enrolment;
