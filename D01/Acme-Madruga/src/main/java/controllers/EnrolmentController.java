@@ -107,7 +107,7 @@ public class EnrolmentController extends AbstractController {
 				for (final Enrolment e : enrolments)
 					bhs.add(e.getBrotherhood());
 
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:/enrolment/member-brotherhood/list.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
