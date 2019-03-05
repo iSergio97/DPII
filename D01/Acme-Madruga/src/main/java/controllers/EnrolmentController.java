@@ -3,17 +3,16 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
@@ -23,6 +22,7 @@ import services.MemberService;
 import domain.Brotherhood;
 import domain.Enrolment;
 import domain.Member;
+import forms.EnrolmentForm;
 
 @Controller
 @RequestMapping("/enrolment")
@@ -69,43 +69,42 @@ public class EnrolmentController extends AbstractController {
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Enrolment enrolment;
+		EnrolmentForm enrolment;
 
-		enrolment = this.enrolmentService.create();
+		enrolment = this.enrolmentService.createForm();
 		result = this.createEditModelAndView(enrolment);
 
 		return result;
 	}
 
 	// Edit -------------------------------------------------------------------
-
-	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int enrolmentId) {
-		ModelAndView result;
-		final Enrolment enrolment;
-
-		enrolment = this.enrolmentService.findOne(enrolmentId);
-		Assert.notNull(enrolment);
-		result = this.createEditModelAndView(enrolment);
-
-		return result;
-	}
-
+	/*
+	 * TODO: REVISAR
+	 * 
+	 * @RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
+	 * public ModelAndView edit(@RequestParam final int enrolmentId, final BindingResult bindingResult) {
+	 * ModelAndView result;
+	 * EnrolmentForm enrolment;
+	 * enrolment = this.enrolmentService.findOne(rec.getId());
+	 * Assert.notNull(enrolment);
+	 * result = this.createEditModelAndView(enrolment);
+	 * 
+	 * return result;
+	 * }
+	 */
 	// Save -------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final EnrolmentForm enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
+		Enrolment enrolment2;
+		enrolment.setMoment(new Date());
 
+		enrolment2 = this.enrolmentService.reconstructForm(enrolment, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(enrolment);
 		else
 			try {
-				this.enrolmentService.save(enrolment);
-				final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
-				final List<Enrolment> enrolments = member.getEnrolments();
-				final List<Brotherhood> bhs = new ArrayList<>();
-				for (final Enrolment e : enrolments)
-					bhs.add(e.getBrotherhood());
+				this.enrolmentService.save(enrolment2);
 
 				result = new ModelAndView("redirect:/enrolment/member-brotherhood/list.do");
 			} catch (final Throwable oops) {
@@ -113,7 +112,6 @@ public class EnrolmentController extends AbstractController {
 			}
 		return result;
 	}
-
 	// Delete -----------------------------------------------------------------
 	/*
 	 * @RequestMapping(value = "/edit", params = "delete", method = RequestMethod.POST)
@@ -132,7 +130,7 @@ public class EnrolmentController extends AbstractController {
 	 */
 	// Ancillary Methods ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Enrolment enrolment) {
+	protected ModelAndView createEditModelAndView(final EnrolmentForm enrolment) {
 		ModelAndView result;
 
 		result = this.createAndEditModelAndView(enrolment, null);
@@ -140,12 +138,16 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createAndEditModelAndView(final Enrolment enrolment, final String message) {
+	protected ModelAndView createAndEditModelAndView(final EnrolmentForm enrolment, final String message) {
 		ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
 
 		//TODO: La solicitud se hace al cargo más pequeño y la hermandad decide si cambiarlo a otro o no
+		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final List<Enrolment> ls = actual.getEnrolments();
 		brotherhoods = this.brotherhoodService.findAll();
+		for (final Enrolment e : ls)
+			brotherhoods.remove(e.getBrotherhood());
 
 		result = new ModelAndView("enrolment/member/create");
 		result.addObject("enrolment", enrolment);

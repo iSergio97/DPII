@@ -19,21 +19,17 @@
 <form:form modelAttribute="enrolment" method="POST"
 	action="enrolment/member/edit.do">
 
-	<!-- Hidden fields -->
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="moment" />
-	<form:hidden path="member" />
-	<form:hidden path="exitMoment" />
-	<form:hidden path="position" />
-
+	<form:hidden path="moment"/>
+	<!-- Hidden fields 
+-->
 	<!-- Input fields -->
 
-	<div id="brotherhood" class="brotherhood">
-		<form:label path="brotherhood">
+	<div id="bro" class="bro">
+		<form:label path="bro">
 			<spring:message code="enrolment.brotherhood" />
 		</form:label>
-		<form:select multiple="false" id="brotherhood" path="brotherhood">
+		<form:select multiple="false" id="bro" path="bro">
 			<form:options items="${brotherhoods}" itemLabel="title"
 				itemValue="id" />
 		</form:select>
@@ -42,7 +38,7 @@
 
 	<div id="soc" class="soc">
 		<acme:submit name="save" code="save" />
-		<acme:cancel url="welcome/index.do" code="cancel"/>
+		<acme:cancel url="welcome/index.do" code="cancel" />
 	</div>
 
 </form:form>

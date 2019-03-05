@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.UserAccount;
 import security.UserAccountRepository;
 import services.BrotherhoodService;
 import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
 import domain.Brotherhood;
+import domain.Finder;
 import domain.Member;
 import domain.MessageBox;
 import forms.BrotherhoodForm;
@@ -71,15 +73,18 @@ public class RegisterController extends AbstractController {
 		else
 			try {
 				if (member2.getId() == 0) {
-					this.finderService.save(member2.getFinder());
+					final Finder finder = member2.getFinder();
+					this.finderService.save(finder);
+					member2.setFinder(finder);
 					member2.getUserAccount().setUsername(member.getUsername());
 					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-					this.userAccountRepository.save(member2.getUserAccount());
+					final UserAccount ua = member2.getUserAccount();
+					this.userAccountRepository.save(ua);
+					member2.setUserAccount(ua);
 					this.memberService.save(member2);
 					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
 					for (final MessageBox mb : mbs) {
 						mb.setActor(member2);
-						System.out.println(mb.getName());
 						this.messageBoxService.save(mb);
 					}
 				} else

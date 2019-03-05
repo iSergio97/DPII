@@ -184,9 +184,8 @@ public class MemberService {
 		result.setPhoneNumber(member.getPhoneNumber());
 		result.setAddress(member.getAddress());
 
-		//Note:
-		//Si lo comento, falla en que no guarda userAccount y Finder, pero si no lo comento, peta aquí con las cajas de mensajes
 		/*
+		 * Note:
 		 * Fallo
 		 * JSR-303 validated property 'messageBoxes[4].actor' does not have a corresponding accessor for Spring data binding - check your DataBinder's configuration (bean property versus direct field access)
 		 */
