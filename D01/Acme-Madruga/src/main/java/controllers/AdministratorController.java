@@ -35,6 +35,8 @@ import services.MessageBoxService;
 import services.MessageService;
 import services.PositionService;
 import services.PriorityService;
+import services.ProcessionService;
+import services.RequestService;
 import services.SystemConfigurationService;
 import domain.Administrator;
 import domain.Area;
@@ -65,6 +67,10 @@ public class AdministratorController extends AbstractController {
 	private PositionService				positionService;
 	@Autowired
 	private PriorityService				priorityService;
+	@Autowired
+	private ProcessionService			processionService;
+	@Autowired
+	private RequestService				requestService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 	@Autowired
@@ -111,7 +117,7 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	// System configuration --------------------------------------------------------
+	// Dashboard -------------------------------------------------------------------
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard() {
@@ -122,27 +128,33 @@ public class AdministratorController extends AbstractController {
 		// QUERY C.1
 		// The average, the minimum, the maximum, and the standard deviation of the number of members per brotherhood.
 
-		// final Double[] brotherhoodMemberStatistics = this.brotherhoodService.getMemberStatistics();
-		// result.addObject("brotherhoodMemberStatisticsMinimum", brotherhoodMemberStatistics[0]);
-		// result.addObject("brotherhoodMemberStatisticsMaximum", brotherhoodMemberStatistics[1]);
-		// result.addObject("brotherhoodMemberStatisticsAverage", brotherhoodMemberStatistics[2]);
-		// result.addObject("brotherhoodMemberStatisticsStandardDeviation", brotherhoodMemberStatistics[3]);
+		final Double[] brotherhoodMemberStatistics = this.brotherhoodService.getMemberStatistics();
+		result.addObject("brotherhoodMemberStatisticsMinimum", brotherhoodMemberStatistics[0]);
+		result.addObject("brotherhoodMemberStatisticsMaximum", brotherhoodMemberStatistics[1]);
+		result.addObject("brotherhoodMemberStatisticsAverage", brotherhoodMemberStatistics[2]);
+		result.addObject("brotherhoodMemberStatisticsStandardDeviation", brotherhoodMemberStatistics[3]);
 
 		// QUERY C.2
 		// The largest brotherhoods.
 
-		// result.addObject("largestBrotherhoods", this.brotherhoodService.findLargestBrotherhoods(3));
+		result.addObject("largestBrotherhoods", this.brotherhoodService.findLargestBrotherhoods(3));
 
 		// QUERY C.3
 		// The smallest brotherhoods.
 
-		// result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
+		result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
 
 		// QUERY C.4
 		// The ratio of requests to march in a procession, grouped by their status.
 
+		result.addObject("acceptedRequestRatio", this.requestService.getAcceptedRatio());
+		result.addObject("rejectedRequestRatio", this.requestService.getRejectedRatio());
+		result.addObject("pendingRequestRatio", this.requestService.getPendingRatio());
+
 		// QUERY C.5
 		// The processions that are going to be organised in 30 days or less.
+
+		result.addObject("processionsWithin30Days", this.processionService.findWithin30Days());
 
 		// QUERY C.6
 		// The ratio of requests to march grouped by status.
@@ -150,11 +162,22 @@ public class AdministratorController extends AbstractController {
 		// QUERY C.7
 		// The listing of members who have got at least 10% the maximum number of request to march accepted.
 
+		result.addObject("membersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests", this.requestService.getMembersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests());
+
 		// QUERY C.8
 		// A histogram of positions.
 
+		final List<Position> allPositions = this.positionService.findAll();
+		final double totalPositions = allPositions.size();
+		final Map<String, Double> positionHistogram = new HashMap<>();
+		for (final Position position : allPositions)
+			positionHistogram.put(position.getStrings().get("en"), this.enrolmentService.countWithPosition(position) * 100.0d / totalPositions);
+		result.addObject("positionHistogram", positionHistogram);
+
 		return result;
 	}
+
+	// System configuration --------------------------------------------------------
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.GET)
 	public ModelAndView systemConfiguration() {
