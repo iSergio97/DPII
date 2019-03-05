@@ -162,10 +162,6 @@ public class BrotherhoodService {
 		return result;
 	}
 
-	public boolean existWithArea(final Area area) {
-		return this.brotherhoodRepository.countWithAreaId(area.getId()) > 0;
-	}
-
 	public Brotherhood reconstructForm(final BrotherhoodForm member, final BindingResult bindingResult) {
 
 		Brotherhood result;
@@ -192,6 +188,22 @@ public class BrotherhoodService {
 		this.validator.validate(result, bindingResult);
 
 		return result;
+	}
+
+	public boolean existWithArea(final Area area) {
+		return this.brotherhoodRepository.countWithAreaId(area.getId()) > 0;
+	}
+
+	public Double[] getMemberStatistics() {
+		return this.brotherhoodRepository.getMemberStatistics();
+	}
+
+	public List<Brotherhood> findSmallestBrotherhoods(final int number) {
+		return this.brotherhoodRepository.findAllOrderedBySizeAscending().subList(0, number);
+	}
+
+	public List<Brotherhood> findLargestBrotherhoods(final int number) {
+		return this.brotherhoodRepository.findAllOrderedBySizeDescending().subList(0, number);
 	}
 
 }

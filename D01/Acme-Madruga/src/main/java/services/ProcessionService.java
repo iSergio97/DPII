@@ -98,4 +98,12 @@ public class ProcessionService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
+	public List<Procession> findWithin30Days() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, 30);
+		final Date plus30Days = calendar.getTime();
+		return this.processionRepository.findBeforeDate(plus30Days);
+	}
+
 }

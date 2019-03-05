@@ -90,4 +90,29 @@ public class RequestService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
+	public Double getAcceptedRatio() {
+		return this.requestRepository.getAcceptedRatio();
+	}
+
+	public Double getRejectedRatio() {
+		return this.requestRepository.getRejectedRatio();
+	}
+
+	public Double getPendingRatio() {
+		return this.requestRepository.getPendingRatio();
+	}
+
+	public List<Member> getMembersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests() {
+		final List<Object[]> membersRequests = this.requestRepository.getMembersOrderedByNumberOfAcceptedRequests();
+		final List<Member> result = new ArrayList<Member>();
+		if (membersRequests.size() == 0)
+			return result;
+		final Long maximumNumberOfRequests = (Long) membersRequests.get(0)[1];
+		final Double tenPercentOfTheMaximumNumberOfRequests = maximumNumberOfRequests.doubleValue() * 0.1d;
+		final int i = 0;
+		while (i < membersRequests.size() ? ((Long) membersRequests.get(i)[1]) >= tenPercentOfTheMaximumNumberOfRequests : false)
+			result.add((Member) membersRequests.get(i)[0]);
+		return result;
+	}
+
 }

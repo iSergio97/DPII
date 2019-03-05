@@ -107,10 +107,6 @@ public class EnrolmentService {
 		return this.findOne(userAccount.getId());
 	}
 
-	public boolean existWithPosition(final Position position) {
-		return this.enrolmentRepository.countWithPositionId(position.getId()) > 0;
-	}
-
 	public Enrolment reconstructForm(final EnrolmentForm enrolment, final BindingResult bindingResult) {
 		final Enrolment result;
 
@@ -127,4 +123,13 @@ public class EnrolmentService {
 
 		return result;
 	}
+
+	public int countWithPosition(final Position position) {
+		return this.enrolmentRepository.countWithPositionId(position.getId());
+	}
+
+	public boolean existWithPosition(final Position position) {
+		return this.countWithPosition(position) > 0;
+	}
+
 }
