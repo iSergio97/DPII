@@ -13,8 +13,9 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="procession" method="POST">
+<form:form modelAttribute="procession" method="POST" action="procession/brotherhood/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -45,17 +46,14 @@
 	</form:label>
 	<form:select multiple="true" id="acmeFloats" path="acmeFloats">
 		<form:options items="${acmeFloats}" itemLabel="title"
-			itemValue="title" />
+			itemValue="id" />
 		<form:option value="" label="----" />
 	</form:select>
-	<form:errors cssClass="error" path="acmeFloat" />
+	<form:errors cssClass="error" path="acmeFloats" />
 	<br>
 
-	<input type="submit" name="edit"
-		value="<spring:message code='security.send'/>" />
-	<input type="button" name="cancel"
-		value="<spring:message code='security.cancel' />"
-		onclick="javascript: relativeRedir('welcome/index.do');" />
+	<acme:submit name="save" code="save"/>
+	<acme:cancel url="welcome/index.do" code="cancel"/>
 
 
 </form:form>

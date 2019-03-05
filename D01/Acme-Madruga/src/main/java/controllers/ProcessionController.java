@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AcmeFloatService;
 import services.BrotherhoodService;
 import services.ProcessionService;
 import domain.AcmeFloat;
@@ -22,7 +21,7 @@ import domain.Brotherhood;
 import domain.Procession;
 
 @Controller
-@RequestMapping("/procession/administrator-brotherhood-member")
+@RequestMapping("/procession/brotherhood")
 public class ProcessionController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -32,9 +31,6 @@ public class ProcessionController extends AbstractController {
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
-
-	@Autowired
-	private AcmeFloatService	acmeFloatService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -50,11 +46,11 @@ public class ProcessionController extends AbstractController {
 		final ModelAndView result;
 		Collection<Procession> processions;
 
-		processions = this.processionService.findAll();
+		processions = this.processionService.findAllFormal();
 
-		result = new ModelAndView("procession/list");
+		result = new ModelAndView("procession/brotherhood/list");
 		result.addObject("processions", processions);
-		result.addObject("requestURI", "procession/administrator-brotherhood-member/list.do");
+		result.addObject("requestURI", "procession/brotherhood/list.do");
 
 		return result;
 	}
@@ -88,7 +84,7 @@ public class ProcessionController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, params = "save")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Procession procession, final BindingResult binding) {
 		ModelAndView result;
 
@@ -107,7 +103,7 @@ public class ProcessionController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET, params = "delete")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Procession procession, final BindingResult binding) {
 		ModelAndView result;
 
@@ -137,9 +133,9 @@ public class ProcessionController extends AbstractController {
 		final Collection<AcmeFloat> acmeFloats;
 
 		brotherhood = this.brotherhoodService.findPrincipal();
-		acmeFloats = this.acmeFloatService.findAcmeFloats();
+		acmeFloats = brotherhood.getAcmeFloats();
 
-		result = new ModelAndView("procession/edit");
+		result = new ModelAndView("procession/brotherhood/edit");
 		result.addObject("brotherhood", brotherhood);
 		result.addObject("acmeFloats", acmeFloats);
 

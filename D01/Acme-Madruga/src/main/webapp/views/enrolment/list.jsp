@@ -17,15 +17,8 @@
 <display:table name="broterhoods" id="row"
 	requestURI="enrolment/list.do" pagesize="5" class="displaytag">
 
-	<display:column titleKey="title">
-		<jstl:out value="${brotherhood.title}" />
+	<display:column titleKey="list.name">
+		<jstl:out value="${brotherhoods.name}" />
 	</display:column>
-	<security:authorize access="hasRole('BROTHERHOOD')">
-	<display:column property="edit">
-		<jstl:out value="Edit"/>
-	</display:column>
-	</security:authorize>
-	
-		
 
 </display:table>

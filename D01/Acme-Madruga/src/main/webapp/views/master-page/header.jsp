@@ -66,12 +66,21 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('BROTHERHOOD')">
-			<li><a class="fNiv"><spring:message	code="master.page.brotherhood.processions" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.floats" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="procession/create.do"><spring:message code="master.page.brotherhood.procession.create" /></a></li>
-					<li><a href="procession/list.do"><spring:message code="master.page.brotherhood.procession.list" /></a></li>
-					<li><a href="acmefloat/brotherhood/list.do"><spring:message code="master.page.brotherhood.acmefloat.list" /></a></li>
+					<li><a href="acmefloat/brotherhood/create.do"><spring:message code="master.page.action.create" /></a></li>
+					<li><a href="acmefloat/brotherhood/list.do"><spring:message code="master.page.action.list" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('BROTHERHOOD')">
+			<li><a class="fNiv"><spring:message	code="master.page.processions" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="procession/brotherhood/create.do"><spring:message code="master.page.action.create" /></a></li>
+					<li><a href="procession/brotherhood/list.do"><spring:message code="master.page.action.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

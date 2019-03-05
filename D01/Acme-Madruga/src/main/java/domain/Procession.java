@@ -28,6 +28,7 @@ public class Procession extends DomainEntity {
 	private String					description;
 	private Date					moment;
 	private String					ticker;
+	private boolean					isDraft;
 
 	// Relationships ----------------------------------------------------------
 
@@ -74,6 +75,14 @@ public class Procession extends DomainEntity {
 
 	public void setTicker(final String ticker) {
 		this.ticker = ticker;
+	}
+
+	public boolean getIsDraft() {
+		return this.isDraft;
+	}
+
+	public void setIsDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
 	}
 
 	// Relationship access methods --------------------------------------------
