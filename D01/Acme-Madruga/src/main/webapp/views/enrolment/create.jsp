@@ -14,36 +14,31 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="enrolment" method="POST" action="enrolment/edit.do">
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-	<!-- Hidden fields -->
+<form:form modelAttribute="enrolment" method="POST"
+	action="enrolment/member/edit.do">
+
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="moment" />
-	<form:hidden path="member" />
-	<form:hidden path="exitMoment" />
-	<form:hidden path="position" />
-
+	<form:hidden path="moment"/>
+	<!-- Hidden fields 
+-->
 	<!-- Input fields -->
 
-	<div id="brotherhood" class="brotherhood">
-		<form:label path="brotherhood">
+	<div id="bro" class="bro">
+		<form:label path="bro">
 			<spring:message code="enrolment.brotherhood" />
 		</form:label>
-		<form:select multiple="false" id="brotherhood" path="brotherhood">
+		<form:select multiple="false" id="bro" path="bro">
 			<form:options items="${brotherhoods}" itemLabel="title"
-				itemValue="title" />
+				itemValue="id" />
 		</form:select>
 	</div>
 
 
 	<div id="soc" class="soc">
-		<input type="submit" name="edit"
-			value="<spring:message code='security.send'/>" /> <input
-			type="button" name="cancel"
-			value="<spring:message code='security.cancel' />"
-			onclick="javascript: relativeRedir('welcome/index.do');" />
-
+		<acme:submit name="save" code="save" />
+		<acme:cancel url="welcome/index.do" code="cancel" />
 	</div>
 
 </form:form>

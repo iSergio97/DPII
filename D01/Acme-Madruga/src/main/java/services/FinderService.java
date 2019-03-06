@@ -36,7 +36,6 @@ public class FinderService {
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
-	@SuppressWarnings("deprecation")
 	public Finder create() {
 		final Finder f = new Finder();
 		f.setKeyword("");

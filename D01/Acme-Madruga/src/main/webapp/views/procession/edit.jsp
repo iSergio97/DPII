@@ -45,10 +45,10 @@
 	</form:label>
 	<form:select multiple="true" id="acmeFloats" path="acmeFloats">
 		<form:options items="${acmeFloats}" itemLabel="title"
-			itemValue="id" />
+			itemValue="title" />
 		<form:option value="" label="----" />
 	</form:select>
-	<form:errors cssClass="error" path="acmeFloats" />
+	<form:errors cssClass="error" path="acmeFloat" />
 	<br>
 
 	<input type="submit" name="edit"

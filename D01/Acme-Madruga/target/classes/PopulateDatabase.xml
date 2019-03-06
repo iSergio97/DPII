@@ -958,7 +958,6 @@
 		<property name="description" value="this is a description for a Procession" />
 		<property name="moment" value="2019/04/18" />
 		<property name="ticker" value="190418-AAAAA" />
-		<property name="isDraft" value="false"/>
 		<property name="brotherhood" ref="brotherhood1" />
 		<property name="acmeFloats">
 			<list>
@@ -973,7 +972,6 @@
 		<property name="description" value="this is a description for a Procession" />
 		<property name="moment" value="2019/04/18" />
 		<property name="ticker" value="190415-AAAAB" />
-		<property name="isDraft" value="false"/>
 		<property name="brotherhood" ref="brotherhood2" />
 		<property name="acmeFloats">
 			<list>
@@ -987,7 +985,6 @@
 		<property name="description" value="this is a description for a Procession" />
 		<property name="moment" value="2019/04/18" />
 		<property name="ticker" value="190416-AAAAC" />
-		<property name="isDraft" value="false"/>
 		<property name="brotherhood" ref="brotherhood3" />
 		<property name="acmeFloats">
 			<list>
@@ -1001,7 +998,6 @@
 		<property name="description" value="this is a description for a Procession" />
 		<property name="moment" value="2019/04/18" />
 		<property name="ticker" value="190417-AAAAD" />
-		<property name="isDraft" value="true"/>
 		<property name="brotherhood" ref="brotherhood3" />
 		<property name="acmeFloats">
 			<list>
@@ -1016,7 +1012,6 @@
 		<property name="description" value="this is a description for a Procession" />
 		<property name="moment" value="2019/04/18" />
 		<property name="ticker" value="190417-AAAAE" />
-		<property name="isDraft" value="true"/>
 		<property name="brotherhood" ref="brotherhood1" />
 		<property name="acmeFloats">
 			<list>
