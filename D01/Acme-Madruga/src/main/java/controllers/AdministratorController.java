@@ -17,30 +17,22 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
 import services.AreaService;
 import services.BrotherhoodService;
 import services.EnrolmentService;
-import services.MessageBoxService;
 import services.MessageService;
 import services.PositionService;
 import services.PriorityService;
 import services.ProcessionService;
 import services.RequestService;
 import services.SystemConfigurationService;
-import domain.Administrator;
 import domain.Area;
-import domain.MessageBox;
 import domain.Position;
 import domain.Priority;
 import domain.SystemConfiguration;
@@ -52,15 +44,11 @@ public class AdministratorController extends AbstractController {
 	// Services --------------------------------------------------------------------
 
 	@Autowired
-	private AdministratorService		administratorService;
-	@Autowired
 	private AreaService					areaService;
 	@Autowired
 	private BrotherhoodService			brotherhoodService;
 	@Autowired
 	private EnrolmentService			enrolmentService;
-	@Autowired
-	private MessageBoxService			messageBoxService;
 	@Autowired
 	private MessageService				messageService;
 	@Autowired
@@ -73,8 +61,6 @@ public class AdministratorController extends AbstractController {
 	private RequestService				requestService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
-	@Autowired
-	private UserAccountRepository		userAccountRepository;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -337,56 +323,6 @@ public class AdministratorController extends AbstractController {
 		if (!this.messageService.existWithPriority(priority))
 			this.priorityService.delete(priority);
 		return this.viewPriorities();
-	}
-
-	// Register administrator ------------------------------------------------------
-
-	@RequestMapping(value = "/registeradministrator", method = RequestMethod.GET)
-	public ModelAndView registerAdmin() {
-		final ModelAndView result;
-		final Administrator administrator;
-
-		administrator = this.administratorService.create();
-		result = new ModelAndView("administrator/registeradministrator");
-		result.addObject("administrator", administrator);
-
-		return result;
-	}
-
-	@RequestMapping(value = "/registeradministrator", method = RequestMethod.POST)
-	public ModelAndView registerAdmin(Administrator administrator, final BindingResult binding) {
-		ModelAndView result;
-
-		if (!binding.hasErrors()) {
-			UserAccount userAccount = administrator.getUserAccount();
-			administrator = this.administratorService.save(administrator);
-
-			final String password = new Md5PasswordEncoder().encodePassword(userAccount.getPassword(), null);
-			userAccount.setPassword(password);
-			userAccount = this.userAccountRepository.save(userAccount);
-			administrator.setUserAccount(userAccount);
-			administrator = this.administratorService.save(administrator);
-
-			final ArrayList<MessageBox> savedMessageBoxes = new ArrayList<MessageBox>();
-			for (MessageBox messageBox : this.messageBoxService.createSystemBoxes()) {
-				messageBox.setActor(administrator);
-				messageBox = this.messageBoxService.save(messageBox);
-				savedMessageBoxes.add(messageBox);
-			}
-			//administrator.setMessageBoxes(savedMessageBoxes);
-			administrator = this.administratorService.save(administrator);
-
-			result = new ModelAndView("redirect:show.do");
-		} else {
-			result = new ModelAndView("administrator/registeradministrator");
-			result.addObject("administrator", administrator);
-			result.addObject("showError", binding);
-			result.addObject("erroresBinding", binding.getAllErrors());
-			for (int i = 0; i < binding.getAllErrors().size(); i++)
-				System.out.println("Error " + i + ": " + binding.getAllErrors().get(i));
-		}
-
-		return result;
 	}
 
 }

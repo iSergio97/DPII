@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
 import security.Authority;
@@ -17,6 +19,7 @@ import security.UserAccountRepository;
 import domain.Administrator;
 import domain.Message;
 import domain.SocialProfile;
+import forms.AdministratorForm;
 
 @Service
 @Transactional
@@ -33,6 +36,12 @@ public class AdministratorService {
 
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	@Autowired
+	private Validator				validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +125,45 @@ public class AdministratorService {
 	public Administrator findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.findByUserAccountId(userAccount.getId());
+	}
+
+	public AdministratorForm createForm() {
+
+		final AdministratorForm administratorForm = new AdministratorForm();
+		administratorForm.setName("");
+		administratorForm.setMiddleName("");
+		administratorForm.setSurname("");
+		administratorForm.setPhoto("");
+		administratorForm.setEmail("");
+		administratorForm.setPhoneNumber("");
+		administratorForm.setAddress("");
+		administratorForm.setUsername("");
+		administratorForm.setPassword("");
+		administratorForm.setConfirmPassword("");
+
+		return administratorForm;
+	}
+
+	public Administrator reconstructForm(final AdministratorForm administrator, final BindingResult bindingResult) {
+
+		Administrator result;
+
+		if (administrator.getId() == 0)
+			result = this.create();
+		else
+			result = this.administratorRepository.findOne(administrator.getId());
+
+		result.setName(administrator.getName());
+		result.setMiddleName(administrator.getMiddleName());
+		result.setSurname(administrator.getSurname());
+		result.setPhoto(administrator.getPhoto());
+		result.setEmail(administrator.getEmail());
+		result.setPhoneNumber(administrator.getPhoneNumber());
+		result.setAddress(administrator.getAddress());
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
 	}
 
 }

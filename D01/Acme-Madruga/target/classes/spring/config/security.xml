@@ -52,6 +52,7 @@
 		-->
 		<security:intercept-url pattern="/register/member/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/brotherhood/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMIN')" />
 
 		<security:form-login 
 			login-page="/security/login.do"

@@ -49,6 +49,7 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="administrator/systemconfiguration.do"><spring:message code="master.page.administrator.systemconfiguration" /></a></li>
+					<li><a href="register/administrator/create.do"><spring:message code="master.page.administrator.register" /></a></li>
 					<li><a href="administrator/viewpositions.do"><spring:message code="master.page.administrator.viewpositions" /></a></li>
 					<li><a href="administrator/viewpriorities.do"><spring:message code="master.page.administrator.viewpriorities" /></a></li>
 				</ul>

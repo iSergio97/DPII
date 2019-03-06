@@ -10,13 +10,18 @@
 
 <tiles-definitions>
 
-	<definition name="register/member/create" extends="master.page">
-		<put-attribute name="title" value="Registro como miembro" />
+	<definition name="register/administrator/create" extends="master.page">
+		<put-attribute name="title" value="Registro como administrator" />
 		<put-attribute name="body" value="/views/register/register.jsp" />
 	</definition>
-	
+
 	<definition name="register/brotherhood/create" extends="master.page">
 		<put-attribute name="title" value="Registro como hermandad" />
+		<put-attribute name="body" value="/views/register/register.jsp" />
+	</definition>
+
+	<definition name="register/member/create" extends="master.page">
+		<put-attribute name="title" value="Registro como miembro" />
 		<put-attribute name="body" value="/views/register/register.jsp" />
 	</definition>
 
