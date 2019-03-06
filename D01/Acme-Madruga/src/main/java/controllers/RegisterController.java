@@ -155,7 +155,7 @@ public class RegisterController extends AbstractController {
 			try {
 				if (brotherhood.getId() == 0) {
 					this.brotherhoodService.save(brotherhood2);
-					for (final MessageBox mb : brotherhood2.getMessageBoxes()) {
+					for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
 						mb.setActor(brotherhood2);
 						this.messageBoxService.save(mb);
 					}

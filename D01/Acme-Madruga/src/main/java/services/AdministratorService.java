@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,7 +14,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.HashPassword;
 import domain.Administrator;
 import domain.Message;
 import domain.SocialProfile;
@@ -33,8 +31,6 @@ public class AdministratorService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 
-	@Autowired
-	private MessageBoxService		messageBoxService;
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
@@ -75,7 +71,6 @@ public class AdministratorService {
 		administrator.setIsBanned(false);
 		// set relationships
 		administrator.setUserAccount(userAccount);
-		administrator.setMessageBoxes(this.messageBoxService.createSystemBoxes());
 		administrator.setMessagesSent(new ArrayList<Message>());
 		administrator.setMessagesReceived(new ArrayList<Message>());
 		administrator.setSocialProfiles(new ArrayList<SocialProfile>());

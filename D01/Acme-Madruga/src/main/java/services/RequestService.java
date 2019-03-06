@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,15 @@ public class RequestService {
 	@Autowired
 	private RequestRepository	requestRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-	
+
 	@Autowired
-	private MemberService memberService;
-	
+	private MemberService		memberService;
+
 	@Autowired
-	private ProcessionService processionService;
-	
+	private ProcessionService	processionService;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -42,11 +42,11 @@ public class RequestService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
-	
+
 	public Request create() {
-		Request request = new Request();
-		
-		Member member = this.memberService.findPrincipal();
+		final Request request = new Request();
+
+		final Member member = this.memberService.findPrincipal();
 		request.setMember(member);
 		request.setProcession(this.processionService.create());
 		request.setHLine(0);
@@ -58,9 +58,8 @@ public class RequestService {
 
 	public Request save(final Request request) {
 		Assert.isTrue(request != null);
-		if(request.getStatus().equals("REJECTED")) {
+		if (request.getStatus().equals("REJECTED"))
 			Assert.isTrue(request.getReason() != null);
-		}
 		return this.requestRepository.save(request);
 	}
 

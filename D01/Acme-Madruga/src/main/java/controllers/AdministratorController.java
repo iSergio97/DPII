@@ -371,7 +371,7 @@ public class AdministratorController extends AbstractController {
 				messageBox = this.messageBoxService.save(messageBox);
 				savedMessageBoxes.add(messageBox);
 			}
-			administrator.setMessageBoxes(savedMessageBoxes);
+			//administrator.setMessageBoxes(savedMessageBoxes);
 			administrator = this.administratorService.save(administrator);
 
 			result = new ModelAndView("redirect:show.do");

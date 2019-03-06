@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import security.UserAccount;
 import domain.Enrolment;
 import domain.Member;
 import domain.Message;
-import domain.MessageBox;
 import domain.SocialProfile;
 import forms.MemberForm;
 
@@ -35,9 +33,6 @@ public class MemberService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private MessageBoxService	messageBoxService;
 
 	@Autowired
 	private Validator			validator;
@@ -80,8 +75,6 @@ public class MemberService {
 		member.setSocialProfiles(new ArrayList<SocialProfile>());
 		member.setMessagesSent(new ArrayList<Message>());
 		member.setMessagesReceived(new ArrayList<Message>());
-		final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-		member.setMessageBoxes(mbs);
 		member.setEnrolments(new ArrayList<Enrolment>());
 		member.setFinder(this.finderService.create());
 

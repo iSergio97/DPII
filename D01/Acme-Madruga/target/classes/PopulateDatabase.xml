@@ -535,15 +535,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountAdmin1" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxAdmin1" />
-				<ref bean="outBoxAdmin1" />
-				<ref bean="spamBoxAdmin1" />
-				<ref bean="trashBoxAdmin1" />
-				<ref bean="notificationBoxAdmin1" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>
@@ -572,15 +563,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountBrotherhood1" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxBrotherhood1" />
-				<ref bean="outBoxBrotherhood1" />
-				<ref bean="spamBoxBrotherhood1" />
-				<ref bean="trashBoxBrotherhood1" />
-				<ref bean="notificationBoxBrotherhood1" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>
@@ -626,15 +608,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountBrotherhood2" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxBrotherhood2" />
-				<ref bean="outBoxBrotherhood2" />
-				<ref bean="spamBoxBrotherhood2" />
-				<ref bean="trashBoxBrotherhood2" />
-				<ref bean="notificationBoxBrotherhood2" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>
@@ -678,15 +651,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountBrotherhood3" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxBrotherhood3" />
-				<ref bean="outBoxBrotherhood3" />
-				<ref bean="spamBoxBrotherhood3" />
-				<ref bean="trashBoxBrotherhood3" />
-				<ref bean="notificationBoxBrotherhood3" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>
@@ -730,15 +694,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountBrotherhood4" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxBrotherhood4" />
-				<ref bean="outBoxBrotherhood4" />
-				<ref bean="spamBoxBrotherhood4" />
-				<ref bean="trashBoxBrotherhood4" />
-				<ref bean="notificationBoxBrotherhood4" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>
@@ -783,15 +738,6 @@
 		<property name="polarityScore" value="0" />
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountMember1" />
-		<property name="messageBoxes">
-			<list>
-				<ref bean="inBoxMember1" />
-				<ref bean="outBoxMember1" />
-				<ref bean="spamBoxMember1" />
-				<ref bean="trashBoxMember1" />
-				<ref bean="notificationBoxMember1" />
-			</list>
-		</property>
 		<property name="messagesSent">
 			<list>
 			</list>

@@ -22,7 +22,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import security.UserAccount;
@@ -48,7 +47,6 @@ public class Actor extends DomainEntity {
 	// Relationships ----------------------------------------------------------
 
 	private UserAccount					userAccount;
-	private Collection<MessageBox>		messageBoxes;
 	private Collection<Message>			messagesSent;
 	private Collection<Message>			messagesReceived;
 	private Collection<SocialProfile>	socialProfiles;
@@ -162,18 +160,6 @@ public class Actor extends DomainEntity {
 
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
-	}
-
-	@Valid
-	@NotNull
-	@NotEmpty
-	@OneToMany(mappedBy = "actor")
-	public Collection<MessageBox> getMessageBoxes() {
-		return this.messageBoxes;
-	}
-
-	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
-		this.messageBoxes = messageBoxes;
 	}
 
 	@Valid

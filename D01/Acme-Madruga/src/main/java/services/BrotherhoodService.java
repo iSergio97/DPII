@@ -36,9 +36,6 @@ public class BrotherhoodService {
 	// Supporting services
 
 	@Autowired
-	private MessageBoxService		messageBoxService;
-
-	@Autowired
 	private Validator				validator;
 
 
@@ -76,7 +73,6 @@ public class BrotherhoodService {
 		brotherhood.setSocialProfiles(new ArrayList<SocialProfile>());
 		brotherhood.setMessagesSent(new ArrayList<Message>());
 		brotherhood.setMessagesReceived(new ArrayList<Message>());
-		brotherhood.setMessageBoxes(this.messageBoxService.createSystemBoxes());
 		brotherhood.setPictures(new ArrayList<String>());
 
 		return brotherhood;
