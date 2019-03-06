@@ -53,9 +53,9 @@ public class EnrolmentController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result;
 
-		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Member principal = this.memberService.findPrincipal();
 		List<Enrolment> enrolments;
-		enrolments = actual.getEnrolments();
+		enrolments = principal.getEnrolments();
 		List<Brotherhood> bhs;
 		bhs = new ArrayList<>();
 		List<Date> dates;
@@ -65,12 +65,28 @@ public class EnrolmentController extends AbstractController {
 			dates.add(e.getMoment());
 		}
 		result = new ModelAndView("enrolment/member/list");
-		result.addObject("brotherhood", bhs);
+		result.addObject("brotherhoods", bhs);
 		result.addObject("dates", dates);
 		result.addObject("size", dates.size());
 
 		return result;
 	}
+
+	// Leave brotherhood ------------------------------------------------------
+
+	@RequestMapping(value = "/member/leave", method = RequestMethod.POST)
+	public ModelAndView leave(@RequestParam(value = "id") final int id) {
+		final Member principal = this.memberService.findPrincipal();
+		final Brotherhood brotherhoodPrincipalIsLeaving = this.brotherhoodService.findOne(id);
+		final Date now = new Date();
+		for (final Enrolment enrolment : principal.getEnrolments())
+			if (enrolment.getBrotherhood().equals(brotherhoodPrincipalIsLeaving)) {
+				enrolment.setExitMoment(now);
+				this.enrolmentService.save(enrolment);
+			}
+		return this.list();
+	}
+
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)

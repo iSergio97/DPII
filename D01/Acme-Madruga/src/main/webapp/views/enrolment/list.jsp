@@ -15,14 +15,16 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table name="brotherhood" requestURI="enrolment/member/list.do"
+<display:table name="brotherhoods" requestURI="enrolment/member/list.do"
 	pagesize="5">
 
 	<display:column property="title"
 		titleKey="brotherhood.title"  />
-	<display:column titleKey="enrolment.info">
-		<a href="/enrolment/member/info.do"> <spring:message
-				code="enrolment.info?=${brotherhood.enrolment.id}" /></a>
+	<display:column titleKey="enrolment.options">
+		<form action="enrolment/member/leave.do" method="POST">
+			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
+			<input type="submit" name="leave" value="<spring:message code='enrolment.leave' />" />
+		</form>
 	</display:column>
 
 </display:table>
