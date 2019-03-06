@@ -22,7 +22,7 @@
 	<display:column property="moment" titleKey="Moment" />
 	<display:column titleKey="enrolment.options">
 	<jstl:choose>
-			<jstl:when test="${enrolments.exitMoment eq null}">
+			<jstl:when test="${row.exitMoment eq null}">
 				<form action="enrolment/member/leave.do" method="POST">
 					<input type="hidden" name="id"
 						value="<jstl:out value='${row.id}' />" /> <input type="submit"
