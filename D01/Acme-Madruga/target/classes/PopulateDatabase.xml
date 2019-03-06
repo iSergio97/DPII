@@ -69,6 +69,12 @@
 				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
 			</map>
 		</property>
+		<property name="warningMessages">
+			<map>
+				<entry key="en" value="Your data has not been sold recently." />
+				<entry key="es" value="Sus datos no han sido vendidos recientemente." />
+			</map>
+		</property>
 		<property name="lowestPosition" ref="positionBrother" />
 	</bean>
 

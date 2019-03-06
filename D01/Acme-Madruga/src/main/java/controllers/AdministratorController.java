@@ -196,6 +196,7 @@ public class AdministratorController extends AbstractController {
 		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords(), ","));
 		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords(), ","));
 		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
+		result.addObject("warningMessages", AdministratorController.mapToString(systemConfiguration.getWarningMessages(), ":", ";"));
 		final Map<Integer, String> positionsMap = new HashMap<>();
 		for (final Position position : this.positionService.findAll())
 			positionsMap.put(position.getId(), position.getStrings().get("en"));
@@ -208,7 +209,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "systemName") final String systemName, @RequestParam(value = "banner") final String banner, @RequestParam(
 		value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "positiveWords") final String positiveWords,
 		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages,
-		@RequestParam(value = "positionId") final int positionId) {
+		@RequestParam(value = "warningMessages") final String warningMessages, @RequestParam(value = "positionId") final int positionId) {
 		final SystemConfiguration systemConfiguration;
 
 		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
@@ -221,6 +222,7 @@ public class AdministratorController extends AbstractController {
 		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords, ","));
 		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords, ","));
 		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages, ":", ";"));
+		systemConfiguration.setWarningMessages(AdministratorController.stringToMap(warningMessages, ":", ";"));
 		systemConfiguration.setLowestPosition(this.positionService.findOne(positionId));
 		this.systemConfigurationService.save(systemConfiguration);
 

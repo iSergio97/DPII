@@ -59,6 +59,10 @@
 		<br><input type="text" name="welcomeMessages" value="<jstl:out value="${welcomeMessages}" />">
 	</p>
 	<p>
+		<spring:message code="systemConfiguration.warningMessages" />
+		<br><input type="text" name="warningMessages" value="<jstl:out value="${warningMessages}" />">
+	</p>
+	<p>
 		<spring:message code="systemConfiguration.lowestPosition" />
 		<jstl:forEach items="${positionsMap}" var="entry">
 			<jstl:set var = "checkedValue" value = "false"/>

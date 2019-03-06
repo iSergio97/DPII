@@ -29,6 +29,7 @@ public class SystemConfiguration extends DomainEntity {
 	private List<String>		negativeWords;
 	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessages;
+	private Map<String, String>	warningMessages;
 
 	// Relationships ----------------------------------------------------------
 
@@ -109,6 +110,17 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setSpamWords(final List<String> spamWords) {
 		this.spamWords = spamWords;
+	}
+
+	@NotNull
+	@ElementCollection(targetClass = String.class)
+	@MapKeyClass(String.class)
+	public Map<String, String> getWarningMessages() {
+		return this.warningMessages;
+	}
+
+	public void setWarningMessages(final Map<String, String> warningMessages) {
+		this.warningMessages = warningMessages;
 	}
 
 	@NotNull
