@@ -64,14 +64,15 @@ public class EnrolmentController extends AbstractController {
 			bhs.add(e.getBrotherhood());
 			dates.add(e.getMoment());
 		}
+
 		result = new ModelAndView("enrolment/member/list");
+		result.addObject("enrolment", enrolments);
 		result.addObject("brotherhoods", bhs);
 		result.addObject("dates", dates);
 		result.addObject("size", dates.size());
 
 		return result;
 	}
-
 	// Leave brotherhood ------------------------------------------------------
 
 	@RequestMapping(value = "/member/leave", method = RequestMethod.POST)
@@ -129,7 +130,7 @@ public class EnrolmentController extends AbstractController {
 			try {
 				this.enrolmentService.save(enrolment2);
 
-				result = new ModelAndView("redirect:/enrolment/member-brotherhood/list.do");
+				result = new ModelAndView("redirect:/enrolment/member/list.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
@@ -185,7 +186,8 @@ public class EnrolmentController extends AbstractController {
 		final List<Enrolment> ls = actual.getEnrolments();
 		brotherhoods = this.brotherhoodService.findAll();
 		for (final Enrolment e : ls)
-			brotherhoods.remove(e.getBrotherhood());
+			if (e.getExitMoment() == null)
+				brotherhoods.remove(e.getBrotherhood());
 
 		result = new ModelAndView("enrolment/member/create");
 		result.addObject("enrolment", enrolment);
