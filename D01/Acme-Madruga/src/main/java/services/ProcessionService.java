@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProcessionRepository;
+import security.LoginService;
 import domain.AcmeFloat;
 import domain.Procession;
 
@@ -53,19 +54,12 @@ public class ProcessionService {
 
 	public Procession create() {
 		final Procession procession = new Procession();
-		//		procession.setBrotherhood(this.brotherhoodService.create());
+		procession.setBrotherhood(this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId()));
 		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
 		procession.setIsDraft(true);
 		procession.setDescription("");
 		procession.setMoment(new Date());
 		procession.setTitle("");
-		procession.setTicker("");
-
-		return procession;
-	}
-
-	public Procession save(final Procession procession) {
-		Assert.isTrue(procession != null);
 		if (procession.getTicker() == null || procession.getTicker().isEmpty()) {
 			final Calendar calendar = new GregorianCalendar();
 			String dateString = "";
@@ -81,8 +75,16 @@ public class ProcessionService {
 			} while (this.processionRepository.findByTicker(ticker).size() > 0);
 			procession.setTicker(ticker);
 		}
+
+		return procession;
+	}
+
+	public Procession save(final Procession procession) {
+		Assert.isTrue(procession != null);
 		if (procession.getMoment() == null)
 			procession.setMoment(new Date());
+
+		//TODO: if ticker existe en BBDD, generar nuevo, else, se guarda
 		return this.processionRepository.save(procession);
 	}
 

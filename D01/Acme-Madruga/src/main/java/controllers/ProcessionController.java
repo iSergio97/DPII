@@ -97,7 +97,7 @@ public class ProcessionController extends AbstractController {
 		else
 			try {
 				this.processionService.save(procession);
-				result = new ModelAndView("redirect::list.do");
+				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(procession, "procession.commit.error");
 			}
