@@ -29,6 +29,9 @@ public class SystemConfiguration extends DomainEntity {
 	private List<String>		negativeWords;
 	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessages;
+
+	// Relationships ----------------------------------------------------------
+
 	private Position			lowestPosition;
 
 
@@ -118,6 +121,8 @@ public class SystemConfiguration extends DomainEntity {
 	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
 		this.welcomeMessages = welcomeMessages;
 	}
+
+	// Relationship access methods --------------------------------------------
 
 	@NotNull
 	@OneToOne

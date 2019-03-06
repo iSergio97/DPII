@@ -61,7 +61,11 @@
 	<p>
 		<spring:message code="systemConfiguration.lowestPosition" />
 		<jstl:forEach items="${positionsMap}" var="entry">
-			<input type="checkbox" name="positionId" value="${entry.key}" /><jstl:out value="${entry.value}" /><br>
+			<jstl:set var = "checkedValue" value = "false"/>
+			<jstl:if test = "${entry.key == lowestPositionId}">
+				<jstl:set var = "checkedValue" value = "true"/>
+			</jstl:if>
+			<input type="checkbox" name="positionId" value="${entry.key}" checked="${checkedValue}" /><jstl:out value="${entry.value}" /><br>
 		</jstl:forEach>
 	</p>
 	<input type="submit" name="save" value="<spring:message code="systemConfiguration.save" />" />

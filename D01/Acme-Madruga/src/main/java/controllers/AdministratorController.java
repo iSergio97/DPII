@@ -200,6 +200,7 @@ public class AdministratorController extends AbstractController {
 		for (final Position position : this.positionService.findAll())
 			positionsMap.put(position.getId(), position.getStrings().get("en"));
 		result.addObject("positionsMap", positionsMap);
+		result.addObject("lowestPositionId", systemConfiguration.getLowestPosition().getId());
 		return result;
 	}
 
