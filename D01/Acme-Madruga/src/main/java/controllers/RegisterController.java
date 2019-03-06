@@ -74,17 +74,17 @@ public class RegisterController extends AbstractController {
 			try {
 				if (member2.getId() == 0) {
 					final Finder finder = member2.getFinder();
-					this.finderService.save(finder);
-					member2.setFinder(finder);
+					final Finder saved = this.finderService.save(finder);
+					member2.setFinder(saved);
 					member2.getUserAccount().setUsername(member.getUsername());
 					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
 					final UserAccount ua = member2.getUserAccount();
-					this.userAccountRepository.save(ua);
-					member2.setUserAccount(ua);
-					this.memberService.save(member2);
+					final UserAccount uas = this.userAccountRepository.save(ua);
+					member2.setUserAccount(uas);
+					final Member savedM = this.memberService.save(member2);
 					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
 					for (final MessageBox mb : mbs) {
-						mb.setActor(member2);
+						mb.setActor(savedM);
 						this.messageBoxService.save(mb);
 					}
 				} else

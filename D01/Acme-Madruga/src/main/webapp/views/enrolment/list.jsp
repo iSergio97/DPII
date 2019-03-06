@@ -15,14 +15,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table name="enrolments"
-	requestURI="enrolment/member/list.do" pagesize="5" >
+<display:table name="brotherhood" requestURI="enrolment/member/list.do"
+	pagesize="5">
 
-	<display:column  title="brotherhood.title" >
-	<jstl:out value="${brotherhood.title}"/>
-	</display:column>
-	<display:column title="enrolement.moment">
-	<jstl:out value="${dates}"/>
+	<display:column property="title"
+		titleKey="brotherhood.title"  />
+	<display:column titleKey="enrolment.info">
+		<a href="/enrolment/member/info.do"> <spring:message
+				code="enrolment.info?=${brotherhood.enrolment.id}" /></a>
 	</display:column>
 
 </display:table>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
@@ -53,17 +54,20 @@ public class EnrolmentController extends AbstractController {
 		final ModelAndView result;
 
 		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final List<Enrolment> enrolments = actual.getEnrolments();
-		final List<Brotherhood> bhs = new ArrayList<>();
-		final List<Date> dates = new ArrayList<>();
+		List<Enrolment> enrolments;
+		enrolments = actual.getEnrolments();
+		List<Brotherhood> bhs;
+		bhs = new ArrayList<>();
+		List<Date> dates;
+		dates = new ArrayList<>();
 		for (final Enrolment e : enrolments) {
 			bhs.add(e.getBrotherhood());
 			dates.add(e.getMoment());
 		}
-
 		result = new ModelAndView("enrolment/member/list");
 		result.addObject("brotherhood", bhs);
 		result.addObject("dates", dates);
+		result.addObject("size", dates.size());
 
 		return result;
 	}
@@ -115,6 +119,22 @@ public class EnrolmentController extends AbstractController {
 			}
 		return result;
 	}
+
+	@RequestMapping(value = "/member/info", method = RequestMethod.GET)
+	public ModelAndView info(@RequestParam final int id) {
+		ModelAndView result;
+		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Enrolment enrl = this.enrolmentService.findOne(id);
+
+		if (enrl.getMember().getId() == actual.getId()) {
+			result = new ModelAndView("/enrolment/member/info");
+			result.addObject("enrolment", enrl);
+		} else
+			result = new ModelAndView("redirect:../j_spring_security_logout");
+
+		return result;
+
+	}
 	// Delete -----------------------------------------------------------------
 	/*
 	 * @RequestMapping(value = "/edit", params = "delete", method = RequestMethod.POST)
@@ -132,7 +152,6 @@ public class EnrolmentController extends AbstractController {
 	 * }
 	 */
 	// Ancillary Methods ------------------------------------------------------
-
 	protected ModelAndView createEditModelAndView(final EnrolmentForm enrolment) {
 		ModelAndView result;
 
