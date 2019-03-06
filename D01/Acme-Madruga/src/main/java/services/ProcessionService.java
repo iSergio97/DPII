@@ -53,9 +53,13 @@ public class ProcessionService {
 
 	public Procession create() {
 		final Procession procession = new Procession();
-		procession.setBrotherhood(this.brotherhoodService.create());
+		//		procession.setBrotherhood(this.brotherhoodService.create());
 		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
 		procession.setIsDraft(true);
+		procession.setDescription("");
+		procession.setMoment(new Date());
+		procession.setTitle("");
+		procession.setTicker("");
 
 		return procession;
 	}
