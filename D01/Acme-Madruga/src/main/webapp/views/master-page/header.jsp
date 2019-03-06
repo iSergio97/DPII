@@ -60,7 +60,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="enrolment/member/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
-					<li><a href="enrolment/member-brotherhood/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>
+					<li><a href="enrolment/member/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

@@ -14,18 +14,15 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="broterhoods" id="row"
-	requestURI="enrolment/list.do" pagesize="5" class="displaytag">
 
-	<display:column titleKey="title">
-		<jstl:out value="${brotherhood.title}" />
+<display:table name="enrolments"
+	requestURI="enrolment/member/list.do" pagesize="5" >
+
+	<display:column  title="brotherhood.title" >
+	<jstl:out value="${brotherhood.title}"/>
 	</display:column>
-	<security:authorize access="hasRole('BROTHERHOOD')">
-	<display:column property="edit">
-		<jstl:out value="Edit"/>
+	<display:column title="enrolement.moment">
+	<jstl:out value="${dates}"/>
 	</display:column>
-	</security:authorize>
-	
-		
 
 </display:table>

@@ -48,22 +48,25 @@ public class EnrolmentController extends AbstractController {
 
 	// List -------------------------------------------------------------------
 
-	@RequestMapping(value = "/member-brotherhood/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 
 		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final List<Enrolment> enrolments = actual.getEnrolments();
 		final List<Brotherhood> bhs = new ArrayList<>();
-		for (final Enrolment e : enrolments)
+		final List<Date> dates = new ArrayList<>();
+		for (final Enrolment e : enrolments) {
 			bhs.add(e.getBrotherhood());
+			dates.add(e.getMoment());
+		}
 
-		result = new ModelAndView("enrolment/member-brotherhood/list");
+		result = new ModelAndView("enrolment/member/list");
 		result.addObject("brotherhood", bhs);
+		result.addObject("dates", dates);
 
 		return result;
 	}
-
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
