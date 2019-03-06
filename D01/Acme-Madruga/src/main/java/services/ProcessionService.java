@@ -55,6 +55,7 @@ public class ProcessionService {
 		final Procession procession = new Procession();
 		procession.setBrotherhood(this.brotherhoodService.create());
 		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
+		procession.setIsDraft(true);
 
 		return procession;
 	}
@@ -104,6 +105,10 @@ public class ProcessionService {
 		calendar.add(Calendar.DATE, 30);
 		final Date plus30Days = calendar.getTime();
 		return this.processionRepository.findBeforeDate(plus30Days);
+	}
+
+	public List<Procession> findAllFormal() {
+		return this.processionRepository.findAllFormal();
 	}
 
 }

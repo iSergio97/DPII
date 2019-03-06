@@ -20,7 +20,6 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 
-	<form:hidden path="moment" />
 	<form:hidden path="ticker" />
 	
 	<form:hidden path="brotherhood"/>
@@ -40,18 +39,25 @@
 	<form:errors cssClass="error" path="description" />
 	<br>
 	
+	<form:label path="moment">
+		<spring:message code="procession.moment" />
+	</form:label>
+	<form:input path="moment" placeholder="dd/mm/yyyy hh:mm"/>
+	<form:errors cssClass="error" path="moment" />
+	<br>
+	
 	<form:label path="acmeFloats">
 		<spring:message code="procession.acmeFloats" />
 	</form:label>
 	<form:select multiple="true" id="acmeFloats" path="acmeFloats">
 		<form:options items="${acmeFloats}" itemLabel="title"
-			itemValue="title" />
+			itemValue="id" />
 		<form:option value="" label="----" />
 	</form:select>
-	<form:errors cssClass="error" path="acmeFloat" />
+	<form:errors cssClass="error" path="acmeFloats" />
 	<br>
 
-	<input type="submit" name="edit"
+	<input type="submit" name="save"
 		value="<spring:message code='security.send'/>" />
 	<input type="button" name="cancel"
 		value="<spring:message code='security.cancel' />"

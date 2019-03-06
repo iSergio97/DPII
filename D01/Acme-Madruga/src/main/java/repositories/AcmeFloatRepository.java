@@ -12,7 +12,7 @@ import domain.AcmeFloat;
 @Repository
 public interface AcmeFloatRepository extends JpaRepository<AcmeFloat, Integer> {
 
-	@Query("select f from AcmeFloat f where f.brotherhood.id = ?1")
+	@Query("select f from AcmeFloat f where f.brotherhood.userAccount.id = ?1")
 	Collection<AcmeFloat> findFloats(int principalId);
 
 }

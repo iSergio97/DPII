@@ -16,7 +16,10 @@ public interface ProcessionRepository extends JpaRepository<Procession, Integer>
 	@Query("select p from Procession p where p.ticker like ?1")
 	List<Procession> findByTicker(String ticker);
 
-	@Query("select p from Procession p where p.moment < ?1")
+	@Query("select p from Procession p where p.moment < ?1 and p.isDraft = false")
 	List<Procession> findBeforeDate(Date date);
+
+	@Query("select p from Procession p where p.isDraft = false")
+	List<Procession> findAllFormal();
 
 }
