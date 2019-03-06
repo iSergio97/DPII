@@ -14,11 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
+import services.AreaService;
 import services.BrotherhoodService;
 import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
 import domain.Administrator;
+import domain.Area;
 import domain.Brotherhood;
 import domain.Finder;
 import domain.Member;
@@ -45,6 +47,8 @@ public class RegisterController extends AbstractController {
 	private MessageBoxService		messageBoxService;
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
+	@Autowired
+	private AreaService				areaService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -92,7 +96,7 @@ public class RegisterController extends AbstractController {
 					}
 				} else
 					this.administratorService.save(administrator2);
-				result = new ModelAndView("redirect:../profile/show.do");
+				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(administrator, "register.administrator.error");
 			}
@@ -144,15 +148,25 @@ public class RegisterController extends AbstractController {
 			result = this.createEditModelAndView(brotherhood);
 		else
 			try {
-				if (brotherhood.getId() == 0) {
-					this.brotherhoodService.save(brotherhood2);
-					for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
-						mb.setActor(brotherhood2);
-						this.messageBoxService.save(mb);
-					}
+				if (brotherhood.getPassword().equals(brotherhood.getConfirmPassword())) {
+					if (brotherhood2.getId() == 0) {
+						brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+						final UserAccount ua = brotherhood2.getUserAccount();
+						final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
+						brotherhood2.setUserAccount(saved);
+						final Brotherhood bh = this.brotherhoodService.save(brotherhood2);
+						final Area area = this.areaService.create();
+						final Area area2 = this.areaService.save(area);
+						bh.setArea(area2);
+						for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
+							mb.setActor(bh);
+							this.messageBoxService.save(mb);
+						}
+					} else
+						this.brotherhoodService.save(brotherhood2);
+					result = new ModelAndView("redirect:/welcome/index.do");
 				} else
-					this.brotherhoodService.save(brotherhood2);
-				result = new ModelAndView("redirect:../profile/show.do");
+					result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
 			}
@@ -206,24 +220,27 @@ public class RegisterController extends AbstractController {
 			result = this.createEditModelAndView(member);
 		else
 			try {
-				if (member2.getId() == 0) {
-					final Finder finder = member2.getFinder();
-					final Finder saved = this.finderService.save(finder);
-					member2.setFinder(saved);
-					member2.getUserAccount().setUsername(member.getUsername());
-					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-					final UserAccount ua = member2.getUserAccount();
-					final UserAccount uas = this.userAccountRepository.save(ua);
-					member2.setUserAccount(uas);
-					final Member savedM = this.memberService.save(member2);
-					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-					for (final MessageBox mb : mbs) {
-						mb.setActor(savedM);
-						this.messageBoxService.save(mb);
-					}
+				if (member.getPassword().equals(member.getConfirmPassword())) {
+					if (member2.getId() == 0) {
+						final Finder finder = member2.getFinder();
+						final Finder saved = this.finderService.save(finder);
+						member2.setFinder(saved);
+						member2.getUserAccount().setUsername(member.getUsername());
+						member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+						final UserAccount ua = member2.getUserAccount();
+						final UserAccount uas = this.userAccountRepository.save(ua);
+						member2.setUserAccount(uas);
+						final Member savedM = this.memberService.save(member2);
+						final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+						for (final MessageBox mb : mbs) {
+							mb.setActor(savedM);
+							this.messageBoxService.save(mb);
+						}
+					} else
+						this.memberService.save(member2);
+					result = new ModelAndView("redirect:/welcome/index.do");
 				} else
-					this.memberService.save(member2);
-				result = new ModelAndView("redirect:../profile/show.do");
+					result = this.createAndEditModelAndView(member, "register.member.error");
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(member, "register.member.error");
 			}

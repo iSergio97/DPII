@@ -74,6 +74,7 @@ public class BrotherhoodService {
 		brotherhood.setMessagesSent(new ArrayList<Message>());
 		brotherhood.setMessagesReceived(new ArrayList<Message>());
 		brotherhood.setPictures(new ArrayList<String>());
+		brotherhood.setPolarityScore(0);
 
 		return brotherhood;
 	}
@@ -152,6 +153,7 @@ public class BrotherhoodService {
 		result.setEmail(brotherhood.getEmail());
 		result.setPhoneNumber(brotherhood.getPhoneNumber());
 		result.setAddress(brotherhood.getAddress());
+		result.setTitle(brotherhood.getTitle());
 
 		this.validator.validate(result, bindingResult);
 

@@ -49,16 +49,13 @@
 			<br>
 
 			<!-- Campos de usuario -->
-			<acme:register code="username"
-				path="username" />
+			<acme:register code="username" path="username" />
 			<form:errors cssClass="error" path="username" />
 			<br>
-			<acme:password code="password"
-				path="password" />
+			<acme:password code="password" path="password" />
 			<form:errors cssClass="error" path="password" />
 			<br>
-			<acme:password code="confirmPassword"
-				path="confirmPassword" />
+			<acme:password code="confirmPassword" path="confirmPassword" />
 			<form:errors cssClass="error" path="confirmPassword" />
 
 			<!--  <input type="submit" name="save"
@@ -91,49 +88,37 @@
 
 			<!-- Campos de entrada -->
 			<acme:register code="name" path="name" />
-			<form:errors cssClass="error" path="name" />
 			<br>
 			<acme:register code="middleName" path="middleName" />
-			<form:errors cssClass="error" path="middleName" />
 			<br>
 			<acme:register code="surname" path="surname" />
-			<form:errors cssClass="error" path="surname" />
 			<br>
 			<acme:register code="photo" path="photo" />
-			<form:errors cssClass="error" path="photo" />
 			<br>
 			<acme:register code="email" path="email" />
-			<form:errors cssClass="error" path="email" />
 			<br>
 			<acme:register code="phoneNumber" path="phoneNumber" />
-			<form:errors cssClass="error" path="phoneNumber" />
 			<br>
 			<acme:register code="address" path="address" />
-			<form:errors cssClass="error" path="address" />
 			<br>
 
 			<!-- Campos de usuario -->
-			<acme:register code="username"
-				path="username" />
-			<form:errors cssClass="error" path="username" />
+			<acme:register code="username" path="username" />
 			<br>
-			<acme:password code="password"
-				path="password" />
-			<form:errors cssClass="error" path="password" />
+			<acme:password code="password" path="password" />
 			<br>
-			<acme:password code="confirmPassword"
-				path="confirmPassword" />
-			<form:errors cssClass="error" path="confirmPassword" />
+			<acme:password code="confirmPassword" path="confirmPassword" />
 
-			<!--  <input type="submit" name="save"
-			value="<spring:message code='register.send'/>" />-->
+			<spring:message code="termsAndConditions" />
+			<input type="checkbox" value="denied">
+			<label class="form-check-label" for="accepted"> <spring:message
+					code="termsAndConditionsAccepted" /></label>
+			<label class="form-check-label" for="denied"> <spring:message
+					code="termsAndConditionsDenied" /></label>
+
 			<acme:submit name="save" code="save" />
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
-			<!--<input type="button" name="cancel"
-			value="<spring:message code='register.cancel' />"
-			onclick="javascript: relativeRedir('security/login.do');" />
-			-->
 
 		</form:form>
 	</div>
@@ -147,23 +132,11 @@
 
 	<div>
 		<form:form modelAttribute="brotherhood" method="POST"
-			action="/brotherhood/edit.do">
+			action="register/brotherhood/edit.do">
 
 			<!-- Campos ocultos -->
 
-			<form:hidden path="version" />
-			<!-- 
 			<form:hidden path="id" />
-			<form:hidden path="isBanned" />
-			<form:hidden path="userAccount" />
-			<form:hidden path="userAccount.authorities" value="MEMBER" />
-			<form:hidden path="userAccount.id" />
-			<form:hidden path="userAccount.version" />
-			<form:hidden path="messageBoxes" />
-			<form:hidden path="socialProfiles" />
-			<form:hidden path="messagesSent" />
-			<form:hidden path="messagesReceived" />
- 			-->
 
 			<!-- Campos de entrada -->
 			<acme:register code="name" path="name" />
@@ -193,29 +166,17 @@
 
 			<!-- Campos de usuario -->
 
-			<acme:register code="username"
-				path="userAccount.username" />
-			<form:errors cssClass="error" path="userAccount.username" />
+			<acme:register code="username" path="username" />
 			<br>
-			<acme:password code="password"
-				path="userAccount.password" />
-			<form:errors cssClass="error" path="userAccount.password" />
+			<acme:password code="password" path="password" />
 			<br>
-			<acme:password code="confirmPassword"
-				path="confirmPassword" />
-			<form:errors cssClass="error" path="userAccount.password" />
+			<acme:password code="confirmPassword" path="confirmPassword" />
 
 
-
-			<!--   <input type="save" name="save"
-			value="<spring:message code='register.send'/>" />-->
 			<acme:submit name="save" code="save" />
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
-			<!--<input type="button" name="cancel"
-			value="<spring:message code='register.cancel' />"
-			onclick="javascript: relativeRedir('security/login.do');" />
-			-->
+
 		</form:form>
 	</div>
 </jstl:if>

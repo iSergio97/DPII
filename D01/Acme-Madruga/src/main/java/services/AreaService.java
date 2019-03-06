@@ -38,7 +38,7 @@ public class AreaService {
 
 	public Area create() {
 		final Area area = new Area();
-		area.setName("");
+		area.setName("Default name");
 		area.setPictures(new ArrayList<String>());
 		return area;
 	}
