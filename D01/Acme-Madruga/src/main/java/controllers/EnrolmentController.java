@@ -66,7 +66,7 @@ public class EnrolmentController extends AbstractController {
 		}
 
 		result = new ModelAndView("enrolment/member/list");
-		result.addObject("enrolment", enrolments);
+		result.addObject("enrolments", enrolments);
 		result.addObject("brotherhoods", bhs);
 		result.addObject("dates", dates);
 		result.addObject("size", dates.size());
@@ -78,10 +78,10 @@ public class EnrolmentController extends AbstractController {
 	@RequestMapping(value = "/member/leave", method = RequestMethod.POST)
 	public ModelAndView leave(@RequestParam(value = "id") final int id) {
 		final Member principal = this.memberService.findPrincipal();
-		final Brotherhood brotherhoodPrincipalIsLeaving = this.brotherhoodService.findOne(id);
+		final Enrolment enrolmentPrincipalIsLeaving = this.enrolmentService.findOne(id);
 		final Date now = new Date();
 		for (final Enrolment enrolment : principal.getEnrolments())
-			if (enrolment.getBrotherhood().equals(brotherhoodPrincipalIsLeaving)) {
+			if (enrolment.equals(enrolmentPrincipalIsLeaving)) {
 				enrolment.setExitMoment(now);
 				this.enrolmentService.save(enrolment);
 			}

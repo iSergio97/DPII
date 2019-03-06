@@ -15,24 +15,16 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table name="enrolment" requestURI="enrolment/member/list.do"
-	pagesize="5" id="row">
-
-	<display:column property="brotherhood.title" titleKey="title" />
-	<display:column property="moment" titleKey="Moment" />
+<display:table name="enrolments" id="row" requestURI="enrolment/member/list.do" pagesize="5">
+	<display:column property="brotherhood.title" titleKey="brotherhood.title" />
+	<display:column property="moment" titleKey="enrolment.moment" />
 	<display:column titleKey="enrolment.options">
-	<jstl:choose>
-			<jstl:when test="${row.exitMoment eq null}">
-				<form action="enrolment/member/leave.do" method="POST">
-					<input type="hidden" name="id"
-						value="<jstl:out value='${row.id}' />" /> <input type="submit"
-						name="leave" value="<spring:message code='enrolment.leave' />" />
-				</form>
-			</jstl:when>
-			
-			<jstl:otherwise >
-			</jstl:otherwise>
-		</jstl:choose>
+		<jstl:if test="${row.exitMoment == null}">
+			<form action="enrolment/member/leave.do" method="POST">
+				<input type="hidden" name="id"
+					value="<jstl:out value='${row.id}' />" /> <input type="submit"
+					name="leave" value="<spring:message code='enrolment.leave' />" />
+			</form>
+		</jstl:if>
 	</display:column>
-
 </display:table>
