@@ -21,13 +21,18 @@
 	<display:column property="brotherhood.title" titleKey="title" />
 	<display:column property="moment" titleKey="Moment" />
 	<display:column titleKey="enrolment.options">
-		<jstl:if test="${empty enrolments.exitMoment}">
-			<form action="enrolment/member/leave.do" method="POST">
-				<input type="hidden" name="id"
-					value="<jstl:out value='${row.id}' />" /> <input type="submit"
-					name="leave" value="<spring:message code='enrolment.leave' />" />
-			</form>
-		</jstl:if>
+	<jstl:choose>
+			<jstl:when test="${enrolments.exitMoment eq null}">
+				<form action="enrolment/member/leave.do" method="POST">
+					<input type="hidden" name="id"
+						value="<jstl:out value='${row.id}' />" /> <input type="submit"
+						name="leave" value="<spring:message code='enrolment.leave' />" />
+				</form>
+			</jstl:when>
+			
+			<jstl:otherwise >
+			</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 
 </display:table>
