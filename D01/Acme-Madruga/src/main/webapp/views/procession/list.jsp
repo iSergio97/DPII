@@ -20,5 +20,11 @@
 	<display:column property="title" titleKey="procession.title" />
 	<display:column property="moment" titleKey="procession.moment" />
 	<display:column property="description" titleKey="procession.description" />
-	
+	<display:column titleKey="master.page.blank">
+		<jstl:if test="${row.isDraft == true}">
+			<a href="procession/brotherhood/edit.do?processionId=<jstl:out value="${row.id}" />">
+				<spring:message code="master.page.action.edit"/>
+			</a>
+		</jstl:if>
+	</display:column>
 </display:table>

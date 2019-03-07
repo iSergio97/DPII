@@ -600,11 +600,6 @@
 			</list>
 		</property>
 		<property name="area" ref="area1" />
-		<property name="enrolments">
-		<list>
-		<ref bean="enrolment1"/>
-		</list>
-		</property>
 	</bean>
 
 	<bean id="brotherhood2" class="domain.Brotherhood">
@@ -648,10 +643,6 @@
 			</list>
 		</property>
 		<property name="area" ref="area2" />
-		<property name="enrolments">
-		<list>
-		</list>
-		</property>
 	</bean>
 
 	<bean id="brotherhood3" class="domain.Brotherhood">
@@ -695,10 +686,6 @@
 			</list>
 		</property>
 		<property name="area" ref="area3" />
-		<property name="enrolments">
-		<list>
-		</list>
-		</property>
 	</bean>
 
 	<bean id="brotherhood4" class="domain.Brotherhood">
@@ -741,10 +728,6 @@
 			</list>
 		</property>
 		<property name="area" ref="area4" />
-		<property name="enrolments">
-		<list>
-		</list>
-		</property>
 	</bean>
 
 	<!-- Members -->
@@ -775,7 +758,6 @@
 		</property>
 		<property name="enrolments">
 			<list>
-			<ref bean="enrolment1"/>
 			</list>
 		</property>
 		<property name="requests">
@@ -1030,15 +1012,6 @@
 	<property name="vLine" value="1"/>
 	<property name="reason" value=""/>
 	<property name="procession" ref="procession2"/>
-	<property name="member" ref="member1"/>
-	</bean>
-	
-	<!-- ENROLMENTS -->
-	
-	<bean id="enrolment1" class="domain.Enrolment">
-	<property name="moment" value="21/11/1996"/>
-	<property name="position" ref="positionTreasurer"/>
-	<property name="brotherhood" ref="brotherhood1"/>
 	<property name="member" ref="member1"/>
 	</bean>
 

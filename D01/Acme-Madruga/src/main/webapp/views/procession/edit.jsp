@@ -13,8 +13,10 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="procession" method="POST">
+<form:form modelAttribute="procession" method="POST"
+	action="procession/brotherhood/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -42,7 +44,7 @@
 	<form:label path="moment">
 		<spring:message code="procession.moment" />
 	</form:label>
-	<form:textarea path="moment" />
+	<form:input path="moment" />
 	<form:errors cssClass="error" path="moment" />
 	<br>
 	
@@ -57,15 +59,10 @@
 	<form:errors cssClass="error" path="acmeFloats" />
 	<br>
 
-	<input type="submit" name="save"
-		value="<spring:message code='security.send'/>" />
-	<jstl:if test="${procession.isDraft}= true">
-		<input type="submit" name="finalMode"
+	<acme:submit name="save" code="save"/>
+	<input type="submit" name="finalMode"
 		value="<spring:message code='procession.finalMode'/>" />
-	</jstl:if>
-	<input type="button" name="cancel"
-		value="<spring:message code='security.cancel' />"
-		onclick="javascript: relativeRedir('welcome/index.do');" />
+	<acme:cancel url="welcome/index.do" code="master.page.action.cancel"/>
 
 
 </form:form>

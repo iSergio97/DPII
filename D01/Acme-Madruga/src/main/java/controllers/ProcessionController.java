@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.AcmeFloatService;
 import services.BrotherhoodService;
 import services.ProcessionService;
@@ -50,7 +51,7 @@ public class ProcessionController extends AbstractController {
 		final ModelAndView result;
 		Collection<Procession> processions;
 
-		processions = this.processionService.findFinalByBrotherhoodAccountId();
+		processions = this.processionService.findAllByBrotherhoodAccountId(LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("procession/brotherhood/list");
 		result.addObject("processions", processions);
@@ -58,7 +59,6 @@ public class ProcessionController extends AbstractController {
 
 		return result;
 	}
-
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -113,7 +113,7 @@ public class ProcessionController extends AbstractController {
 
 		try {
 			this.processionService.delete(procession);
-			result = new ModelAndView("redirect::list.do");
+			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(procession, "procession.commit.error");
 		}

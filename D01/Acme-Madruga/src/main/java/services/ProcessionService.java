@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.ProcessionRepository;
 import security.LoginService;
 import domain.AcmeFloat;
@@ -113,16 +112,28 @@ public class ProcessionService {
 		return this.processionRepository.findBeforeDate(plus30Days);
 	}
 
+	public List<Procession> findAllByBrotherhoodAccountId(final int id) {
+		return this.processionRepository.findAllByBrotherhoodAccountId(id);
+	}
+
+	public List<Procession> findAllFinalByBrotherhoodAccountId(final int id) {
+		return this.processionRepository.findAllFinalByBrotherhoodAccountId(id);
+	}
+
 	public List<Procession> findAllFinal() {
 		return this.processionRepository.findAllFinal();
 	}
 
-	public List<Procession> findFinalByBrotherhoodAccountId() {
-		return this.processionRepository.findFinalByBrotherhoodAccountId(LoginService.getPrincipal().getId());
-	}
+	/*
+	public Procession reconstruct(final ProcessionForm processionForm, final BindingResult binding) {
+		Procession result;
 
-	public List<Procession> findPossibleMemberProcessions(final int memberId) {
-		return this.processionRepository.findPossibleMemberProcessions(memberId);
-	}
+		result = this.processionRepository.findOne();
 
+		validator.validate(result, binding);
+
+		return result;
+	}
+	*/
+	
 }

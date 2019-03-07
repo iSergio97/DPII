@@ -29,25 +29,5 @@
 		<put-attribute name="title" value="Listado de solicitudes" />
 		<put-attribute name="body" value="/views/request/memberList.jsp" />
 	</definition>
-	
-	<definition name="/request/brotherhood/list" extends="master.page">	
-		<put-attribute name="title" value="List of requests" />
-		<put-attribute name="body" value="/views/request/brotherhoodList.jsp" />
-	</definition>
-	
-	<definition name="/request/brotherhood/show" extends="master.page">	
-		<put-attribute name="title" value="Procession Request" />
-		<put-attribute name="body" value="/views/request/brotherhoodShow.jsp" />
-	</definition>
-	
-	<definition name="/request/brotherhood/reject" extends="master.page">	
-		<put-attribute name="title" value="Procession Request" />
-		<put-attribute name="body" value="/views/request/rejectMember.jsp" />
-	</definition> 
-	
-	<definition name="/request/brotherhood/accept" extends="master.page">	
-		<put-attribute name="title" value="Procession Request" />
-		<put-attribute name="body" value="/views/request/acceptMember.jsp" />
-	</definition>  
 
 </tiles-definitions>

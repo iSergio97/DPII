@@ -15,7 +15,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="procession" method="POST" action="procession/brotherhood/edit.do">
+<form:form modelAttribute="procession" method="POST"
+	action="procession/brotherhood/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -59,7 +60,7 @@
 	<br>
 
 	<acme:submit name="save" code="save"/>
-	<acme:cancel url="welcome/index.do" code="cancel"/>
+	<acme:cancel url="welcome/index.do" code="master.page.action.cancel"/>
 
 
 </form:form>
