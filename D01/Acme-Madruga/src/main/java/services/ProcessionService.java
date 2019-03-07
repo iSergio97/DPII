@@ -123,6 +123,10 @@ public class ProcessionService {
 	public List<Procession> findAllFinal() {
 		return this.processionRepository.findAllFinal();
 	}
+	
+	public List<Procession> findPossibleMemberProcessions(final int memberId) {
+		return this.processionRepository.findPossibleMemberProcessions(memberId);
+	}
 
 	/*
 	public Procession reconstruct(final ProcessionForm processionForm, final BindingResult binding) {

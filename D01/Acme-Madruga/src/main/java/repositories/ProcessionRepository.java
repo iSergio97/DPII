@@ -28,4 +28,7 @@ public interface ProcessionRepository extends JpaRepository<Procession, Integer>
 	@Query("select p from Procession p where brotherhood.userAccount.id = ?1")
 	List<Procession> findAllByBrotherhoodAccountId(int id);
 
+	@Query("select p from Procession p join p.brotherhood.enrolments e where e.member.id= ?1")
+	List<Procession> findPossibleMemberProcessions(int id);
+
 }

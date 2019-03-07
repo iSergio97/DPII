@@ -19,7 +19,7 @@
 <a href="request/brotherhood/list.do"><spring:message code="request.return" /></a><br/>
 
 <p>
-	<spring:message code="request.procession" />
+	<b><spring:message code="request.procession" /></b>
 	<br>
 	<jstl:out value=": ${request.procession.title}" />
 </p>
@@ -30,8 +30,8 @@
 				<spring:message code="request.status.pending" />
 				<br/>
 			</jstl:when>
-			<jstl:when test = "${request.status == 'ACCEPTED'}">
-				<spring:message code="request.status.accepted" />
+			<jstl:when test = "${request.status == 'APPROVED'}">
+				<spring:message code="request.status.approved" />
 				<br/>
 			</jstl:when>
 			<jstl:when test = "${request.status == 'REJECTED'}">
@@ -44,33 +44,32 @@
 </p>
 
 <p>
-	<spring:message code="request.hLine" />
-	<br>
-	<jstl:out value=": ${request.hLine}" />
+	<b><spring:message code="request.hLine" /></b>
+	<jstl:out value=": ${request.HLine}" />
 </p>
 
 <p>
-	<spring:message code="request.vLine" />
-	<br>
-	<jstl:out value=": ${request.vLine}" />
+	<b><spring:message code="request.vLine" /></b>
+	<jstl:out value=": ${request.VLine}" />
 </p>
 
-<p>
-	<spring:message code="request.reason" />
-	<br>
-	<jstl:out value=": ${request.reason}" />
-</p>
+<jstl:if test="${request.status =='REJECTED'}">
+	<p>
+		<b><spring:message code="request.reason" /></b>
+		<jstl:out value=": ${request.reason}" />
+	</p>
+</jstl:if>
 
 
-<jstl:if test="${request.status != 'PENDING'}">
+<jstl:if test="${request.status == 'PENDING'}">
 <p>
 <input type="button" name="accept"
 		value="<spring:message code='request.accept' />"
-		onclick="javascript: relativeRedir('request/brotherhood/accept.do?requestId=${request.id}');" />
+		onclick="javascript: relativeRedir('request/brotherhood/accept.do?id=${request.id}');" />
 
 <input type="button" name="reject"
 		value="<spring:message code='request.reject' />"
-		onclick="javascript: relativeRedir('request/brotherhood/reject.do?requestId=${request.id}');" />
+		onclick="javascript: relativeRedir('/request/brotherhood/reject.do?id=${request.id}');" />
 </p>
 </jstl:if>
 
