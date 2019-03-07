@@ -53,3 +53,15 @@
 <strong> <spring:message code="actor.stablishmentDate" />: </strong>
 	<jstl:out value="${actor.establishmentDate}" />
 </jstl:if>
+
+<jstl:if test="${reqURI eq 'admin'}">
+<a href="profile/admin/export.do"><spring:message code="exportData" /></a>
+</jstl:if>
+
+<jstl:if test="${reqURI eq 'member'}">
+<a href="profile/member/export.do"><spring:message code="exportData" /></a>
+</jstl:if>
+
+<jstl:if test="${reqURI eq 'brotherhood'}">
+<a href="profile/brotherhood/export.do"><spring:message code="exportData" /></a>
+</jstl:if>

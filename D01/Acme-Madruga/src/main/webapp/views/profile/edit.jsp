@@ -8,12 +8,14 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 
-<%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
@@ -66,7 +68,6 @@
 </jstl:if>
 
 <jstl:if test="${reqURI == 'admin'}">
-<p> hola </p>
 	<p>
 		<spring:message code="register.administrator" />
 	</p>
@@ -149,7 +150,7 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-			
+
 			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
