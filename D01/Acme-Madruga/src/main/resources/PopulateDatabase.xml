@@ -976,6 +976,44 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- REQUESTS -->
+	
+	<bean id="request1" class="domain.Request">
+	<property name="status" value="PENDING"/>
+	<property name="hLine" value="1"/>
+	<property name="vLine" value="1"/>
+	<property name="reason" value=""/>
+	<property name="procession" ref="procession5"/>
+	<property name="member" ref="member1"/>
+	</bean>
+	
+	<bean id="request2" class="domain.Request">
+	<property name="status" value="PENDING"/>
+	<property name="hLine" value="1"/>
+	<property name="vLine" value="1"/>
+	<property name="reason" value=""/>
+	<property name="procession" ref="procession4"/>
+	<property name="member" ref="member1"/>
+	</bean>
+	
+	<bean id="request3" class="domain.Request">
+	<property name="status" value="REJECTED"/>
+	<property name="hLine" value="1"/>
+	<property name="vLine" value="1"/>
+	<property name="reason" value=""/>
+	<property name="procession" ref="procession3"/>
+	<property name="member" ref="member1"/>
+	</bean>
+	
+	<bean id="request4" class="domain.Request">
+	<property name="status" value="ACCEPTED"/>
+	<property name="hLine" value="1"/>
+	<property name="vLine" value="1"/>
+	<property name="reason" value=""/>
+	<property name="procession" ref="procession2"/>
+	<property name="member" ref="member1"/>
+	</bean>
 
 	<!-- Other domain beans come here -->
 

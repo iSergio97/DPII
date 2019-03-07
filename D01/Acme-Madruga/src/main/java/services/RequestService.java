@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import domain.Member;
 import domain.Request;
+import forms.RequestForm;
 
 @Service
 @Transactional
@@ -32,6 +35,9 @@ public class RequestService {
 	@Autowired
 	private ProcessionService	processionService;
 
+	@Autowired
+	private Validator			validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -49,10 +55,21 @@ public class RequestService {
 		final Member member = this.memberService.findPrincipal();
 		request.setMember(member);
 		request.setProcession(this.processionService.create());
-		request.setHLine(0);
-		request.setVLine(0);
+		request.setHLine(1);
+		request.setVLine(1);
 		request.setStatus("PENDING");
 		request.setReason("");
+		return request;
+	}
+
+	public RequestForm createForm() {
+		final RequestForm request = new RequestForm();
+
+		request.setStatus("PENDING");
+		request.setHLine(1);
+		request.setVLine(1);
+		request.setReason("");
+
 		return request;
 	}
 
@@ -84,6 +101,45 @@ public class RequestService {
 
 	public List<Request> findAll() {
 		return this.requestRepository.findAll();
+	}
+
+	//Reconstruct methods
+
+	public Request reconstruct(final Request request, final BindingResult bindingResult) {
+		Request res;
+
+		if (request.getId() == 0)
+			res = request;
+		else {
+			res = this.requestRepository.findOne(request.getId());
+			res.setStatus(request.getStatus());
+			res.setHLine(request.getHLine());
+			res.setVLine(request.getVLine());
+			res.setReason(request.getReason());
+			res.setProcession(request.getProcession());
+
+			this.validator.validate(res, bindingResult);
+		}
+		return res;
+	}
+
+	public Request reconstructForm(final RequestForm form, final BindingResult bindingResult) {
+		final Request res;
+
+		if (form.getId() == 0)
+			res = this.create();
+		else
+			res = this.requestRepository.findOne(form.getId());
+
+		res.setStatus(form.getStatus());
+		res.setHLine(form.getHLine());
+		res.setVLine(form.getVLine());
+		res.setReason(form.getReason());
+		res.setProcession(form.getProcession());
+
+		this.validator.validate(res, bindingResult);
+
+		return res;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
