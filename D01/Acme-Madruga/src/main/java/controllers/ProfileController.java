@@ -23,6 +23,9 @@ import services.MemberService;
 import domain.Administrator;
 import domain.Brotherhood;
 import domain.Member;
+import forms.AdministratorForm;
+import forms.BrotherhoodForm;
+import forms.MemberForm;
 
 @Controller
 @RequestMapping("/profile")
@@ -44,22 +47,25 @@ public class ProfileController extends AbstractController {
 	public ModelAndView memberShow() {
 		ModelAndView result;
 		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final MemberForm mf = this.memberService.deconstruct(member);
+		final String reqURI = "member";
 
 		result = new ModelAndView("profile/member/show");
-		result.addObject("actor", member);
+		result.addObject("actor", mf);
+		result.addObject("reqURI", reqURI);
 		return result;
 	}
-
 	// Action-2 ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.GET)
 	public ModelAndView brotherhoodShow() {
 		ModelAndView result;
 		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final BrotherhoodForm bhForm = this.brotherhoodService.deconstruct(brotherhood);
 
 		final String reqURI = "brotherhood";
 		result = new ModelAndView("profile/brotherhood/show");
-		result.addObject("actor", brotherhood);
+		result.addObject("actor", bhForm);
 		result.addObject("reqURI", reqURI);
 		return result;
 	}
@@ -70,11 +76,51 @@ public class ProfileController extends AbstractController {
 	public ModelAndView showAdmin() {
 		ModelAndView result;
 		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final AdministratorForm adminf = this.administratorService.deconstruct(admin);
+		final String reqURI = "admin";
 
 		result = new ModelAndView("profile/admin/show");
-		result.addObject("actor", admin);
+		result.addObject("adminf", adminf);
+		result.addObject("admin", reqURI);
+
+		return result;
+	}
+	@RequestMapping(value = "member/edit", method = RequestMethod.GET)
+	public ModelAndView editMember() {
+		ModelAndView result;
+		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final MemberForm memberf = this.memberService.deconstruct(member);
+		final String reqURI = "member";
+		result = new ModelAndView("profile/member/edit");
+		result.addObject("memberf", memberf);
+		result.addObject("reqURI", reqURI);
 
 		return result;
 	}
 
+	@RequestMapping(value = "brotherhood/edit", method = RequestMethod.GET)
+	public ModelAndView editBrotherhood() {
+		ModelAndView result;
+		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final BrotherhoodForm brotherhoodf = this.brotherhoodService.deconstruct(brotherhood);
+		final String reqURI = "brotherhood";
+		result = new ModelAndView("profile/brotherhood/edit");
+		result.addObject("brotherhoodf", brotherhoodf);
+		result.addObject("reqURI", reqURI);
+
+		return result;
+	}
+
+	@RequestMapping(value = "admin/edit", method = RequestMethod.GET)
+	public ModelAndView editAdmin() {
+		ModelAndView result;
+		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final AdministratorForm adminf = this.administratorService.deconstruct(admin);
+		final String reqURI = "admin";
+		result = new ModelAndView("profile/admin/edit");
+		result.addObject("adminf", adminf);
+		result.addObject("admin", reqURI);
+
+		return result;
+	}
 }

@@ -166,4 +166,21 @@ public class AdministratorService {
 		return result;
 	}
 
+	public AdministratorForm deconstruct(final Administrator admin) {
+		final AdministratorForm adminForm = this.createForm();
+
+		adminForm.setId(admin.getId());
+		adminForm.setName(admin.getName());
+		adminForm.setName(admin.getName());
+		adminForm.setMiddleName(admin.getMiddleName());
+		adminForm.setSurname(admin.getSurname());
+		adminForm.setPhoto(admin.getPhoto());
+		adminForm.setEmail(admin.getEmail());
+		adminForm.setPhoneNumber(admin.getPhoneNumber());
+		adminForm.setAddress(admin.getAddress());
+		adminForm.setUsername(admin.getUserAccount().getUsername());
+
+		return adminForm;
+	}
+
 }

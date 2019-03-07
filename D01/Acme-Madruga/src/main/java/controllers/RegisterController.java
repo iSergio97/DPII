@@ -94,16 +94,26 @@ public class RegisterController extends AbstractController {
 						mb.setActor(savedAdministrator);
 						this.messageBoxService.save(mb);
 					}
-				} else
-					this.administratorService.save(administrator2);
-				result = new ModelAndView("redirect:/welcome/index.do");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				} else {
+					if (administrator.getPassword() == administrator.getConfirmPassword()) {
+						final UserAccount ua = administrator2.getUserAccount();
+						administrator2.getUserAccount().setUsername(administrator.getUsername());
+						administrator2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(administrator.getPassword(), null));
+						final UserAccount uas = this.userAccountRepository.save(ua);
+						administrator2.setUserAccount(uas);
+						this.administratorService.save(administrator2);
+						result = new ModelAndView("redirect:/welcome/index.do");
+					} else
+						result = this.createAndEditModelAndView(administrator, "register.administrator.error");
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
 			} catch (final Throwable e) {
 				result = this.createAndEditModelAndView(administrator, "register.administrator.error");
 			}
 
 		return result;
 	}
-
 	// Administrator ancillary methods ---------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final AdministratorForm administrator) {
@@ -151,6 +161,7 @@ public class RegisterController extends AbstractController {
 				if (brotherhood.getPassword().equals(brotherhood.getConfirmPassword())) {
 					if (brotherhood2.getId() == 0) {
 						brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+						brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
 						final UserAccount ua = brotherhood2.getUserAccount();
 						final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
 						brotherhood2.setUserAccount(saved);
@@ -162,8 +173,14 @@ public class RegisterController extends AbstractController {
 							mb.setActor(bh);
 							this.messageBoxService.save(mb);
 						}
-					} else
+					} else {
+						brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+						brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
+						final UserAccount ua = brotherhood2.getUserAccount();
+						final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
+						brotherhood2.setUserAccount(saved);
 						this.brotherhoodService.save(brotherhood2);
+					}
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} else
 					result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
@@ -236,8 +253,14 @@ public class RegisterController extends AbstractController {
 							mb.setActor(savedM);
 							this.messageBoxService.save(mb);
 						}
-					} else
+					} else {
+						final UserAccount ua = member2.getUserAccount();
+						ua.setUsername(member.getUsername());
+						ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+						final UserAccount saved = this.userAccountRepository.save(ua);
+						member2.setUserAccount(saved);
 						this.memberService.save(member2);
+					}
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} else
 					result = this.createAndEditModelAndView(member, "register.member.error");

@@ -204,4 +204,22 @@ public class BrotherhoodService {
 		return this.brotherhoodRepository.findAllOrderedBySizeDescending().subList(0, number);
 	}
 
+	public BrotherhoodForm deconstruct(final Brotherhood brotherhood) {
+		final BrotherhoodForm bhForm = this.createForm();
+
+		bhForm.setId(brotherhood.getId());
+		bhForm.setName(brotherhood.getName());
+		bhForm.setName(brotherhood.getName());
+		bhForm.setMiddleName(brotherhood.getMiddleName());
+		bhForm.setSurname(brotherhood.getSurname());
+		bhForm.setPhoto(brotherhood.getPhoto());
+		bhForm.setEmail(brotherhood.getEmail());
+		bhForm.setPhoneNumber(brotherhood.getPhoneNumber());
+		bhForm.setAddress(brotherhood.getAddress());
+		bhForm.setUsername(brotherhood.getUserAccount().getUsername());
+		bhForm.setTitle(brotherhood.getTitle());
+
+		return bhForm;
+	}
+
 }

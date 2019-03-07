@@ -15,8 +15,10 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table name="enrolments" id="row" requestURI="enrolment/member/list.do" pagesize="5">
-	<display:column property="brotherhood.title" titleKey="brotherhood.title" />
+<display:table name="enrolments" id="row"
+	requestURI="enrolment/member/list.do" pagesize="5">
+	<display:column property="brotherhood.title"
+		titleKey="brotherhood.title" />
 	<display:column property="moment" titleKey="enrolment.moment" />
 	<display:column titleKey="enrolment.options">
 		<jstl:if test="${row.exitMoment == null}">

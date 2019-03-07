@@ -186,4 +186,22 @@ public class MemberService {
 
 		return result;
 	}
+
+	public MemberForm deconstruct(final Member member) {
+		final MemberForm memberf = this.createForm();
+
+		memberf.setId(member.getId());
+		memberf.setName(member.getName());
+		memberf.setName(member.getName());
+		memberf.setMiddleName(member.getMiddleName());
+		memberf.setSurname(member.getSurname());
+		memberf.setPhoto(member.getPhoto());
+		memberf.setEmail(member.getEmail());
+		memberf.setPhoneNumber(member.getPhoneNumber());
+		memberf.setAddress(member.getAddress());
+		memberf.setUsername(member.getUserAccount().getUsername());
+
+		return memberf;
+
+	}
 }
