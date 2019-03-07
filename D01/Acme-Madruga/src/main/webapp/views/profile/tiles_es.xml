@@ -16,14 +16,19 @@
       
 <tiles-definitions>
 
-	<definition name="profile/action-1" extends="master.page">	
-		<put-attribute name="title" value="Perfil: Acción 1" />
-		<put-attribute name="body" value="/views/profile/action-1.jsp" />
+	<definition name="profile/member/show" extends="master.page">	
+		<put-attribute name="title" value="Perfil de miembro" />
+		<put-attribute name="body" value="/views/profile/showProfile.jsp" />
 	</definition>
 	
-	<definition name="profile/action-2" extends="master.page">	
-		<put-attribute name="title" value="Perfil: Acción 2" />
-		<put-attribute name="body" value="/views/profile/action-2.jsp" />
+	<definition name="profile/brotherhood/show" extends="master.page">	
+		<put-attribute name="title" value="Perfil de fraternidad" />
+		<put-attribute name="body" value="/views/profile/showProfile.jsp" />
+	</definition>
+	
+	<definition name="profile/admin/show" extends="master.page">	
+		<put-attribute name="title" value="Perfil de administrador" />
+		<put-attribute name="body" value="/views/profile/showProfile.jsp" />
 	</definition>
 	
 </tiles-definitions>
