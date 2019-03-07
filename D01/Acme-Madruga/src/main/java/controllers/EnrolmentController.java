@@ -102,20 +102,19 @@ public class EnrolmentController extends AbstractController {
 	}
 
 	// Edit -------------------------------------------------------------------
-	/*
-	 * TODO: REVISAR
-	 * 
-	 * @RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
-	 * public ModelAndView edit(@RequestParam final int enrolmentId, final BindingResult bindingResult) {
-	 * ModelAndView result;
-	 * EnrolmentForm enrolment;
-	 * enrolment = this.enrolmentService.findOne(rec.getId());
-	 * Assert.notNull(enrolment);
-	 * result = this.createEditModelAndView(enrolment);
-	 * 
-	 * return result;
-	 * }
-	 */
+
+	@RequestMapping(value = "brotherhood/list", method = RequestMethod.GET)
+	public ModelAndView listBrotherhood() {
+		final ModelAndView result;
+		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final List<Enrolment> enrolments = (List<Enrolment>) brotherhood.getEnrolments();
+
+		result = new ModelAndView("enrolment/brotherhood/list");
+		result.addObject("enrolments", enrolments);
+
+		return result;
+	}
+
 	// Save -------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final EnrolmentForm enrolment, final BindingResult bindingResult) {
