@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * PopulateDatabase.xml
+ *
+ * Copyright (C) 2018 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+	
+<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="defaultCountryCode" value="+34" />
+		<property name="systemName" value="Acme Madrugá" />
+		<property name="banner" value="https://tinyurl.com/acme-madruga" />
+		<property name="finderDuration" value="3600" />
+		<property name="maximumFinderResults" value="10" />
+		<property name="positiveWords">
+			<list>
+				<value>good</value>
+				<value>bueno</value>
+				<value>fantastic</value>
+				<value>fantástico</value>
+				<value>excellent</value>
+				<value>excelente</value>
+				<value>great</value>
+				<value>genial</value>
+				<value>amazing</value>
+				<value>asombroso</value>
+				<value>terrific</value>
+				<value>magnífico</value>
+				<value>beautiful</value>
+				<value>bonito</value>
+			</list>
+		</property>
+		<property name="negativeWords">
+			<list>
+				<value>not</value>
+				<value>no</value>
+				<value>bad</value>
+				<value>malo</value>
+				<value>horrible</value>
+				<value>horrible</value>
+				<value>average</value>
+				<value>mediocre</value>
+				<value>disaster</value>
+				<value>desastroso</value>
+			</list>
+		</property>
+		<property name="spamWords">
+			<list>
+				<value>sex</value>
+				<value>viagra</value>
+				<value>cialis</value>
+				<value>one million</value>
+				<value>you've been selected</value>
+				<value>Nigeria</value>
+				<value>sexo</value>
+				<value>un millón</value>
+				<value>ha sido seleccionado</value> 
+			</list>
+		</property>
+		<property name="welcomeMessages">
+			<map>
+				<entry key="en" value="Welcome to Acme Madrugá, the site to organise your processions." />
+				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+			</map>
+		</property>
+		<property name="warningMessages">
+			<map>
+				<entry key="en" value="Your data has not been sold recently." />
+				<entry key="es" value="Sus datos no han sido vendidos recientemente." />
+			</map>
+		</property>
+		<property name="lowestPosition" ref="positionBrother" />
+	</bean>
+	
+	<!-- Positions -->
+
+	<bean id="positionPresident" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="President" />
+				<entry key="es" value="Presidente" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionVicePresident" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Vice President" />
+				<entry key="es" value="Vicepresidente" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionSecretary" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Secretary" />
+				<entry key="es" value="Secretario" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionTreasurer" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Treasurer" />
+				<entry key="es" value="Tesorero" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionHistorian" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Historian" />
+				<entry key="es" value="Historiador" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionFundraiser" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Fundraiser" />
+				<entry key="es" value="Promotor" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionOfficer" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Officer" />
+				<entry key="es" value="Vocal" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="positionBrother" class="domain.Position">
+		<property name="strings">
+			<map>
+				<entry key="en" value="Brother" />
+				<entry key="es" value="Hermano" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Priorities -->
+
+	<bean id="priotityHigh" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="HIGH" />
+				<entry key="es" value="ALTA" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="priotityNeutral" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="NEUTRAL" />
+				<entry key="es" value="NEUTRAL" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="priotityLow" class="domain.Priority">
+		<property name="strings">
+			<map>
+				<entry key="en" value="LOW" />
+				<entry key="es" value="BAJA" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- User accounts -->
+
+	<bean id="userAccountAdmin1" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="NewBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+		<property name="messages">
+			<list />
+		</property>
+	</bean>
+	
+	<bean id="admin1" class="domain.Administrator">
+		<property name="name" value="Señor" />
+		<property name="middleName" value="" />
+		<property name="surname" value="X" />
+		<property name="photo" value="" />
+		<property name="email" value="x@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 4206969" />
+		<property name="address" value="" />
+		<property name="isSuspicious" value="false" />
+		<property name="polarityScore" value="0" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountAdmin1" />
+		<property name="messagesSent">
+			<list>
+			</list>
+		</property>
+		<property name="messagesReceived">
+			<list>
+			</list>
+		</property>
+		<property name="socialProfiles">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
