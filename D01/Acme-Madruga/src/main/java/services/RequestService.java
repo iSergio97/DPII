@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
+import security.LoginService;
 import domain.Member;
 import domain.Request;
 import forms.RequestForm;
@@ -117,6 +118,7 @@ public class RequestService {
 			res.setVLine(request.getVLine());
 			res.setReason(request.getReason());
 			res.setProcession(request.getProcession());
+			res.setMember(request.getMember());
 
 			this.validator.validate(res, bindingResult);
 		}
@@ -136,6 +138,7 @@ public class RequestService {
 		res.setVLine(form.getVLine());
 		res.setReason(form.getReason());
 		res.setProcession(form.getProcession());
+		res.setMember(this.memberService.findByUserAccountId(LoginService.getPrincipal().getId()));
 
 		this.validator.validate(res, bindingResult);
 
@@ -168,6 +171,10 @@ public class RequestService {
 		while (i < membersRequests.size() ? ((Long) membersRequests.get(i)[1]) >= tenPercentOfTheMaximumNumberOfRequests : false)
 			result.add((Member) membersRequests.get(i)[0]);
 		return result;
+	}
+
+	public List<Request> getOrderedBrotherhoodRequests(final int brotherhoodId) {
+		return this.requestRepository.getOrderedBrotherhoodRequests(brotherhoodId);
 	}
 
 }

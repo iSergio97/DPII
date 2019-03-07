@@ -121,4 +121,8 @@ public class ProcessionService {
 		return this.processionRepository.findFinalByBrotherhoodAccountId(LoginService.getPrincipal().getId());
 	}
 
+	public List<Procession> findPossibleMemberProcessions(final int memberId) {
+		return this.processionRepository.findPossibleMemberProcessions(memberId);
+	}
+
 }
