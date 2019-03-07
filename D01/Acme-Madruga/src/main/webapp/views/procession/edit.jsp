@@ -59,6 +59,10 @@
 
 	<input type="submit" name="save"
 		value="<spring:message code='security.send'/>" />
+	<jstl:if test="${procession.isDraft}= true">
+		<input type="submit" name="finalMode"
+		value="<spring:message code='procession.finalMode'/>" />
+	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code='security.cancel' />"
 		onclick="javascript: relativeRedir('welcome/index.do');" />

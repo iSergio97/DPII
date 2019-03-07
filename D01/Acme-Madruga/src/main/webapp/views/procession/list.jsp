@@ -20,9 +20,5 @@
 	<display:column property="title" titleKey="procession.title" />
 	<display:column property="moment" titleKey="procession.moment" />
 	<display:column property="description" titleKey="procession.description" />
-	<display:column>
-		<a href="processions/brotherhood/edit.do?id=${row.id}">
-			<spring:message code="master.page.action.edit" /></a>
-	</display:column>
-
+	
 </display:table>

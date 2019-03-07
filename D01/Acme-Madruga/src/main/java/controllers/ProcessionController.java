@@ -50,7 +50,7 @@ public class ProcessionController extends AbstractController {
 		final ModelAndView result;
 		Collection<Procession> processions;
 
-		processions = this.processionService.findAllFormal();
+		processions = this.processionService.findFinalByBrotherhoodAccountId();
 
 		result = new ModelAndView("procession/brotherhood/list");
 		result.addObject("processions", processions);
@@ -117,6 +117,26 @@ public class ProcessionController extends AbstractController {
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(procession, "procession.commit.error");
 		}
+
+		return result;
+	}
+
+	// Final Mode -------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "finalMode")
+	public ModelAndView finalMode(@Valid final Procession procession, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(procession, "edit");
+		else
+			try {
+				procession.setIsDraft(false);
+				this.processionService.save(procession);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(procession, "procession.commit.error");
+			}
 
 		return result;
 	}

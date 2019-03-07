@@ -20,6 +20,9 @@ public interface ProcessionRepository extends JpaRepository<Procession, Integer>
 	List<Procession> findBeforeDate(Date date);
 
 	@Query("select p from Procession p where p.isDraft = false")
-	List<Procession> findAllFormal();
+	List<Procession> findAllFinal();
+
+	@Query("select p from Procession p where p.isDraft = false and brotherhood.userAccount.id = ?1")
+	List<Procession> findFinalByBrotherhoodAccountId(int id);
 
 }

@@ -113,8 +113,12 @@ public class ProcessionService {
 		return this.processionRepository.findBeforeDate(plus30Days);
 	}
 
-	public List<Procession> findAllFormal() {
-		return this.processionRepository.findAllFormal();
+	public List<Procession> findAllFinal() {
+		return this.processionRepository.findAllFinal();
+	}
+
+	public List<Procession> findFinalByBrotherhoodAccountId() {
+		return this.processionRepository.findFinalByBrotherhoodAccountId(LoginService.getPrincipal().getId());
 	}
 
 }
