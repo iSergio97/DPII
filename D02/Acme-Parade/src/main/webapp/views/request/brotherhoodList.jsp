@@ -24,7 +24,7 @@
 	requestURI="/request/brotherhood/list.do" pagesize="5"
 	class="displaytag">
 
-	<display:column property="procession.title" titleKey="request.procession"/>
+	<display:column property="parade.title" titleKey="request.parade"/>
 	<display:column property="HLine" titleKey="request.hLine"/>
 	<display:column property="VLine" titleKey="request.vLine" />
 	<display:column property="status" titleKey="request.status" />

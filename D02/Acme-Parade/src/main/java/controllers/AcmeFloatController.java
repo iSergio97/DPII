@@ -28,7 +28,7 @@ import services.AcmeFloatService;
 import services.BrotherhoodService;
 import domain.AcmeFloat;
 import domain.Brotherhood;
-import domain.Procession;
+import domain.Parade;
 
 @Controller
 @RequestMapping("/acmefloat")
@@ -130,14 +130,14 @@ public class AcmeFloatController extends AbstractController {
 		acmeFloat = this.acmeFloatService.create();
 		brotherhood = this.brotherhoodService.findPrincipal();
 		acmeFloat.setBrotherhood(brotherhood);
-		final Collection<Procession> processions = this.brotherhoodService.findPrincipal().getProcessions();
-		final HashMap<Integer, String> processionsMap = new HashMap<>();
-		for (final Procession procession : processions)
-			processionsMap.put(procession.getId(), procession.getTitle());
+		final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
+		final HashMap<Integer, String> paradesMap = new HashMap<>();
+		for (final Parade parade : parades)
+			paradesMap.put(parade.getId(), parade.getTitle());
 
 		result = new ModelAndView("acmefloat/create");
 		result.addObject("acmeFloat", acmeFloat);
-		result.addObject("processionsMap", processionsMap);
+		result.addObject("paradesMap", paradesMap);
 
 		return result;
 	}
@@ -149,22 +149,22 @@ public class AcmeFloatController extends AbstractController {
 
 		brotherhood = this.brotherhoodService.findPrincipal();
 		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
-		if (acmeFloat.getProcessions() == null)
-			acmeFloat.setProcessions(new ArrayList<Procession>());
-		for (final Procession procession : acmeFloat.getProcessions())
-			Assert.isTrue(procession.getBrotherhood().equals(brotherhood));
+		if (acmeFloat.getParades() == null)
+			acmeFloat.setParades(new ArrayList<Parade>());
+		for (final Parade parade : acmeFloat.getParades())
+			Assert.isTrue(parade.getBrotherhood().equals(brotherhood));
 		if (!binding.hasErrors()) {
 			acmeFloat.setBrotherhood(brotherhood);
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {
 			result = new ModelAndView("acmefloat/create");
-			final Collection<Procession> processions = this.brotherhoodService.findPrincipal().getProcessions();
-			final HashMap<Integer, String> processionsMap = new HashMap<>();
-			for (final Procession procession : processions)
-				processionsMap.put(procession.getId(), procession.getTitle());
+			final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
+			final HashMap<Integer, String> paradesMap = new HashMap<>();
+			for (final Parade parade : parades)
+				paradesMap.put(parade.getId(), parade.getTitle());
 			result.addObject("acmeFloat", acmeFloat);
-			result.addObject("processionsMap", processionsMap);
+			result.addObject("paradesMap", paradesMap);
 			result.addObject("showError", binding);
 			result.addObject("erroresBinding", binding.getAllErrors());
 			for (int i = 0; i < binding.getAllErrors().size(); i++)
@@ -185,14 +185,14 @@ public class AcmeFloatController extends AbstractController {
 		acmeFloat = this.acmeFloatService.findOne(id);
 		brotherhood = this.brotherhoodService.findPrincipal();
 		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
-		final Collection<Procession> processions = this.brotherhoodService.findPrincipal().getProcessions();
-		final HashMap<Integer, String> processionsMap = new HashMap<>();
-		for (final Procession procession : processions)
-			processionsMap.put(procession.getId(), procession.getTitle());
+		final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
+		final HashMap<Integer, String> paradesMap = new HashMap<>();
+		for (final Parade parade : parades)
+			paradesMap.put(parade.getId(), parade.getTitle());
 
 		result = new ModelAndView("acmefloat/edit");
 		result.addObject("acmeFloat", acmeFloat);
-		result.addObject("processionsMap", processionsMap);
+		result.addObject("paradesMap", paradesMap);
 
 		return result;
 	}
@@ -204,22 +204,22 @@ public class AcmeFloatController extends AbstractController {
 
 		brotherhood = this.brotherhoodService.findPrincipal();
 		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
-		if (acmeFloat.getProcessions() == null)
-			acmeFloat.setProcessions(new ArrayList<Procession>());
-		for (final Procession procession : acmeFloat.getProcessions())
-			Assert.isTrue(procession.getBrotherhood().equals(brotherhood));
+		if (acmeFloat.getParades() == null)
+			acmeFloat.setParades(new ArrayList<Parade>());
+		for (final Parade parade : acmeFloat.getParades())
+			Assert.isTrue(parade.getBrotherhood().equals(brotherhood));
 
 		if (!binding.hasErrors()) {
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {
 			result = new ModelAndView("acmefloat/edit");
-			final Collection<Procession> processions = this.brotherhoodService.findPrincipal().getProcessions();
-			final HashMap<Integer, String> processionsMap = new HashMap<>();
-			for (final Procession procession : processions)
-				processionsMap.put(procession.getId(), procession.getTitle());
+			final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
+			final HashMap<Integer, String> paradesMap = new HashMap<>();
+			for (final Parade parade : parades)
+				paradesMap.put(parade.getId(), parade.getTitle());
 			result.addObject("acmeFloat", acmeFloat);
-			result.addObject("processionsMap", processionsMap);
+			result.addObject("paradesMap", paradesMap);
 			result.addObject("showError", binding);
 			result.addObject("erroresBinding", binding.getAllErrors());
 			for (int i = 0; i < binding.getAllErrors().size(); i++)

@@ -19,9 +19,9 @@
 	
 <!-- Input Fields -->
 
-<div id="processions" class="processions">
-		<form:select id="processions" path="procession" >
-		<form:options items="${processions}" itemLabel = "title" itemValue="id"/>
+<div id="parades" class="parades">
+		<form:select id="parades" path="parade" >
+		<form:options items="${parades}" itemLabel = "title" itemValue="id"/>
 		<form:option label="----" value="0" />
 		</form:select>
 	</div>

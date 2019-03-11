@@ -18,15 +18,15 @@ public class Request extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String		status;
-	private Integer		hLine;
-	private Integer		vLine;
-	private String		reason;
+	private String	status;
+	private Integer	hLine;
+	private Integer	vLine;
+	private String	reason;
 
 	// Relationships ----------------------------------------------------------
 
-	private Procession	procession;
-	private Member		member;
+	private Parade	parade;
+	private Member	member;
 
 
 	// Field access methods ---------------------------------------------------
@@ -72,12 +72,12 @@ public class Request extends DomainEntity {
 
 	@ManyToOne
 	@Valid
-	public Procession getProcession() {
-		return this.procession;
+	public Parade getParade() {
+		return this.parade;
 	}
 
-	public void setProcession(final Procession procession) {
-		this.procession = procession;
+	public void setParade(final Parade parade) {
+		this.parade = parade;
 	}
 
 	@Valid

@@ -34,7 +34,7 @@ public class RequestService {
 	private MemberService		memberService;
 
 	@Autowired
-	private ProcessionService	processionService;
+	private ParadeService		paradeService;
 
 	@Autowired
 	private Validator			validator;
@@ -55,7 +55,7 @@ public class RequestService {
 
 		final Member member = this.memberService.findPrincipal();
 		request.setMember(member);
-		request.setProcession(this.processionService.create());
+		request.setParade(this.paradeService.create());
 		request.setHLine(1);
 		request.setVLine(1);
 		request.setStatus("PENDING");
@@ -117,7 +117,7 @@ public class RequestService {
 			res.setHLine(request.getHLine());
 			res.setVLine(request.getVLine());
 			res.setReason(request.getReason());
-			res.setProcession(request.getProcession());
+			res.setParade(request.getParade());
 			res.setMember(request.getMember());
 
 			this.validator.validate(res, bindingResult);
@@ -137,7 +137,7 @@ public class RequestService {
 		res.setHLine(form.getHLine());
 		res.setVLine(form.getVLine());
 		res.setReason(form.getReason());
-		res.setProcession(form.getProcession());
+		res.setParade(form.getParade());
 		res.setMember(this.memberService.findByUserAccountId(LoginService.getPrincipal().getId()));
 
 		this.validator.validate(res, bindingResult);

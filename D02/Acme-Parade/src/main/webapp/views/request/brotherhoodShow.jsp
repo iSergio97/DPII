@@ -19,9 +19,9 @@
 <a href="request/brotherhood/list.do"><spring:message code="request.return" /></a><br/>
 
 <p>
-	<b><spring:message code="request.procession" /></b>
+	<b><spring:message code="request.parade" /></b>
 	<br>
-	<jstl:out value=": ${request.procession.title}" />
+	<jstl:out value=": ${request.parade.title}" />
 </p>
 
 <p>

@@ -36,11 +36,11 @@
 		<form:errors path="description" />
 	</div>
 
-	<div id="processions" class="processions">
-		<form:label path="processions">
-			<spring:message code="processions" />
+	<div id="parades" class="parades">
+		<form:label path="parades">
+			<spring:message code="parades" />
 		</form:label>
-		<form:checkboxes items="${processionsMap}" id="processions" path="processions" />
+		<form:checkboxes items="${paradesMap}" id="parades" path="parades" />
 	</div>
 
 	<!-- Form options -->

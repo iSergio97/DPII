@@ -20,14 +20,14 @@ public class AcmeFloat extends DomainEntity {
 
 	// Fields -----------------------------------------------------------------
 
-	private String				title;
-	private String				description;
-	private List<String>		pictures;
+	private String			title;
+	private String			description;
+	private List<String>	pictures;
 
 	// Relationships ----------------------------------------------------------
 
-	private List<Procession>	processions;
-	private Brotherhood			brotherhood;
+	private List<Parade>	parades;
+	private Brotherhood		brotherhood;
 
 
 	// Field access methods ---------------------------------------------------
@@ -68,12 +68,12 @@ public class AcmeFloat extends DomainEntity {
 
 	@ManyToMany
 	@Valid
-	public List<Procession> getProcessions() {
-		return this.processions;
+	public List<Parade> getParades() {
+		return this.parades;
 	}
 
-	public void setProcessions(final List<Procession> processions) {
-		this.processions = processions;
+	public void setParades(final List<Parade> parades) {
+		this.parades = parades;
 	}
 
 	@ManyToOne

@@ -31,7 +31,7 @@ public class Brotherhood extends Actor {
 
 	// Relationships ----------------------------------------------------------
 
-	private Collection<Procession>	processions;
+	private Collection<Parade>		parades;
 	private Collection<AcmeFloat>	acmeFloats;
 	private Area					area;
 	private Collection<Enrolment>	enrolments;
@@ -73,12 +73,12 @@ public class Brotherhood extends Actor {
 
 	@OneToMany(mappedBy = "brotherhood")
 	@Valid
-	public Collection<Procession> getProcessions() {
-		return this.processions;
+	public Collection<Parade> getParades() {
+		return this.parades;
 	}
 
-	public void setProcessions(final Collection<Procession> processions) {
-		this.processions = processions;
+	public void setParades(final Collection<Parade> parades) {
+		this.parades = parades;
 	}
 
 	@OneToMany(mappedBy = "brotherhood")

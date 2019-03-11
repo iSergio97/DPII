@@ -16,11 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.BrotherhoodService;
 import services.MemberService;
-import services.ProcessionService;
+import services.ParadeService;
 import services.RequestService;
 import domain.Brotherhood;
 import domain.Member;
-import domain.Procession;
+import domain.Parade;
 import domain.Request;
 import forms.RequestForm;
 
@@ -29,16 +29,13 @@ import forms.RequestForm;
 public class RequestController extends AbstractController {
 
 	@Autowired
-	private RequestService		requestService;
-
-	@Autowired
-	private ProcessionService	processionService;
-
+	private BrotherhoodService	brotherhoodService;
 	@Autowired
 	private MemberService		memberService;
-
 	@Autowired
-	private BrotherhoodService	brotherhoodService;
+	private ParadeService		paradeService;
+	@Autowired
+	private RequestService		requestService;
 
 
 	public RequestController() {
@@ -99,16 +96,16 @@ public class RequestController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int requestId) {
 		ModelAndView result;
 		Request request;
-		Collection<Procession> processions;
+		Collection<Parade> parades;
 		Member member;
 
 		member = this.memberService.findPrincipal();
 		request = this.requestService.findOne(requestId);
-		processions = this.processionService.findPossibleMemberProcessions(member.getId());
+		parades = this.paradeService.findPossibleMemberParades(member.getId());
 		Assert.notNull(request);
 		result = new ModelAndView("/request/member/edit");
 		result.addObject("request", request);
-		result.addObject("processions", processions);
+		result.addObject("parades", parades);
 
 		return result;
 	}
@@ -261,17 +258,18 @@ public class RequestController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final RequestForm request, final String message) {
 		final ModelAndView result;
-		final Collection<Procession> processions;
+		final Collection<Parade> parades;
 		Member member;
 
 		member = this.memberService.findPrincipal();
-		processions = this.processionService.findPossibleMemberProcessions(member.getId());
+		parades = this.paradeService.findPossibleMemberParades(member.getId());
 
 		result = new ModelAndView("/request/member/create");
 		result.addObject("request", request);
-		result.addObject("processions", processions);
+		result.addObject("parades", parades);
 		result.addObject("message", message);
 
 		return result;
 	}
+
 }
