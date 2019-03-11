@@ -55,7 +55,6 @@ public class ProfileController extends AbstractController {
 		result.addObject("reqURI", reqURI);
 		return result;
 	}
-	// Action-2 ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.GET)
 	public ModelAndView brotherhoodShow() {
@@ -70,8 +69,6 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
-	// Action-2 ---------------------------------------------------------------		
-
 	@RequestMapping(value = "/admin/show", method = RequestMethod.GET)
 	public ModelAndView showAdmin() {
 		ModelAndView result;
@@ -80,7 +77,7 @@ public class ProfileController extends AbstractController {
 		final String reqURI = "admin";
 
 		result = new ModelAndView("profile/admin/show");
-		result.addObject("adminf", adminf);
+		result.addObject("actor", adminf);
 		result.addObject("admin", reqURI);
 
 		return result;
@@ -115,10 +112,11 @@ public class ProfileController extends AbstractController {
 	public ModelAndView editAdmin() {
 		ModelAndView result;
 		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final AdministratorForm adminf = this.administratorService.deconstruct(admin);
 		final String reqURI = "admin";
 		result = new ModelAndView("profile/admin/edit");
-		result.addObject("actor", admin);
-		result.addObject("admin", reqURI);
+		result.addObject("adminf", adminf);
+		result.addObject("reqURI", reqURI);
 
 		return result;
 	}
