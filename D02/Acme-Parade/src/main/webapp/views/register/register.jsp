@@ -122,30 +122,30 @@
 			<form:hidden path="id" />
 
 			<!-- Campos de entrada -->
-			<acme:register code="name" path="actor.name" />
+			<acme:register code="name" path="name" />
 			<br>
-			<acme:register code="middleName" path="actor.middleName" />
+			<acme:register code="middleName" path="middleName" />
 			<br>
-			<acme:register code="surname" path="actor.surname" />
+			<acme:register code="surname" path="surname" />
 			<br>
-			<acme:register code="photo" path="actor.photo" />
+			<acme:register code="photo" path="photo" />
 			<br>
-			<acme:register code="email" path="actor.email" />
+			<acme:register code="email" path="email" />
 			<br>
-			<acme:register code="phoneNumber" path="actor.phoneNumber" />
+			<acme:register code="phoneNumber" path="phoneNumber" />
 			<br>
-			<acme:register code="address" path="actor.address" />
+			<acme:register code="address" path="address" />
 			<br>
-			<acme:register code="title" path="actor.title" />
+			<acme:register code="title" path="title" />
 			<br>
 
 			<!-- Campos de usuario -->
 
-			<acme:register code="username" path="actor.username" />
+			<acme:register code="username" path="username" />
 			<br>
-			<acme:password code="password" path="actor.password" />
+			<acme:password code="password" path="password" />
 			<br>
-			<acme:password code="confirmPassword" path="actor.confirmPassword" />
+			<acme:password code="confirmPassword" path="confirmPassword" />
 			
 			<br>
 			<br>
