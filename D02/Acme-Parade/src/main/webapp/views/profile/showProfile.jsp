@@ -51,9 +51,11 @@
 	<jstl:out value="${actor.title}" />
 	<br>
 <strong> <spring:message code="actor.stablishmentDate" />: </strong>
+	<!-- TODO: Revisar porqué no muestra la fecha -->
 	<jstl:out value="${actor.establishmentDate}" />
 </jstl:if>
-
+<br>
+<br>
 <jstl:if test="${reqURI eq 'admin'}">
 <a href="profile/admin/export.do"><spring:message code="exportData" /></a>
 </jstl:if>
