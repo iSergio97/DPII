@@ -25,7 +25,7 @@ import domain.Brotherhood;
 import domain.Procession;
 
 @Controller
-@RequestMapping("/procession/brotherhood")
+@RequestMapping("/procession")
 public class ProcessionController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -48,7 +48,7 @@ public class ProcessionController extends AbstractController {
 
 	// List -------------------------------------------------------------------
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 		Collection<Procession> processions;
@@ -64,7 +64,7 @@ public class ProcessionController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final ModelAndView result;
 		Procession procession;
@@ -78,7 +78,7 @@ public class ProcessionController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int processionId) {
 		ModelAndView result;
 		Procession procession;
@@ -93,7 +93,7 @@ public class ProcessionController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Procession procession, final BindingResult binding) {
 		ModelAndView result;
 
@@ -113,7 +113,7 @@ public class ProcessionController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final Procession procession, final BindingResult binding) {
 		ModelAndView result;
 
@@ -127,9 +127,9 @@ public class ProcessionController extends AbstractController {
 		return result;
 	}
 
-	// Final Mode -------------------------------------------------------------
+	// Save in Final Mode -----------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "finalMode")
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "finalMode")
 	public ModelAndView finalMode(@Valid final Procession procession, final BindingResult binding) {
 		ModelAndView result;
 
@@ -147,6 +147,34 @@ public class ProcessionController extends AbstractController {
 		return result;
 	}
 
+	// Show -------------------------------------------------------------------
+
+	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam final int processionId) {
+		ModelAndView result;
+		Procession procession;
+		procession = this.processionService.findOne(processionId);
+
+		Brotherhood brotherhood;
+		Collection<AcmeFloat> acmeFloats;
+
+		procession = this.processionService.findOne(processionId);
+		Assert.notNull(procession);
+
+		brotherhood = procession.getBrotherhood();
+		final UserAccount userAccount = brotherhood.getUserAccount();
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
+
+		result = new ModelAndView("procession/public/" + "show");
+		result.addObject("brotherhood", brotherhood);
+		result.addObject("acmeFloats", acmeFloats);
+
+		result.addObject("procession", procession);
+
+		// result.addObject("messageCode", null);
+
+		return result;
+	}
 	// Ancillary Methods ------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Procession procession, final String method) {
