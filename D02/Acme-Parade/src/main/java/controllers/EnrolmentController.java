@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -101,7 +102,7 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
-	// Edit -------------------------------------------------------------------
+	// List -------------------------------------------------------------------
 
 	@RequestMapping(value = "brotherhood/list", method = RequestMethod.GET)
 	public ModelAndView listBrotherhood() {
@@ -112,9 +113,33 @@ public class EnrolmentController extends AbstractController {
 		result = new ModelAndView("enrolment/brotherhood/list");
 		result.addObject("enrolments", enrolments);
 
+		/*
+		 * result.addObject("positionEng", enrl.getPosition().getStrings().values().toArray()[0]);
+		 * result.addObject("positionEsp", enrl.getPosition().getStrings().values().toArray()[1]);
+		 */
+
 		return result;
 	}
 
+	// Info -------------------------------------------------------------------
+
+	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam final int enrolmentId) {
+		// Create result object
+		ModelAndView result;
+		Enrolment enrolment;
+		result = new ModelAndView("enrolment/brotherhood/show");
+		enrolment = this.enrolmentService.findOne(enrolmentId);
+		final String locale = Locale.getDefault().getLanguage();
+
+		result.addObject("enrolment", enrolment);
+		result.addObject("member", enrolment.getMember());
+		result.addObject("locale", locale);
+		result.addObject("es", enrolment.getPosition().getStrings().values().toArray()[0]);
+		result.addObject("en", enrolment.getPosition().getStrings().values().toArray()[1]);
+
+		return result;
+	}
 	// Save -------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final EnrolmentForm enrolment, final BindingResult bindingResult) {
@@ -180,7 +205,6 @@ public class EnrolmentController extends AbstractController {
 		ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
 
-		//TODO: La solicitud se hace al cargo más pequeño y la hermandad decide si cambiarlo a otro o no
 		final Member actual = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final List<Enrolment> ls = actual.getEnrolments();
 		brotherhoods = this.brotherhoodService.findAll();

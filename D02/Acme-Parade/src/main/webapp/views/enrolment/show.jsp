@@ -14,11 +14,17 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="enrolments" id="row"
-	requestURI="enrolment/brotherhood/list.do" pagesize="5">
-	<display:column property="member.name" titleKey="name" />
-	<display:column property="member.surname" titleKey="surname" />
-	<display:column>
-	<a href="enrolment/brotherhood/show.do?enrolmentId=${row.id}"> <spring:message code="enrolment.info" /></a>
-	</display:column>
-</display:table>
+<p><strong> <spring:message code="member.name"/>:</strong> <jstl:out value="${member.name}"/></p>
+<p><strong> <spring:message code="member.surname"/></strong>
+	<jstl:out value="${member.surname}"/> </p>
+<p><strong> <spring:message code="member.position"/>:</strong>
+<jstl:if test="${locale == 'es'}">
+	<jstl:out value="${es}"/>
+</jstl:if>
+
+<jstl:if test="${locale == 'en'}">
+	<jstl:out value="${en}"/>
+</jstl:if>
+</p>
+
+<a href=""> <spring:message code="enrolment.edit"/> </a>
