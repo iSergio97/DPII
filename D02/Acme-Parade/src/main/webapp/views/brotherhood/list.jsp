@@ -14,19 +14,16 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="processions" id="row"
-	requestURI="procession/brotherhood/list.do" pagesize="5" class="displaytag">
+<display:table name="brotherhoods" id="row"
+	requestURI="brotherhood/public/list.do" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="procession.title" />
-	<display:column property="moment" titleKey="procession.moment" />
-	<display:column property="description" titleKey="procession.description" />
+	<display:column property="title" titleKey="brotherhood.title" />
+	<display:column property="establishmentDate" titleKey="brotherhood.establishmentDate" />
 
 	<display:column titleKey="master.page.blank">
-		<jstl:if test="${row.isDraft == true}">
-			<a href="procession/brotherhood/edit.do?processionId=<jstl:out value="${row.id}" />">
-				<spring:message code="master.page.action.edit"/>
-			</a>
-		</jstl:if>
+		<a href="brotherhood/public/show.do?brotherhoodId=<jstl:out value="${row.id}" />">
+			<spring:message code="master.page.action.show"/>
+		</a>
 	</display:column>
 
 </display:table>

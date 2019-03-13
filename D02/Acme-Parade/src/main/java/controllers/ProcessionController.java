@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import security.UserAccount;
 import services.AcmeFloatService;
 import services.BrotherhoodService;
 import services.ProcessionService;
@@ -59,6 +61,7 @@ public class ProcessionController extends AbstractController {
 
 		return result;
 	}
+
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -67,6 +70,7 @@ public class ProcessionController extends AbstractController {
 		Procession procession;
 
 		procession = this.processionService.create();
+		procession.setIsDraft(true);
 		result = this.createEditModelAndView(procession, "create");
 
 		return result;
@@ -81,6 +85,7 @@ public class ProcessionController extends AbstractController {
 
 		procession = this.processionService.findOne(processionId);
 		Assert.notNull(procession);
+		procession.setAcmeFloats(new ArrayList<AcmeFloat>());
 		result = this.createEditModelAndView(procession, "edit");
 
 		return result;
@@ -96,10 +101,11 @@ public class ProcessionController extends AbstractController {
 			result = this.createEditModelAndView(procession, "edit");
 		else
 			try {
+				procession.setIsDraft(true);
 				this.processionService.save(procession);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(procession, "procession.commit.error");
+				result = this.createEditModelAndView(procession, "procession.commit.error", "edit");
 			}
 
 		return result;
@@ -115,7 +121,7 @@ public class ProcessionController extends AbstractController {
 			this.processionService.delete(procession);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(procession, "procession.commit.error");
+			result = this.createEditModelAndView(procession, "procession.commit.error", "edit");
 		}
 
 		return result;
@@ -135,7 +141,7 @@ public class ProcessionController extends AbstractController {
 				this.processionService.save(procession);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(procession, "procession.commit.error");
+				result = this.createEditModelAndView(procession, "procession.commit.error", "edit");
 			}
 
 		return result;
@@ -143,7 +149,7 @@ public class ProcessionController extends AbstractController {
 
 	// Ancillary Methods ------------------------------------------------------
 
-	private ModelAndView createEditModelAndView(final Procession procession, final String method) {
+	protected ModelAndView createEditModelAndView(final Procession procession, final String method) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(procession, null, method);
@@ -151,19 +157,22 @@ public class ProcessionController extends AbstractController {
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(final Procession procession, final String string, final String method) {
+	protected ModelAndView createEditModelAndView(final Procession procession, final String messageCode, final String method) {
 		final ModelAndView result;
 		final Brotherhood brotherhood;
 		final Collection<AcmeFloat> acmeFloats;
+		final UserAccount userAccount = LoginService.getPrincipal();
 
 		brotherhood = this.brotherhoodService.findPrincipal();
-		acmeFloats = this.acmeFloatService.findAcmeFloats();
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
 
 		result = new ModelAndView("procession/brotherhood/" + method);
 		result.addObject("brotherhood", brotherhood);
 		result.addObject("acmeFloats", acmeFloats);
 
 		result.addObject("procession", procession);
+
+		result.addObject("messageCode", messageCode);
 
 		return result;
 	}
