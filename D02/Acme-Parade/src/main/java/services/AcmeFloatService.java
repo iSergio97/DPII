@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AcmeFloatRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.AcmeFloat;
 import domain.Procession;
 
@@ -85,9 +83,8 @@ public class AcmeFloatService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Collection<AcmeFloat> findAcmeFloats() {
-		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.acmeFloatRepository.findFloats(userAccount.getId());
+	public Collection<AcmeFloat> findAcmeFloats(final int id) {
+		return this.acmeFloatRepository.findFloats(id);
 	}
 
 }

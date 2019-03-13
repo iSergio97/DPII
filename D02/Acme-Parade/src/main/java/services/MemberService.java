@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,5 +204,9 @@ public class MemberService {
 
 		return memberf;
 
+	}
+
+	public Collection<Member> findMemebersByBrotherhoodAccountId(final int id) {
+		return this.memberRepository.findMemebersByBrotherhoodAccountId(id);
 	}
 }
