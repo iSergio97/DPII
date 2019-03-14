@@ -20,41 +20,35 @@
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-
-	<form:hidden path="ticker" />
-	
-	<form:hidden path="brotherhood"/>
 
 	<!-- Input fields -->
 	<form:label path="title">
-		<spring:message code="procession.title" />
+		<strong><spring:message code="procession.title" /></strong>
 	</form:label>
 	<form:input path="title" />
 	<form:errors cssClass="error" path="title" />
 	<br>
 
 	<form:label path="description">
-		<spring:message code="procession.description" />
+		<strong><spring:message code="procession.description" /></strong>
 	</form:label>
 	<form:textarea path="description" />
 	<form:errors cssClass="error" path="description" />
 	<br>
 	
 	<form:label path="moment">
-		<spring:message code="procession.moment" />
+		<strong><spring:message code="procession.moment" /></strong>
 	</form:label>
 	<form:input path="moment" placeholder="dd/mm/yyyy hh:mm"/>
 	<form:errors cssClass="error" path="moment" />
 	<br>
-	
+
 	<form:label path="acmeFloats">
-		<spring:message code="procession.acmeFloats" />
+		<strong><spring:message code="procession.acmeFloats" /></strong>
 	</form:label>
-	<form:select multiple="true" id="acmeFloats" path="acmeFloats">
-		<form:options items="${acmeFloats}" itemLabel="title"
-			itemValue="id" />
-		<form:option value="" label="----" />
+	<form:select id="acmeFloats" path="acmeFloats">
+		<form:options items="${acmeFloats}" itemLabel="title" itemValue="id" />
+		<form:option value="0" label="----" />
 	</form:select>
 	<form:errors cssClass="error" path="acmeFloats" />
 	<br>

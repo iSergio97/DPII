@@ -36,7 +36,7 @@
 <br>
 
 <strong>
-	<spring:message code="procession.floats"/>:
+	<spring:message code="procession.acmeFloats"/>:
 </strong>
 <display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
 
