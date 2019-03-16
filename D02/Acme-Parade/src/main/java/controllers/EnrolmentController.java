@@ -4,8 +4,10 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -21,10 +23,11 @@ import security.LoginService;
 import services.BrotherhoodService;
 import services.EnrolmentService;
 import services.MemberService;
+import services.PositionService;
 import domain.Brotherhood;
 import domain.Enrolment;
 import domain.Member;
-import forms.EnrolmentForm;
+import domain.Position;
 
 @Controller
 @RequestMapping("/enrolment")
@@ -40,6 +43,9 @@ public class EnrolmentController extends AbstractController {
 
 	@Autowired
 	private MemberService		memberService;
+
+	@Autowired
+	private PositionService		positionService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -94,9 +100,9 @@ public class EnrolmentController extends AbstractController {
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		EnrolmentForm enrolment;
+		Enrolment enrolment;
 
-		enrolment = this.enrolmentService.createForm();
+		enrolment = this.enrolmentService.create();
 		result = this.createEditModelAndView(enrolment);
 
 		return result;
@@ -135,26 +141,65 @@ public class EnrolmentController extends AbstractController {
 		result.addObject("enrolment", enrolment);
 		result.addObject("member", enrolment.getMember());
 		result.addObject("locale", locale);
-		result.addObject("es", enrolment.getPosition().getStrings().values().toArray()[0]);
-		result.addObject("en", enrolment.getPosition().getStrings().values().toArray()[1]);
+		result.addObject("en", enrolment.getPosition().getStrings().values().toArray()[0]);
+		result.addObject("es", enrolment.getPosition().getStrings().values().toArray()[1]);
 
+		return result;
+	}
+
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int enrolmentId) {
+		// Create result object
+		ModelAndView result;
+		Enrolment enrolment;
+		result = new ModelAndView("enrolment/brotherhood/edit");
+		enrolment = this.enrolmentService.findOne(enrolmentId);
+		final String locale = Locale.getDefault().getLanguage();
+		final Map<Integer, Position> es = new HashMap<>();
+		final Map<Integer, Position> en = new HashMap<>();
+		final List<Position> ls = this.positionService.findAll();
+		for (int i = 0; i < ls.size(); i++) {
+			es.put(i, ls.get(i));
+			en.put(i, ls.get(i));
+		}
+		result.addObject("es", es);
+		result.addObject("en", en);
+		result.addObject("enrolment", enrolment);
+		result.addObject("member", enrolment.getMember());
+		result.addObject("locale", locale);
 		return result;
 	}
 	// Save -------------------------------------------------------------------
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final EnrolmentForm enrolment, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
 		ModelAndView result;
-		Enrolment enrolment2;
-		enrolment.setMoment(new Date());
 
-		enrolment2 = this.enrolmentService.reconstructForm(enrolment, bindingResult);
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(enrolment);
 		else
 			try {
-				this.enrolmentService.save(enrolment2);
+				enrolment.setMoment(new Date());
+				this.enrolmentService.save(enrolment);
 
 				result = new ModelAndView("redirect:/enrolment/member/list.do");
+			} catch (final Throwable oops) {
+				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
+			}
+		return result;
+	}
+
+	// Save -------------------------------------------------------------------
+	@RequestMapping(value = "/brotherhood/edit", params = "save", method = RequestMethod.POST)
+	public ModelAndView saveEnrolment(@Valid final Enrolment enrolment, final BindingResult bindingResult) {
+		ModelAndView result;
+
+		if (bindingResult.hasErrors())
+			result = this.createEditModelAndView(enrolment);
+		else
+			try {
+				this.enrolmentService.save(enrolment);
+
+				result = new ModelAndView("redirect:/enrolment/brotherhood/list.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");
 			}
@@ -193,7 +238,7 @@ public class EnrolmentController extends AbstractController {
 	 * }
 	 */
 	// Ancillary Methods ------------------------------------------------------
-	protected ModelAndView createEditModelAndView(final EnrolmentForm enrolment) {
+	protected ModelAndView createEditModelAndView(final Enrolment enrolment) {
 		ModelAndView result;
 
 		result = this.createAndEditModelAndView(enrolment, null);
@@ -201,7 +246,7 @@ public class EnrolmentController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createAndEditModelAndView(final EnrolmentForm enrolment, final String message) {
+	protected ModelAndView createAndEditModelAndView(final Enrolment enrolment, final String message) {
 		ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
 

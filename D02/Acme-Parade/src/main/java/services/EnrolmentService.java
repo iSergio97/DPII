@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.EnrolmentRepository;
@@ -16,7 +15,6 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Enrolment;
 import domain.Position;
-import forms.EnrolmentForm;
 
 @Service
 @Transactional
@@ -56,19 +54,10 @@ public class EnrolmentService {
 		final int id = LoginService.getPrincipal().getId();
 		enrolment.setMember(this.memberService.findByUserAccountId(id));
 		enrolment.setMoment(new Date());
-		//TODO: Añadir la posición más baja
 		enrolment.setPosition(this.systemConfigurationService.getSystemConfiguration().getLowestPosition());
 		enrolment.setExitMoment(null);
 
 		return enrolment;
-	}
-
-	public EnrolmentForm createForm() {
-		final EnrolmentForm enr = new EnrolmentForm();
-		enr.setMoment(new Date());
-		enr.setExitMoment(null);
-
-		return enr;
 	}
 
 	public Enrolment save(final Enrolment enrolment) {
@@ -105,23 +94,6 @@ public class EnrolmentService {
 	public Enrolment findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.findOne(userAccount.getId());
-	}
-
-	public Enrolment reconstructForm(final EnrolmentForm enrolment, final BindingResult bindingResult) {
-		final Enrolment result;
-
-		if (enrolment.getId() == 0)
-			result = this.create();
-		else
-			result = this.enrolmentRepository.findOne(enrolment.getId());
-
-		result.setMoment(new Date());
-		result.setExitMoment(enrolment.getExitMoment());
-		result.setBrotherhood(enrolment.getBro());
-
-		this.validator.validate(result, bindingResult);
-
-		return result;
 	}
 
 	public int countWithPosition(final Position position) {

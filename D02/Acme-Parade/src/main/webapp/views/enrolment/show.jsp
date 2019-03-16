@@ -27,4 +27,4 @@
 </jstl:if>
 </p>
 
-<a href=""> <spring:message code="enrolment.edit"/> </a>
+<a href="enrolment/brotherhood/edit.do?enrolmentId=${enrolment.id}"> <spring:message code="enrolment.edit"/> </a>

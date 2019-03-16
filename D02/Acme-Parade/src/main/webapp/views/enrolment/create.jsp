@@ -21,15 +21,20 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="moment"/>
+	<form:hidden path="version"/>
+	<form:hidden path="exitMoment"/>
+	<form:hidden path="member"/>
+	<form:hidden path="position"/>
+	
 	<!-- Hidden fields 
 -->
 	<!-- Input fields -->
 
-	<div id="bro" class="bro">
-		<form:label path="bro">
+	<div id="brotherhood" class="brotherhood">
+		<form:label path="brotherhood">
 			<spring:message code="enrolment.brotherhood" />
 		</form:label>
-		<form:select multiple="false" id="bro" path="bro">
+		<form:select multiple="false" id="brotherhood" path="brotherhood">
 			<form:options items="${brotherhoods}" itemLabel="title"
 				itemValue="id" />
 		</form:select>
