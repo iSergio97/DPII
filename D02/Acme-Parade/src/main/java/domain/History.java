@@ -3,6 +3,7 @@ package domain;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -24,7 +25,7 @@ public class History extends DomainEntity {
 
 	//Relationship access methods ----------------------
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@Valid
 	public InceptionRecord getInceptionRecord() {
 		return this.inceptionRecord;
@@ -34,7 +35,7 @@ public class History extends DomainEntity {
 		this.inceptionRecord = inceptionRecord;
 	}
 
-	@OneToMany(mappedBy = "history")
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
 	@Valid
 	public Collection<PeriodRecord> getPeriodRecords() {
 		return this.periodRecords;
@@ -44,7 +45,7 @@ public class History extends DomainEntity {
 		this.periodRecords = periodRecords;
 	}
 
-	@OneToMany(mappedBy = "history")
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
 	@Valid
 	public Collection<LegalRecord> getLegalRecords() {
 		return this.legalRecords;
@@ -54,7 +55,7 @@ public class History extends DomainEntity {
 		this.legalRecords = legalRecords;
 	}
 
-	@OneToMany(mappedBy = "history")
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
 	@Valid
 	public Collection<LinkRecord> getLinkRecords() {
 		return this.linkRecords;
@@ -64,7 +65,7 @@ public class History extends DomainEntity {
 		this.linkRecords = linkRecords;
 	}
 
-	@OneToMany(mappedBy = "history")
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
 	@Valid
 	public Collection<MiscellaneousRecord> getMiscellaneousRecords() {
 		return this.miscRecords;
