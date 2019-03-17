@@ -23,21 +23,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Brotherhood extends Actor {
 
-	// Fields -----------------------------------------------------------------
+	// Fields ----------------------------------------------------------------------
 
 	private String					title;
 	private Date					establishmentDate;
 	private Collection<String>		pictures;
 
-	// Relationships ----------------------------------------------------------
+	// Relationships ---------------------------------------------------------------
 
+	private Area					area;
+	private History					history;
 	private Collection<Parade>		parades;
 	private Collection<AcmeFloat>	acmeFloats;
-	private Area					area;
 	private Collection<Enrolment>	enrolments;
 
 
-	// Field access methods ---------------------------------------------------
+	// Field access methods --------------------------------------------------------
 
 	@NotNull
 	@NotBlank
@@ -69,7 +70,28 @@ public class Brotherhood extends Actor {
 		this.pictures = pictures;
 	}
 
-	// Relationship access methods --------------------------------------------
+	// Relationship access methods -------------------------------------------------
+
+	// TODO: Check why was this set to false
+	@ManyToOne(optional = true)
+	@Valid
+	public Area getArea() {
+		return this.area;
+	}
+
+	public void setArea(final Area area) {
+		this.area = area;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@Valid
+	public History getHistory() {
+		return this.history;
+	}
+
+	public void setHistory(final History history) {
+		this.history = history;
+	}
 
 	@OneToMany(mappedBy = "brotherhood")
 	@Valid
@@ -89,17 +111,6 @@ public class Brotherhood extends Actor {
 
 	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
 		this.acmeFloats = acmeFloats;
-	}
-
-	// TODO: Check why was this set to false
-	@ManyToOne(optional = true)
-	@Valid
-	public Area getArea() {
-		return this.area;
-	}
-
-	public void setArea(final Area area) {
-		this.area = area;
 	}
 
 	@OneToMany(mappedBy = "brotherhood")

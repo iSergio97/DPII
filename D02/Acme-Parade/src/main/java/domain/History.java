@@ -10,20 +10,27 @@ import javax.validation.Valid;
 
 public class History extends DomainEntity {
 
-	//Relationships --------------------------------
+	// Relationships ---------------------------------------------------------------
 
+	private Brotherhood						brotherhood;
 	private InceptionRecord					inceptionRecord;
-
 	private Collection<PeriodRecord>		periodRecords;
-
 	private Collection<LegalRecord>			legalRecords;
-
 	private Collection<LinkRecord>			linkRecords;
-
 	private Collection<MiscellaneousRecord>	miscRecords;
 
 
-	//Relationship access methods ----------------------
+	// Relationship access methods -------------------------------------------------
+
+	@OneToOne
+	@Valid
+	public Brotherhood getBrotherhood() {
+		return this.brotherhood;
+	}
+
+	public void setBrotherhood(final Brotherhood brotherhood) {
+		this.brotherhood = brotherhood;
+	}
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@Valid
