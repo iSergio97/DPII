@@ -3,33 +3,34 @@ package domain;
 
 import java.util.Collection;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class PeriodRecord extends DomainEntity {
 
-	//Fields ----------------------------------------
+	// Fields
 
 	private String				title;
-
 	private String				description;
-
 	private int					startYear;
-
 	private int					endYear;
-
 	private Collection<String>	photos;
 
-	//Relationships ---------------------------------
+	// Relationships
 
 	private History				history;
 
 
-	//Field access methods ----------------------------------
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -78,7 +79,7 @@ public class PeriodRecord extends DomainEntity {
 		this.photos = photos;
 	}
 
-	//Relationship access methods -----------------------
+	// Relationship access methods
 
 	@ManyToOne(optional = true)
 	@Valid

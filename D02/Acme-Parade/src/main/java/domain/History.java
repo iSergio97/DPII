@@ -3,14 +3,19 @@ package domain;
 
 import java.util.Collection;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class History extends DomainEntity {
 
-	// Relationships ---------------------------------------------------------------
+	// Relationships
 
 	private Brotherhood						brotherhood;
 	private InceptionRecord					inceptionRecord;
@@ -20,7 +25,7 @@ public class History extends DomainEntity {
 	private Collection<MiscellaneousRecord>	miscRecords;
 
 
-	// Relationship access methods -------------------------------------------------
+	// Relationship access methods
 
 	@OneToOne
 	@Valid

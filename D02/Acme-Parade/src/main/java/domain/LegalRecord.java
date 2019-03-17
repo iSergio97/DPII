@@ -1,32 +1,33 @@
 
 package domain;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class LegalRecord extends DomainEntity {
 
-	//Fields ----------------------------------------
+	// Fields
 
 	private String	title;
-
 	private String	description;
-
 	private String	legalName;
-
 	private double	VAT;
-
 	private String	applicableLaws;
 
-	//Relationships ---------------------------------
+	// Relationships
 
 	private History	history;
 
 
-	//Field access methods ----------------------------------
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -77,7 +78,7 @@ public class LegalRecord extends DomainEntity {
 		this.applicableLaws = applicableLaws;
 	}
 
-	//Relationship access methods -----------------------
+	// Relationship access methods
 
 	@ManyToOne(optional = true)
 	@Valid

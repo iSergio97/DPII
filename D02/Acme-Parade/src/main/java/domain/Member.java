@@ -14,16 +14,14 @@ import javax.validation.Valid;
 @Access(AccessType.PROPERTY)
 public class Member extends Actor {
 
-	// Fields -----------------------------------------------------------------
-
-	// Relationships ----------------------------------------------------------
+	// Relationships
 
 	private List<Enrolment>	enrolments;
 	private List<Request>	requests;
 	private Finder			finder;
 
 
-	// Relationship access methods --------------------------------------------
+	// Relationship access methods
 
 	@OneToMany(mappedBy = "member")
 	@Valid

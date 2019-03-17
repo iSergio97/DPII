@@ -15,19 +15,19 @@ import org.hibernate.validator.constraints.URL;
 @Access(AccessType.PROPERTY)
 public class SocialProfile extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	// Fields
 
 	private String	nick;
 	private String	socialNetworkName;
 	private String	profileLink;
 
-	// Relationships ----------------------------------------------------------
+	// Relationships
 
 	// TODO: Why is it here if the relationship is not navigable this side?
 	private Actor	actor;
 
 
-	// Field access methods ---------------------------------------------------
+	// Field access methods
 
 	@NotBlank
 	public String getNick() {
@@ -56,7 +56,7 @@ public class SocialProfile extends DomainEntity {
 		this.profileLink = profileLink;
 	}
 
-	// Relationship access methods --------------------------------------------
+	// Relationship access methods
 
 	@NotNull
 	@Valid

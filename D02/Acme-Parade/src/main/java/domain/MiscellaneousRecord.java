@@ -1,20 +1,30 @@
 
 package domain;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class MiscellaneousRecord extends DomainEntity {
 
-	//Fields ----------------------------------------
+	// Fields
 
 	private String	title;
-
 	private String	description;
 
+	// Relationships
 
-	//Field access methods ----------------------------------
+	private History	history;
+
+
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -34,6 +44,18 @@ public class MiscellaneousRecord extends DomainEntity {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	// Relationship access methods
+
+	@ManyToOne(optional = true)
+	@Valid
+	public History getHistory() {
+		return this.history;
+	}
+
+	public void setHistory(final History history) {
+		this.history = history;
 	}
 
 }

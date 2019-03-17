@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.PROPERTY)
 public class SystemConfiguration extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	// Fields
 
 	private String				defaultCountryCode;
 	private String				systemName;
@@ -31,12 +31,12 @@ public class SystemConfiguration extends DomainEntity {
 	private Map<String, String>	welcomeMessages;
 	private Map<String, String>	warningMessages;
 
-	// Relationships ----------------------------------------------------------
+	// Relationships
 
 	private Position			lowestPosition;
 
 
-	// Field access methods ---------------------------------------------------
+	// Field access methods
 
 	public String getDefaultCountryCode() {
 		return this.defaultCountryCode;
@@ -134,7 +134,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.welcomeMessages = welcomeMessages;
 	}
 
-	// Relationship access methods --------------------------------------------
+	// Relationship access methods
 
 	@NotNull
 	@OneToOne

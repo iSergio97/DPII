@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -23,13 +25,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Brotherhood extends Actor {
 
-	// Fields ----------------------------------------------------------------------
+	// Fields
 
 	private String					title;
 	private Date					establishmentDate;
 	private Collection<String>		pictures;
 
-	// Relationships ---------------------------------------------------------------
+	// Relationships
 
 	private Area					area;
 	private History					history;
@@ -38,7 +40,7 @@ public class Brotherhood extends Actor {
 	private Collection<Enrolment>	enrolments;
 
 
-	// Field access methods --------------------------------------------------------
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -70,9 +72,8 @@ public class Brotherhood extends Actor {
 		this.pictures = pictures;
 	}
 
-	// Relationship access methods -------------------------------------------------
+	// Relationship access methods
 
-	// TODO: Check why was this set to false
 	@ManyToOne(optional = true)
 	@Valid
 	public Area getArea() {

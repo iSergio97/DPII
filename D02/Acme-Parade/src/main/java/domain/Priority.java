@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.PROPERTY)
 public class Priority extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	// Fields
 
 	private Map<String, String>	strings;
 
 
-	// Field access methods ---------------------------------------------------
+	// Field access methods
 
 	@NotNull
 	@ElementCollection(targetClass = String.class)

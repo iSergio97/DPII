@@ -27,18 +27,18 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class MessageBox extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	// Fields
 
 	private String				name;
 	private Boolean				isSystem;
 
-	// Relationships ----------------------------------------------------------
+	// Relationships
 
 	private Actor				actor;
 	private Collection<Message>	messages;
 
 
-	// Field access methods ---------------------------------------------------
+	// Field access methods
 
 	@NotBlank
 	public String getName() {
@@ -58,7 +58,7 @@ public class MessageBox extends DomainEntity {
 		this.isSystem = isSystem;
 	}
 
-	// Relationship access methods --------------------------------------------
+	// Relationship access methods
 
 	@Valid
 	@NotNull

@@ -1,6 +1,9 @@
 
 package domain;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -8,22 +11,22 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+@Entity
+@Access(AccessType.PROPERTY)
 public class LinkRecord extends DomainEntity {
 
-	//Fields ----------------------------------------
+	// Fields
 
 	private String		title;
-
 	private String		description;
 
-	//Relationships ---------------------------------
+	// Relationships
 
 	private Brotherhood	brotherhood;
-
 	private History		history;
 
 
-	//Field access methods ----------------------------------
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -45,7 +48,7 @@ public class LinkRecord extends DomainEntity {
 		this.description = description;
 	}
 
-	//Relationship access methods -----------------------
+	// Relationship access methods
 
 	@OneToOne
 	@Valid
