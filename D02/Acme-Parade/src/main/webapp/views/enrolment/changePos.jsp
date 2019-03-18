@@ -22,9 +22,8 @@
 	<form:hidden path="version" />
 	<form:hidden path="exitMoment" />
 	<form:hidden path="brotherhood" />
-	<form:hidden path="position" />
 	<form:hidden path="member" />
-	
+
 
 
 	<jstl:if test="${locale == 'es' }">
@@ -32,17 +31,17 @@
 			<spring:message code="enrolment.position" />
 		</form:label>
 		<form:select multiple="false" id="position" path="position">
-			<form:options items="${es}" />
+			<form:options items="${positions}" itemLabel="strings.value" itemValue="id" />
 		</form:select>
 	</jstl:if>
 
-
+	<!-- Posible eliminación pues muestra ambos valores a la hora de enviar el formulario  -->
 	<jstl:if test="${locale == 'en' }">
 		<form:label path="position">
 			<spring:message code="enrolment.position" />
 		</form:label>
 		<form:select multiple="false" id="position" path="position">
-			<form:options items="${en}" />
+			<form:options items="${positions}" itemLabel="strings.value" itemValue="id" />
 		</form:select>
 	</jstl:if>
 

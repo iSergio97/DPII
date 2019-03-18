@@ -4,10 +4,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -150,22 +148,20 @@ public class EnrolmentController extends AbstractController {
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int enrolmentId) {
 		// Create result object
+		final Brotherhood actual = this.brotherhoodService.findPrincipal();
+		final List<Enrolment> ls1 = (List<Enrolment>) actual.getEnrolments();
 		ModelAndView result;
+		//Revisar seguridad
+
 		Enrolment enrolment;
 		result = new ModelAndView("enrolment/brotherhood/edit");
 		enrolment = this.enrolmentService.findOne(enrolmentId);
 		final String locale = Locale.getDefault().getLanguage();
-		final Map<Integer, Position> es = new HashMap<>();
-		final Map<Integer, Position> en = new HashMap<>();
 		final List<Position> ls = this.positionService.findAll();
-		for (int i = 0; i < ls.size(); i++) {
-			es.put(i, ls.get(i));
-			en.put(i, ls.get(i));
-		}
-		result.addObject("es", es);
-		result.addObject("en", en);
+
 		result.addObject("enrolment", enrolment);
 		result.addObject("member", enrolment.getMember());
+		result.addObject("positions", ls);
 		result.addObject("locale", locale);
 		return result;
 	}
