@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.Range;
 @Access(AccessType.PROPERTY)
 public class Request extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private String	status;
@@ -23,12 +24,14 @@ public class Request extends DomainEntity {
 	private Integer	vLine;
 	private String	reason;
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Parade	parade;
 	private Member	member;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotNull
@@ -68,6 +71,7 @@ public class Request extends DomainEntity {
 		this.reason = reason;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@ManyToOne

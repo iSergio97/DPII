@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -31,7 +32,8 @@ import security.UserAccount;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Actor extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private String						name;
 	private String						middleName;
@@ -44,7 +46,8 @@ public class Actor extends DomainEntity {
 	private Integer						polarityScore;
 	private boolean						isBanned;
 
-	// Relationships ----------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
 
 	private UserAccount					userAccount;
 	private Collection<Message>			messagesSent;
@@ -52,7 +55,8 @@ public class Actor extends DomainEntity {
 	private Collection<SocialProfile>	socialProfiles;
 
 
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@NotBlank
 	@NotNull
@@ -95,8 +99,7 @@ public class Actor extends DomainEntity {
 
 	@NotBlank
 	@NotNull
-	// @Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
-	// TODO: Patrón
+	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -105,9 +108,7 @@ public class Actor extends DomainEntity {
 		this.email = email;
 	}
 
-	//Optional
-	// @Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
-	// TODO
+	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -149,7 +150,8 @@ public class Actor extends DomainEntity {
 		this.isBanned = isBanned;
 	}
 
-	// Relationship access methods --------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
 
 	@Valid
 	@NotNull

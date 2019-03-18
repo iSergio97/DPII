@@ -222,4 +222,16 @@ public class BrotherhoodService {
 		return bhForm;
 	}
 
+	public Double[] getHistoryStatistics() {
+		return this.brotherhoodRepository.getHistoryStatistics();
+	}
+
+	public List<Brotherhood> findBrotherhoodsWithTheLargestHistory(final int number) {
+		return this.brotherhoodRepository.findAllOrderedByHistorySizeDescending().subList(0, number);
+	}
+
+	public List<Brotherhood> findBrotherhoodsWithHistoryLargerThanAverage(final int number) {
+		return this.brotherhoodRepository.findWithHistoryLargerThanAverage();
+	}
+
 }

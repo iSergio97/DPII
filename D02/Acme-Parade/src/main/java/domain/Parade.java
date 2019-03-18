@@ -22,6 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Parade extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private String					title;
@@ -30,12 +31,14 @@ public class Parade extends DomainEntity {
 	private String					ticker;
 	private boolean					isDraft;
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Brotherhood				brotherhood;
 	private Collection<AcmeFloat>	acmeFloats;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotBlank
@@ -85,6 +88,7 @@ public class Parade extends DomainEntity {
 		this.isDraft = isDraft;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@Valid

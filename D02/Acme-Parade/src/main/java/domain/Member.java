@@ -14,6 +14,7 @@ import javax.validation.Valid;
 @Access(AccessType.PROPERTY)
 public class Member extends Actor {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private List<Enrolment>	enrolments;
@@ -21,6 +22,7 @@ public class Member extends Actor {
 	private Finder			finder;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@OneToMany(mappedBy = "member")

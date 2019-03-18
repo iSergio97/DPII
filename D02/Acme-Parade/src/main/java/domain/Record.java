@@ -1,13 +1,11 @@
 
 package domain;
 
-import java.util.List;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,20 +14,19 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class AcmeFloat extends DomainEntity {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Record extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String			title;
-	private String			description;
-	private List<String>	pictures;
+	private String	title;
+	private String	description;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private List<Parade>	parades;
-	private Brotherhood		brotherhood;
+	private History	history;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -55,39 +52,17 @@ public class AcmeFloat extends DomainEntity {
 		this.description = description;
 	}
 
-	//Optional
-	//@URL
-	@NotNull
-	@ElementCollection
-	public List<String> getPictures() {
-		return this.pictures;
-	}
-
-	public void setPictures(final List<String> pictures) {
-		this.pictures = pictures;
-	}
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@ManyToMany
+	@ManyToOne(optional = true)
 	@Valid
-	public List<Parade> getParades() {
-		return this.parades;
+	public History getHistory() {
+		return this.history;
 	}
 
-	public void setParades(final List<Parade> parades) {
-		this.parades = parades;
-	}
-
-	@ManyToOne
-	@Valid
-	public Brotherhood getBrotherhood() {
-		return this.brotherhood;
-	}
-
-	public void setBrotherhood(final Brotherhood brotherhood) {
-		this.brotherhood = brotherhood;
+	public void setHistory(final History history) {
+		this.history = history;
 	}
 
 }

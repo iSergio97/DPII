@@ -25,18 +25,22 @@ import javax.persistence.Version;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class DomainEntity {
 
-	// Constructors -----------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
+
+	private int	id;
+	private int	version;
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Constructors
 
 	public DomainEntity() {
 		super();
 	}
 
-
-	// Identification ---------------------------------------------------------
-
-	private int	id;
-	private int	version;
-
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -57,7 +61,8 @@ public abstract class DomainEntity {
 		this.version = version;
 	}
 
-	// Object interface -------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Object methods
 
 	@Override
 	public int hashCode() {

@@ -25,12 +25,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Brotherhood extends Actor {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private String					title;
 	private Date					establishmentDate;
 	private Collection<String>		pictures;
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Area					area;
@@ -40,6 +42,7 @@ public class Brotherhood extends Actor {
 	private Collection<Enrolment>	enrolments;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotNull
@@ -72,6 +75,7 @@ public class Brotherhood extends Actor {
 		this.pictures = pictures;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@ManyToOne(optional = true)

@@ -16,12 +16,14 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Area extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private String			name;
 	private List<String>	pictures;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotBlank

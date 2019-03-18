@@ -18,11 +18,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Enrolment extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private Date		moment;
 	private Date		exitMoment;
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Position	position;
@@ -30,6 +32,7 @@ public class Enrolment extends DomainEntity {
 	private Brotherhood	brotherhood;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotNull
@@ -53,6 +56,7 @@ public class Enrolment extends DomainEntity {
 		this.exitMoment = exitMoment;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@Valid

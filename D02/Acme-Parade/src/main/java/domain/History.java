@@ -15,16 +15,14 @@ import javax.validation.Valid;
 @Access(AccessType.PROPERTY)
 public class History extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Brotherhood						brotherhood;
-	private InceptionRecord					inceptionRecord;
-	private Collection<PeriodRecord>		periodRecords;
-	private Collection<LegalRecord>			legalRecords;
-	private Collection<LinkRecord>			linkRecords;
-	private Collection<MiscellaneousRecord>	miscRecords;
+	private Brotherhood			brotherhood;
+	private Collection<Record>	records;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@OneToOne
@@ -37,54 +35,14 @@ public class History extends DomainEntity {
 		this.brotherhood = brotherhood;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@Valid
-	public InceptionRecord getInceptionRecord() {
-		return this.inceptionRecord;
-	}
-
-	public void setInceptionRecord(final InceptionRecord inceptionRecord) {
-		this.inceptionRecord = inceptionRecord;
-	}
-
 	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
 	@Valid
-	public Collection<PeriodRecord> getPeriodRecords() {
-		return this.periodRecords;
+	public Collection<Record> getRecords() {
+		return this.records;
 	}
 
-	public void setPeriodRecords(final Collection<PeriodRecord> periodRecords) {
-		this.periodRecords = periodRecords;
-	}
-
-	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
-	@Valid
-	public Collection<LegalRecord> getLegalRecords() {
-		return this.legalRecords;
-	}
-
-	public void setLegalRecords(final Collection<LegalRecord> legalRecords) {
-		this.legalRecords = legalRecords;
-	}
-
-	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
-	@Valid
-	public Collection<LinkRecord> getLinkRecords() {
-		return this.linkRecords;
-	}
-
-	public void setLinkRecords(final Collection<LinkRecord> linkRecords) {
-		this.linkRecords = linkRecords;
-	}
-
-	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
-	@Valid
-	public Collection<MiscellaneousRecord> getMiscellaneousRecords() {
-		return this.miscRecords;
-	}
-
-	public void setMiscellaneousRecords(final Collection<MiscellaneousRecord> miscRecords) {
-		this.miscRecords = miscRecords;
+	public void setRecords(final Collection<Record> records) {
+		this.records = records;
 	}
 
 }

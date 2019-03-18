@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Finder extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private String	keyword;
@@ -24,6 +25,7 @@ public class Finder extends DomainEntity {
 	private float	cache;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	public String getKeyword() {

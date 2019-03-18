@@ -27,4 +27,13 @@ public interface BrotherhoodRepository extends JpaRepository<Brotherhood, Intege
 	@Query("select b from Brotherhood b order by b.enrolments.size desc")
 	List<Brotherhood> findAllOrderedBySizeDescending();
 
+	@Query("select min(b.history.records.size) * 1.0, max(b.history.records.size) * 1.0, avg(b.history.records.size), stddev(b.history.records.size) from Brotherhood b")
+	Double[] getHistoryStatistics();
+
+	@Query("select b from Brotherhood b order by b.history.records.size desc")
+	List<Brotherhood> findAllOrderedByHistorySizeDescending();
+
+	@Query("select b from Brotherhood b where b.history.records.size > (select avg(b2.history.records.size) from Brotherhood b2)")
+	List<Brotherhood> findWithHistoryLargerThanAverage();
+
 }

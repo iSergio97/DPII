@@ -23,6 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Message extends DomainEntity {
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
 	private Date					date;
@@ -30,6 +31,7 @@ public class Message extends DomainEntity {
 	private String					body;
 	private Collection<String>		tags;
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Actor					sender;
@@ -38,6 +40,7 @@ public class Message extends DomainEntity {
 	private Priority				priority;
 
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotNull
@@ -80,6 +83,7 @@ public class Message extends DomainEntity {
 		this.tags = tags;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
 	@NotNull
