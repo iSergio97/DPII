@@ -19,7 +19,7 @@ public class Finder extends DomainEntity {
 	// Fields
 
 	private String	keyword;
-	private String	area;
+	private Area	area;
 	private Date	minimumDate;
 	private Date	maximumDate;
 	private float	cache;
@@ -36,11 +36,11 @@ public class Finder extends DomainEntity {
 		this.keyword = keyword;
 	}
 
-	public String getArea() {
+	public Area getArea() {
 		return this.area;
 	}
 
-	public void setArea(final String area) {
+	public void setArea(final Area area) {
 		this.area = area;
 	}
 
