@@ -24,7 +24,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 	@Query("select r.member, count(r) from Request r where r.status = 'APPROVED' group by r.member order by count(r) desc")
 	List<Object[]> getMembersOrderedByNumberOfAcceptedRequests();
 
-	@Query("select r from Request r where r.procession.brotherhood.id = ?1 group by r.status")
+	@Query("select r from Request r where r.parade.brotherhood.id = ?1 group by r.status")
 	List<Request> getOrderedBrotherhoodRequests(int id);
 
 }

@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import domain.AcmeFloat;
 
-public class ProcessionForm {
+public class ParadeForm {
 
 	// Fields -----------------------------------------------------------------
 

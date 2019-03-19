@@ -32,8 +32,8 @@
 		<bean class="converters.MemberToStringConverter" />
 		<bean class="converters.MessageBoxToStringConverter" />
 		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.ParadeToStringConverter" />
 		<bean class="converters.PositionToStringConverter" />
-		<bean class="converters.ProcessionToStringConverter" />
 		<bean class="converters.RequestToStringConverter" />
 		<bean class="converters.SocialProfileToStringConverter" />
 		<bean class="converters.StringToActorConverter" />
@@ -46,8 +46,8 @@
 		<bean class="converters.StringToMemberConverter" />
 		<bean class="converters.StringToMessageBoxConverter" />
 		<bean class="converters.StringToMessageConverter" />
+		<bean class="converters.StringToParadeConverter" />
 		<bean class="converters.StringToPositionConverter" />
-		<bean class="converters.StringToProcessionConverter" />
 		<bean class="converters.StringToRequestConverter" />
 		<bean class="converters.StringToSocialProfileConverter" />
 		<bean class="converters.StringToSystemConfigurationConverter" />

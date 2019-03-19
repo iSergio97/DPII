@@ -18,19 +18,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Enrolment extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private Date		moment;
 	private Date		exitMoment;
 
-	// Relationships ----------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
 
 	private Position	position;
 	private Member		member;
 	private Brotherhood	brotherhood;
 
 
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -53,7 +56,8 @@ public class Enrolment extends DomainEntity {
 		this.exitMoment = exitMoment;
 	}
 
-	// Relationship access methods --------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -65,7 +69,6 @@ public class Enrolment extends DomainEntity {
 		this.position = position;
 	}
 
-	// TODO: Why was this set to false?
 	@ManyToOne(optional = true)
 	@Valid
 	public Brotherhood getBrotherhood() {

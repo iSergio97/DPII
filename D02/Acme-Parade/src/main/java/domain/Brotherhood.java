@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -23,21 +25,25 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Brotherhood extends Actor {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private String					title;
 	private Date					establishmentDate;
 	private Collection<String>		pictures;
 
-	// Relationships ----------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
 
-	private Collection<Procession>	processions;
-	private Collection<AcmeFloat>	acmeFloats;
 	private Area					area;
+	private History					history;
+	private Collection<Parade>		parades;
+	private Collection<AcmeFloat>	acmeFloats;
 	private Collection<Enrolment>	enrolments;
 
 
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@NotNull
 	@NotBlank
@@ -69,16 +75,37 @@ public class Brotherhood extends Actor {
 		this.pictures = pictures;
 	}
 
-	// Relationship access methods --------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
+
+	@ManyToOne(optional = true)
+	@Valid
+	public Area getArea() {
+		return this.area;
+	}
+
+	public void setArea(final Area area) {
+		this.area = area;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@Valid
+	public History getHistory() {
+		return this.history;
+	}
+
+	public void setHistory(final History history) {
+		this.history = history;
+	}
 
 	@OneToMany(mappedBy = "brotherhood")
 	@Valid
-	public Collection<Procession> getProcessions() {
-		return this.processions;
+	public Collection<Parade> getParades() {
+		return this.parades;
 	}
 
-	public void setProcessions(final Collection<Procession> processions) {
-		this.processions = processions;
+	public void setParades(final Collection<Parade> parades) {
+		this.parades = parades;
 	}
 
 	@OneToMany(mappedBy = "brotherhood")
@@ -89,17 +116,6 @@ public class Brotherhood extends Actor {
 
 	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
 		this.acmeFloats = acmeFloats;
-	}
-
-	// TODO: Check why was this set to false
-	@ManyToOne(optional = true)
-	@Valid
-	public Area getArea() {
-		return this.area;
-	}
-
-	public void setArea(final Area area) {
-		this.area = area;
 	}
 
 	@OneToMany(mappedBy = "brotherhood")

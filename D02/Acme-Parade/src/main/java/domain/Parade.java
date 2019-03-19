@@ -21,9 +21,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Procession extends DomainEntity {
+public class Parade extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private String					title;
 	private String					description;
@@ -31,13 +32,15 @@ public class Procession extends DomainEntity {
 	private String					ticker;
 	private boolean					isDraft;
 
-	// Relationships ----------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
 
 	private Brotherhood				brotherhood;
 	private Collection<AcmeFloat>	acmeFloats;
 
 
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@NotBlank
 	public String getTitle() {
@@ -87,7 +90,8 @@ public class Procession extends DomainEntity {
 		this.isDraft = isDraft;
 	}
 
-	// Relationship access methods --------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
 
 	@Valid
 	@ManyToOne(optional = true)
@@ -100,7 +104,7 @@ public class Procession extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToMany(mappedBy = "processions")
+	@ManyToMany(mappedBy = "parades")
 	public Collection<AcmeFloat> getAcmeFloats() {
 		return this.acmeFloats;
 	}

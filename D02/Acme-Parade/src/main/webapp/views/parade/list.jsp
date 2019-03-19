@@ -14,16 +14,23 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="processions" id="row"
-	requestURI="procession/brotherhood/list.do" pagesize="5" class="displaytag">
+<display:table name="parades" id="row"
+	requestURI="parade/brotherhood/list.do" pagesize="5" class="displaytag">
 
+<<<<<<< HEAD:D02/Acme-Parade/src/main/webapp/views/procession/list.jsp
 	<display:column property="title" titleKey="procession.title" />
 	<display:column property="moment" titleKey="procession.moment" />
 	<display:column property="description" titleKey="procession.description" />
 
+=======
+	<display:column property="title" titleKey="parade.title" />
+	<display:column property="moment" titleKey="parade.moment" />
+	<display:column property="description" titleKey="parade.description" />
+<%--
+>>>>>>> domain-classes:D02/Acme-Parade/src/main/webapp/views/parade/list.jsp
 	<display:column titleKey="master.page.blank">
 		<jstl:if test="${row.isDraft == true}">
-			<a href="procession/brotherhood/edit.do?processionId=<jstl:out value="${row.id}" />">
+			<a href="parade/brotherhood/edit.do?paradeId=<jstl:out value="${row.id}" />">
 				<spring:message code="master.page.action.edit"/>
 			</a>
 		</jstl:if>

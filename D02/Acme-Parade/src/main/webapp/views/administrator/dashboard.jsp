@@ -80,7 +80,7 @@
 <p>
 	<spring:message code="dashboard.c.5" />
 	<br>
-	<display:table name="processionsWithin30Days" id="row">
+	<display:table name="paradesWithin30Days" id="row">
 		<display:column property="title" titleKey="dashboard.title" />
 	</display:table>
 </p>

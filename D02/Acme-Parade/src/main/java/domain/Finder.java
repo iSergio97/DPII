@@ -15,18 +15,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Finder extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private String	keyword;
-	private String	area;
+	private Area	area;
 	private Date	minimumDate;
 	private Date	maximumDate;
 	private float	cache;
 
 
-	// Relationships ----------------------------------------------------------
-
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	public String getKeyword() {
 		return this.keyword;
@@ -36,11 +36,11 @@ public class Finder extends DomainEntity {
 		this.keyword = keyword;
 	}
 
-	public String getArea() {
+	public Area getArea() {
 		return this.area;
 	}
 
-	public void setArea(final String area) {
+	public void setArea(final Area area) {
 		this.area = area;
 	}
 
@@ -71,7 +71,5 @@ public class Finder extends DomainEntity {
 	public void setCache(final float cache) {
 		this.cache = cache;
 	}
-
-	// Relationship access methods --------------------------------------------
 
 }

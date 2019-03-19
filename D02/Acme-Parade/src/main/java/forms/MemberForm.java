@@ -2,6 +2,7 @@
 package forms;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -63,8 +64,8 @@ public class MemberForm {
 
 	@NotBlank
 	@NotNull
-	// @Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
-	// TODO: Patrón
+	// Este patrón es cumplido por las direcciones de email de actor pero no los de administrador
+	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)+>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)+)$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -73,9 +74,7 @@ public class MemberForm {
 		this.email = email;
 	}
 
-	//Optional
-	// @Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
-	// TODO
+	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}

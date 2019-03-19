@@ -7,16 +7,16 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
-import domain.Procession;
+import domain.Parade;
 
 public class RequestForm {
 
-	private String		status;
-	private Integer		hLine;
-	private Integer		vLine;
-	private String		reason;
-	private Procession	procession;
-	private int			id;
+	private String	status;
+	private Integer	hLine;
+	private Integer	vLine;
+	private String	reason;
+	private Parade	parade;
+	private int		id;
 
 
 	@NotNull
@@ -66,12 +66,12 @@ public class RequestForm {
 	}
 
 	@NotNull
-	public Procession getProcession() {
-		return this.procession;
+	public Parade getParade() {
+		return this.parade;
 	}
 
-	public void setProcession(final Procession procession) {
-		this.procession = procession;
+	public void setParade(final Parade parade) {
+		this.parade = parade;
 	}
 
 }

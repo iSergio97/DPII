@@ -6,27 +6,27 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.ProcessionRepository;
-import domain.Procession;
+import repositories.ParadeRepository;
+import domain.Parade;
 
 @Component
 @Transactional
-public class StringToProcessionConverter implements Converter<String, Procession> {
+public class StringToParadeConverter implements Converter<String, Parade> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Repository
 
 	@Autowired
-	private ProcessionRepository	processionRepository;
+	private ParadeRepository	paradeRepository;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods
 
 	@Override
-	public Procession convert(final String text) {
+	public Parade convert(final String text) {
 		try {
-			return this.processionRepository.findOne(Integer.parseInt(text));
+			return this.paradeRepository.findOne(Integer.parseInt(text));
 		} catch (final Throwable throwable) {
 			throw new IllegalArgumentException(throwable);
 		}

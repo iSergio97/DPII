@@ -27,9 +27,9 @@ import services.AreaService;
 import services.BrotherhoodService;
 import services.EnrolmentService;
 import services.MessageService;
+import services.ParadeService;
 import services.PositionService;
 import services.PriorityService;
-import services.ProcessionService;
 import services.RequestService;
 import services.SystemConfigurationService;
 import domain.Area;
@@ -52,11 +52,11 @@ public class AdministratorController extends AbstractController {
 	@Autowired
 	private MessageService				messageService;
 	@Autowired
+	private ParadeService				paradeService;
+	@Autowired
 	private PositionService				positionService;
 	@Autowired
 	private PriorityService				priorityService;
-	@Autowired
-	private ProcessionService			processionService;
 	@Autowired
 	private RequestService				requestService;
 	@Autowired
@@ -131,16 +131,16 @@ public class AdministratorController extends AbstractController {
 		result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
 
 		// QUERY C.4
-		// The ratio of requests to march in a procession, grouped by their status.
+		// The ratio of requests to march in a parade, grouped by their status.
 
 		result.addObject("acceptedRequestRatio", this.requestService.getAcceptedRatio());
 		result.addObject("rejectedRequestRatio", this.requestService.getRejectedRatio());
 		result.addObject("pendingRequestRatio", this.requestService.getPendingRatio());
 
 		// QUERY C.5
-		// The processions that are going to be organised in 30 days or less.
+		// The parades that are going to be organised in 30 days or less.
 
-		result.addObject("processionsWithin30Days", this.processionService.findWithin30Days());
+		result.addObject("paradesWithin30Days", this.paradeService.findWithin30Days());
 
 		// QUERY C.6
 		// The ratio of requests to march grouped by status.

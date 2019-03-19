@@ -86,11 +86,11 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('BROTHERHOOD')">
-			<li><a class="fNiv"><spring:message	code="master.page.processions" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.parades" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="procession/brotherhood/create.do"><spring:message code="master.page.action.create" /></a></li>
-					<li><a href="procession/brotherhood/list.do"><spring:message code="master.page.action.list" /></a></li>
+					<li><a href="parade/brotherhood/create.do"><spring:message code="master.page.action.create" /></a></li>
+					<li><a href="parade/brotherhood/list.do"><spring:message code="master.page.action.list" /></a></li>
 					<li><a href="request/brotherhood/list.do"><spring:message code="master.page.brotherhood.request.list" /></a></li>
 				</ul>
 			</li>

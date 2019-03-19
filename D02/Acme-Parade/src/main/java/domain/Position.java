@@ -14,12 +14,14 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.PROPERTY)
 public class Position extends DomainEntity {
 
-	// Fields -----------------------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
 
 	private Map<String, String>	strings;
 
 
-	// Field access methods ---------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
 
 	@NotNull
 	@ElementCollection(targetClass = String.class)

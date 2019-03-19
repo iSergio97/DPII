@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.AcmeFloatRepository;
 import domain.AcmeFloat;
-import domain.Procession;
+import domain.Parade;
 
 @Service
 @Transactional
@@ -46,7 +46,7 @@ public class AcmeFloatService {
 		result.setDescription("");
 		result.setPictures(new ArrayList<String>());
 		// set relationships
-		result.setProcessions(new ArrayList<Procession>());
+		result.setParades(new ArrayList<Parade>());
 		result.setBrotherhood(null);
 
 		return result;

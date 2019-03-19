@@ -15,8 +15,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="procession" method="POST"
-	action="procession/brotherhood/edit.do">
+<form:form modelAttribute="parade" method="POST"
+	action="parade/brotherhood/edit.do">
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
@@ -28,28 +28,28 @@
 
 	<!-- Input fields -->
 	<form:label path="title">
-		<spring:message code="procession.title" />
+		<spring:message code="parade.title" />
 	</form:label>
 	<form:input path="title" />
 	<form:errors cssClass="error" path="title" />
 	<br>
 
 	<form:label path="description">
-		<spring:message code="procession.description" />
+		<spring:message code="parade.description" />
 	</form:label>
 	<form:textarea path="description" />
 	<form:errors cssClass="error" path="description" />
 	<br>
 	
 	<form:label path="moment">
-		<spring:message code="procession.moment" />
+		<spring:message code="parade.moment" />
 	</form:label>
 	<form:input path="moment" />
 	<form:errors cssClass="error" path="moment" />
 	<br>
 	
 	<form:label path="acmeFloats">
-		<spring:message code="procession.acmeFloats" />
+		<spring:message code="parade.acmeFloats" />
 	</form:label>
 	<form:select id="acmeFloats" path="acmeFloats">
 		<form:options items="${acmeFloats}" itemLabel="title"
@@ -61,7 +61,7 @@
 
 	<acme:submit name="save" code="save"/>
 	<input type="submit" name="finalMode"
-		value="<spring:message code='procession.finalMode'/>" />
+		value="<spring:message code='parade.finalMode'/>" />
 	<acme:cancel url="welcome/index.do" code="master.page.action.cancel"/>
 
 

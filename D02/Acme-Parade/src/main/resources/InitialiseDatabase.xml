@@ -69,8 +69,8 @@
 		</property>
 		<property name="welcomeMessages">
 			<map>
-				<entry key="en" value="Welcome to Acme Madrugá, the site to organise your processions." />
-				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+				<entry key="en" value="Welcome to Acme Madrugá, the site to organise your parades." />
+				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar desfiles." />
 			</map>
 		</property>
 		<property name="warningMessages">

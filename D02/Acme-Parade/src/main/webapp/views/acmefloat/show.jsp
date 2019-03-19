@@ -30,10 +30,10 @@
 </p>
 
 <p>
-	<spring:message code="processions" />
-	<jstl:forEach items="${acmeFloat.processions}" var="procession">
+	<spring:message code="parades" />
+	<jstl:forEach items="${acmeFloat.parades}" var="parade">
 		<br>
-		<jstl:out value="${procession.title}" />
+		<jstl:out value="${parade.title}" />
 	</jstl:forEach>
 </p>
 
