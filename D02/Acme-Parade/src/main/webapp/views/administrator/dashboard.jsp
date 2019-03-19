@@ -9,86 +9,86 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<!-- QUERY C.1 -->
+<!-- QUERY 1.C.1 -->
 
 <p>
-	<spring:message code="dashboard.c.1.minimum" />
+	<spring:message code="dashboard.1.c.1.minimum" />
 	<br>
 	<jstl:out value="${brotherhoodMemberStatisticsMinimum}" />
 </p>
 
 <p>
-	<spring:message code="dashboard.c.1.maximum" />
+	<spring:message code="dashboard.1.c.1.maximum" />
 	<br>
 	<jstl:out value="${brotherhoodMemberStatisticsMaximum}" />
 </p>
 
 <p>
-	<spring:message code="dashboard.c.1.average" />
+	<spring:message code="dashboard.1.c.1.average" />
 	<br>
 	<jstl:out value="${brotherhoodMemberStatisticsAverage}" />
 </p>
 
 <p>
-	<spring:message code="dashboard.c.1.stddev" />
+	<spring:message code="dashboard.1.c.1.stddev" />
 	<br>
 	<jstl:out value="${brotherhoodMemberStatisticsStandardDeviation}" />
 </p>
 
-<!-- QUERY C.2 -->
+<!-- QUERY 1.C.2 -->
 
 <p>
-	<spring:message code="dashboard.c.2" />
+	<spring:message code="dashboard.1.c.2" />
 	<br>
 	<display:table name="largestBrotherhoods" id="row">
 		<display:column property="title" titleKey="dashboard.title" />
 	</display:table>
 </p>
 
-<!-- QUERY C.3 -->
+<!-- QUERY 1.C.3 -->
 
 <p>
-	<spring:message code="dashboard.c.3" />
+	<spring:message code="dashboard.1.c.3" />
 	<br>
 	<display:table name="smallestBrotherhoods" id="row">
 		<display:column property="title" titleKey="dashboard.title" />
 	</display:table>
 </p>
 
-<!-- QUERY C.4 -->
+<!-- QUERY 1.C.4 -->
 
 <p>
-	<spring:message code="dashboard.c.4.accepted" />
+	<spring:message code="dashboard.1.c.4.accepted" />
 	<br>
 	<jstl:out value="${acceptedRequestRatio}" />
 </p>
 
 <p>
-	<spring:message code="dashboard.c.4.rejected" />
+	<spring:message code="dashboard.1.c.4.rejected" />
 	<br>
 	<jstl:out value="${rejectedRequestRatio}" />
 </p>
 
 <p>
-	<spring:message code="dashboard.c.4.pending" />
+	<spring:message code="dashboard.1.c.4.pending" />
 	<br>
 	<jstl:out value="${pendingRequestRatio}" />
 </p>
 
-<!-- QUERY C.5 -->
+<!-- QUERY 1.C.5 -->
 
 <p>
-	<spring:message code="dashboard.c.5" />
+	<spring:message code="dashboard.1.c.5" />
 	<br>
 	<display:table name="paradesWithin30Days" id="row">
 		<display:column property="title" titleKey="dashboard.title" />
 	</display:table>
 </p>
 
-<!-- QUERY C.7 -->
+<!-- QUERY 1.C.7 -->
 
 <p>
-	<spring:message code="dashboard.c.7" />
+	<spring:message code="dashboard.1.c.7" />
 	<br>
 	<display:table name="membersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests" id="row">
 		<display:column property="name" titleKey="dashboard.name" />
@@ -97,17 +97,17 @@
 	</display:table>
 </p>
 
-<!-- QUERY C.8 -->
+<!-- QUERY 1.C.8 -->
 
-<spring:message code="dashboard.c.8" />
+<spring:message code="dashboard.1.c.8" />
 <br>
 <table>
 	<tr>
 		<th>
-			<spring:message code="dashboard.c.8.keys" />
+			<spring:message code="dashboard.1.c.8.keys" />
 		</th>
 		<th>
-			<spring:message code="dashboard.c.8.values" />
+			<spring:message code="dashboard.1.c.8.values" />
 		</th>
 	</tr>
 	<jstl:forEach items="${positionHistogram}" var="entry">
@@ -121,3 +121,49 @@
 		</tr>
 	</jstl:forEach>
 </table>
+
+<!-- QUERY 2.C.1 -->
+
+<p>
+	<spring:message code="dashboard.2.c.1.minimum" />
+	<br>
+	<jstl:out value="${brotherhoodHistoryStatisticsMinimum}" />
+</p>
+
+<p>
+	<spring:message code="dashboard.2.c.1.maximum" />
+	<br>
+	<jstl:out value="${brotherhoodHistoryStatisticsMaximum}" />
+</p>
+
+<p>
+	<spring:message code="dashboard.2.c.1.average" />
+	<br>
+	<jstl:out value="${brotherhoodHistoryStatisticsAverage}" />
+</p>
+
+<p>
+	<spring:message code="dashboard.2.c.1.stddev" />
+	<br>
+	<jstl:out value="${brotherhoodHistoryStatisticsStandardDeviation}" />
+</p>
+
+<!-- QUERY 2.C.2 -->
+
+<p>
+	<spring:message code="dashboard.2.c.2" />
+	<br>
+	<display:table name="brotherhoodsWithLargestHistory" id="row">
+		<display:column property="title" titleKey="dashboard.title" />
+	</display:table>
+</p>
+
+<!-- QUERY 2.C.3 -->
+
+<p>
+	<spring:message code="dashboard.2.c.3" />
+	<br>
+	<display:table name="brotherhoodsWithHistoryLargerThanTheAverage" id="row">
+		<display:column property="title" titleKey="dashboard.title" />
+	</display:table>
+</p>

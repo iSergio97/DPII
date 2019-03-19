@@ -229,7 +229,7 @@ public class BrotherhoodService {
 		return this.brotherhoodRepository.findAllOrderedByHistorySizeDescending().subList(0, number);
 	}
 
-	public List<Brotherhood> findBrotherhoodsWithHistoryLargerThanAverage(final int number) {
+	public List<Brotherhood> findBrotherhoodsWithHistoryLargerThanAverage() {
 		return this.brotherhoodRepository.findWithHistoryLargerThanAverage();
 	}
 

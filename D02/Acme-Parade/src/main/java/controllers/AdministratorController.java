@@ -111,7 +111,7 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/dashboard");
 
-		// QUERY C.1
+		// QUERY 1.C.1
 		// The average, the minimum, the maximum, and the standard deviation of the number of members per brotherhood.
 
 		final Double[] brotherhoodMemberStatistics = this.brotherhoodService.getMemberStatistics();
@@ -120,37 +120,37 @@ public class AdministratorController extends AbstractController {
 		result.addObject("brotherhoodMemberStatisticsAverage", brotherhoodMemberStatistics[2]);
 		result.addObject("brotherhoodMemberStatisticsStandardDeviation", brotherhoodMemberStatistics[3]);
 
-		// QUERY C.2
+		// QUERY 1.C.2
 		// The largest brotherhoods.
 
 		result.addObject("largestBrotherhoods", this.brotherhoodService.findLargestBrotherhoods(3));
 
-		// QUERY C.3
+		// QUERY 1.C.3
 		// The smallest brotherhoods.
 
 		result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
 
-		// QUERY C.4
+		// QUERY 1.C.4
 		// The ratio of requests to march in a parade, grouped by their status.
 
 		result.addObject("acceptedRequestRatio", this.requestService.getAcceptedRatio());
 		result.addObject("rejectedRequestRatio", this.requestService.getRejectedRatio());
 		result.addObject("pendingRequestRatio", this.requestService.getPendingRatio());
 
-		// QUERY C.5
+		// QUERY 1.C.5
 		// The parades that are going to be organised in 30 days or less.
 
 		result.addObject("paradesWithin30Days", this.paradeService.findWithin30Days());
 
-		// QUERY C.6
+		// QUERY 1.C.6
 		// The ratio of requests to march grouped by status.
 
-		// QUERY C.7
+		// QUERY 1.C.7
 		// The listing of members who have got at least 10% the maximum number of request to march accepted.
 
 		result.addObject("membersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests", this.requestService.getMembersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests());
 
-		// QUERY C.8
+		// QUERY 1.C.8
 		// A histogram of positions.
 
 		final List<Position> allPositions = this.positionService.findAll();
@@ -159,6 +159,25 @@ public class AdministratorController extends AbstractController {
 		for (final Position position : allPositions)
 			positionHistogram.put(position.getStrings().get("en"), this.enrolmentService.countWithPosition(position) * 100.0d / totalPositions);
 		result.addObject("positionHistogram", positionHistogram);
+
+		// QUERY 2.C.1
+		// The average, the minimum, the maximum, and the standard deviation of the size of the history of brotherhood.
+
+		final Double[] brotherhoodHistoryStatistics = this.brotherhoodService.getHistoryStatistics();
+		result.addObject("brotherhoodHistoryStatisticsMinimum", brotherhoodHistoryStatistics[0]);
+		result.addObject("brotherhoodHistoryStatisticsMaximum", brotherhoodHistoryStatistics[1]);
+		result.addObject("brotherhoodHistoryMemberStatisticsAverage", brotherhoodHistoryStatistics[2]);
+		result.addObject("brotherhoodHistoryStatisticsStandardDeviation", brotherhoodHistoryStatistics[3]);
+
+		// QUERY 1.C.2
+		// The brotherhoods with the largest history.
+
+		result.addObject("brotherhoodsWithLargestHistory", this.brotherhoodService.findBrotherhoodsWithTheLargestHistory(3));
+
+		// QUERY 1.C.3
+		// The brotherhoods with history larger than the average.
+
+		result.addObject("brotherhoodsWithHistoryLargerThanTheAverage", this.brotherhoodService.findBrotherhoodsWithHistoryLargerThanAverage());
 
 		return result;
 	}
