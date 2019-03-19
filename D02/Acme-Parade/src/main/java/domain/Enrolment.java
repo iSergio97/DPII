@@ -56,7 +56,7 @@ public class Enrolment extends DomainEntity {
 	// Relationship access methods --------------------------------------------
 
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	public Position getPosition() {
 		return this.position;
 	}

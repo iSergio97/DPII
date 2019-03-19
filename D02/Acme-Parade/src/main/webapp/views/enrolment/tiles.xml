@@ -36,4 +36,14 @@
 		<put-attribute name="body" value="/views/enrolment/listBrotherhood.jsp" />
 	</definition>
 	
+		<definition name="enrolment/brotherhood/show" extends="master.page">
+		<put-attribute name="title" value="Information from the enrol member" />
+		<put-attribute name="body" value="/views/enrolment/show.jsp" />
+	</definition>
+
+	<definition name="enrolment/brotherhood/edit" extends="master.page">
+		<put-attribute name="title" value="Change the position from the member" />
+		<put-attribute name="body" value="/views/enrolment/changePos.jsp" />
+	</definition>
+	
 </tiles-definitions>

@@ -178,11 +178,6 @@ public class MemberService {
 		result.setPhoneNumber(member.getPhoneNumber());
 		result.setAddress(member.getAddress());
 
-		/*
-		 * Note:
-		 * Fallo
-		 * JSR-303 validated property 'messageBoxes[4].actor' does not have a corresponding accessor for Spring data binding - check your DataBinder's configuration (bean property versus direct field access)
-		 */
 		this.validator.validate(result, bindingResult);
 
 		return result;
