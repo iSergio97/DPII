@@ -9,6 +9,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import domain.AcmeFloat;
@@ -16,6 +17,8 @@ import domain.AcmeFloat;
 public class ProcessionForm {
 
 	// Fields -----------------------------------------------------------------
+
+	private int						id;
 
 	private String					title;
 	private String					description;
@@ -27,6 +30,11 @@ public class ProcessionForm {
 
 
 	// Field access methods ---------------------------------------------------
+
+	@Range(min = 0)
+	public int getId() {
+		return this.id;
+	}
 
 	@NotBlank
 	public String getTitle() {

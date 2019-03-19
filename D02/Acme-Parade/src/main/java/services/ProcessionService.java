@@ -12,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+
 import repositories.ProcessionRepository;
 import security.LoginService;
 import domain.AcmeFloat;
 import domain.Procession;
+import forms.ProcessionForm;
 
 @Service
 @Transactional
@@ -32,6 +36,12 @@ public class ProcessionService {
 
 	@Autowired
 	private BrotherhoodService		brotherhoodService;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
+
+	@Autowired
+	private Validator				validator;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ticker generation fields
@@ -123,21 +133,32 @@ public class ProcessionService {
 	public List<Procession> findAllFinal() {
 		return this.processionRepository.findAllFinal();
 	}
-	
+
 	public List<Procession> findPossibleMemberProcessions(final int memberId) {
 		return this.processionRepository.findPossibleMemberProcessions(memberId);
 	}
 
-	/*
 	public Procession reconstruct(final ProcessionForm processionForm, final BindingResult binding) {
 		Procession result;
 
-		result = this.processionRepository.findOne();
+		if (processionForm.getId() == 0) {
+			result = this.create();
+			result.setTitle(processionForm.getTitle());
+			result.setDescription(processionForm.getTitle());
+			result.setMoment(processionForm.getMoment());
+			result.setAcmeFloats(processionForm.getAcmeFloats());
+		} else {
+			result = this.processionRepository.findOne(processionForm.getId());
 
-		validator.validate(result, binding);
+			result.setTitle(processionForm.getTitle());
+			result.setDescription(processionForm.getTitle());
+			result.setMoment(processionForm.getMoment());
+			result.setAcmeFloats(processionForm.getAcmeFloats());
+
+			this.validator.validate(result, binding);
+
+		}
 
 		return result;
 	}
-	*/
-	
 }

@@ -51,7 +51,7 @@
 	<form:label path="acmeFloats">
 		<spring:message code="procession.acmeFloats" />
 	</form:label>
-	<form:select multiple="true" id="acmeFloats" path="acmeFloats">
+	<form:select id="acmeFloats" path="acmeFloats">
 		<form:options items="${acmeFloats}" itemLabel="title"
 			itemValue="id" />
 		<form:option value="" label="----" />

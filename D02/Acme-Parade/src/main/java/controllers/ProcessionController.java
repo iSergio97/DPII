@@ -23,6 +23,7 @@ import services.ProcessionService;
 import domain.AcmeFloat;
 import domain.Brotherhood;
 import domain.Procession;
+import forms.ProcessionForm;
 
 @Controller
 @RequestMapping("/procession")
@@ -94,9 +95,11 @@ public class ProcessionController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Procession procession, final BindingResult binding) {
+	public ModelAndView save(final ProcessionForm processionForm, final BindingResult binding) {
 		ModelAndView result;
+		Procession procession;
 
+		procession = this.processionService.reconstruct(processionForm, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(procession, "edit");
 		else
