@@ -25,25 +25,12 @@
 	<form:hidden path="member" />
 
 
-
-	<jstl:if test="${locale == 'es' }">
 		<form:label path="position">
 			<spring:message code="enrolment.position" />
 		</form:label>
 		<form:select multiple="false" id="position" path="position">
 			<form:options items="${positions}" itemLabel="strings.value" itemValue="id" />
 		</form:select>
-	</jstl:if>
-
-	<!-- Posible eliminación pues muestra ambos valores a la hora de enviar el formulario  -->
-	<jstl:if test="${locale == 'en' }">
-		<form:label path="position">
-			<spring:message code="enrolment.position" />
-		</form:label>
-		<form:select multiple="false" id="position" path="position">
-			<form:options items="${positions}" itemLabel="strings.value" itemValue="id" />
-		</form:select>
-	</jstl:if>
 
 	<div id="soc" class="soc">
 		<acme:submit name="save" code="save" />
