@@ -17,11 +17,11 @@ import security.UserAccount;
 import services.AcmeFloatService;
 import services.BrotherhoodService;
 import services.MemberService;
-import services.ProcessionService;
+import services.ParadeService;
 import domain.AcmeFloat;
 import domain.Brotherhood;
 import domain.Member;
-import domain.Procession;
+import domain.Parade;
 
 @Controller
 @RequestMapping("/brotherhood/public")
@@ -33,7 +33,7 @@ public class BrotherhoodController extends AbstractController {
 	private BrotherhoodService	brotherhoodService;
 
 	@Autowired
-	private ProcessionService	processionService;
+	private ParadeService		paradeService;
 
 	@Autowired
 	private AcmeFloatService	acmeFloatService;
@@ -83,17 +83,17 @@ public class BrotherhoodController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Brotherhood brotherhood) {
 		final ModelAndView result;
-		final Collection<Procession> processions;
+		final Collection<Parade> parades;
 		final Collection<AcmeFloat> acmeFloats;
 		final Collection<Member> members;
 		final UserAccount userAccount = brotherhood.getUserAccount();
 
-		processions = this.processionService.findAllFinalByBrotherhoodAccountId(userAccount.getId());
+		parades = this.paradeService.findAllFinalByBrotherhoodAccountId(userAccount.getId());
 		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
 		members = this.memberService.findMemebersByBrotherhoodAccountId(userAccount.getId());
 
 		result = new ModelAndView("brotherhood/public/" + "show");
-		result.addObject("processions", processions);
+		result.addObject("parades", parades);
 		result.addObject("acmeFloats", acmeFloats);
 		result.addObject("members", members);
 		result.addObject("establishmentDate", new SimpleDateFormat("dd/MM/yyyy").format(brotherhood.getEstablishmentDate()));

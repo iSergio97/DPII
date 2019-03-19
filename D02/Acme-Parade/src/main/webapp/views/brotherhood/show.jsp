@@ -44,16 +44,16 @@
 <br>
 
 <h2>
-	<spring:message code="brotherhood.processions"/>
+	<spring:message code="brotherhood.parades"/>
 </h2>
-<display:table name="processions" id="row" pagesize="5" class="displaytag">
+<display:table name="parades" id="row" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="procession.title" />
-	<display:column property="moment" titleKey="procession.moment" />
-	<display:column property="description" titleKey="procession.description" />
+	<display:column property="title" titleKey="parade.title" />
+	<display:column property="moment" titleKey="parade.moment" />
+	<display:column property="description" titleKey="parade.description" />
 
 	<display:column titleKey="master.page.blank">
-		<a href="procession/public/show.do?processionId=<jstl:out value="${row.id}" />">
+		<a href="parade/public/show.do?paradeId=<jstl:out value="${row.id}" />">
 			<spring:message code="master.page.action.show"/>
 		</a>
 	</display:column>

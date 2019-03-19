@@ -18,25 +18,25 @@
 	<!-- Output fields -->
 	
 <strong>
-	<spring:message code="procession.title"/>:
+	<spring:message code="parade.title"/>:
 </strong>
-	<jstl:out value="${procession.title}"></jstl:out>
+	<jstl:out value="${parade.title}"></jstl:out>
 <br>
 
 <strong>
-	<spring:message code="procession.description"/>:
+	<spring:message code="parade.description"/>:
 </strong>
-	<jstl:out value="${procession.description}"/>
+	<jstl:out value="${parade.description}"/>
 <br>
 
 <strong>
-	<spring:message code="procession.moment"/>:
+	<spring:message code="parade.moment"/>:
 </strong>
-	<jstl:out value="${procession.title}"/>
+	<jstl:out value="${parade.title}"/>
 <br>
 
 <strong>
-	<spring:message code="procession.acmeFloats"/>:
+	<spring:message code="parade.acmeFloats"/>:
 </strong>
 <display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
 

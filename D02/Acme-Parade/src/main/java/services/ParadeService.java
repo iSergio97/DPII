@@ -12,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ParadeRepository;
 import security.LoginService;
 import domain.AcmeFloat;
 import domain.Parade;
+import forms.ParadeForm;
 
 @Service
 @Transactional
@@ -33,6 +36,12 @@ public class ParadeService {
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	@Autowired
+	private Validator			validator;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ticker generation fields
@@ -129,16 +138,22 @@ public class ParadeService {
 		return this.paradeRepository.findPossibleMemberParades(memberId);
 	}
 
-	/*
-	 * public Parade reconstruct(final ParadeForm paradeForm, final BindingResult binding) {
-	 * Parade result;
-	 * 
-	 * result = this.paradeRepository.findOne();
-	 * 
-	 * validator.validate(result, binding);
-	 * 
-	 * return result;
-	 * }
-	 */
+	public Parade reconstruct(final ParadeForm paradeForm, final BindingResult bindingResult) {
+		Parade result;
+
+		if (paradeForm.getId() == 0)
+			result = this.create();
+		else
+			result = this.paradeRepository.findOne(paradeForm.getId());
+
+		result.setTitle(paradeForm.getTitle());
+		result.setDescription(paradeForm.getDescription());
+		result.setMoment(paradeForm.getMoment());
+		result.setAcmeFloats(paradeForm.getAcmeFloats());
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
 
 }

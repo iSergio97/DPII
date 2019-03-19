@@ -16,11 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.BrotherhoodService;
 import services.MemberService;
-import services.ProcessionService;
+import services.ParadeService;
 import services.RequestService;
 import domain.Brotherhood;
 import domain.Member;
-import domain.Procession;
+import domain.Parade;
 import domain.Request;
 import forms.RequestForm;
 
@@ -28,26 +28,27 @@ import forms.RequestForm;
 @RequestMapping("/request")
 public class RequestController extends AbstractController {
 
+	// Services --------------------------------------------------------------------
+
 	@Autowired
 	private RequestService		requestService;
-
 	@Autowired
-	private ProcessionService	processionService;
-
+	private ParadeService		paradeService;
 	@Autowired
 	private MemberService		memberService;
-
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
 
+
+	// Constructors ----------------------------------------------------------------
 
 	public RequestController() {
 		super();
 	}
 
-	//---------MEMBER
+	// Member ----------------------------------------------------------------------
 
-	//----List
+	// List
 
 	@RequestMapping(value = "/member/list", method = RequestMethod.GET)
 	public ModelAndView memberList() {
@@ -66,7 +67,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	//-----Show
+	// Show
 
 	@RequestMapping(value = "/member/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam(value = "requestId") final int requestId) {
@@ -93,27 +94,27 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	//-----Edit
+	// Edit
 
 	@RequestMapping(value = "/member/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int requestId) {
 		ModelAndView result;
 		Request request;
-		Collection<Procession> processions;
+		Collection<Parade> parades;
 		Member member;
 
 		member = this.memberService.findPrincipal();
 		request = this.requestService.findOne(requestId);
-		processions = this.processionService.findPossibleMemberProcessions(member.getId());
+		parades = this.paradeService.findPossibleMemberParades(member.getId());
 		Assert.notNull(request);
 		result = new ModelAndView("/request/member/edit");
 		result.addObject("request", request);
-		result.addObject("processions", processions);
+		result.addObject("parades", parades);
 
 		return result;
 	}
 
-	//----Save
+	// Save
 
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final RequestForm request, final BindingResult bindingResult) {
@@ -261,17 +262,18 @@ public class RequestController extends AbstractController {
 
 	protected ModelAndView createAndEditModelAndView(final RequestForm request, final String message) {
 		final ModelAndView result;
-		final Collection<Procession> processions;
+		final Collection<Parade> parades;
 		Member member;
 
 		member = this.memberService.findPrincipal();
-		processions = this.processionService.findPossibleMemberProcessions(member.getId());
+		parades = this.paradeService.findPossibleMemberParades(member.getId());
 
 		result = new ModelAndView("/request/member/create");
 		result.addObject("request", request);
-		result.addObject("processions", processions);
+		result.addObject("parades", parades);
 		result.addObject("message", message);
 
 		return result;
 	}
+
 }

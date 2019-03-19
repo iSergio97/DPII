@@ -10,8 +10,8 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <p>
-	<spring:message code="request.procession" />
-	<jstl:out value=": ${request.procession.title}" />
+	<spring:message code="request.parade" />
+	<jstl:out value=": ${request.parade.title}" />
 </p>
 
 <p>
