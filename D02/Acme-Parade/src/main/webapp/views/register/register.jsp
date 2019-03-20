@@ -32,7 +32,7 @@
 			<br>
 			<acme:register code="surname" path="surname" />
 			<br>
-			<acme:register code="photo" path="photo" />
+			<acme:registerPhoto code="photo" path="photo" />
 			<br>
 			<acme:register code="email" path="email" />
 			<br>

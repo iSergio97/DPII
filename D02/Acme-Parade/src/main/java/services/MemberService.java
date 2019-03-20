@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -178,7 +180,14 @@ public class MemberService {
 		result.setPhoneNumber(member.getPhoneNumber());
 		result.setAddress(member.getAddress());
 
+		result.getUserAccount().setUsername(member.getUsername());
+		result.getUserAccount().setUsername(member.getPassword());
+
 		this.validator.validate(result, bindingResult);
+		this.memberRepository.flush();
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}

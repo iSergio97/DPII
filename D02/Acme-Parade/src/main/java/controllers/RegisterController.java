@@ -3,10 +3,13 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -228,51 +231,82 @@ public class RegisterController extends AbstractController {
 	// Save member -----------------------------------------------------------------
 
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final MemberForm member, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("member") final MemberForm member, final BindingResult bindingResult) {
 		ModelAndView result;
 		Member member2;
+		/*
+		 * member2 = this.memberService.reconstructForm(member, bindingResult);
+		 * if (bindingResult.hasErrors())
+		 * result = this.createEditModelAndView(member);
+		 * else
+		 * try {
+		 * if (member.getPassword().equals(member.getConfirmPassword())) {
+		 * if (member2.getId() == 0) {
+		 * final Finder finder = member2.getFinder();
+		 * final Finder saved = this.finderService.save(finder);
+		 * member2.setFinder(saved);
+		 * member2.getUserAccount().setUsername(member.getUsername());
+		 * member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+		 * final UserAccount ua = member2.getUserAccount();
+		 * final UserAccount uas = this.userAccountRepository.save(ua);
+		 * member2.setUserAccount(uas);
+		 * final Member savedM = this.memberService.save(member2);
+		 * final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+		 * for (final MessageBox mb : mbs) {
+		 * mb.setActor(savedM);
+		 * this.messageBoxService.save(mb);
+		 * }
+		 * } else {
+		 * final UserAccount ua = member2.getUserAccount();
+		 * ua.setUsername(member.getUsername());
+		 * ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+		 * final UserAccount saved = this.userAccountRepository.save(ua);
+		 * member2.setUserAccount(saved);
+		 * this.memberService.save(member2);
+		 * }
+		 * result = new ModelAndView("redirect:/welcome/index.do");
+		 * } else
+		 * result = this.createAndEditModelAndView(member, "register.member.error");
+		 * } catch (final Throwable e) {
+		 * result = this.createAndEditModelAndView(member, "register.member.error");
+		 * }
+		 */
 
-		member2 = this.memberService.reconstructForm(member, bindingResult);
-		if (bindingResult.hasErrors())
-			result = this.createEditModelAndView(member);
-		else
-			try {
-				if (member.getPassword().equals(member.getConfirmPassword())) {
-					if (member2.getId() == 0) {
-						final Finder finder = member2.getFinder();
-						final Finder saved = this.finderService.save(finder);
-						member2.setFinder(saved);
-						member2.getUserAccount().setUsername(member.getUsername());
-						member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-						final UserAccount ua = member2.getUserAccount();
-						final UserAccount uas = this.userAccountRepository.save(ua);
-						member2.setUserAccount(uas);
-						final Member savedM = this.memberService.save(member2);
-						final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-						for (final MessageBox mb : mbs) {
-							mb.setActor(savedM);
-							this.messageBoxService.save(mb);
-						}
-					} else {
-						final UserAccount ua = member2.getUserAccount();
-						ua.setUsername(member.getUsername());
-						ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-						final UserAccount saved = this.userAccountRepository.save(ua);
-						member2.setUserAccount(saved);
-						this.memberService.save(member2);
+		try {
+			member2 = this.memberService.reconstructForm(member, bindingResult);
+			if (member.getPassword().equals(member.getConfirmPassword())) {
+				if (member2.getId() == 0) {
+					final Finder saved = this.finderService.save(member2.getFinder());
+					member2.setFinder(saved);
+					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+					final UserAccount uas = this.userAccountRepository.save(member2.getUserAccount());
+					member2.setUserAccount(uas);
+					final Member savedM = this.memberService.save(member2);
+					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+					for (final MessageBox mb : mbs) {
+						mb.setActor(savedM);
+						this.messageBoxService.save(mb);
 					}
+					result = new ModelAndView("../welcome/index.do");
+				} else {
+					final UserAccount ua = member2.getUserAccount();
+					final UserAccount saved = this.userAccountRepository.save(ua);
+					member2.setUserAccount(saved);
+					this.memberService.save(member2);
 					result = new ModelAndView("redirect:/welcome/index.do");
-				} else
-					result = this.createAndEditModelAndView(member, "register.member.error");
-			} catch (final Throwable e) {
-				result = this.createAndEditModelAndView(member, "register.member.error");
-			}
+				}
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} else
+				result = this.createAndEditModelAndView(member, "commit.error");
 
+		} catch (final ValidationException wops) {
+			result = this.createEditModelAndView(member);
+		} catch (final Throwable wops) {
+			result = this.createAndEditModelAndView(member, "commit.error");
+		}
 		return result;
 	}
-
 	// Member ancillary methods ----------------------------------------------------
-
 	protected ModelAndView createEditModelAndView(final MemberForm member) {
 		ModelAndView result;
 
@@ -287,6 +321,8 @@ public class RegisterController extends AbstractController {
 		result = new ModelAndView("register/member/create");
 		result.addObject("member", member);
 		result.addObject("requestURI", s);
+		result.addObject("message", message);
+
 		return result;
 	}
 
