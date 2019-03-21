@@ -71,10 +71,11 @@
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<!--<acme:submit name="save" code="save" /> -->
-			<button type="submit" name="save" id="test" onclick="return testForm();" onload="return testSave();">
+			<acme:submit name="save" code="save"/>
+			<!-- <button type="submit" name="save" id="test" onclick="return testForm();" onload="return testSave();">
 				<spring:message code="save" />
 			</button>
+			-->
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 

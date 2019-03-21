@@ -1,7 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.ValidationException;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +25,7 @@ import services.BrotherhoodService;
 import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
+import services.SystemConfigurationService;
 import domain.Administrator;
 import domain.Area;
 import domain.Brotherhood;
@@ -39,19 +43,21 @@ public class RegisterController extends AbstractController {
 	// Services --------------------------------------------------------------------
 
 	@Autowired
-	private BrotherhoodService		brotherhoodService;
+	private BrotherhoodService			brotherhoodService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 	@Autowired
-	private FinderService			finderService;
+	private FinderService				finderService;
 	@Autowired
-	private MemberService			memberService;
+	private MemberService				memberService;
 	@Autowired
-	private MessageBoxService		messageBoxService;
+	private MessageBoxService			messageBoxService;
 	@Autowired
-	private UserAccountRepository	userAccountRepository;
+	private UserAccountRepository		userAccountRepository;
 	@Autowired
-	private AreaService				areaService;
+	private AreaService					areaService;
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -152,7 +158,7 @@ public class RegisterController extends AbstractController {
 	// Save brotherhood ------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("brotherhood") final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
 		ModelAndView result;
 		Brotherhood brotherhood2;
 
@@ -271,33 +277,55 @@ public class RegisterController extends AbstractController {
 		 * result = this.createAndEditModelAndView(member, "register.member.error");
 		 * }
 		 */
+		final List<UserAccount> userAccounts = this.userAccountRepository.findAll();
+		final List<String> userNames = new ArrayList<>();
+		for (final UserAccount a : userAccounts)
+			userNames.add(a.getUsername());
+		if (userNames.contains(member.getUsername())) {
+			final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.existedUserName");
+		}
+		if (member.getUsername().length() < 5 || member.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+		if (!(member.getPassword().equals(member.getConfirmPassword()))) {
+			final ObjectError error = new ObjectError("password", "Both password dont match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.wrongPass");
+		}
+
+		if ((member.getPhoneNumber().matches("[0-9]{4,}")) && (member.getPhoneNumber().length() > 3))
+			member.setPhoneNumber(this.systemConfigurationService.getSystemConfiguration().getDefaultCountryCode() + " " + member.getPhoneNumber());
+		else {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
 
 		try {
 			member2 = this.memberService.reconstructForm(member, bindingResult);
-			if (member.getPassword().equals(member.getConfirmPassword())) {
-				if (member2.getId() == 0) {
-					final Finder saved = this.finderService.save(member2.getFinder());
-					member2.setFinder(saved);
-					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-					final UserAccount uas = this.userAccountRepository.save(member2.getUserAccount());
-					member2.setUserAccount(uas);
-					final Member savedM = this.memberService.save(member2);
-					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-					for (final MessageBox mb : mbs) {
-						mb.setActor(savedM);
-						this.messageBoxService.save(mb);
-					}
-					result = new ModelAndView("../welcome/index.do");
-				} else {
-					final UserAccount ua = member2.getUserAccount();
-					final UserAccount saved = this.userAccountRepository.save(ua);
-					member2.setUserAccount(saved);
-					this.memberService.save(member2);
-					result = new ModelAndView("redirect:/welcome/index.do");
+			if (member2.getId() == 0) {
+				final Finder saved = this.finderService.save(member2.getFinder());
+				member2.setFinder(saved);
+				member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+				final UserAccount uas = this.userAccountRepository.save(member2.getUserAccount());
+				member2.setUserAccount(uas);
+				final Member savedM = this.memberService.save(member2);
+				final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+				for (final MessageBox mb : mbs) {
+					mb.setActor(savedM);
+					this.messageBoxService.save(mb);
 				}
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} else
-				result = this.createAndEditModelAndView(member, "commit.error");
+			} else {
+				final UserAccount ua = member2.getUserAccount();
+				final UserAccount saved = this.userAccountRepository.save(ua);
+				member2.setUserAccount(saved);
+				this.memberService.save(member2);
+			}
+			result = new ModelAndView("redirect:/welcome/index.do");
 
 		} catch (final ValidationException wops) {
 			result = this.createEditModelAndView(member);

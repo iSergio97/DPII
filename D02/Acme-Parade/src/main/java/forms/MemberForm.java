@@ -2,6 +2,7 @@
 package forms;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -74,7 +75,7 @@ public class MemberForm {
 	}
 
 	//Optional
-	// @Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
+	@Pattern(regexp = "[+]{0,1}[0-9]{0,2} {0,1}[(]{0,1}[0-9]{0,3}[)]{0,1} {0,1}[0-9]{4,}")
 	// TODO
 	public String getPhoneNumber() {
 		return this.phoneNumber;
