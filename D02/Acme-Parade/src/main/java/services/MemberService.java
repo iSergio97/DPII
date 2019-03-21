@@ -181,7 +181,7 @@ public class MemberService {
 		result.setAddress(member.getAddress());
 
 		result.getUserAccount().setUsername(member.getUsername());
-		result.getUserAccount().setUsername(member.getPassword());
+		result.getUserAccount().setPassword(member.getPassword());
 
 		this.validator.validate(result, bindingResult);
 		this.memberRepository.flush();

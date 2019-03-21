@@ -1,3 +1,22 @@
+<script>
+		function testForm() {
+			var comodin = true;
+			if(document.getElementById("name").value === "") {
+				alert("Test");
+				comodin = false;
+			}
+			return comodin;
+		}
+		
+		function testSave(){
+			var comodin = true;
+			if((document.getElementById("password").value != document.getElementById("confirmPassword")) || (document.getElementById("password").value === "") || (document.getElementById("confirmPassword").value === "")){
+				comodin = false;
+				var button = document.getElementById("test");
+				button.style.visibility = 'hidden';
+			}
+		}
+	</script>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -14,12 +33,12 @@
 <jstl:if test="${requestURI == 'member'}">
 
 	<p>
-		<spring:message code="register.member" />
-	</p>
+		<spring:message code="register.member" />	</p>
+
 
 	<div>
 		<form:form modelAttribute="member" method="POST"
-			action="register/member/edit.do">
+			action="register/member/edit.do" id="test">
 
 			<!-- Campos ocultos -->
 
@@ -52,7 +71,10 @@
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<acme:submit name="save" code="save" />
+			<!--<acme:submit name="save" code="save" /> -->
+			<button type="submit" name="save" id="test" onclick="return testForm();" onload="return testSave();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 
@@ -68,7 +90,7 @@
 
 	<div>
 		<form:form modelAttribute="administrator" method="POST"
-			action="register/administrator/edit.do">
+			action="register/administrator/edit.do" id="test">
 
 			<!-- Campos ocultos -->
 
@@ -138,7 +160,7 @@
 			<br>
 			<acme:register code="title" path="title" />
 			<br>
-			<acme:registerDate code="establishmentDate" path="establishmentDate"/>
+			<acme:registerDate code="establishmentDate" path="establishmentDate" />
 			<br>
 
 			<!-- Campos de usuario -->
@@ -148,7 +170,7 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-			
+
 			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
