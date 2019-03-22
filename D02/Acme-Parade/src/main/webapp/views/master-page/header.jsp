@@ -80,7 +80,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.floats" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="acmefloat/brotherhood/list.do"><spring:message code="master.page.brotherhood.acmefloat.list" /></a></li>
+					<li><a href="float/brotherhood/list.do"><spring:message code="master.page.brotherhood.float.list" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

@@ -823,7 +823,7 @@
 
 	<bean id="finder1" class="domain.Finder">
 		<property name="keyword" value="macarena" />
-		<property name="area" value="" />
+		<property name="area" ref="area1" />
 		<property name="minimumDate" value="2006/01/01" />
 		<property name="maximumDate" value="2016/01/01" />
 	</bean>

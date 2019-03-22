@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AcmeFloatRepository;
+import utilities.ConversionUtils;
 import domain.AcmeFloat;
 import domain.Parade;
+import forms.AcmeFloatForm;
 
 @Service
 @Transactional
@@ -24,9 +28,12 @@ public class AcmeFloatService {
 	@Autowired
 	private AcmeFloatRepository	acmeFloatRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
+	// Other fields
+
+	@Autowired
+	private Validator			validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -81,10 +88,52 @@ public class AcmeFloatService {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
+	// Form methods
+
+	public AcmeFloatForm createForm() {
+		final AcmeFloatForm acmeFloatForm = new AcmeFloatForm();
+		acmeFloatForm.setTitle("");
+		acmeFloatForm.setDescription("");
+		acmeFloatForm.setPictures("");
+		acmeFloatForm.setParades(new ArrayList<Parade>());
+		return acmeFloatForm;
+	}
+
+	public AcmeFloat reconstruct(final AcmeFloatForm acmeFloatForm, final BindingResult bindingResult) {
+		AcmeFloat result;
+
+		if (acmeFloatForm.getId() == 0)
+			result = this.create();
+		else
+			result = this.acmeFloatRepository.findOne(acmeFloatForm.getId());
+
+		result.setTitle(acmeFloatForm.getTitle());
+		result.setDescription(acmeFloatForm.getDescription());
+		result.setPictures(ConversionUtils.stringToList(acmeFloatForm.getPictures(), " "));
+		result.setParades(acmeFloatForm.getParades());
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
+
+	public AcmeFloatForm deconstruct(final AcmeFloat acmeFloat) {
+		final AcmeFloatForm acmeFloatForm = this.createForm();
+
+		acmeFloatForm.setId(acmeFloat.getId());
+		acmeFloatForm.setTitle(acmeFloat.getTitle());
+		acmeFloatForm.setDescription(acmeFloat.getDescription());
+		acmeFloatForm.setPictures(ConversionUtils.listToString(acmeFloat.getPictures(), " "));
+		acmeFloatForm.setParades(acmeFloat.getParades());
+
+		return acmeFloatForm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Collection<AcmeFloat> findAcmeFloats(final int id) {
-		return this.acmeFloatRepository.findFloats(id);
+	public Collection<AcmeFloat> findFloatsByBrotherhoodUserAccount(final int id) {
+		return this.acmeFloatRepository.findFloatsByBrotherhoodUserAccount(id);
 	}
 
 }

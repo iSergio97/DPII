@@ -10,14 +10,13 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,10 +31,12 @@ import services.PositionService;
 import services.PriorityService;
 import services.RequestService;
 import services.SystemConfigurationService;
+import utilities.ConversionUtils;
 import domain.Area;
 import domain.Position;
 import domain.Priority;
 import domain.SystemConfiguration;
+import forms.SystemConfigurationForm;
 
 @Controller
 @RequestMapping("/administrator")
@@ -67,40 +68,6 @@ public class AdministratorController extends AbstractController {
 
 	public AdministratorController() {
 		super();
-	}
-
-	// Utility methods -------------------------------------------------------------
-
-	private static String listToString(final List<String> list, final String elementSeparator) {
-		String result = "";
-		for (final String string : list)
-			result = result + string + elementSeparator;
-		return result.substring(0, result.length() - 1);
-	}
-
-	private static List<String> stringToList(final String string, final String elementSeparator) {
-		final List<String> result = new ArrayList<>();
-		for (final String s : string.split(elementSeparator))
-			if (s.length() > 0)
-				result.add(s);
-		return result;
-	}
-
-	private static String mapToString(final Map<String, String> map, final String pairSeparator, final String entrySeparator) {
-		String result = "";
-		for (final Entry<String, String> entry : map.entrySet())
-			result = result + entry.getKey() + pairSeparator + entry.getValue() + entrySeparator;
-		return result.substring(0, result.length() - 1);
-	}
-
-	private static Map<String, String> stringToMap(final String string, final String pairSeparator, final String entrySeparator) {
-		final Map<String, String> result = new HashMap<>();
-		for (final String entry : string.split(entrySeparator))
-			if (entry.length() > 0) {
-				final String[] pair = entry.split(pairSeparator);
-				result.put(pair[0], pair[1]);
-			}
-		return result;
 	}
 
 	// Dashboard -------------------------------------------------------------------
@@ -187,53 +154,50 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.GET)
 	public ModelAndView systemConfiguration() {
 		final ModelAndView result;
-		final SystemConfiguration systemConfiguration;
+		final SystemConfigurationForm systemConfigurationForm;
 
-		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
+		systemConfigurationForm = this.systemConfigurationService.deconstruct(this.systemConfigurationService.getSystemConfiguration());
 
 		result = new ModelAndView("administrator/systemconfiguration");
-		result.addObject("defaultCountryCode", systemConfiguration.getDefaultCountryCode());
-		result.addObject("systemName", systemConfiguration.getSystemName());
-		result.addObject("banner", systemConfiguration.getBanner());
-		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
-		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords(), ","));
-		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords(), ","));
-		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords(), ","));
-		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
-		result.addObject("warningMessages", AdministratorController.mapToString(systemConfiguration.getWarningMessages(), ":", ";"));
+		result.addObject("systemConfigurationForm", systemConfigurationForm);
 		final Map<Integer, String> positionsMap = new HashMap<>();
 		for (final Position position : this.positionService.findAll())
 			positionsMap.put(position.getId(), position.getStrings().get("en"));
 		result.addObject("positionsMap", positionsMap);
-		result.addObject("lowestPositionId", systemConfiguration.getLowestPosition().getId());
+
 		return result;
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
-	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "systemName") final String systemName, @RequestParam(value = "banner") final String banner, @RequestParam(
-		value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "positiveWords") final String positiveWords,
-		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages,
-		@RequestParam(value = "warningMessages") final String warningMessages, @RequestParam(value = "positionId") final int positionId) {
-		final SystemConfiguration systemConfiguration;
+	public ModelAndView systemConfiguration(final SystemConfigurationForm systemConfigurationForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+		SystemConfiguration systemConfiguration;
 
-		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
-		systemConfiguration.setDefaultCountryCode(defaultCountryCode);
-		systemConfiguration.setSystemName(systemName);
-		systemConfiguration.setBanner(banner);
-		systemConfiguration.setFinderDuration(finderDuration);
-		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords, ","));
-		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords, ","));
-		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords, ","));
-		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages, ":", ";"));
-		systemConfiguration.setWarningMessages(AdministratorController.stringToMap(warningMessages, ":", ";"));
-		systemConfiguration.setLowestPosition(this.positionService.findOne(positionId));
-		this.systemConfigurationService.save(systemConfiguration);
+		systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
 
-		return this.systemConfiguration();
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/systemconfiguration");
+
+			result.addObject("systemConfigurationForm", systemConfigurationForm);
+			final Map<Integer, String> positionsMap = new HashMap<>();
+			for (final Position position : this.positionService.findAll())
+				positionsMap.put(position.getId(), position.getStrings().get("en"));
+			result.addObject("positionsMap", positionsMap);
+			result.addObject("error", true);
+		} else {
+			this.systemConfigurationService.save(systemConfiguration);
+
+			result = new ModelAndView("administrator/systemconfiguration");
+			result.addObject("systemConfigurationForm", systemConfigurationForm);
+			final Map<Integer, String> positionsMap = new HashMap<>();
+			for (final Position position : this.positionService.findAll())
+				positionsMap.put(position.getId(), position.getStrings().get("en"));
+			result.addObject("positionsMap", positionsMap);
+			result.addObject("success", true);
+		}
+
+		return result;
 	}
-
 	// Area ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/viewareas", method = RequestMethod.GET)
@@ -250,7 +214,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView addArea(@RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
 		final Area area = this.areaService.create();
 		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures, " "));
+		area.setPictures(ConversionUtils.stringToList(pictures, " "));
 		this.areaService.save(area);
 		return this.viewAreas();
 	}
@@ -259,7 +223,7 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView editArea(@RequestParam(value = "id") final int id, @RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
 		final Area area = this.areaService.findOne(id);
 		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures, " "));
+		area.setPictures(ConversionUtils.stringToList(pictures, " "));
 		this.areaService.save(area);
 		return this.viewAreas();
 	}
@@ -287,7 +251,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
 	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
 		final Position position = this.positionService.create();
-		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
+		position.setStrings(ConversionUtils.stringToMap(positionString, ":", ";"));
 		this.positionService.save(position);
 		return this.viewPositions();
 	}
@@ -295,7 +259,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/editposition", method = RequestMethod.POST)
 	public ModelAndView editPosition(@RequestParam(value = "id") final int id, @RequestParam(value = "position") final String positionString) {
 		final Position position = this.positionService.findOne(id);
-		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
+		position.setStrings(ConversionUtils.stringToMap(positionString, ":", ";"));
 		this.positionService.save(position);
 		return this.viewPositions();
 	}
@@ -323,7 +287,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
 	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
 		final Priority priority = this.priorityService.create();
-		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
+		priority.setStrings(ConversionUtils.stringToMap(priorityString, ":", ";"));
 		this.priorityService.save(priority);
 		return this.viewPriorities();
 	}
@@ -331,7 +295,7 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/editpriority", method = RequestMethod.POST)
 	public ModelAndView editPriority(@RequestParam(value = "id") final int id, @RequestParam(value = "priority") final String priorityString) {
 		final Priority priority = this.priorityService.findOne(id);
-		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
+		priority.setStrings(ConversionUtils.stringToMap(priorityString, ":", ";"));
 		this.priorityService.save(priority);
 		return this.viewPriorities();
 	}

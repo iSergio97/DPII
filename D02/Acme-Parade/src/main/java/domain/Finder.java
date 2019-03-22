@@ -6,8 +6,10 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,10 +21,14 @@ public class Finder extends DomainEntity {
 	// Fields
 
 	private String	keyword;
-	private Area	area;
 	private Date	minimumDate;
 	private Date	maximumDate;
 	private float	cache;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
+
+	private Area	area;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -34,14 +40,6 @@ public class Finder extends DomainEntity {
 
 	public void setKeyword(final String keyword) {
 		this.keyword = keyword;
-	}
-
-	public Area getArea() {
-		return this.area;
-	}
-
-	public void setArea(final Area area) {
-		this.area = area;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -70,6 +68,19 @@ public class Finder extends DomainEntity {
 
 	public void setCache(final float cache) {
 		this.cache = cache;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
+
+	@Valid
+	@ManyToOne
+	public Area getArea() {
+		return this.area;
+	}
+
+	public void setArea(final Area area) {
+		this.area = area;
 	}
 
 }
