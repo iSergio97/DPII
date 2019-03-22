@@ -84,7 +84,7 @@ public class AcmeFloatService {
 	// Ancillary methods
 
 	public Collection<AcmeFloat> findAcmeFloats(final int id) {
-		return this.acmeFloatRepository.findFloats(id);
+		return this.acmeFloatRepository.findAcmeFloats(id);
 	}
 
 }

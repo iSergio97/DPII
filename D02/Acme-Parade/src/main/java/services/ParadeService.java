@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,20 +37,20 @@ public class ParadeService {
 	// Supporting services
 
 	@Autowired
-	private BrotherhoodService	brotherhoodService;
+	private BrotherhoodService		brotherhoodService;
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
+	// Supporting services
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ticker generation fields
 
-	private static final String	TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final int	TICKER_LENGTH	= 5;
-	private final Random		random			= new Random();
+	private static final String		TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final int		TICKER_LENGTH	= 5;
+	private final Random			random			= new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +69,6 @@ public class ParadeService {
 		parade.setAcmeFloats(new ArrayList<AcmeFloat>());
 		parade.setIsDraft(true);
 		parade.setDescription("");
-		parade.setMoment(new Date());
 		parade.setTitle("");
 		if (parade.getTicker() == null || parade.getTicker().isEmpty()) {
 			final Calendar calendar = new GregorianCalendar();
@@ -89,20 +90,21 @@ public class ParadeService {
 	}
 
 	public Parade save(final Parade parade) {
-		Assert.isTrue(parade != null);
-		if (parade.getMoment() == null)
-			parade.setMoment(new Date());
+		Assert.notNull(parade);
+		//final Parade originalParade = this.paradeRepository.findOne(parade.getId());
+		//if (originalParade != null)
+		Assert.isTrue(parade.getIsDraft());
+		Assert.isTrue(parade.getMoment().after(new Date()));
 
 		//TODO: if ticker existe en BBDD, generar nuevo, else, se guarda
 		return this.paradeRepository.save(parade);
 	}
-
 	public void delete(final Parade parade) {
-		Assert.isTrue(parade != null);
+		Assert.notNull(parade);
+		Assert.isTrue(parade.getIsDraft());
 
 		this.paradeRepository.delete(parade);
 	}
-
 	public Parade findOne(final int id) {
 		return this.paradeRepository.findOne(id);
 	}
@@ -138,7 +140,7 @@ public class ParadeService {
 		return this.paradeRepository.findPossibleMemberParades(memberId);
 	}
 
-	public Parade reconstruct(final ParadeForm paradeForm, final BindingResult bindingResult) {
+	public Parade reconstruct(final ParadeForm paradeForm, final BindingResult binding) {
 		Parade result;
 
 		if (paradeForm.getId() == 0)
@@ -151,7 +153,10 @@ public class ParadeService {
 		result.setMoment(paradeForm.getMoment());
 		result.setAcmeFloats(paradeForm.getAcmeFloats());
 
-		this.validator.validate(result, bindingResult);
+		this.validator.validate(result, binding);
+		this.paradeRepository.flush();
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}

@@ -188,7 +188,6 @@ public class Actor extends DomainEntity {
 	@Valid
 	@NotNull
 	// TODO: What does NotNull here?
-	@OneToMany(mappedBy = "actor")
 	public Collection<SocialProfile> getSocialProfiles() {
 		return this.socialProfiles;
 	}

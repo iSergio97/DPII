@@ -14,17 +14,25 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="parades" id="row" requestURI="parade/brotherhood/list.do" pagesize="5" class="displaytag">
+<display:table name="parades" id="row"
+	requestURI="parade/brotherhood/list.do" pagesize="5" class="displaytag">
 
 	<display:column property="title" titleKey="parade.title" />
 	<display:column property="moment" titleKey="parade.moment" />
 	<display:column property="description" titleKey="parade.description" />
+
 	<display:column titleKey="master.page.blank">
 		<jstl:if test="${row.isDraft == true}">
 			<a href="parade/brotherhood/edit.do?paradeId=<jstl:out value="${row.id}" />">
 				<spring:message code="master.page.action.edit"/>
 			</a>
 		</jstl:if>
+	</display:column>
+	
+	<display:column titleKey="master.page.blank">
+		<a href="parade/public/show.do?paradeId=<jstl:out value="${row.id}" />">
+			<spring:message code="master.page.action.show"/>
+		</a>
 	</display:column>
 
 </display:table>

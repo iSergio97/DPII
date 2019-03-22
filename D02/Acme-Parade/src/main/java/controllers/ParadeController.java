@@ -3,8 +3,10 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,11 +34,13 @@ public class ParadeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AcmeFloatService	acmeFloatService;
+	private ParadeService	paradeService;
+
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+
 	@Autowired
-	private ParadeService		paradeService;
+	private AcmeFloatService	acmeFloatService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -84,7 +88,6 @@ public class ParadeController extends AbstractController {
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
-		parade.setAcmeFloats(new ArrayList<AcmeFloat>());
 		result = this.createEditModelAndView(parade, "edit");
 
 		return result;
@@ -95,19 +98,35 @@ public class ParadeController extends AbstractController {
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
-		Parade parade;
+		final Parade parade = this.paradeService.findOne(paradeForm.getId());
 
-		parade = this.paradeService.reconstruct(paradeForm, binding);
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(parade, "edit");
-		else
-			try {
-				parade.setIsDraft(true);
-				this.paradeService.save(parade);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
+		try {
+			final Parade paradeUpdated = this.paradeService.reconstruct(paradeForm, binding);
+			List<AcmeFloat> paradesRemoved = new ArrayList<>(); //Cambiar list por collection
+			if (paradeForm.getId() != 0)
+				paradesRemoved = (List<AcmeFloat>) parade.getAcmeFloats();
+			if (paradeForm.getId() != 0) //Cambiar paradeForm por paradeUpdated
+				paradesRemoved.removeAll(paradeUpdated.getAcmeFloats());
+			final Parade paradeSaved = this.paradeService.save(paradeUpdated);
+			for (final AcmeFloat f : paradeUpdated.getAcmeFloats()) {
+				final Collection<Parade> parades = f.getParades();
+				parades.add(paradeSaved);
+				f.setParades(parades);
+				this.acmeFloatService.save(f);
 			}
+			if (paradeUpdated.getId() != 0)
+				for (final AcmeFloat f : paradesRemoved) {
+					final Collection<Parade> parades = f.getParades();
+					parades.remove(parade);
+					f.setParades(parades);
+					this.acmeFloatService.save(f);
+				}
+			result = new ModelAndView("redirect:list.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(parade, "edit");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
+		}
 
 		return result;
 	}
@@ -154,21 +173,12 @@ public class ParadeController extends AbstractController {
 	public ModelAndView show(@RequestParam final int paradeId) {
 		ModelAndView result;
 		Parade parade;
-		parade = this.paradeService.findOne(paradeId);
-
-		Brotherhood brotherhood;
-		Collection<AcmeFloat> acmeFloats;
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
+		Assert.isTrue(parade.getIsDraft());
 
-		brotherhood = parade.getBrotherhood();
-		final UserAccount userAccount = brotherhood.getUserAccount();
-		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
-
-		result = new ModelAndView("parade/public/show");
-		result.addObject("brotherhood", brotherhood);
-		result.addObject("acmeFloats", acmeFloats);
+		result = new ModelAndView("parade/public/" + "show");
 
 		result.addObject("parade", parade);
 

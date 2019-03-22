@@ -32,13 +32,13 @@
 <strong>
 	<spring:message code="parade.moment"/>:
 </strong>
-	<jstl:out value="${parade.title}"/>
+	<jstl:out value="${parade.moment}"/>
 <br>
 
-<strong>
+<h2>
 	<spring:message code="parade.acmeFloats"/>:
-</strong>
-<display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
+</h2>
+<display:table name="parade.acmeFloats" id="row" pagesize="5" class="displaytag">
 
 	<display:column property="title" titleKey="float.title" />
 	<display:column property="description" titleKey="float.description" />

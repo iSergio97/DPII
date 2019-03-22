@@ -52,12 +52,11 @@
 		<security:intercept-url pattern="/member/public/show.do" />
 		<security:intercept-url pattern="/request/member/**" access="hasRole('MEMBER')" />
 		<security:intercept-url pattern="/request/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-
-
 		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-	<!--
+		<security:intercept-url pattern="/parade/public/show.do" />
+	<!--  
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
-
+		
 		-->
 		<security:intercept-url pattern="/register/member/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/brotherhood/create.do" access="isAnonymous()" />

@@ -36,6 +36,10 @@ public class ParadeForm {
 		return this.id;
 	}
 
+	public void setId(final int id) {
+		this.id = id;
+	}
+
 	@NotBlank
 	public String getTitle() {
 		return this.title;

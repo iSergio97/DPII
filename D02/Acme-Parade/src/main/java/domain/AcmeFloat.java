@@ -1,6 +1,8 @@
 
 package domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Access;
@@ -18,22 +20,19 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class AcmeFloat extends DomainEntity {
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Fields
+	// Fields -----------------------------------------------------------------
 
-	private String			title;
-	private String			description;
-	private List<String>	pictures;
+	private String					title;
+	private String					description;
+	private List<String>			pictures;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationships
+	// Relationships ----------------------------------------------------------
 
-	private List<Parade>	parades;
-	private Brotherhood		brotherhood;
+	private Collection<Parade>	parades;
+	private Brotherhood				brotherhood;
 
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Field access methods
+	// Field access methods ---------------------------------------------------
 
 	@NotNull
 	@NotBlank
@@ -67,19 +66,17 @@ public class AcmeFloat extends DomainEntity {
 		this.pictures = pictures;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
+	// Relationship access methods --------------------------------------------
 
 	@ManyToMany
 	@Valid
-	public List<Parade> getParades() {
+	public Collection<Parade> getParades() {
 		return this.parades;
 	}
 
-	public void setParades(final List<Parade> parades) {
-		this.parades = parades;
+	public void setParades(final Collection<Parade> parades) {
+		this.parades = new ArrayList<Parade>(parades);
 	}
-
 	@ManyToOne
 	@Valid
 	public Brotherhood getBrotherhood() {
