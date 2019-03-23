@@ -8,13 +8,11 @@
 			return comodin;
 		}
 		
-		function testSave(){
-			var comodin = true;
-			if((document.getElementById("password").value != document.getElementById("confirmPassword")) || (document.getElementById("password").value === "") || (document.getElementById("confirmPassword").value === "")){
-				comodin = false;
-				var button = document.getElementById("test");
-				button.style.visibility = 'hidden';
-			}
+		function confirmPhone(){
+			var phoneNumber = document.getElementById("phoneNumber");
+			//if(phoneNumber.match(/(0-9){4,}/g)){
+			//if(phoneNumber.startsWith("+") || phoneNumber.startsWith("(")){
+				confirm('Test');
 		}
 	</script>
 
@@ -38,7 +36,7 @@
 
 	<div>
 		<form:form modelAttribute="member" method="POST"
-			action="register/member/edit.do" id="test">
+			action="register/member/edit.do" id="test" >
 
 			<!-- Campos ocultos -->
 
@@ -71,11 +69,11 @@
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<acme:submit name="save" code="save"/>
-			<!-- <button type="submit" name="save" id="test" onclick="return testForm();" onload="return testSave();">
+			<!--<acme:submit name="save" code="save"/> -->
+			<button type="submit" name="save" id="test" onsubmit="confirmPhone()">
 				<spring:message code="save" />
 			</button>
-			-->
+			
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 

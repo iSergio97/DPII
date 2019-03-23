@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MessageBoxRepository;
+import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 
@@ -112,5 +113,10 @@ public class MessageBoxService {
 		messageBoxes.add(notifications);
 
 		return messageBoxes;
+	}
+
+	public List<MessageBox> messageFromActor(final Actor a) {
+		final int id = a.getId();
+		return this.messageBoxRepository.messageFromActor(id);
 	}
 }
