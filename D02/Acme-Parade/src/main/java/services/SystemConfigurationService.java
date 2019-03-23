@@ -88,6 +88,7 @@ public class SystemConfigurationService {
 		systemConfiguration.setWelcomeMessages(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessages(), ":", ";"));
 		systemConfiguration.setLowestPosition(systemConfigurationForm.getLowestPosition());
 		this.validator.validate(systemConfiguration, bindingResult);
+		this.systemConfigurationRepository.flush();
 		return systemConfiguration;
 	}
 

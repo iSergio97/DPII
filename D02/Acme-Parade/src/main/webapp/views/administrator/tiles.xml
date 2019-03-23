@@ -31,14 +31,29 @@
 		<put-attribute name="body" value="/views/administrator/viewareas.jsp" />
 	</definition>
 	
+	<definition name="administrator/editarea" extends="master.page">
+		<put-attribute name="title" value="Edit area" />
+		<put-attribute name="body" value="/views/administrator/editarea.jsp" />
+	</definition>
+	
 	<definition name="administrator/viewpositions" extends="master.page">
 		<put-attribute name="title" value="View positions" />
 		<put-attribute name="body" value="/views/administrator/viewpositions.jsp" />
 	</definition>
 	
+	<definition name="administrator/editposition" extends="master.page">
+		<put-attribute name="title" value="Edit position" />
+		<put-attribute name="body" value="/views/administrator/editposition.jsp" />
+	</definition>
+	
 	<definition name="administrator/viewpriorities" extends="master.page">
 		<put-attribute name="title" value="View priorities" />
 		<put-attribute name="body" value="/views/administrator/viewpriorities.jsp" />
+	</definition>
+	
+	<definition name="administrator/editpriority" extends="master.page">
+		<put-attribute name="title" value="Edit priority" />
+		<put-attribute name="body" value="/views/administrator/editpriority.jsp" />
 	</definition>
 	
 </tiles-definitions>

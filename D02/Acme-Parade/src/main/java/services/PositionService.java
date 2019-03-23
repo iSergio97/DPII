@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PositionRepository;
+import utilities.ConversionUtils;
 import domain.Position;
+import forms.PositionForm;
 
 @Service
 @Transactional
@@ -22,9 +26,15 @@ public class PositionService {
 	@Autowired
 	private PositionRepository	positionRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	@Autowired
+	private Validator			validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -68,6 +78,39 @@ public class PositionService {
 
 	public List<Position> findAll() {
 		return this.positionRepository.findAll();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Form methods
+
+	public PositionForm createForm() {
+		final PositionForm positionForm = new PositionForm();
+		positionForm.setStrings("");
+		return positionForm;
+	}
+
+	public Position reconstruct(final PositionForm positionForm, final BindingResult bindingResult) {
+		Position result;
+
+		if (positionForm.getId() == 0)
+			result = this.create();
+		else
+			result = this.positionRepository.findOne(positionForm.getId());
+
+		result.setStrings(ConversionUtils.stringToMap(positionForm.getStrings(), ":", ";"));
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
+
+	public PositionForm deconstruct(final Position position) {
+		final PositionForm positionForm = this.createForm();
+
+		positionForm.setId(position.getId());
+		positionForm.setStrings(ConversionUtils.mapToString(position.getStrings(), ":", ";"));
+
+		return positionForm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

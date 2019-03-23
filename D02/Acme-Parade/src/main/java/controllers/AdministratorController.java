@@ -31,11 +31,13 @@ import services.PositionService;
 import services.PriorityService;
 import services.RequestService;
 import services.SystemConfigurationService;
-import utilities.ConversionUtils;
 import domain.Area;
 import domain.Position;
 import domain.Priority;
 import domain.SystemConfiguration;
+import forms.AreaForm;
+import forms.PositionForm;
+import forms.PriorityForm;
 import forms.SystemConfigurationForm;
 
 @Controller
@@ -173,8 +175,11 @@ public class AdministratorController extends AbstractController {
 		final ModelAndView result;
 		SystemConfiguration systemConfiguration;
 
+		if (!bindingResult.hasErrors())
+			System.out.println("noerrors1");
 		systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
-
+		if (!bindingResult.hasErrors())
+			System.out.println("noerrors1");
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("administrator/systemconfiguration");
 
@@ -210,22 +215,46 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addarea", method = RequestMethod.POST)
-	public ModelAndView addArea(@RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
-		final Area area = this.areaService.create();
-		area.setName(name);
-		area.setPictures(ConversionUtils.stringToList(pictures, " "));
-		this.areaService.save(area);
-		return this.viewAreas();
+	@RequestMapping(value = "/createarea", method = RequestMethod.GET)
+	public ModelAndView createArea() {
+		final ModelAndView result;
+		final AreaForm areaForm;
+
+		result = new ModelAndView("administrator/editarea");
+		areaForm = this.areaService.createForm();
+		result.addObject("areaForm", areaForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editarea", method = RequestMethod.POST)
-	public ModelAndView editArea(@RequestParam(value = "id") final int id, @RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
-		final Area area = this.areaService.findOne(id);
-		area.setName(name);
-		area.setPictures(ConversionUtils.stringToList(pictures, " "));
-		this.areaService.save(area);
-		return this.viewAreas();
+	@RequestMapping(value = "/editarea", method = RequestMethod.GET)
+	public ModelAndView editArea(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final AreaForm areaForm;
+
+		result = new ModelAndView("administrator/editarea");
+		areaForm = this.areaService.deconstruct(this.areaService.findOne(id));
+		result.addObject("areaForm", areaForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/savearea", method = RequestMethod.POST)
+	public ModelAndView saveArea(final AreaForm areaForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+		final Area area;
+
+		area = this.areaService.reconstruct(areaForm, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editarea");
+			result.addObject("areaForm", areaForm);
+		} else {
+			this.areaService.save(area);
+			result = this.viewAreas();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deletearea", method = RequestMethod.POST)
@@ -248,20 +277,46 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
-	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
-		final Position position = this.positionService.create();
-		position.setStrings(ConversionUtils.stringToMap(positionString, ":", ";"));
-		this.positionService.save(position);
-		return this.viewPositions();
+	@RequestMapping(value = "/createposition", method = RequestMethod.GET)
+	public ModelAndView createPosition() {
+		final ModelAndView result;
+		final PositionForm positionForm;
+
+		result = new ModelAndView("administrator/editposition");
+		positionForm = this.positionService.createForm();
+		result.addObject("positionForm", positionForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editposition", method = RequestMethod.POST)
-	public ModelAndView editPosition(@RequestParam(value = "id") final int id, @RequestParam(value = "position") final String positionString) {
-		final Position position = this.positionService.findOne(id);
-		position.setStrings(ConversionUtils.stringToMap(positionString, ":", ";"));
-		this.positionService.save(position);
-		return this.viewPositions();
+	@RequestMapping(value = "/editposition", method = RequestMethod.GET)
+	public ModelAndView editPosition(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final PositionForm positionForm;
+
+		result = new ModelAndView("administrator/editposition");
+		positionForm = this.positionService.deconstruct(this.positionService.findOne(id));
+		result.addObject("positionForm", positionForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/saveposition", method = RequestMethod.POST)
+	public ModelAndView savePosition(final PositionForm positionForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+		final Position position;
+
+		position = this.positionService.reconstruct(positionForm, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editposition");
+			result.addObject("positionForm", positionForm);
+		} else {
+			this.positionService.save(position);
+			result = this.viewPositions();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deleteposition", method = RequestMethod.POST)
@@ -284,20 +339,46 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
-	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
-		final Priority priority = this.priorityService.create();
-		priority.setStrings(ConversionUtils.stringToMap(priorityString, ":", ";"));
-		this.priorityService.save(priority);
-		return this.viewPriorities();
+	@RequestMapping(value = "/createpriority", method = RequestMethod.GET)
+	public ModelAndView createPriority() {
+		final ModelAndView result;
+		final PriorityForm priorityForm;
+
+		result = new ModelAndView("administrator/editpriority");
+		priorityForm = this.priorityService.createForm();
+		result.addObject("priorityForm", priorityForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editpriority", method = RequestMethod.POST)
-	public ModelAndView editPriority(@RequestParam(value = "id") final int id, @RequestParam(value = "priority") final String priorityString) {
-		final Priority priority = this.priorityService.findOne(id);
-		priority.setStrings(ConversionUtils.stringToMap(priorityString, ":", ";"));
-		this.priorityService.save(priority);
-		return this.viewPriorities();
+	@RequestMapping(value = "/editpriority", method = RequestMethod.GET)
+	public ModelAndView editPriority(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final PriorityForm priorityForm;
+
+		result = new ModelAndView("administrator/editpriority");
+		priorityForm = this.priorityService.deconstruct(this.priorityService.findOne(id));
+		result.addObject("priorityForm", priorityForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/savepriority", method = RequestMethod.POST)
+	public ModelAndView savePriority(final PriorityForm priorityForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+		final Priority priority;
+
+		priority = this.priorityService.reconstruct(priorityForm, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editpriority");
+			result.addObject("priorityForm", priorityForm);
+		} else {
+			this.priorityService.save(priority);
+			result = this.viewPriorities();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deletepriority", method = RequestMethod.POST)

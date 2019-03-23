@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AreaRepository;
+import utilities.ConversionUtils;
 import domain.Area;
+import forms.AreaForm;
 
 @Service
 @Transactional
@@ -22,9 +26,15 @@ public class AreaService {
 	@Autowired
 	private AreaRepository	areaRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	@Autowired
+	private Validator		validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -69,6 +79,42 @@ public class AreaService {
 
 	public List<Area> findAll() {
 		return this.areaRepository.findAll();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Form methods
+
+	public AreaForm createForm() {
+		final AreaForm areaForm = new AreaForm();
+		areaForm.setName("");
+		areaForm.setPictures("");
+		return areaForm;
+	}
+
+	public Area reconstruct(final AreaForm areaForm, final BindingResult bindingResult) {
+		Area result;
+
+		if (areaForm.getId() == 0)
+			result = this.create();
+		else
+			result = this.areaRepository.findOne(areaForm.getId());
+
+		result.setName(areaForm.getName());
+		result.setPictures(ConversionUtils.stringToList(areaForm.getPictures(), " "));
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
+
+	public AreaForm deconstruct(final Area area) {
+		final AreaForm areaForm = this.createForm();
+
+		areaForm.setId(area.getId());
+		areaForm.setName(area.getName());
+		areaForm.setPictures(ConversionUtils.listToString(area.getPictures(), " "));
+
+		return areaForm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

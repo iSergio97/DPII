@@ -12,11 +12,14 @@
 <display:table name="positions" id="row" class="displaytag">
 
 	<display:column titleKey="position.value">
-		<form action="administrator/editposition.do" method="POST">
-			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
-			<input type="text" name="position" value="<jstl:forEach items="${row.strings}" var="entry"><jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />;</jstl:forEach>" />
-			<input type="submit" name="editposition" value="<spring:message code='position.edit' />" />
-		</form>
+		<jstl:forEach items="${row.strings}" var="entry">
+			<jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />
+			<br />
+		</jstl:forEach>
+	</display:column>
+
+	<display:column titleKey="position.edit">
+		<a href="administrator/editposition.do?id=${row.id}"><spring:message code="position.edit" /></a>
 	</display:column>
 
 	<display:column titleKey="position.delete">
@@ -28,7 +31,6 @@
 
 </display:table>
 
-<form action="administrator/addposition.do" method="POST">
-	<input type="text" name="position" />
-	<input type="submit" name="addposition" value="<spring:message code='position.add' />" />
-</form>
+<p>
+	<a href="administrator/createposition.do"><spring:message code="position.create" /></a>
+</p>
