@@ -105,6 +105,18 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('BROTHERHOOD')">
+			<li><a class="fNiv"><spring:message	code="master.page.brotherhood.history" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="periodRecord/list.do"><spring:message code="master.page.brotherhood.periodRecord" /></a></li>
+					<li><a href="legalRecord/list.do"><spring:message code="master.page.brotherhood.legalRecord" /></a></li>
+					<li><a href="linkRecord/list.do"><spring:message code="master.page.brotherhood.linkRecord" /></a></li>
+					<li><a href="miscellaneousRecord/list.do"><spring:message code="master.page.brotherhood.miscellaneousRecord" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
 			<li><a href="brotherhood/public/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>
 		
 	</ul>

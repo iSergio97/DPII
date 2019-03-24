@@ -25,6 +25,10 @@
 		<value>/views/profile/tiles.xml</value>
 		<value>/views/register/tiles.xml</value>
 		<value>/views/request/tiles.xml</value>
+		<value>/views/periodRecord/tiles.xml</value>
+		<value>/views/legalRecord/tiles.xml</value>
+		<value>/views/linkRecord/tiles.xml</value>
+		<value>/views/miscellaneousRecord/tiles.xml</value>
 	</util:list>
 
 </beans>

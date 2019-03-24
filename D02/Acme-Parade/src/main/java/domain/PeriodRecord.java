@@ -1,7 +1,7 @@
 
 package domain;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -16,9 +16,9 @@ public class PeriodRecord extends Record {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private int					startYear;
-	private int					endYear;
-	private Collection<String>	photos;
+	private int				startYear;
+	private int				endYear;
+	private List<String>	photos;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -43,11 +43,11 @@ public class PeriodRecord extends Record {
 	}
 
 	@ElementCollection
-	public Collection<String> getPhotos() {
+	public List<String> getPhotos() {
 		return this.photos;
 	}
 
-	public void setPhotos(final Collection<String> photos) {
+	public void setPhotos(final List<String> photos) {
 		this.photos = photos;
 	}
 

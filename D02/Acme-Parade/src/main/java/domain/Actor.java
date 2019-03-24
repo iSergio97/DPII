@@ -12,6 +12,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -188,6 +189,7 @@ public class Actor extends DomainEntity {
 	@Valid
 	@NotNull
 	// TODO: What does NotNull here?
+	@ElementCollection
 	public Collection<SocialProfile> getSocialProfiles() {
 		return this.socialProfiles;
 	}
