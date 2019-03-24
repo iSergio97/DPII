@@ -134,7 +134,7 @@ public class ProfileController extends AbstractController {
 		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "member";
 		final List<MessageBox> ls = this.messageBoxService.messageFromActor(member);
-		result = new ModelAndView("profile/member/edit");
+		result = new ModelAndView("profile/member/export");
 		result.addObject("actor", member);
 		result.addObject("username", member.getUserAccount().getUsername());
 		result.addObject("password", member.getUserAccount().getPassword());
@@ -150,7 +150,7 @@ public class ProfileController extends AbstractController {
 		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "brotherhood";
 		final List<MessageBox> ls = this.messageBoxService.messageFromActor(brotherhood);
-		result = new ModelAndView("profile/brotherhood/edit");
+		result = new ModelAndView("profile/brotherhood/export");
 		result.addObject("actor", brotherhood);
 		result.addObject("username", brotherhood.getUserAccount().getUsername());
 		result.addObject("password", brotherhood.getUserAccount().getPassword());
@@ -167,7 +167,7 @@ public class ProfileController extends AbstractController {
 		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "admin";
 		final List<MessageBox> ls = this.messageBoxService.messageFromActor(admin);
-		result = new ModelAndView("profile/admin/edit");
+		result = new ModelAndView("profile/admin/export");
 		result.addObject("actor", admin);
 		result.addObject("username", admin.getUserAccount().getUsername());
 		result.addObject("password", admin.getUserAccount().getPassword());
