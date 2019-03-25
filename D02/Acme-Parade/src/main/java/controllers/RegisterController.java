@@ -79,9 +79,47 @@ public class RegisterController extends AbstractController {
 	// Save administrator ----------------------------------------------------------
 
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final AdministratorForm administrator, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("administrator") final AdministratorForm administrator, final BindingResult bindingResult) {
 		ModelAndView result;
 		Administrator administrator2;
+
+		final List<String> userNames = this.userAccountRepository.getUserNames();
+		if (administrator.getId() == 0) {
+			if (userNames.contains(administrator.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Administrator b = this.administratorService.findPrincipal();
+			userNames.remove(b.getUserAccount().getUsername());
+			if (userNames.contains(administrator.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		}
+		if (administrator.getUsername().length() < 5 || administrator.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+		if (!(administrator.getPassword().equals(administrator.getConfirmPassword()))) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (administrator.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (administrator.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
 
 		administrator2 = this.administratorService.reconstructForm(administrator, bindingResult);
 		if (bindingResult.hasErrors())
@@ -102,16 +140,12 @@ public class RegisterController extends AbstractController {
 					}
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} else {
-					if (administrator.getPassword() == administrator.getConfirmPassword()) {
-						final UserAccount ua = administrator2.getUserAccount();
-						administrator2.getUserAccount().setUsername(administrator.getUsername());
-						administrator2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(administrator.getPassword(), null));
-						final UserAccount uas = this.userAccountRepository.save(ua);
-						administrator2.setUserAccount(uas);
-						this.administratorService.save(administrator2);
-						result = new ModelAndView("redirect:/welcome/index.do");
-					} else
-						result = this.createAndEditModelAndView(administrator, "register.administrator.error");
+					final UserAccount ua = administrator2.getUserAccount();
+					administrator2.getUserAccount().setUsername(administrator.getUsername());
+					administrator2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(administrator.getPassword(), null));
+					final UserAccount uas = this.userAccountRepository.save(ua);
+					administrator2.setUserAccount(uas);
+					this.administratorService.save(administrator2);
 					result = new ModelAndView("redirect:/welcome/index.do");
 				}
 			} catch (final Throwable e) {
@@ -194,12 +228,21 @@ public class RegisterController extends AbstractController {
 		 * result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
 		 * }
 		 */
-
 		final List<String> userNames = this.userAccountRepository.getUserNames();
-		if (userNames.contains(brotherhood.getUsername())) {
-			final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.existedUserName");
+		if (brotherhood.getId() == 0) {
+			if (userNames.contains(brotherhood.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Brotherhood b = this.brotherhoodService.findPrincipal();
+			userNames.remove(b.getUserAccount().getUsername());
+			if (userNames.contains(brotherhood.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
 		}
 		if (brotherhood.getUsername().length() < 5 || brotherhood.getUsername().length() > 32) {
 			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
@@ -243,6 +286,7 @@ public class RegisterController extends AbstractController {
 
 				} else {
 					final UserAccount ua = brotherhood2.getUserAccount();
+					ua.setPassword(new Md5PasswordEncoder().encodePassword(brotherhood2.getUserAccount().getPassword(), null));
 					final UserAccount saved = this.userAccountRepository.save(ua);
 					brotherhood2.setUserAccount(saved);
 					this.brotherhoodService.save(brotherhood2);
@@ -335,10 +379,20 @@ public class RegisterController extends AbstractController {
 		 * }
 		 */
 		final List<String> userNames = this.userAccountRepository.getUserNames();
-		if (userNames.contains(member.getUsername())) {
-			final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.existedUserName");
+		if (member.getId() == 0) {
+			if (userNames.contains(member.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Member m = this.memberService.findPrincipal();
+			userNames.remove(m.getUserAccount().getUsername());
+			if (userNames.contains(member.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
 		}
 		if (member.getUsername().length() < 5 || member.getUsername().length() > 32) {
 			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
@@ -381,6 +435,7 @@ public class RegisterController extends AbstractController {
 					}
 				} else {
 					final UserAccount ua = member2.getUserAccount();
+					ua.setPassword(new Md5PasswordEncoder().encodePassword(member2.getUserAccount().getPassword(), null));
 					final UserAccount saved = this.userAccountRepository.save(ua);
 					member2.setUserAccount(saved);
 					this.memberService.save(member2);
