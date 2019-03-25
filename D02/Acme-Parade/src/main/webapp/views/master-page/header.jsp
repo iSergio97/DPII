@@ -14,7 +14,21 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+	<jstl:choose>
+		<jstl:when test="${systemConfiguration != null}" >
+			<jstl:choose>
+				<jstl:when test="${empty systemConfiguration.banner}" >
+					<a href="#"><img src="<jstl:out value="${systemConfiguration.banner}" />" alt="Acme Parade Co., Inc." /></a>
+				</jstl:when>
+				<jstl:otherwise>
+					<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:when>
+		<jstl:otherwise>
+			<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+		</jstl:otherwise>
+	</jstl:choose>
 </div>
 
 <div>
