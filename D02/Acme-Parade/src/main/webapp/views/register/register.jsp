@@ -1,20 +1,16 @@
 <script>
-		function testForm() {
-			var comodin = true;
-			if(document.getElementById("name").value === "") {
-				alert("Test");
-				comodin = false;
-			}
-			return comodin;
+	function alerta() {
+		var phoneNumber = document.getElementById('phoneNumber').innerHTML;
+		var re = new RegExp("^[0-9]{4,}$");
+		//if(!phoneNumber.startsWith('+') || phoneNumber.startsWith('(')) {
+		//if('a' == 'a'){
+		if (re.test(phoneNumber)) {
+			var option = confirm('Entra en el alert');
 		}
-		
-		function confirmPhone(){
-			var phoneNumber = document.getElementById("phoneNumber");
-			//if(phoneNumber.match(/(0-9){4,}/g)){
-			//if(phoneNumber.startsWith("+") || phoneNumber.startsWith("(")){
-				confirm('Test');
-		}
-	</script>
+
+		return option;
+	}
+</script>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -31,12 +27,13 @@
 <jstl:if test="${requestURI == 'member'}">
 
 	<p>
-		<spring:message code="register.member" />	</p>
+		<spring:message code="register.member" />
+	</p>
 
 
 	<div>
 		<form:form modelAttribute="member" method="POST"
-			action="register/member/edit.do" id="test" >
+			action="register/member/edit.do" id="test">
 
 			<!-- Campos ocultos -->
 
@@ -70,10 +67,10 @@
 			<spring:message code="termsAndConditions" />
 			<br>
 			<!--<acme:submit name="save" code="save"/> -->
-			<button type="submit" name="save" id="test" onsubmit="confirmPhone()">
+			<button type="submit" name="save" id="test" onclick="return alerta()">
 				<spring:message code="save" />
 			</button>
-			
+
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 

@@ -184,10 +184,6 @@ public class MemberService {
 		this.validator.validate(result, bindingResult);
 		this.memberRepository.flush();
 
-		//TODO: Revisar errores form
-		//if (bindingResult.hasErrors())
-		//throw new ValidationException();
-
 		return result;
 	}
 
