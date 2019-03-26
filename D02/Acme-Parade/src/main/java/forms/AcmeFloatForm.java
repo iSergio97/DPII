@@ -3,7 +3,6 @@ package forms;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -36,6 +35,8 @@ public class AcmeFloatForm {
 		this.id = id;
 	}
 
+	// Matches any string that is not delimited by whitespace or empty
+	// @Pattern(regexp = "^(\\S+\\s+)*\\S+$")
 	@NotBlank
 	public String getTitle() {
 		return this.title;
@@ -45,6 +46,8 @@ public class AcmeFloatForm {
 		this.title = title;
 	}
 
+	// Matches any string that is not delimited by whitespace or empty
+	// @Pattern(regexp = "^(\\S+\\s+)*\\S+$")
 	@NotBlank
 	public String getDescription() {
 		return this.description;
@@ -54,8 +57,8 @@ public class AcmeFloatForm {
 		this.description = description;
 	}
 
-	// Matches a bunch of URLs separated by spaces
-	@Pattern(regexp = "^(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+ )*(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+)$")
+	// Matches a bunch of URLs separated by spaces, or an empty string
+	@Pattern(regexp = "(^(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+ )*(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+)$)|(^$)")
 	public String getPictures() {
 		return this.pictures;
 	}
@@ -66,7 +69,6 @@ public class AcmeFloatForm {
 
 	// Relationship access methods --------------------------------------------
 
-	@NotNull
 	public List<Parade> getParades() {
 		return this.parades;
 	}

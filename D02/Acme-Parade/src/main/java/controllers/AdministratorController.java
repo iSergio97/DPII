@@ -14,9 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -111,9 +114,6 @@ public class AdministratorController extends AbstractController {
 
 		result.addObject("paradesWithin30Days", this.paradeService.findWithin30Days());
 
-		// QUERY 1.C.6
-		// The ratio of requests to march grouped by status.
-
 		// QUERY 1.C.7
 		// The listing of members who have got at least 10% the maximum number of request to march accepted.
 
@@ -123,10 +123,13 @@ public class AdministratorController extends AbstractController {
 		// A histogram of positions.
 
 		final List<Position> allPositions = this.positionService.findAll();
-		final double totalPositions = allPositions.size();
 		final Map<String, Double> positionHistogram = new HashMap<>();
-		for (final Position position : allPositions)
-			positionHistogram.put(position.getStrings().get("en"), this.enrolmentService.countWithPosition(position) * 100.0d / totalPositions);
+		for (final Position position : allPositions) {
+			Double proportion = (double) this.enrolmentService.countWithPosition(position);
+			proportion *= 100.0d;
+			proportion /= this.enrolmentService.count();
+			positionHistogram.put(position.getStrings().get("en"), proportion);
+		}
 		result.addObject("positionHistogram", positionHistogram);
 
 		// QUERY 2.C.1
@@ -138,12 +141,12 @@ public class AdministratorController extends AbstractController {
 		result.addObject("brotherhoodHistoryMemberStatisticsAverage", brotherhoodHistoryStatistics[2]);
 		result.addObject("brotherhoodHistoryStatisticsStandardDeviation", brotherhoodHistoryStatistics[3]);
 
-		// QUERY 1.C.2
+		// QUERY 2.C.2
 		// The brotherhoods with the largest history.
 
 		result.addObject("brotherhoodsWithLargestHistory", this.brotherhoodService.findBrotherhoodsWithTheLargestHistory(3));
 
-		// QUERY 1.C.3
+		// QUERY 2.C.3
 		// The brotherhoods with history larger than the average.
 
 		result.addObject("brotherhoodsWithHistoryLargerThanTheAverage", this.brotherhoodService.findBrotherhoodsWithHistoryLargerThanAverage());
@@ -171,15 +174,10 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
-	public ModelAndView systemConfiguration(final SystemConfigurationForm systemConfigurationForm, final BindingResult bindingResult) {
+	public ModelAndView systemConfiguration(@Valid @ModelAttribute("systemConfigurationForm") final SystemConfigurationForm systemConfigurationForm, final BindingResult bindingResult) {
 		final ModelAndView result;
 		SystemConfiguration systemConfiguration;
 
-		if (!bindingResult.hasErrors())
-			System.out.println("noerrors1");
-		systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
-		if (!bindingResult.hasErrors())
-			System.out.println("noerrors1");
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("administrator/systemconfiguration");
 
@@ -190,6 +188,7 @@ public class AdministratorController extends AbstractController {
 			result.addObject("positionsMap", positionsMap);
 			result.addObject("error", true);
 		} else {
+			systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
 			this.systemConfigurationService.save(systemConfiguration);
 
 			result = new ModelAndView("administrator/systemconfiguration");
@@ -240,16 +239,14 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/savearea", method = RequestMethod.POST)
-	public ModelAndView saveArea(final AreaForm areaForm, final BindingResult bindingResult) {
+	public ModelAndView saveArea(@Valid @ModelAttribute("areaForm") final AreaForm areaForm, final BindingResult bindingResult) {
 		final ModelAndView result;
-		final Area area;
-
-		area = this.areaService.reconstruct(areaForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("administrator/editarea");
 			result.addObject("areaForm", areaForm);
 		} else {
+			final Area area = this.areaService.reconstruct(areaForm, bindingResult);
 			this.areaService.save(area);
 			result = this.viewAreas();
 		}
@@ -302,16 +299,14 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/saveposition", method = RequestMethod.POST)
-	public ModelAndView savePosition(final PositionForm positionForm, final BindingResult bindingResult) {
+	public ModelAndView savePosition(@Valid @ModelAttribute("positionForm") final PositionForm positionForm, final BindingResult bindingResult) {
 		final ModelAndView result;
-		final Position position;
-
-		position = this.positionService.reconstruct(positionForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("administrator/editposition");
 			result.addObject("positionForm", positionForm);
 		} else {
+			final Position position = this.positionService.reconstruct(positionForm, bindingResult);
 			this.positionService.save(position);
 			result = this.viewPositions();
 		}
@@ -364,16 +359,14 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/savepriority", method = RequestMethod.POST)
-	public ModelAndView savePriority(final PriorityForm priorityForm, final BindingResult bindingResult) {
+	public ModelAndView savePriority(@Valid @ModelAttribute("priorityForm") final PriorityForm priorityForm, final BindingResult bindingResult) {
 		final ModelAndView result;
-		final Priority priority;
-
-		priority = this.priorityService.reconstruct(priorityForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
 			result = new ModelAndView("administrator/editpriority");
 			result.addObject("priorityForm", priorityForm);
 		} else {
+			final Priority priority = this.priorityService.reconstruct(priorityForm, bindingResult);
 			this.priorityService.save(priority);
 			result = this.viewPriorities();
 		}

@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,21 +132,21 @@ public class AcmeFloatController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/save", method = RequestMethod.POST)
-	public ModelAndView edit(final AcmeFloatForm acmeFloatForm, final BindingResult bindingResult) {
+	public ModelAndView edit(@Valid @ModelAttribute("acmeFloatForm") final AcmeFloatForm acmeFloatForm, final BindingResult bindingResult) {
 		final ModelAndView result;
-		AcmeFloat acmeFloat;
 
-		if (acmeFloatForm.getId() != 0) {
-			acmeFloat = this.acmeFloatService.findOne(acmeFloatForm.getId());
-			Assert.isTrue(acmeFloat.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
-		}
-		acmeFloat = this.acmeFloatService.reconstruct(acmeFloatForm, bindingResult);
-		acmeFloat.setBrotherhood(this.brotherhoodService.findPrincipal());
-		if (acmeFloat.getParades() == null)
-			acmeFloat.setParades(new ArrayList<Parade>());
-		for (final Parade parade : acmeFloat.getParades())
-			Assert.isTrue(parade.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
 		if (!bindingResult.hasErrors()) {
+			AcmeFloat acmeFloat;
+			if (acmeFloatForm.getId() != 0) {
+				acmeFloat = this.acmeFloatService.findOne(acmeFloatForm.getId());
+				Assert.isTrue(acmeFloat.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
+			}
+			acmeFloat = this.acmeFloatService.reconstruct(acmeFloatForm, bindingResult);
+			acmeFloat.setBrotherhood(this.brotherhoodService.findPrincipal());
+			if (acmeFloat.getParades() == null)
+				acmeFloat.setParades(new ArrayList<Parade>());
+			for (final Parade parade : acmeFloat.getParades())
+				Assert.isTrue(parade.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {

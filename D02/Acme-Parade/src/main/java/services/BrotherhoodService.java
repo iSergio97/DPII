@@ -196,11 +196,19 @@ public class BrotherhoodService {
 	}
 
 	public List<Brotherhood> findSmallestBrotherhoods(final int number) {
-		return this.brotherhoodRepository.findAllOrderedBySizeAscending().subList(0, number);
+		final List<Brotherhood> allOrderedByHistorySizeAscending = this.brotherhoodRepository.findAllOrderedByHistorySizeDescending();
+		final int total = Math.min(number, allOrderedByHistorySizeAscending.size());
+		final List<Brotherhood> smallestBrotherhoods = new ArrayList<>(total);
+		smallestBrotherhoods.addAll(allOrderedByHistorySizeAscending.subList(0, total));
+		return smallestBrotherhoods;
 	}
 
 	public List<Brotherhood> findLargestBrotherhoods(final int number) {
-		return this.brotherhoodRepository.findAllOrderedBySizeDescending().subList(0, number);
+		final List<Brotherhood> allOrderedByHistorySizeDescending = this.brotherhoodRepository.findAllOrderedByHistorySizeDescending();
+		final int total = Math.min(number, allOrderedByHistorySizeDescending.size());
+		final List<Brotherhood> largestBrotherhoods = new ArrayList<>(total);
+		largestBrotherhoods.addAll(allOrderedByHistorySizeDescending.subList(0, total));
+		return largestBrotherhoods;
 	}
 
 	public BrotherhoodForm deconstruct(final Brotherhood brotherhood) {
@@ -226,7 +234,11 @@ public class BrotherhoodService {
 	}
 
 	public List<Brotherhood> findBrotherhoodsWithTheLargestHistory(final int number) {
-		return this.brotherhoodRepository.findAllOrderedByHistorySizeDescending().subList(0, number);
+		final List<Brotherhood> allOrderedByHistorySizeDescending = this.brotherhoodRepository.findAllOrderedByHistorySizeDescending();
+		final int total = Math.min(number, allOrderedByHistorySizeDescending.size());
+		final List<Brotherhood> brotherhoodsWithTheLargestHistory = new ArrayList<>(total);
+		brotherhoodsWithTheLargestHistory.addAll(allOrderedByHistorySizeDescending.subList(0, total));
+		return brotherhoodsWithTheLargestHistory;
 	}
 
 	public List<Brotherhood> findBrotherhoodsWithHistoryLargerThanAverage() {

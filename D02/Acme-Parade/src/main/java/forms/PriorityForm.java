@@ -24,8 +24,8 @@ public class PriorityForm {
 		this.id = id;
 	}
 
-	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
-	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
+	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
 	public String getStrings() {
 		return this.strings;
 	}

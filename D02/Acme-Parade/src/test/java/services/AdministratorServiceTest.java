@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
@@ -51,6 +52,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	private void template(final String username, final String password, final String name, final String middleName, final String surname, final String photo, final String email, final String phoneNumber, final String address,
 		final Class<?> expectedThrowableClass) {
 		Class<?> throwableClass = null;
+		final String encodedPassword = new Md5PasswordEncoder().encodePassword(password, null);
 		try {
 			// Create administrator
 			Administrator administrator = this.administratorService.create();
@@ -63,7 +65,7 @@ public class AdministratorServiceTest extends AbstractTest {
 			administrator.setPhoneNumber(phoneNumber);
 			administrator.setAddress(address);
 			administratorUserAccount.setUsername(username);
-			administratorUserAccount.setPassword(password);
+			administratorUserAccount.setPassword(encodedPassword);
 			// Save administrator
 			administratorUserAccount = this.userAccountRepository.save(administratorUserAccount);
 			administrator.setUserAccount(administratorUserAccount);
@@ -78,7 +80,7 @@ public class AdministratorServiceTest extends AbstractTest {
 			Assert.isTrue(administrator.getAddress().equals(address));
 			Assert.isTrue(administrator.getUserAccount().isEnabled());
 			Assert.isTrue(administrator.getUserAccount().getUsername().equals(username));
-			Assert.isTrue(administrator.getUserAccount().getPassword().equals(password));
+			Assert.isTrue(administrator.getUserAccount().getPassword().equals(encodedPassword));
 		} catch (final Throwable throwable) {
 			throwableClass = throwable.getClass();
 		}

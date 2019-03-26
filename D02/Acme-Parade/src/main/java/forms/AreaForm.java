@@ -26,6 +26,8 @@ public class AreaForm {
 		this.id = id;
 	}
 
+	// Matches any string that is not delimited by whitespace or empty
+	// @Pattern(regexp = "^(\\S+\\s+)*\\S+$")
 	@NotBlank
 	public String getName() {
 		return this.name;
@@ -35,8 +37,8 @@ public class AreaForm {
 		this.name = name;
 	}
 
-	// Matches a bunch of URLs separated by spaces
-	@Pattern(regexp = "^(https?:\\/\\/(www\\.)?[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=]+ )*(https?:\\/\\/(www\\.)?[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=]+)$")
+	// Matches a bunch of URLs separated by spaces, or an empty string
+	@Pattern(regexp = "(^(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+ )*(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+)$)|(^$)")
 	public String getPictures() {
 		return this.pictures;
 	}

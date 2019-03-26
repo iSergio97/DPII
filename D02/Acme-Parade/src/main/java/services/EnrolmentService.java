@@ -88,6 +88,10 @@ public class EnrolmentService {
 		return this.enrolmentRepository.findAll();
 	}
 
+	public long count() {
+		return this.enrolmentRepository.count();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
@@ -96,7 +100,7 @@ public class EnrolmentService {
 		return this.findOne(userAccount.getId());
 	}
 
-	public int countWithPosition(final Position position) {
+	public long countWithPosition(final Position position) {
 		return this.enrolmentRepository.countWithPositionId(position.getId());
 	}
 

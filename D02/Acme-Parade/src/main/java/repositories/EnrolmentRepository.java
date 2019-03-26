@@ -11,6 +11,6 @@ import domain.Enrolment;
 public interface EnrolmentRepository extends JpaRepository<Enrolment, Integer> {
 
 	@Query("select count(e) from Enrolment e where e.position.id = ?1")
-	int countWithPositionId(int id);
+	long countWithPositionId(int id);
 
 }

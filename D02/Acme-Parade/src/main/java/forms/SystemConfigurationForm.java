@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
@@ -53,6 +54,9 @@ public class SystemConfigurationForm {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
+	// Matches any string that is not delimited by whitespace or empty
+	// @Pattern(regexp = "^(\\S+\\s+)*\\S+$")
+	@NotBlank
 	public String getSystemName() {
 		return this.systemName;
 	}
@@ -90,8 +94,8 @@ public class SystemConfigurationForm {
 		this.maximumFinderResults = maximumFinderResults;
 	}
 
-	// Matches a list of strings with "," as an element separator
-	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getPositiveWords() {
 		return this.positiveWords;
 	}
@@ -100,8 +104,8 @@ public class SystemConfigurationForm {
 		this.positiveWords = positiveWords;
 	}
 
-	// Matches a list of strings with "," as an element separator
-	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getNegativeWords() {
 		return this.negativeWords;
 	}
@@ -110,8 +114,8 @@ public class SystemConfigurationForm {
 		this.negativeWords = negativeWords;
 	}
 
-	// Matches a list of strings with "," as an element separator
-	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getSpamWords() {
 		return this.spamWords;
 	}
@@ -120,8 +124,8 @@ public class SystemConfigurationForm {
 		this.spamWords = spamWords;
 	}
 
-	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
-	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
+	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
 	public String getWelcomeMessages() {
 		return this.welcomeMessages;
 	}
@@ -130,8 +134,8 @@ public class SystemConfigurationForm {
 		this.welcomeMessages = welcomeMessages;
 	}
 
-	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
-	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
+	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
 	public String getWarningMessages() {
 		return this.warningMessages;
 	}
