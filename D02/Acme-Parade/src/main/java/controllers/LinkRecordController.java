@@ -4,13 +4,13 @@ package controllers;
 import java.util.Collection;
 import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -118,7 +118,7 @@ public class LinkRecordController extends AbstractController {
 	// Save ------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final LinkRecordForm record, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("linkRecord") final LinkRecordForm record, final BindingResult bindingResult) {
 		ModelAndView result;
 		LinkRecord record2;
 		Brotherhood bro;
@@ -134,8 +134,8 @@ public class LinkRecordController extends AbstractController {
 			result = this.createAndEditModelAndView(record);
 		else
 			try {
-				this.linkRecordService.save(record2);
-				records.add(record2);
+				final LinkRecord lr = this.linkRecordService.save(record2);
+				records.add(lr);
 				h.setRecords(records);
 				this.historyService.save(h);
 				result = new ModelAndView("redirect:/linkRecord/list.do");

@@ -4,13 +4,11 @@ package controllers;
 import java.util.Collection;
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,8 +90,6 @@ public class PeriodRecordController extends AbstractController {
 
 		periodRecord = this.periodRecordService.save(periodRecord);
 
-		periodRecord = this.periodRecordService.save(periodRecord);
-
 		return this.show(periodRecord.getId());
 	}
 
@@ -147,7 +143,7 @@ public class PeriodRecordController extends AbstractController {
 	// Save ------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final PeriodRecordForm record, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("periodRecord") final PeriodRecordForm record, final BindingResult bindingResult) {
 		ModelAndView result;
 		PeriodRecord record2;
 		Brotherhood bro;
@@ -163,13 +159,12 @@ public class PeriodRecordController extends AbstractController {
 			result = this.createAndEditModelAndView(record);
 		else
 			try {
-				this.periodRecordService.save(record2);
-				records.add(record2);
+
+				final PeriodRecord pr = this.periodRecordService.save(record2);
+				records.add(pr);
 				h.setRecords(records);
 				this.historyService.save(h);
 				result = new ModelAndView("redirect:/periodRecord/list.do");
-			} catch (final ValidationException oops) {
-				result = this.createAndEditModelAndView(record);
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(record, "periodRecord.commit.error");
 			}
@@ -178,7 +173,7 @@ public class PeriodRecordController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/periodRecord/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/periodRecord/delete", params = "delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final PeriodRecord periodRecord;
@@ -187,7 +182,7 @@ public class PeriodRecordController extends AbstractController {
 
 		this.periodRecordService.delete(periodRecord);
 
-		result = this.list();
+		result = new ModelAndView("redirect:/periodRecord/list.do");
 
 		return result;
 	}

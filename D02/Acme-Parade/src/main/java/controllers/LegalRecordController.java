@@ -3,13 +3,11 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -116,7 +114,7 @@ public class LegalRecordController extends AbstractController {
 	// Save ------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final LegalRecordForm record, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("legalRecord") final LegalRecordForm record, final BindingResult bindingResult) {
 		ModelAndView result;
 		LegalRecord record2;
 		Brotherhood bro;
@@ -132,13 +130,11 @@ public class LegalRecordController extends AbstractController {
 			result = this.createAndEditModelAndView(record);
 		else
 			try {
-				this.legalRecordService.save(record2);
-				records.add(record2);
+				final LegalRecord lr = this.legalRecordService.save(record2);
+				records.add(lr);
 				h.setRecords(records);
 				this.historyService.save(h);
 				result = new ModelAndView("redirect:/legalRecord/list.do");
-			} catch (final ValidationException oops) {
-				result = this.createAndEditModelAndView(record);
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(record, "legalRecord.commit.error");
 			}
