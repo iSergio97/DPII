@@ -1,11 +1,8 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +31,7 @@ public class ParadeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private ParadeService	paradeService;
+	private ParadeService		paradeService;
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
@@ -95,53 +92,20 @@ public class ParadeController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
+	// TODO: ¿Pur qué estaba esto puesto?: @ModelAttribute("parade")
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
-		final Parade parade = this.paradeService.findOne(paradeForm.getId());
+		Parade parade;
 
 		try {
-			final Parade paradeUpdated = this.paradeService.reconstruct(paradeForm, binding);
-			List<AcmeFloat> paradesRemoved = new ArrayList<>(); //Cambiar list por collection
-			if (paradeForm.getId() != 0)
-				paradesRemoved = (List<AcmeFloat>) parade.getAcmeFloats();
-			if (paradeForm.getId() != 0) //Cambiar paradeForm por paradeUpdated
-				paradesRemoved.removeAll(paradeUpdated.getAcmeFloats());
-			final Parade paradeSaved = this.paradeService.save(paradeUpdated);
-			for (final AcmeFloat f : paradeUpdated.getAcmeFloats()) {
-				final Collection<Parade> parades = f.getParades();
-				parades.add(paradeSaved);
-				f.setParades(parades);
-				this.acmeFloatService.save(f);
-			}
-			if (paradeUpdated.getId() != 0)
-				for (final AcmeFloat f : paradesRemoved) {
-					final Collection<Parade> parades = f.getParades();
-					parades.remove(parade);
-					f.setParades(parades);
-					this.acmeFloatService.save(f);
-				}
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			this.paradeService.save(parade);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(parade, "edit");
+			result = this.createEditModelAndView(paradeForm, "edit");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
-		}
-
-		return result;
-	}
-
-	// Delete -----------------------------------------------------------------
-
-	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Parade parade, final BindingResult binding) {
-		ModelAndView result;
-
-		try {
-			this.paradeService.delete(parade);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
 		}
 
 		return result;
@@ -150,19 +114,38 @@ public class ParadeController extends AbstractController {
 	// Save in Final Mode -----------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "finalMode")
-	public ModelAndView finalMode(@Valid final Parade parade, final BindingResult binding) {
+	public ModelAndView finalMode(final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
+		Parade parade;
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(parade, "edit");
-		else
-			try {
-				parade.setIsDraft(false);
-				this.paradeService.save(parade);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
-			}
+		try {
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			parade.setIsDraft(false);
+			this.paradeService.save(parade);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(paradeForm, "edit");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+		}
+
+		return result;
+	}
+
+	// Delete -----------------------------------------------------------------
+
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final ParadeForm paradeForm, final BindingResult binding) {
+		ModelAndView result;
+		Parade parade;
+
+		try {
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			this.paradeService.delete(parade);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+		}
 
 		return result;
 	}
@@ -176,13 +159,11 @@ public class ParadeController extends AbstractController {
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
-		Assert.isTrue(parade.getIsDraft());
+		Assert.isTrue((!parade.getIsDraft()) || parade.getBrotherhood().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
 		result = new ModelAndView("parade/public/" + "show");
 
 		result.addObject("parade", parade);
-
-		// result.addObject("messageCode", null);
 
 		return result;
 	}
@@ -211,6 +192,34 @@ public class ParadeController extends AbstractController {
 		result.addObject("acmeFloats", acmeFloats);
 
 		result.addObject("parade", parade);
+
+		result.addObject("messageCode", messageCode);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final ParadeForm paradeForm, final String method) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(paradeForm, null, method);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final ParadeForm paradeForm, final String messageCode, final String method) {
+		final ModelAndView result;
+		final Brotherhood brotherhood;
+		final Collection<AcmeFloat> acmeFloats;
+		final UserAccount userAccount = LoginService.getPrincipal();
+
+		brotherhood = this.brotherhoodService.findPrincipal();
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
+
+		result = new ModelAndView("parade/brotherhood/" + method);
+		result.addObject("brotherhood", brotherhood);
+		result.addObject("acmeFloats", acmeFloats);
+
+		result.addObject("parade", paradeForm);
 
 		result.addObject("messageCode", messageCode);
 

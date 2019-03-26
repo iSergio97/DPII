@@ -34,6 +34,10 @@
 </strong>
 	<jstl:out value="${parade.moment}"/>
 <br>
+<jstl:if test="${parade.isDraft eq true}">
+	<spring:message code="parade.draft"/>
+	<br>
+</jstl:if>
 
 <h2>
 	<spring:message code="parade.acmeFloats"/>:
@@ -44,7 +48,7 @@
 	<display:column property="description" titleKey="float.description" />
 
 	<display:column titleKey="master.page.blank">
-		<a href="float/non-authenticated/show.do?floatId=<jstl:out value="${row.id}" />">
+		<a href="float/public/show.do?floatId=<jstl:out value="${row.id}" />">
 			<spring:message code="master.page.action.show"/>
 		</a>
 	</display:column>

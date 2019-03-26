@@ -1,4 +1,3 @@
-
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -20,15 +19,15 @@
 	</display:column>
 
 	<display:column titleKey="show">
-		<a href="acmefloat/brotherhood/show.do?id=${row.id}"><spring:message code="show" /></a>
+		<a href="float/brotherhood/show.do?id=${row.id}"><spring:message code="show" /></a>
 	</display:column>
 
 	<display:column titleKey="edit">
-		<a href="acmefloat/brotherhood/edit.do?id=${row.id}"><spring:message code="edit" /></a>
+		<a href="float/brotherhood/edit.do?id=${row.id}"><spring:message code="edit" /></a>
 	</display:column>
 
 </display:table>
 
 <p>
-	<a href="acmefloat/brotherhood/create.do"><spring:message code="create" /></a>
+	<a href="float/brotherhood/create.do"><spring:message code="create" /></a>
 </p>

@@ -1,7 +1,6 @@
 
 package domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -101,9 +100,9 @@ public class Parade extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToMany(mappedBy = "parades")
+	@ManyToMany
 	public Collection<AcmeFloat> getAcmeFloats() {
-		return new ArrayList<AcmeFloat>(this.acmeFloats);
+		return this.acmeFloats;
 	}
 
 	public void setAcmeFloats(final Collection<AcmeFloat> acmeFloats) {

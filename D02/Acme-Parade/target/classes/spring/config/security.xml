@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
- * security.xml
- *
- * Copyright (C) 2018 Universidad de Sevilla
- *
- * The use of this project is hereby constrained to the conditions of the
- * TDG Licence, a copy of which you may download from
- * http://www.tdg-seville.info/License.html
- -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
@@ -42,26 +32,34 @@
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />
 
-		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/acmefloat/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<!--  
+		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
+		-->
+
+		<!-- [PUBLIC] -->
 		<security:intercept-url pattern="/brotherhood/public/list.do" />
 		<security:intercept-url pattern="/brotherhood/public/show.do" />
-		<security:intercept-url pattern="/enrolment/member/**" access="hasRole('MEMBER')" />
-		<security:intercept-url pattern="/enrolment/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/float/public/show.do" />
-		<security:intercept-url pattern="/member/public/show.do" />
-		<security:intercept-url pattern="/request/member/**" access="hasRole('MEMBER')" />
-		<security:intercept-url pattern="/request/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/parade/public/show.do" />
-		<security:intercept-url pattern="/periodRecord/**" access="hasRole('BROTHERHOOD')" />
+
+		<!-- [ADMIN] -->
+		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
+
+		<!-- [BROTHERHOOD] -->
+		<security:intercept-url pattern="/enrolment/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/float/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/legalRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/linkRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/miscellaneousRecord/**" access="hasRole('BROTHERHOOD')" />
-	<!--  
-		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
-		
-		-->
+		<security:intercept-url pattern="/periodRecord/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/request/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+
+		<!-- [MEMBER] -->
+		<security:intercept-url pattern="/enrolment/member/**" access="hasRole('MEMBER')" />
+		<security:intercept-url pattern="/request/member/**" access="hasRole('MEMBER')" />
+
+		<!-- REGISTER -->
 		<security:intercept-url pattern="/register/member/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/brotherhood/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMIN')" />

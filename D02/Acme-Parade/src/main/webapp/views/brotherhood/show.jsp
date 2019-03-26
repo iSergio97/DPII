@@ -13,6 +13,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 	<!-- Output fields -->
@@ -35,12 +36,21 @@
 	<jstl:out value="${brotherhood.area.name}"/>
 <br>
 
-<strong>
-	<spring:message code="brotherhood.pictures"/>:
-</strong>
-<jstl:forEach items="${brotherhood.pictures}" var="picture">
-	<img alt="picture" src="${picture}">
-</jstl:forEach>
+<jstl:if test="${fn:length(brotherhood.pictures) ne 0}">
+	<h2>
+		<spring:message code="brotherhood.pictures"/>
+	</h2>
+		<jstl:forEach items="${brotherhood.pictures}" var="picture">
+			<img alt="picture" src='<jstl:out value="${picture}"></jstl:out>'>
+		</jstl:forEach>
+</jstl:if>
+
+<jstl:if test="${fn:length(brotherhood.pictures) eq 0}">
+	<strong>
+		<spring:message code="brotherhood.pictures" />:
+	</strong>
+		<spring:message code="brotherhood.noPictures" />
+</jstl:if>
 <br>
 
 <h2>
@@ -83,12 +93,6 @@
 
 	<display:column property="name" titleKey="actor.name" />
 	<display:column property="surname" titleKey="actor.surname" />
-
-	<display:column titleKey="master.page.blank">
-		<a href="float/public/show.do?memberId=<jstl:out value="${row.id}" />">
-			<spring:message code="master.page.action.show"/>
-		</a>
-	</display:column>
 
 </display:table>
 

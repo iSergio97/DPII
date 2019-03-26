@@ -17,9 +17,15 @@
 <display:table name="parades" id="row"
 	requestURI="parade/brotherhood/list.do" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="parade.title" />
-	<display:column property="moment" titleKey="parade.moment" />
-	<display:column property="description" titleKey="parade.description" />
+	<display:column property="title">
+		<jstl:out value="${parade.title}"/>
+	</display:column>
+	<display:column property="moment">
+		<jstl:out value="${parade.moment}"/>
+	</display:column>
+	<display:column property="description">
+		<jstl:out value="${parade.description}"/>
+	</display:column>
 
 	<display:column titleKey="master.page.blank">
 		<jstl:if test="${row.isDraft == true}">
