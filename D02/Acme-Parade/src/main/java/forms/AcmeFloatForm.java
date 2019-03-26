@@ -55,7 +55,7 @@ public class AcmeFloatForm {
 	}
 
 	// Matches a bunch of URLs separated by spaces
-	@Pattern(regexp = "^(https?:\\/\\/(www\\.)?[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=]+ )*(https?:\\/\\/(www\\.)?[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=]+)$")
+	@Pattern(regexp = "^(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+ )*(https?:\\/\\/[a-zA-Z0-9\\-_~:/?#\\[\\]@!$&'\\(\\)\\*\\+,;=.]+)$")
 	public String getPictures() {
 		return this.pictures;
 	}

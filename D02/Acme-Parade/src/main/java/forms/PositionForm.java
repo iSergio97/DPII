@@ -1,7 +1,8 @@
 
 package forms;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Range;
 
 public class PositionForm {
@@ -23,7 +24,8 @@ public class PositionForm {
 		this.id = id;
 	}
 
-	@NotBlank
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
+	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
 	public String getStrings() {
 		return this.strings;
 	}

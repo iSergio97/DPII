@@ -13,6 +13,9 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -41,6 +44,7 @@ public class SystemConfiguration extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
+	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
 	public String getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
@@ -57,6 +61,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.systemName = systemName;
 	}
 
+	@URL
 	public String getBanner() {
 		return this.banner;
 	}

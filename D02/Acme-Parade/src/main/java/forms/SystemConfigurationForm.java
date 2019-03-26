@@ -5,8 +5,10 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.URL;
 
 import domain.Position;
 
@@ -42,6 +44,7 @@ public class SystemConfigurationForm {
 		this.id = id;
 	}
 
+	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
 	public String getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
@@ -58,6 +61,7 @@ public class SystemConfigurationForm {
 		this.systemName = systemName;
 	}
 
+	@URL
 	public String getBanner() {
 		return this.banner;
 	}
@@ -86,7 +90,8 @@ public class SystemConfigurationForm {
 		this.maximumFinderResults = maximumFinderResults;
 	}
 
-	@NotNull
+	// Matches a list of strings with "," as an element separator
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
 	public String getPositiveWords() {
 		return this.positiveWords;
 	}
@@ -95,7 +100,8 @@ public class SystemConfigurationForm {
 		this.positiveWords = positiveWords;
 	}
 
-	@NotNull
+	// Matches a list of strings with "," as an element separator
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
 	public String getNegativeWords() {
 		return this.negativeWords;
 	}
@@ -104,7 +110,8 @@ public class SystemConfigurationForm {
 		this.negativeWords = negativeWords;
 	}
 
-	@NotNull
+	// Matches a list of strings with "," as an element separator
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$")
 	public String getSpamWords() {
 		return this.spamWords;
 	}
@@ -113,22 +120,24 @@ public class SystemConfigurationForm {
 		this.spamWords = spamWords;
 	}
 
-	@NotNull
-	public String getWarningMessages() {
-		return this.warningMessages;
-	}
-
-	public void setWarningMessages(final String warningMessages) {
-		this.warningMessages = warningMessages;
-	}
-
-	@NotNull
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
+	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
 	public String getWelcomeMessages() {
 		return this.welcomeMessages;
 	}
 
 	public void setWelcomeMessages(final String welcomeMessages) {
 		this.welcomeMessages = welcomeMessages;
+	}
+
+	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator
+	@Pattern(regexp = "^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$")
+	public String getWarningMessages() {
+		return this.warningMessages;
+	}
+
+	public void setWarningMessages(final String warningMessages) {
+		this.warningMessages = warningMessages;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

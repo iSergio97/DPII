@@ -74,7 +74,7 @@ public class AdministratorForm {
 		this.email = email;
 	}
 
-	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
+	@Pattern(regexp = "^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
