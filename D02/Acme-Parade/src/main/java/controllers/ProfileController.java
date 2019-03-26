@@ -10,6 +10,8 @@
 
 package controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,11 @@ import security.LoginService;
 import services.AdministratorService;
 import services.BrotherhoodService;
 import services.MemberService;
+import services.MessageBoxService;
 import domain.Administrator;
 import domain.Brotherhood;
 import domain.Member;
+import domain.MessageBox;
 import forms.AdministratorForm;
 import forms.BrotherhoodForm;
 import forms.MemberForm;
@@ -40,6 +44,9 @@ public class ProfileController extends AbstractController {
 	@Autowired
 	private AdministratorService	administratorService;
 
+	@Autowired
+	private MessageBoxService		messageBoxService;
+
 
 	// Action-1 ---------------------------------------------------------------		
 
@@ -47,11 +54,11 @@ public class ProfileController extends AbstractController {
 	public ModelAndView memberShow() {
 		ModelAndView result;
 		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final MemberForm mf = this.memberService.deconstruct(member);
+		//final MemberForm mf = this.memberService.deconstruct(member);
 		final String reqURI = "member";
 
 		result = new ModelAndView("profile/member/show");
-		result.addObject("actor", mf);
+		result.addObject("actor", member);
 		result.addObject("reqURI", reqURI);
 		return result;
 	}
@@ -60,11 +67,11 @@ public class ProfileController extends AbstractController {
 	public ModelAndView brotherhoodShow() {
 		ModelAndView result;
 		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final BrotherhoodForm bhForm = this.brotherhoodService.deconstruct(brotherhood);
+		//final BrotherhoodForm bhForm = this.brotherhoodService.deconstruct(brotherhood);
 
 		final String reqURI = "brotherhood";
 		result = new ModelAndView("profile/brotherhood/show");
-		result.addObject("actor", bhForm);
+		result.addObject("actor", brotherhood);
 		result.addObject("reqURI", reqURI);
 		return result;
 	}
@@ -73,16 +80,16 @@ public class ProfileController extends AbstractController {
 	public ModelAndView showAdmin() {
 		ModelAndView result;
 		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final AdministratorForm adminf = this.administratorService.deconstruct(admin);
+		//final AdministratorForm adminf = this.administratorService.deconstruct(admin);
 		final String reqURI = "admin";
 
 		result = new ModelAndView("profile/admin/show");
-		result.addObject("actor", adminf);
+		result.addObject("actor", admin);
 		result.addObject("admin", reqURI);
 
 		return result;
 	}
-	@RequestMapping(value = "member/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/edit", method = RequestMethod.GET)
 	public ModelAndView editMember() {
 		ModelAndView result;
 		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
@@ -95,7 +102,7 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "brotherhood/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView editBrotherhood() {
 		ModelAndView result;
 		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
@@ -121,44 +128,50 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "member/export", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/export", method = RequestMethod.GET)
 	public ModelAndView exportMember() {
 		ModelAndView result;
 		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "member";
-		result = new ModelAndView("profile/member/edit");
+		final List<MessageBox> ls = this.messageBoxService.messageFromActor(member);
+		result = new ModelAndView("profile/member/export");
 		result.addObject("actor", member);
 		result.addObject("username", member.getUserAccount().getUsername());
 		result.addObject("password", member.getUserAccount().getPassword());
 		result.addObject("member", reqURI);
+		result.addObject("messageBox", ls);
 
 		return result;
 	}
 
-	@RequestMapping(value = "brotherhood/export", method = RequestMethod.GET)
+	@RequestMapping(value = "/brotherhood/export", method = RequestMethod.GET)
 	public ModelAndView exportBrotherhood() {
 		ModelAndView result;
 		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "brotherhood";
-		result = new ModelAndView("profile/brotherhood/edit");
+		final List<MessageBox> ls = this.messageBoxService.messageFromActor(brotherhood);
+		result = new ModelAndView("profile/brotherhood/export");
 		result.addObject("actor", brotherhood);
 		result.addObject("username", brotherhood.getUserAccount().getUsername());
 		result.addObject("password", brotherhood.getUserAccount().getPassword());
 		result.addObject("size", brotherhood.getPictures().size());
 		result.addObject("brotherhood", reqURI);
+		result.addObject("messageBox", ls);
 
 		return result;
 	}
 
-	@RequestMapping(value = "admin/export", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/export", method = RequestMethod.GET)
 	public ModelAndView exportAdmin() {
 		ModelAndView result;
 		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final String reqURI = "admin";
-		result = new ModelAndView("profile/admin/edit");
+		final List<MessageBox> ls = this.messageBoxService.messageFromActor(admin);
+		result = new ModelAndView("profile/admin/export");
 		result.addObject("actor", admin);
 		result.addObject("username", admin.getUserAccount().getUsername());
 		result.addObject("password", admin.getUserAccount().getPassword());
+		result.addObject("messageBox", ls);
 		result.addObject("admin", reqURI);
 
 		return result;

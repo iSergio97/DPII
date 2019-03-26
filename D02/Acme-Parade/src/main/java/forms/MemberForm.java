@@ -64,7 +64,7 @@ public class MemberForm {
 
 	@NotBlank
 	@NotNull
-	// Este patrón es cumplido por las direcciones de email de actor pero no los de administrador
+	// Este patrï¿½n es cumplido por las direcciones de email de actor pero no los de administrador
 	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)+>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)+)$")
 	public String getEmail() {
 		return this.email;

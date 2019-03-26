@@ -51,7 +51,6 @@
 	<jstl:out value="${actor.title}" />
 	<br>
 <strong> <spring:message code="actor.stablishmentDate" />: </strong>
-	<!-- TODO: Revisar porqué no muestra la fecha -->
 	<jstl:out value="${actor.establishmentDate}" />
 </jstl:if>
 <br>

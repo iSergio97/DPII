@@ -159,30 +159,30 @@ public class BrotherhoodService {
 		return result;
 	}
 
-	public Brotherhood reconstructForm(final BrotherhoodForm member, final BindingResult bindingResult) {
+	public Brotherhood reconstructForm(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
 
 		Brotherhood result;
 
-		if (member.getId() == 0)
+		if (brotherhood.getId() == 0)
 			result = this.create();
 		else
-			result = this.brotherhoodRepository.findOne(member.getId());
+			result = this.brotherhoodRepository.findOne(brotherhood.getId());
 
-		result.setName(member.getName());
-		result.setMiddleName(member.getMiddleName());
-		result.setSurname(member.getSurname());
-		result.setPhoto(member.getPhoto());
-		result.setEmail(member.getEmail());
-		result.setPhoneNumber(member.getPhoneNumber());
-		result.setAddress(member.getAddress());
+		result.setName(brotherhood.getName());
+		result.setMiddleName(brotherhood.getMiddleName());
+		result.setSurname(brotherhood.getSurname());
+		result.setPhoto(brotherhood.getPhoto());
+		result.setEmail(brotherhood.getEmail());
+		result.setPhoneNumber(brotherhood.getPhoneNumber());
+		result.setAddress(brotherhood.getAddress());
+		result.setTitle(brotherhood.getTitle());
+		result.setEstablishmentDate(brotherhood.getEstablishmentDate());
 
-		//Note:
-		//Si lo comento, falla en que no guarda userAccount y Finder, pero si no lo comento, peta aquí con las cajas de mensajes
-		/*
-		 * Fallo
-		 * JSR-303 validated property 'messageBoxes[4].actor' does not have a corresponding accessor for Spring data binding - check your DataBinder's configuration (bean property versus direct field access)
-		 */
+		result.getUserAccount().setUsername(brotherhood.getUsername());
+		result.getUserAccount().setPassword(brotherhood.getPassword());
+
 		this.validator.validate(result, bindingResult);
+		this.brotherhoodRepository.flush();
 
 		return result;
 	}
@@ -217,6 +217,7 @@ public class BrotherhoodService {
 		bhForm.setAddress(brotherhood.getAddress());
 		bhForm.setUsername(brotherhood.getUserAccount().getUsername());
 		bhForm.setTitle(brotherhood.getTitle());
+		bhForm.setEstablishmentDate(brotherhood.getEstablishmentDate());
 
 		return bhForm;
 	}
