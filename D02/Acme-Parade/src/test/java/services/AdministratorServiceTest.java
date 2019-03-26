@@ -2,6 +2,7 @@
 package services;
 
 import javax.transaction.Transactional;
+import javax.validation.Validation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,18 +38,15 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	private final Object[][]		testingData	= {
 		{
-		"AdministratorName", "AdministratorMiddleName", "AdministratorSurname", "https://www.imgur.com", "administrator_email@acme.com", "+123 (456) 7890", "AdministratorAddress", "AdministratorUsername", "AdministratorPassword", null
+		"AdministratorUsername", "AdministratorPassword", "AdministratorName", "AdministratorMiddleName", "AdministratorSurname", "https://www.imgur.com/", "administratoremail@acme.com", "+123 (456) 7890", "AdministratorAddress", null
 		}, {
-		"AdministratorName", "AdministratorMiddleName", "AdministratorSurname", "IllegalPhoto", "IllegalEmail", "IllegalPhoneNumber", "AdministratorAddress", "AdministratorUsername", "AdministratorPassword", IllegalArgumentException.class
+		"", "", "", "", "", "IllegalPhoto", "IllegalEmail", "IllegalPhoneNumber", "AdministratorAddress", IllegalArgumentException.class
 		}
 												};
 
 
-	// Tests ------------------------------------------------------------------
+	// Test template ----------------------------------------------------------
 
-	/**
-	 * Attempts to save an administrator with the given data.
-	 */
 	private void template(final String username, final String password, final String name, final String middleName, final String surname, final String photo, final String email, final String phoneNumber, final String address,
 		final Class<?> expectedThrowableClass) {
 		Class<?> throwableClass = null;
@@ -70,6 +68,8 @@ public class AdministratorServiceTest extends AbstractTest {
 			administratorUserAccount = this.userAccountRepository.save(administratorUserAccount);
 			administrator.setUserAccount(administratorUserAccount);
 			administrator = this.administratorService.save(administrator);
+			// Validate administrator
+			Assert.isTrue(Validation.buildDefaultValidatorFactory().getValidator().validate(administrator).size() == 0);
 			// Check if administrator has been saved correctly
 			Assert.isTrue(administrator.getName().equals(name));
 			Assert.isTrue(administrator.getMiddleName().equals(middleName));
@@ -87,6 +87,8 @@ public class AdministratorServiceTest extends AbstractTest {
 
 		super.checkExceptions(expectedThrowableClass, throwableClass);
 	}
+
+	// Tests ------------------------------------------------------------------
 
 	@Test
 	public void driver() {

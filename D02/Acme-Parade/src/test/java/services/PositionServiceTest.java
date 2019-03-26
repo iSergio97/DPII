@@ -10,9 +10,13 @@
 
 package services;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.Validation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,33 +38,58 @@ public class PositionServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private PositionService	positionService;
+	private PositionService		positionService;
 
+	// Testing data -----------------------------------------------------------
+
+	@SuppressWarnings("serial")
+	private final Object[][]	testingData	= {
+		{
+		new HashMap<String, String>() {
+
+			{
+				this.put("en", "PositionNameEnglish");
+				this.put("es", "PositionNameSpanish");
+			}
+		}, null
+		}, {
+		null, IllegalArgumentException.class
+		}
+											};
+
+
+	// Test template ----------------------------------------------------------
+
+	private void template(final Map<String, String> strings, final Class<?> expectedThrowableClass) {
+		Class<?> throwableClass = null;
+		try {
+			// Create position
+			Position position = this.positionService.create();
+			position.setStrings(strings);
+			// Save position
+			position = this.positionService.save(position);
+			// Validate position
+			Assert.isTrue(Validation.buildDefaultValidatorFactory().getValidator().validate(position).size() == 0);
+			// Check if position has been saved correctly
+			final Set<String> allKeys = new HashSet<String>();
+			allKeys.addAll(position.getStrings().keySet());
+			allKeys.addAll(strings.keySet());
+			for (final String key : allKeys)
+				Assert.isTrue(position.getStrings().get(key).equals(strings.get(key)));
+		} catch (final Throwable throwable) {
+			throwableClass = throwable.getClass();
+		}
+
+		super.checkExceptions(expectedThrowableClass, throwableClass);
+	}
 
 	// Tests ------------------------------------------------------------------
 
-	/*
-	 * Check we can save a position in the database.
-	 */
+	@SuppressWarnings("unchecked")
 	@Test
-	public void savePositionTest() {
-		Position position = this.positionService.create();
-		final Map<String, String> strings = position.getStrings();
-		strings.put("en", "Test position");
-		position.setStrings(strings);
-		position = this.positionService.save(position);
-		Assert.isTrue(position.getStrings().get("en").equals("Test position"));
-	}
-
-	/*
-	 * Attempts to save a position without a map.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void saveBadPositionTest() {
-		Position position = this.positionService.create();
-		position.setStrings(null);
-		position = this.positionService.save(position);
-		Assert.notNull(position.getStrings());
+	public void driver() {
+		for (int i = 0; i < this.testingData.length; ++i)
+			this.template((Map<String, String>) this.testingData[i][0], (Class<?>) this.testingData[i][1]);
 	}
 
 }

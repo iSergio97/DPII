@@ -10,9 +10,11 @@
 
 package services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Validation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,33 +36,52 @@ public class AreaServiceTest extends AbstractTest {
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private AreaService	areaService;
+	private AreaService			areaService;
 
+	// Testing data -----------------------------------------------------------
+
+	private final Object[][]	testingData	= {
+		{
+		"AreaName", Arrays.asList(new String[] {
+			"https://www.imgur.com"
+		}), null
+		}, {
+		"AreaName", null, IllegalArgumentException.class
+		}
+											};
+
+
+	// Test template ----------------------------------------------------------
+
+	private void template(final String name, final List<String> pictures, final Class<?> expectedThrowableClass) {
+		Class<?> throwableClass = null;
+		try {
+			// Create area
+			Area area = this.areaService.create();
+			area.setName(name);
+			area.setPictures(pictures);
+			// Save area
+			area = this.areaService.save(area);
+			// Validate area
+			Assert.isTrue(Validation.buildDefaultValidatorFactory().getValidator().validate(area).size() == 0);
+			// Check if area has been saved correctly
+			Assert.isTrue(area.getName().equals(name));
+			for (int i = 0; i < area.getPictures().size(); ++i)
+				Assert.isTrue(area.getPictures().get(i).equals(pictures.get(i)));
+		} catch (final Throwable throwable) {
+			throwableClass = throwable.getClass();
+		}
+
+		super.checkExceptions(expectedThrowableClass, throwableClass);
+	}
 
 	// Tests ------------------------------------------------------------------
 
-	/*
-	 * Check we can save a area in the database.
-	 */
+	@SuppressWarnings("unchecked")
 	@Test
-	public void saveAreaTest() {
-		Area area = this.areaService.create();
-		final List<String> pictures = area.getPictures();
-		pictures.add("http://www.imgur.com");
-		area.setPictures(pictures);
-		area = this.areaService.save(area);
-		Assert.isTrue(area.getPictures().get(0).equals("http://www.imgur.com"));
-	}
-
-	/*
-	 * Attempts to save a area without a map.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void saveBadAreaTest() {
-		Area area = this.areaService.create();
-		area.setPictures(null);
-		area = this.areaService.save(area);
-		Assert.notNull(area.getPictures());
+	public void driver() {
+		for (int i = 0; i < this.testingData.length; ++i)
+			this.template((String) this.testingData[i][0], (List<String>) this.testingData[i][1], (Class<?>) this.testingData[i][2]);
 	}
 
 }
