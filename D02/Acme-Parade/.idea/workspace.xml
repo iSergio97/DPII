@@ -78,7 +78,7 @@
         <option value="$PROJECT_DIR$/src/main/java/domain/Enrolment.java" />
         <option value="$PROJECT_DIR$/src/main/java/domain/AcmeFloat.java" />
         <option value="$PROJECT_DIR$/src/main/java/domain/Actor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/domain/Procession.java" />
+        <option value="$PROJECT_DIR$/src/main/java/domain/Parade.java" />
         <option value="$PROJECT_DIR$/src/main/java/domain/Request.java" />
         <option value="$PROJECT_DIR$/src/main/java/domain/Member.java" />
         <option value="$PROJECT_DIR$/src/main/java/domain/Area.java" />
@@ -373,7 +373,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/domain/Procession.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/domain/Parade.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="394">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
