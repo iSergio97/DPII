@@ -1,5 +1,5 @@
 <%--
- * show.jsp
+ * parade/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -44,8 +44,12 @@
 </h2>
 <display:table name="parade.acmeFloats" id="row" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="float.title" />
-	<display:column property="description" titleKey="float.description" />
+	<display:column titleKey="float.title">
+		<jstl:out value="${row.title}"/>
+	</display:column>
+	<display:column titleKey="float.description">
+		<jstl:out value="${row.description}"/>
+	</display:column>
 
 	<display:column titleKey="master.page.blank">
 		<a href="float/public/show.do?floatId=<jstl:out value="${row.id}" />">

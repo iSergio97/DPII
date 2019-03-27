@@ -1,5 +1,5 @@
 <%--
- * show.jsp
+ * brotherhood/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -58,9 +58,15 @@
 </h2>
 <display:table name="parades" id="row" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="parade.title" />
-	<display:column property="moment" titleKey="parade.moment" />
-	<display:column property="description" titleKey="parade.description" />
+	<display:column titleKey="parade.title">
+		<jstl:out value="${row.title}"/>
+	</display:column>
+	<display:column titleKey="parade.moment">
+		<jstl:out value="${row.moment}"/>
+	</display:column>
+	<display:column titleKey="parade.description">
+		<jstl:out value="${row.description}"/>
+	</display:column>
 
 	<display:column titleKey="master.page.blank">
 		<a href="parade/public/show.do?paradeId=<jstl:out value="${row.id}" />">
@@ -75,8 +81,12 @@
 </h2>
 <display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="float.title" />
-	<display:column property="description" titleKey="float.description" />
+	<display:column property="title" titleKey="float.title">
+		<jstl:out value="${row.title}" />
+	</display:column>
+	<display:column titleKey="float.description">
+		<jstl:out value="${row.desription}" />
+	</display:column>
 
 	<display:column titleKey="master.page.blank">
 		<a href="float/public/show.do?floatId=<jstl:out value="${row.id}" />">
@@ -91,8 +101,12 @@
 </h2>
 <display:table name="members" id="row" pagesize="5" class="displaytag">
 
-	<display:column property="name" titleKey="actor.name" />
-	<display:column property="surname" titleKey="actor.surname" />
+	<display:column titleKey="actor.name">
+		<jstl:out value="${row.name}" />
+	</display:column>
+	<display:column titleKey="actor.surname">
+		<jstl:out value="${row.surname}" />
+	</display:column>
 
 </display:table>
 

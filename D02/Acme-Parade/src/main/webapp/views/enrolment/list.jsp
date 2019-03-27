@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * enrolment/list.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -17,9 +17,13 @@
 
 <display:table name="enrolments" id="row"
 	requestURI="enrolment/member/list.do" pagesize="5">
-	<display:column property="brotherhood.title"
-		titleKey="brotherhood.title" />
-	<display:column property="moment" titleKey="enrolment.moment" />
+	
+	<display:column titleKey="brotherhood.title">
+		<jstl:out value="${row.brotherhood.title}" />
+	</display:column>
+	<display:column titleKey="enrolment.moment">
+		<jstl:out value="${row.moment}" />
+	</display:column>
 	<display:column titleKey="enrolment.options">
 		<jstl:if test="${row.exitMoment == null}">
 			<form action="enrolment/member/leave.do" method="POST">

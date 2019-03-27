@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * periodRecord/list.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>

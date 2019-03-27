@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * enrolment/listBrotherhood.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -16,9 +16,15 @@
 
 <display:table name="enrolments" id="row"
 	requestURI="enrolment/brotherhood/list.do" pagesize="5">
-	<display:column property="member.name" titleKey="name" />
-	<display:column property="member.surname" titleKey="surname" />
+	<display:column titleKey="name">
+		<jstl:out value="${row.member.name}" />
+	</display:column>
+	<display:column titleKey="surname">
+		<jstl:out value="${row.member.surname}" />
+	</display:column>
 	<display:column>
-	<a href="enrolment/brotherhood/show.do?enrolmentId=${row.id}"> <spring:message code="enrolment.info" /></a>
+		<a href="enrolment/brotherhood/show.do?enrolmentId=${row.id}">
+			<spring:message code="enrolment.info" />
+		</a>
 	</display:column>
 </display:table>

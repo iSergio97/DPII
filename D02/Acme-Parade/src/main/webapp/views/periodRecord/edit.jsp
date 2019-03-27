@@ -1,3 +1,9 @@
+<%--
+ * periodRecord/edit.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ --%>
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -53,6 +59,5 @@
 
 	<input type="submit" name="save" value="<spring:message code="send" />" />
 	<input type="button" name="cancel" value="<spring:message code="cancel" />" onclick="javascript: relativeRedir('welcome/index.do');" />
-	
-	
+
 </form:form>

@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * parade/list.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -17,14 +17,14 @@
 <display:table name="parades" id="row"
 	requestURI="parade/brotherhood/list.do" pagesize="5" class="displaytag">
 
-	<display:column property="title">
-		<jstl:out value="${parade.title}"/>
+	<display:column titleKey="parade.title">
+		<jstl:out value="${row.title}"/>
 	</display:column>
-	<display:column property="moment">
-		<jstl:out value="${parade.moment}"/>
+	<display:column titleKey="parade.moment">
+		<jstl:out value="${row.moment}"/>
 	</display:column>
-	<display:column property="description">
-		<jstl:out value="${parade.description}"/>
+	<display:column titleKey="parade.description">
+		<jstl:out value="${row.description}"/>
 	</display:column>
 
 	<display:column titleKey="master.page.blank">

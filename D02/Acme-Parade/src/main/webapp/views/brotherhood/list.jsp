@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * brotherhood/list.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -17,8 +17,12 @@
 <display:table name="brotherhoods" id="row"
 	requestURI="brotherhood/public/list.do" pagesize="5" class="displaytag">
 
-	<display:column property="title" titleKey="brotherhood.title" />
-	<display:column property="establishmentDate" titleKey="brotherhood.establishmentDate" />
+	<display:column titleKey="brotherhood.title">
+		<jstl:out value="${row.title}" />
+	</display:column>
+	<display:column titleKey="brotherhood.establishmentDate">
+		<jstl:out value="${row.establishmentDate}" />
+	</display:column>
 
 	<display:column titleKey="master.page.blank">
 		<a href="brotherhood/public/show.do?brotherhoodId=<jstl:out value="${row.id}" />">

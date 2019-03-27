@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.ValidationException;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,11 +94,20 @@ public class ParadeController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
-	// TODO: ¿Pur qué estaba esto puesto?: @ModelAttribute("parade")
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final ParadeForm paradeForm, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("parade") final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
 		Parade parade;
+
+		if (paradeForm.getMoment().before(new Date()))
+			//final ObjectError momentError = new ObjectError("moment", "Error en la fecha. Es anterior a la actual.");
+			//binding.addError(momentError);
+			binding.rejectValue("moment", "error.moment");
+
+		if (this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
+			//final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
+			//binding.addError(isDraftError);
+			binding.rejectValue("isDraft", "error.isDraft");
 
 		try {
 			parade = this.paradeService.reconstruct(paradeForm, binding);

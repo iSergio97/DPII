@@ -1,3 +1,9 @@
+<%--
+ * legalRecord/show.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ --%>
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -46,5 +52,3 @@
 </form>
 
 <input type="button" name="edit" value="<spring:message code='edit' />" onclick="javascript: relativeRedir('legalRecord/edit.do?id=${legalRecord.id}');" />
-
-

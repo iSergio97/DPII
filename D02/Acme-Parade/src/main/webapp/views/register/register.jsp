@@ -1,3 +1,9 @@
+<!--
+ * register/register.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
 <script>
 	function alerta() {
 		var phoneNumber = document.getElementById('phoneNumber').innerHTML;
@@ -179,5 +185,3 @@
 		</form:form>
 	</div>
 </jstl:if>
-
-

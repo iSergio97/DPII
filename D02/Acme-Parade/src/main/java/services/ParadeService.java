@@ -37,20 +37,20 @@ public class ParadeService {
 	// Supporting services
 
 	@Autowired
-	private BrotherhoodService		brotherhoodService;
+	private BrotherhoodService	brotherhoodService;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 
 	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ticker generation fields
 
-	private static final String		TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final int		TICKER_LENGTH	= 5;
-	private final Random			random			= new Random();
+	private static final String	TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final int	TICKER_LENGTH	= 5;
+	private final Random		random			= new Random();
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -70,35 +70,41 @@ public class ParadeService {
 		parade.setIsDraft(true);
 		parade.setDescription("");
 		parade.setTitle("");
-		if (parade.getTicker() == null || parade.getTicker().isEmpty()) {
-			final Calendar calendar = new GregorianCalendar();
-			String dateString = "";
-			dateString += String.format("%02d", calendar.get(Calendar.YEAR) % 100);
-			dateString += String.format("%02d", calendar.get(Calendar.MONTH) + 1);
-			dateString += String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
-			dateString += "-";
-			String ticker;
-			do {
-				ticker = dateString;
-				for (int i = 0; i < ParadeService.TICKER_LENGTH; ++i)
-					ticker += ParadeService.TICKER_ALPHABET.charAt(this.random.nextInt(ParadeService.TICKER_ALPHABET.length()));
-			} while (this.paradeRepository.findByTicker(ticker).size() > 0);
-			parade.setTicker(ticker);
-		}
-
+		if (parade.getTicker() == null || parade.getTicker().isEmpty())
+			this.generateTicker(parade);
 		return parade;
+	}
+
+	private void generateTicker(final Parade parade) {
+		final Calendar calendar = new GregorianCalendar();
+		String dateString = "";
+		dateString += String.format("%02d", calendar.get(Calendar.YEAR) % 100);
+		dateString += String.format("%02d", calendar.get(Calendar.MONTH) + 1);
+		dateString += String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
+		dateString += "-";
+		String ticker;
+		do {
+			ticker = dateString;
+			for (int i = 0; i < ParadeService.TICKER_LENGTH; ++i)
+				ticker += ParadeService.TICKER_ALPHABET.charAt(this.random.nextInt(ParadeService.TICKER_ALPHABET.length()));
+		} while (this.paradeRepository.findByTicker(ticker).size() > 0);
+		parade.setTicker(ticker);
 	}
 
 	public Parade save(final Parade parade) {
 		Assert.notNull(parade);
-		//final Parade originalParade = this.paradeRepository.findOne(parade.getId());
-		//if (originalParade != null)
-		Assert.isTrue(parade.getIsDraft());
-		Assert.isTrue(parade.getMoment().after(new Date()));
 
-		//TODO: if ticker existe en BBDD, generar nuevo, else, se guarda
-		return this.paradeRepository.save(parade);
+		Parade res = null;
+		while (res == null || res.getId() == 0)
+			try {
+				res = this.paradeRepository.save(parade);
+			} catch (final Throwable oops) {
+				this.generateTicker(parade);
+			}
+
+		return res;
 	}
+
 	public void delete(final Parade parade) {
 		Assert.notNull(parade);
 		Assert.isTrue(parade.getIsDraft());
