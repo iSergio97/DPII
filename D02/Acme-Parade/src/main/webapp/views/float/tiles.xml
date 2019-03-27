@@ -13,22 +13,22 @@
 <tiles-definitions>
 	
 	<definition name="float/create" extends="master.page">
-		<put-attribute name="title" value="Create float" />
+		<put-attribute name="title" value="Create Float" />
 		<put-attribute name="body" value="/views/float/create.jsp" />
 	</definition>
 	
 	<definition name="float/edit" extends="master.page">
-		<put-attribute name="title" value="Edit float" />
+		<put-attribute name="title" value="Edit Float" />
 		<put-attribute name="body" value="/views/float/edit.jsp" />
 	</definition>
 	
 	<definition name="float/list" extends="master.page">
-		<put-attribute name="title" value="List floats" />
+		<put-attribute name="title" value="List Floats" />
 		<put-attribute name="body" value="/views/float/list.jsp" />
 	</definition>
 	
 	<definition name="float/public/show" extends="master.page">
-		<put-attribute name="title" value="Show float" />
+		<put-attribute name="title" value="Show Float" />
 		<put-attribute name="body" value="/views/float/show.jsp" />
 	</definition>
 	

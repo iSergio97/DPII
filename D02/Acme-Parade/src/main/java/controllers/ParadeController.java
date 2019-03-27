@@ -1,3 +1,8 @@
+/*
+ * ParadeController.java
+ * 
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ */
 
 package controllers;
 
@@ -99,15 +104,19 @@ public class ParadeController extends AbstractController {
 		ModelAndView result;
 		Parade parade;
 
-		if (paradeForm.getMoment().before(new Date()))
-			//final ObjectError momentError = new ObjectError("moment", "Error en la fecha. Es anterior a la actual.");
-			//binding.addError(momentError);
+		if (paradeForm.getMoment() == null)
+			// final ObjectError momentError = new ObjectError("moment", "Fecha no válida.");
+			// binding.addError(momentError);
 			binding.rejectValue("moment", "error.moment");
+		else if (paradeForm.getMoment() != null && paradeForm.getMoment().before(new Date()))
+			// final ObjectError momentBeforeError = new ObjectError("moment", "La fecha es anterior a la actual.");
+			// binding.addError(momentBeforeError);
+			binding.rejectValue("moment", "error.momentBefore");
 
-		if (this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
-			//final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
-			//binding.addError(isDraftError);
-			binding.rejectValue("isDraft", "error.isDraft");
+		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
+			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
+			// binding.addError(isDraftError);
+			binding.reject("error.isDraft");
 
 		try {
 			parade = this.paradeService.reconstruct(paradeForm, binding);
@@ -128,6 +137,20 @@ public class ParadeController extends AbstractController {
 	public ModelAndView finalMode(final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
 		Parade parade;
+
+		if (paradeForm.getMoment() == null)
+			// final ObjectError momentError = new ObjectError("moment", "Fecha no válida.");
+			// binding.addError(momentError);
+			binding.rejectValue("moment", "error.moment");
+		else if (paradeForm.getMoment() != null && paradeForm.getMoment().before(new Date()))
+			// final ObjectError momentBeforeError = new ObjectError("moment", "La fecha es anterior a la actual.");
+			// binding.addError(momentBeforeError);
+			binding.rejectValue("moment", "error.momentBefore");
+
+		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
+			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
+			// binding.addError(isDraftError);
+			binding.reject("error.isDraft");
 
 		try {
 			parade = this.paradeService.reconstruct(paradeForm, binding);
