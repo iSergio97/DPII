@@ -48,18 +48,18 @@ public class InceptionRecordServiceTest extends AbstractTest {
 	public void driverCreate() {
 		final Object testingData[][] = {
 			{
-				"brotherhood1", null, null
+				"brotherhood1", null
 			}, {
-				null, null, IllegalArgumentException.class
+				null, IllegalArgumentException.class
 			}, {
-				"member1", "inceptionRecord1", IllegalArgumentException.class
+				"member1", IllegalArgumentException.class
 			}, {
-				"admin1", "inceptionRecord1", IllegalArgumentException.class
+				"admin1", IllegalArgumentException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+			this.templateCreate((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	@Test
@@ -68,13 +68,13 @@ public class InceptionRecordServiceTest extends AbstractTest {
 			{
 				"brotherhood1", "inceptionRecord1", null
 			}, {
-				null, "inceptionRecord1", NullPointerException.class
+				null, "inceptionRecord1", IllegalArgumentException.class
 			}, {
-				"brotherhood1", "inceptionRecord2", AssertionError.class
+				"brotherhood1", "inceptionRecord2", IllegalArgumentException.class
 			}, {
-				"member1", "inceptionRecord1", AssertionError.class
+				"member1", "inceptionRecord1", IllegalArgumentException.class
 			}, {
-				"admin1", "inceptionRecord1", NullPointerException.class
+				"admin1", "inceptionRecord1", IllegalArgumentException.class
 			}
 		};
 
@@ -114,7 +114,7 @@ public class InceptionRecordServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 	}
 
-	protected void templateCreate(final String username, final int iRecordId, final Class<?> expected) {
+	protected void templateCreate(final String username, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;

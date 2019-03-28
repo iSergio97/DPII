@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.LegalRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.LegalRecord;
 import forms.LegalRecordForm;
 
@@ -46,6 +48,11 @@ public class LegalRecordService {
 	// CRUD methods
 
 	public LegalRecord create() {
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final LegalRecord result = new LegalRecord();
 
 		result.setTitle("");
@@ -53,7 +60,7 @@ public class LegalRecordService {
 		result.setLegalName("");
 		result.setApplicableLaws("");
 		result.setVAT(0.0);
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
@@ -72,7 +79,14 @@ public class LegalRecordService {
 	}
 
 	public LegalRecord save(final LegalRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.legalRecordRepository.save(record);
 	}
 
@@ -82,7 +96,14 @@ public class LegalRecordService {
 	}
 
 	public void delete(final LegalRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.legalRecordRepository.delete(record);
 	}
 

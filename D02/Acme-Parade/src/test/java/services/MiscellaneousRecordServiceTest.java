@@ -50,7 +50,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 			{
 				"brotherhood1", null
 			}, {
-				null, null, IllegalArgumentException.class
+				null, IllegalArgumentException.class
 			}, {
 				"member1", IllegalArgumentException.class
 			}, {
@@ -59,7 +59,7 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreate((String) testingData[i][0], (Class<?>) testingData[i][2]);
+			this.templateCreate((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	@Test
@@ -68,13 +68,13 @@ public class MiscellaneousRecordServiceTest extends AbstractTest {
 			{
 				"brotherhood1", "miscellaneousRecord1", null
 			}, {
-				null, "miscellaneousRecord1", NullPointerException.class
+				null, "miscellaneousRecord1", IllegalArgumentException.class
 			}, {
-				"brotherhood1", "miscellaneousRecord2", AssertionError.class
+				"brotherhood1", "miscellaneousRecord2", IllegalArgumentException.class
 			}, {
-				"member1", "miscellaneousRecord1", AssertionError.class
+				"member1", "miscellaneousRecord1", IllegalArgumentException.class
 			}, {
-				"admin1", "miscellaneousRecord1", NullPointerException.class
+				"admin1", "miscellaneousRecord1", IllegalArgumentException.class
 			}
 		};
 

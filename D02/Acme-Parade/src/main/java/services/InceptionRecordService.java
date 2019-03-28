@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.InceptionRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.InceptionRecord;
 
 @Service
@@ -22,9 +24,12 @@ public class InceptionRecordService {
 	@Autowired
 	private InceptionRecordRepository	inceptionRecordRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	@Autowired
+	private BrotherhoodService			brotherhoodService;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -37,18 +42,30 @@ public class InceptionRecordService {
 	// CRUD methods
 
 	public InceptionRecord create() {
+		Assert.notNull(LoginService.getPrincipal());
+
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
 		final InceptionRecord result = new InceptionRecord();
 		result.setTitle("");
 		result.setDescription("");
 		result.setPhotos(new ArrayList<String>());
 
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
 
 	public InceptionRecord save(final InceptionRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.inceptionRecordRepository.save(record);
 	}
 
@@ -58,7 +75,14 @@ public class InceptionRecordService {
 	}
 
 	public void delete(final InceptionRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.inceptionRecordRepository.delete(record);
 	}
 

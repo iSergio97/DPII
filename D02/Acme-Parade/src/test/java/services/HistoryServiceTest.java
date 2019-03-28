@@ -23,13 +23,10 @@ public class HistoryServiceTest extends AbstractTest {
 
 	// SUT -------------------------------------------------
 	@Autowired
-	private HistoryService		historyService;
+	private HistoryService	historyService;
+
 
 	//Supporting Services ----------------------------------
-
-	@Autowired
-	private PeriodRecordService	periodRecordService;
-
 
 	//Drivers -----------------------------------------------
 
@@ -56,18 +53,18 @@ public class HistoryServiceTest extends AbstractTest {
 	public void driverCreate() {
 		final Object testingData[][] = {
 			{
-				"brotherhood1", null
+				"brotherhood4", null
 			}, {
-				null, AssertionError.class
+				null, IllegalArgumentException.class
 			}, {
-				"member1", AssertionError.class
+				"member1", IllegalArgumentException.class
 			}, {
-				"admin1", AssertionError.class
+				"admin1", IllegalArgumentException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreate((String) testingData[i][0], (Class<?>) testingData[i][2]);
+			this.templateCreate((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	@Test
@@ -76,13 +73,13 @@ public class HistoryServiceTest extends AbstractTest {
 			{
 				"brotherhood1", "history1", null
 			}, {
-				null, "history1", NullPointerException.class
+				null, "history1", IllegalArgumentException.class
 			}, {
-				"brotherhood1", "history2", AssertionError.class
+				"brotherhood1", "history2", IllegalArgumentException.class
 			}, {
-				"member1", "history1", AssertionError.class
+				"member1", "history1", IllegalArgumentException.class
 			}, {
-				"admin1", "history1", NullPointerException.class
+				"admin1", "history1", IllegalArgumentException.class
 			}
 		};
 

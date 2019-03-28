@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.LinkRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.LinkRecord;
 import forms.LinkRecordForm;
 
@@ -48,13 +50,19 @@ public class LinkRecordService {
 	// CRUD methods
 
 	public LinkRecord create() {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final LinkRecord result = new LinkRecord();
 
 		result.setTitle("");
 		result.setDescription("");
 
 		result.setBrotherhood(null);
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
@@ -69,7 +77,14 @@ public class LinkRecordService {
 		return record;
 	}
 	public LinkRecord save(final LinkRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.linkRecordRepository.save(record);
 	}
 
@@ -79,7 +94,14 @@ public class LinkRecordService {
 	}
 
 	public void delete(final LinkRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.linkRecordRepository.delete(record);
 	}
 

@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.MiscellaneousRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.MiscellaneousRecord;
 import forms.MiscellaneousRecordForm;
 
@@ -46,12 +48,18 @@ public class MiscellaneousRecordService {
 	// CRUD methods
 
 	public MiscellaneousRecord create() {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final MiscellaneousRecord result = new MiscellaneousRecord();
 
 		result.setTitle("");
 		result.setDescription("");
 
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
@@ -67,7 +75,14 @@ public class MiscellaneousRecordService {
 	}
 
 	public MiscellaneousRecord save(final MiscellaneousRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.miscRecordRepository.save(record);
 	}
 
@@ -77,7 +92,14 @@ public class MiscellaneousRecordService {
 	}
 
 	public void delete(final MiscellaneousRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.miscRecordRepository.delete(record);
 	}
 

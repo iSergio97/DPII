@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.PeriodRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.PeriodRecord;
 import forms.PeriodRecordForm;
 
@@ -47,6 +49,11 @@ public class PeriodRecordService {
 	// CRUD methods
 
 	public PeriodRecord create() {
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final PeriodRecord result = new PeriodRecord();
 
 		result.setTitle("");
@@ -55,7 +62,7 @@ public class PeriodRecordService {
 		result.setEndYear(0);
 		result.setPhotos(new ArrayList<String>());
 
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
@@ -74,7 +81,14 @@ public class PeriodRecordService {
 	}
 
 	public PeriodRecord save(final PeriodRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.periodRecordRepository.save(record);
 	}
 
@@ -84,7 +98,14 @@ public class PeriodRecordService {
 	}
 
 	public void delete(final PeriodRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.periodRecordRepository.delete(record);
 	}
 
