@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: services.HistoryServiceTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.484 sec <<< FAILURE!
-driverDelete(services.HistoryServiceTest)  Time elapsed: 0.015 sec  <<< ERROR!
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.555 sec <<< FAILURE!
+driverDelete(services.HistoryServiceTest)  Time elapsed: 0.037 sec  <<< ERROR!
 java.lang.RuntimeException: java.lang.NullPointerException was unexpected
 	at utilities.AbstractTest.checkExceptions(AbstractTest.java:103)
 	at services.HistoryServiceTest.templateDelete(HistoryServiceTest.java:164)

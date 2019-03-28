@@ -174,7 +174,7 @@ public class ProfileController extends AbstractController {
 		final Document as = new Document(PageSize.A4);
 		try {
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
 			as.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);
@@ -371,14 +371,14 @@ public class ProfileController extends AbstractController {
 	@RequestMapping(value = "/member/export", method = RequestMethod.GET)
 	public ModelAndView exportMember() {
 		final ModelAndView result;
-		final Brotherhood member = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
 		result = new ModelAndView("redirect:/welcome/index.do");
 		final String username = member.getUserAccount().getUsername();
 		final String password = member.getUserAccount().getPassword();
 		final Document as = new Document(PageSize.A4);
 		try {
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
 			as.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);
@@ -459,7 +459,7 @@ public class ProfileController extends AbstractController {
 		final Document as = new Document(PageSize.A4);
 		try {
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
 			as.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);

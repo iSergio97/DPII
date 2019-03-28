@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.422" errors="0" skipped="0" tests="4" name="services.MiscellaneousRecordServiceTest">
+<testsuite failures="0" time="0.15" errors="0" skipped="0" tests="4" name="services.MiscellaneousRecordServiceTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.7.0_13\jre\bin"/>
@@ -26,7 +26,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows XP"/>
-    <property name="classworlds.conf" value="F:\Workspace 3\.metadata\.plugins\org.eclipse.m2e.core\launches\m2conf7743239317375389306.tmp"/>
+    <property name="classworlds.conf" value="F:\Workspace 3\.metadata\.plugins\org.eclipse.m2e.core\launches\m2conf737928593416536875.tmp"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Java\jdk1.7.0_13\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:/program files/java/jdk1.7.0_13/bin/../jre/bin/server;c:/program files/java/jdk1.7.0_13/bin/../jre/bin;c:/program files/java/jdk1.7.0_13/bin/../jre/lib/amd64;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;c:\program files\java\jdk1.7.0_13\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\WinMerge;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;c:\program files\java\jdk1.7.0_13\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\WinMerge;C:\Program Files\Apache Software Foundation\apache-maven-3.1.0\bin;C:\Program Files\Eclipse Indigo EE SR2;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -60,8 +60,8 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.062" classname="services.MiscellaneousRecordServiceTest" name="driverGet"/>
-  <testcase time="0.032" classname="services.MiscellaneousRecordServiceTest" name="driverCreate"/>
-  <testcase time="0.031" classname="services.MiscellaneousRecordServiceTest" name="driverDelete"/>
-  <testcase time="0.297" classname="services.MiscellaneousRecordServiceTest" name="driverSave"/>
+  <testcase time="0.05" classname="services.MiscellaneousRecordServiceTest" name="driverGet"/>
+  <testcase time="0.033" classname="services.MiscellaneousRecordServiceTest" name="driverCreate"/>
+  <testcase time="0.017" classname="services.MiscellaneousRecordServiceTest" name="driverDelete"/>
+  <testcase time="0.033" classname="services.MiscellaneousRecordServiceTest" name="driverSave"/>
 </testsuite>

@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: sample.SampleTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 16.407 sec <<< FAILURE!
-sampleDriver(sample.SampleTest)  Time elapsed: 0.016 sec  <<< ERROR!
+Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 16.862 sec <<< FAILURE!
+sampleDriver(sample.SampleTest)  Time elapsed: 0.018 sec  <<< ERROR!
 java.lang.RuntimeException: java.lang.AssertionError was unexpected
 	at utilities.AbstractTest.checkExceptions(AbstractTest.java:103)
 	at sample.SampleTest.sampleTemplate(SampleTest.java:80)
