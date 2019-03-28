@@ -18,7 +18,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,11 +56,12 @@ public class AcmeFloatController extends AbstractController {
 	public ModelAndView show(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final AcmeFloat acmeFloat;
-		final Brotherhood brotherhood;
 
+		if (this.brotherhoodService.findPrincipal() == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloat = this.acmeFloatService.findOne(id);
-		brotherhood = this.brotherhoodService.findPrincipal();
-		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+			return new ModelAndView("redirect:/welcome/index.do");
 
 		result = new ModelAndView("float/show");
 		result.addObject("acmeFloat", acmeFloat);
@@ -114,8 +114,11 @@ public class AcmeFloatController extends AbstractController {
 		final AcmeFloat acmeFloat;
 		final AcmeFloatForm acmeFloatForm;
 
+		if (this.brotherhoodService.findPrincipal() == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloat = this.acmeFloatService.findOne(id);
-		Assert.isTrue(acmeFloat.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
+		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloatForm = this.acmeFloatService.deconstruct(acmeFloat);
 		final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
 		final HashMap<Integer, String> paradesMap = new HashMap<>();
@@ -135,18 +138,22 @@ public class AcmeFloatController extends AbstractController {
 	public ModelAndView edit(@Valid @ModelAttribute("acmeFloatForm") final AcmeFloatForm acmeFloatForm, final BindingResult bindingResult) {
 		final ModelAndView result;
 
+		if (this.brotherhoodService.findPrincipal() == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		if (!bindingResult.hasErrors()) {
 			AcmeFloat acmeFloat;
 			if (acmeFloatForm.getId() != 0) {
 				acmeFloat = this.acmeFloatService.findOne(acmeFloatForm.getId());
-				Assert.isTrue(acmeFloat.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
+				if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+					return new ModelAndView("redirect:/welcome/index.do");
 			}
 			acmeFloat = this.acmeFloatService.reconstruct(acmeFloatForm, bindingResult);
 			acmeFloat.setBrotherhood(this.brotherhoodService.findPrincipal());
 			if (acmeFloat.getParades() == null)
 				acmeFloat.setParades(new ArrayList<Parade>());
 			for (final Parade parade : acmeFloat.getParades())
-				Assert.isTrue(parade.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
+				if (!this.brotherhoodService.findPrincipal().equals(parade.getBrotherhood()))
+					return new ModelAndView("redirect:/welcome/index.do");
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {
@@ -168,11 +175,12 @@ public class AcmeFloatController extends AbstractController {
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final AcmeFloat acmeFloat;
-		final Brotherhood brotherhood;
 
+		if (this.brotherhoodService.findPrincipal() == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloat = this.acmeFloatService.findOne(id);
-		brotherhood = this.brotherhoodService.findPrincipal();
-		Assert.isTrue(acmeFloat.getBrotherhood().equals(brotherhood));
+		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+			return new ModelAndView("redirect:/welcome/index.do");
 		this.acmeFloatService.delete(acmeFloat);
 
 		result = this.list();
