@@ -50,6 +50,7 @@
 	<jstl:out value="${actor.establishmentDate}" />
 </jstl:if>
 <br>
+<spring:message code="actor.export" />
 <br>
 <jstl:if test="${reqURI eq 'admin'}">
 <a href="profile/admin/export.do"><spring:message code="exportData" /></a>

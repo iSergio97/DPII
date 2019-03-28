@@ -162,9 +162,6 @@ public class ProfileController extends AbstractController {
 			final Paragraph userData = new Paragraph("Userdata");
 			as.add(userData);
 			System.out.println("Crea userData");
-			//TODO: Cambiar todos los as.addSubject por Paragraph x = new Paragraph("propiedad a" + a.getA());
-			//TODO: Tras arreglar y comprobar que funciona, hacerlo para member y admin
-			//TODO Opcional: Comprobar que, si falla el enviar el archivo porque esté abierto, te mande a un error o algo.
 			final Paragraph name = new Paragraph("name: " + member.getName());
 			as.add(name);
 			final Paragraph md = new Paragraph("middle name: " + member.getMiddleName());
@@ -196,6 +193,8 @@ public class ProfileController extends AbstractController {
 				}
 			else
 				as.add(new Paragraph("[]"));
+
+			as.add(new Paragraph("\n\nMessages received"));
 			if (member.getMessagesReceived().size() != 0)
 				for (final Message m : member.getMessagesReceived()) {
 					as.add(new Paragraph(m.getSender().getName()));
@@ -229,7 +228,7 @@ public class ProfileController extends AbstractController {
 						as.add(new Paragraph("exit moment: " + e.getExitMoment().toGMTString()));
 					else
 						as.add(new Paragraph("exit moment: null"));
-					as.add(new Paragraph("position: " + e.getPosition().getStrings().values()));
+					as.add(new Paragraph("position: " + e.getPosition().getStrings()));
 				}
 			else
 				as.add(new Paragraph("[]"));
@@ -238,20 +237,21 @@ public class ProfileController extends AbstractController {
 			System.out.println("Crea requests");
 			if (member.getRequests().size() != 0)
 				for (final Request r : member.getRequests()) {
-					as.add(new Paragraph("parade: " + r.getParade().toString()));
-					as.add(new Paragraph("status:" + r.getStatus()));
+					as.add(new Paragraph("parade: " + r.getParade().getTitle()));
+					as.add(new Paragraph("status: " + r.getStatus()));
 					as.add(new Paragraph("reason:" + r.getReason()));
 					as.add(new Paragraph("position: " + r.getHLine() + ", " + r.getVLine()));
+					as.add(new Paragraph("\n"));
 				}
 			else
 				as.add(new Paragraph("[]"));
+
 			final Finder f = member.getFinder();
 			final Paragraph finder = new Paragraph("\n\nFinder");
 			System.out.println("Crea finder");
 			as.add(finder);
-			as.add(new Paragraph(f.toString()));
-			as.add(new Paragraph("keyword" + f.getKeyword()));
-			as.add(new Paragraph("area" + f.getArea().toString()));
+			as.add(new Paragraph("keyword: " + f.getKeyword()));
+			as.add(new Paragraph("area: " + f.getArea().getName()));
 		} catch (FileNotFoundException | DocumentException e1) {
 			e1.printStackTrace();
 		}
