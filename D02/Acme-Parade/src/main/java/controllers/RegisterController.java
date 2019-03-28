@@ -2,11 +2,14 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +22,7 @@ import services.BrotherhoodService;
 import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
+import services.SystemConfigurationService;
 import domain.Administrator;
 import domain.Area;
 import domain.Brotherhood;
@@ -36,19 +40,21 @@ public class RegisterController extends AbstractController {
 	// Services --------------------------------------------------------------------
 
 	@Autowired
-	private BrotherhoodService		brotherhoodService;
+	private BrotherhoodService			brotherhoodService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 	@Autowired
-	private FinderService			finderService;
+	private FinderService				finderService;
 	@Autowired
-	private MemberService			memberService;
+	private MemberService				memberService;
 	@Autowired
-	private MessageBoxService		messageBoxService;
+	private MessageBoxService			messageBoxService;
 	@Autowired
-	private UserAccountRepository	userAccountRepository;
+	private UserAccountRepository		userAccountRepository;
 	@Autowired
-	private AreaService				areaService;
+	private AreaService					areaService;
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -73,9 +79,47 @@ public class RegisterController extends AbstractController {
 	// Save administrator ----------------------------------------------------------
 
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final AdministratorForm administrator, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("administrator") final AdministratorForm administrator, final BindingResult bindingResult) {
 		ModelAndView result;
 		Administrator administrator2;
+
+		final List<String> userNames = this.userAccountRepository.getUserNames();
+		if (administrator.getId() == 0) {
+			if (userNames.contains(administrator.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Administrator b = this.administratorService.findPrincipal();
+			userNames.remove(b.getUserAccount().getUsername());
+			if (userNames.contains(administrator.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		}
+		if (administrator.getUsername().length() < 5 || administrator.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+		if (!(administrator.getPassword().equals(administrator.getConfirmPassword()))) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (administrator.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (administrator.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
 
 		administrator2 = this.administratorService.reconstructForm(administrator, bindingResult);
 		if (bindingResult.hasErrors())
@@ -96,16 +140,12 @@ public class RegisterController extends AbstractController {
 					}
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} else {
-					if (administrator.getPassword() == administrator.getConfirmPassword()) {
-						final UserAccount ua = administrator2.getUserAccount();
-						administrator2.getUserAccount().setUsername(administrator.getUsername());
-						administrator2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(administrator.getPassword(), null));
-						final UserAccount uas = this.userAccountRepository.save(ua);
-						administrator2.setUserAccount(uas);
-						this.administratorService.save(administrator2);
-						result = new ModelAndView("redirect:/welcome/index.do");
-					} else
-						result = this.createAndEditModelAndView(administrator, "register.administrator.error");
+					final UserAccount ua = administrator2.getUserAccount();
+					administrator2.getUserAccount().setUsername(administrator.getUsername());
+					administrator2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(administrator.getPassword(), null));
+					final UserAccount uas = this.userAccountRepository.save(ua);
+					administrator2.setUserAccount(uas);
+					this.administratorService.save(administrator2);
 					result = new ModelAndView("redirect:/welcome/index.do");
 				}
 			} catch (final Throwable e) {
@@ -149,44 +189,114 @@ public class RegisterController extends AbstractController {
 	// Save brotherhood ------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("brotherhood") final BrotherhoodForm brotherhood, final BindingResult bindingResult) {
 		ModelAndView result;
-		Brotherhood brotherhood2;
-
-		brotherhood2 = this.brotherhoodService.reconstruct(brotherhood, bindingResult);
-		if (bindingResult.hasErrors())
-			result = this.createEditModelAndView(brotherhood);
-		else
-			try {
-				if (brotherhood.getPassword().equals(brotherhood.getConfirmPassword())) {
-					if (brotherhood2.getId() == 0) {
-						brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
-						brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
-						final UserAccount ua = brotherhood2.getUserAccount();
-						final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
-						brotherhood2.setUserAccount(saved);
-						final Brotherhood bh = this.brotherhoodService.save(brotherhood2);
-						final Area area = this.areaService.create();
-						final Area area2 = this.areaService.save(area);
-						bh.setArea(area2);
-						for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
-							mb.setActor(bh);
-							this.messageBoxService.save(mb);
-						}
-					} else {
-						brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
-						brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
-						final UserAccount ua = brotherhood2.getUserAccount();
-						final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
-						brotherhood2.setUserAccount(saved);
-						this.brotherhoodService.save(brotherhood2);
-					}
-					result = new ModelAndView("redirect:/welcome/index.do");
-				} else
-					result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
-			} catch (final Throwable e) {
-				result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
+		final Brotherhood brotherhood2;
+		/*
+		 * brotherhood2 = this.brotherhoodService.reconstruct(brotherhood, bindingResult);
+		 * if (bindingResult.hasErrors())
+		 * result = this.createEditModelAndView(brotherhood);
+		 * else
+		 * try {
+		 * if (brotherhood.getPassword().equals(brotherhood.getConfirmPassword())) {
+		 * if (brotherhood2.getId() == 0) {
+		 * brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+		 * brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
+		 * final UserAccount ua = brotherhood2.getUserAccount();
+		 * final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
+		 * brotherhood2.setUserAccount(saved);
+		 * final Brotherhood bh = this.brotherhoodService.save(brotherhood2);
+		 * final Area area = this.areaService.create();
+		 * final Area area2 = this.areaService.save(area);
+		 * bh.setArea(area2);
+		 * for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
+		 * mb.setActor(bh);
+		 * this.messageBoxService.save(mb);
+		 * }
+		 * } else {
+		 * brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+		 * brotherhood2.getUserAccount().setUsername(brotherhood.getUsername());
+		 * final UserAccount ua = brotherhood2.getUserAccount();
+		 * final UserAccount saved = this.userAccountRepository.saveAndFlush(ua);
+		 * brotherhood2.setUserAccount(saved);
+		 * this.brotherhoodService.save(brotherhood2);
+		 * }
+		 * result = new ModelAndView("redirect:/welcome/index.do");
+		 * } else
+		 * result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
+		 * } catch (final Throwable e) {
+		 * result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
+		 * }
+		 */
+		final List<String> userNames = this.userAccountRepository.getUserNames();
+		if (brotherhood.getId() == 0) {
+			if (userNames.contains(brotherhood.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
 			}
+		} else {
+			final Brotherhood b = this.brotherhoodService.findPrincipal();
+			userNames.remove(b.getUserAccount().getUsername());
+			if (userNames.contains(brotherhood.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		}
+		if (brotherhood.getUsername().length() < 5 || brotherhood.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+		if (!(brotherhood.getPassword().equals(brotherhood.getConfirmPassword()))) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (brotherhood.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (brotherhood.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+		try {
+			brotherhood2 = this.brotherhoodService.reconstructForm(brotherhood, bindingResult);
+			if (!bindingResult.hasErrors()) {
+				if (brotherhood2.getPhoneNumber().matches("[0-9]{4,}"))
+					brotherhood2.setPhoneNumber(this.systemConfigurationService.getSystemConfiguration().getDefaultCountryCode() + " " + brotherhood2.getPhoneNumber());
+				if (brotherhood2.getId() == 0) {
+					brotherhood2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(brotherhood.getPassword(), null));
+					final UserAccount uas = this.userAccountRepository.save(brotherhood2.getUserAccount());
+					brotherhood2.setUserAccount(uas);
+					final Area area = this.areaService.save(this.areaService.create());
+					brotherhood2.setArea(area);
+					//Area saved = this.areaService.save(area);
+					final Brotherhood savedM = this.brotherhoodService.save(brotherhood2);
+					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+					for (final MessageBox mb : mbs) {
+						mb.setActor(savedM);
+						this.messageBoxService.save(mb);
+					}
+
+				} else {
+					final UserAccount ua = brotherhood2.getUserAccount();
+					ua.setPassword(new Md5PasswordEncoder().encodePassword(brotherhood2.getUserAccount().getPassword(), null));
+					final UserAccount saved = this.userAccountRepository.save(ua);
+					brotherhood2.setUserAccount(saved);
+					this.brotherhoodService.save(brotherhood2);
+				}
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} else
+				result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
+		} catch (final Throwable wops) {
+			result = this.createAndEditModelAndView(brotherhood, "register.brotherhood.error");
+		}
 
 		return result;
 	}
@@ -228,51 +338,80 @@ public class RegisterController extends AbstractController {
 	// Save member -----------------------------------------------------------------
 
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final MemberForm member, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("member") final MemberForm member, final BindingResult bindingResult) {
 		ModelAndView result;
-		Member member2;
-
-		member2 = this.memberService.reconstructForm(member, bindingResult);
-		if (bindingResult.hasErrors())
-			result = this.createEditModelAndView(member);
-		else
-			try {
-				if (member.getPassword().equals(member.getConfirmPassword())) {
-					if (member2.getId() == 0) {
-						final Finder finder = member2.getFinder();
-						final Finder saved = this.finderService.save(finder);
-						member2.setFinder(saved);
-						member2.getUserAccount().setUsername(member.getUsername());
-						member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-						final UserAccount ua = member2.getUserAccount();
-						final UserAccount uas = this.userAccountRepository.save(ua);
-						member2.setUserAccount(uas);
-						final Member savedM = this.memberService.save(member2);
-						final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-						for (final MessageBox mb : mbs) {
-							mb.setActor(savedM);
-							this.messageBoxService.save(mb);
-						}
-					} else {
-						final UserAccount ua = member2.getUserAccount();
-						ua.setUsername(member.getUsername());
-						ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-						final UserAccount saved = this.userAccountRepository.save(ua);
-						member2.setUserAccount(saved);
-						this.memberService.save(member2);
-					}
-					result = new ModelAndView("redirect:/welcome/index.do");
-				} else
-					result = this.createAndEditModelAndView(member, "register.member.error");
-			} catch (final Throwable e) {
-				result = this.createAndEditModelAndView(member, "register.member.error");
+		final Member member2;
+		final List<String> userNames = this.userAccountRepository.getUserNames();
+		if (member.getId() == 0) {
+			if (userNames.contains(member.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
 			}
+		} else {
+			final Member m = this.memberService.findPrincipal();
+			userNames.remove(m.getUserAccount().getUsername());
+			if (userNames.contains(member.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		}
+		if (member.getUsername().length() < 5 || member.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+		if (!(member.getPassword().equals(member.getConfirmPassword()))) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (member.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
 
+		if (member.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		try {
+			member2 = this.memberService.reconstructForm(member, bindingResult);
+			if (!bindingResult.hasErrors()) {
+				if (member2.getPhoneNumber().matches("[0-9]{4,}"))
+					member2.setPhoneNumber(this.systemConfigurationService.getSystemConfiguration().getDefaultCountryCode() + " " + member2.getPhoneNumber());
+				if (member2.getId() == 0) {
+					final Finder saved = this.finderService.save(member2.getFinder());
+					member2.setFinder(saved);
+					member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
+					final UserAccount uas = this.userAccountRepository.save(member2.getUserAccount());
+					member2.setUserAccount(uas);
+					final Member savedM = this.memberService.save(member2);
+					final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
+					for (final MessageBox mb : mbs) {
+						mb.setActor(savedM);
+						this.messageBoxService.save(mb);
+					}
+				} else {
+					final UserAccount ua = member2.getUserAccount();
+					ua.setPassword(new Md5PasswordEncoder().encodePassword(member2.getUserAccount().getPassword(), null));
+					final UserAccount saved = this.userAccountRepository.save(ua);
+					member2.setUserAccount(saved);
+					this.memberService.save(member2);
+				}
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} else
+				result = this.createAndEditModelAndView(member, "commit.error");
+		} catch (final Throwable wops) {
+			result = this.createAndEditModelAndView(member, "commit.error");
+		}
 		return result;
 	}
-
 	// Member ancillary methods ----------------------------------------------------
-
 	protected ModelAndView createEditModelAndView(final MemberForm member) {
 		ModelAndView result;
 
@@ -287,6 +426,8 @@ public class RegisterController extends AbstractController {
 		result = new ModelAndView("register/member/create");
 		result.addObject("member", member);
 		result.addObject("requestURI", s);
+		result.addObject("message", message);
+
 		return result;
 	}
 

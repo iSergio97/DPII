@@ -147,15 +147,19 @@ public class EnrolmentController extends AbstractController {
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int enrolmentId) {
-		// Create result object
-		final Brotherhood actual = this.brotherhoodService.findPrincipal();
-		final List<Enrolment> ls1 = (List<Enrolment>) actual.getEnrolments();
 		ModelAndView result;
-		//Revisar seguridad
+		final Enrolment e = this.enrolmentService.findOne(enrolmentId);
+		final Brotherhood actual = this.brotherhoodService.findPrincipal();
+		if (e.getBrotherhood() != actual)
+			result = new ModelAndView("redirect:/welcome/index.do");
+
+		final List<Enrolment> ls1 = (List<Enrolment>) actual.getEnrolments();
 
 		Enrolment enrolment;
 		result = new ModelAndView("enrolment/brotherhood/edit");
 		enrolment = this.enrolmentService.findOne(enrolmentId);
+		if (e.getBrotherhood() != actual)
+			result = new ModelAndView("redirect:/welcome/index.do");
 		final String locale = Locale.getDefault().getLanguage();
 		final List<Position> ls = this.positionService.findAll();
 
@@ -174,9 +178,12 @@ public class EnrolmentController extends AbstractController {
 			result = this.createEditModelAndView(enrolment);
 		else
 			try {
-				enrolment.setMoment(new Date());
-				this.enrolmentService.save(enrolment);
-
+				if (enrolment.getBrotherhood() == null)
+					result = new ModelAndView("redirect:/enrolment/member/list.do");
+				else {
+					enrolment.setMoment(new Date());
+					this.enrolmentService.save(enrolment);
+				}
 				result = new ModelAndView("redirect:/enrolment/member/list.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(enrolment, "enrolment.commit.error");

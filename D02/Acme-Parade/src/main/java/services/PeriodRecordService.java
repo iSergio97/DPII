@@ -2,14 +2,24 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PeriodRecordRepository;
+import security.Authority;
+import security.LoginService;
 import domain.PeriodRecord;
+import forms.PeriodRecordForm;
 
+@Service
+@Transactional
 public class PeriodRecordService {
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -18,9 +28,15 @@ public class PeriodRecordService {
 	@Autowired
 	private PeriodRecordRepository	periodRecordRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	@Autowired
+	private BrotherhoodService		brotherhoodService;
+
+	@Autowired
+	private Validator				validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -33,6 +49,11 @@ public class PeriodRecordService {
 	// CRUD methods
 
 	public PeriodRecord create() {
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final PeriodRecord result = new PeriodRecord();
 
 		result.setTitle("");
@@ -41,13 +62,33 @@ public class PeriodRecordService {
 		result.setEndYear(0);
 		result.setPhotos(new ArrayList<String>());
 
-		result.setHistory(null);
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
 
 		return result;
 	}
 
+	public PeriodRecordForm createForm() {
+		final PeriodRecordForm record = new PeriodRecordForm();
+
+		record.setTitle("");
+		record.setDescription("");
+		record.setStartYear(0);
+		record.setEndYear(0);
+		record.setPhotos(new ArrayList<String>());
+		record.setId(0);
+
+		return record;
+	}
+
 	public PeriodRecord save(final PeriodRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		return this.periodRecordRepository.save(record);
 	}
 
@@ -57,7 +98,14 @@ public class PeriodRecordService {
 	}
 
 	public void delete(final PeriodRecord record) {
+
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
+
 		this.periodRecordRepository.delete(record);
 	}
 
@@ -72,6 +120,33 @@ public class PeriodRecordService {
 
 	public List<PeriodRecord> findAll() {
 		return this.periodRecordRepository.findAll();
+	}
+
+	//Ancillary Methods -----------------------------------------
+
+	public Collection<PeriodRecord> getPeriodRecordsByHistory(final int historyId) {
+		return this.periodRecordRepository.getPeriodRecordsByHistory(historyId);
+	}
+
+	public PeriodRecord reconstruct(final PeriodRecordForm record, final BindingResult binding) {
+		PeriodRecord result;
+
+		if (record.getId() == 0)
+			result = this.create();
+		else
+			result = this.periodRecordRepository.findOne(record.getId());
+
+		result.setTitle(record.getTitle());
+		result.setDescription(record.getDescription());
+		result.setStartYear(record.getStartYear());
+		result.setEndYear(record.getEndYear());
+		result.setPhotos(record.getPhotos());
+		result.setHistory(this.brotherhoodService.findPrincipal().getHistory());
+
+		this.validator.validate(result, binding);
+		this.periodRecordRepository.flush();
+
+		return result;
 	}
 
 }

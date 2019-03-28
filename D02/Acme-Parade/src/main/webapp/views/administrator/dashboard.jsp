@@ -1,3 +1,8 @@
+<%--
+ * administrator/dashborard.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -41,7 +46,9 @@
 	<spring:message code="dashboard.1.c.2" />
 	<br>
 	<display:table name="largestBrotherhoods" id="row">
-		<display:column property="title" titleKey="dashboard.title" />
+		<display:column titleKey="dashboard.title">
+			<jstl:out value="${row.title}"/>
+		</display:column>
 	</display:table>
 </p>
 
@@ -51,7 +58,9 @@
 	<spring:message code="dashboard.1.c.3" />
 	<br>
 	<display:table name="smallestBrotherhoods" id="row">
-		<display:column property="title" titleKey="dashboard.title" />
+		<display:column titleKey="dashboard.title">
+			<jstl:out value="${row.title}"/>
+		</display:column>
 	</display:table>
 </p>
 
@@ -81,7 +90,9 @@
 	<spring:message code="dashboard.1.c.5" />
 	<br>
 	<display:table name="paradesWithin30Days" id="row">
-		<display:column property="title" titleKey="dashboard.title" />
+		<display:column titleKey="dashboard.title">
+			<jstl:out value="${row.title}"/>
+		</display:column>
 	</display:table>
 </p>
 
@@ -91,9 +102,15 @@
 	<spring:message code="dashboard.1.c.7" />
 	<br>
 	<display:table name="membersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests" id="row">
-		<display:column property="name" titleKey="dashboard.name" />
-		<display:column property="middleName" titleKey="dashboard.middleName" />
-		<display:column property="surname" titleKey="dashboard.surname" />
+		<display:column titleKey="dashboard.name">
+			<jstl:out value="${row.name}"/>
+		</display:column>
+		<display:column titleKey="dashboard.middleName">
+			<jstl:out value="${row.middleName}"/>
+		</display:column>
+		<display:column titleKey="dashboard.surname">
+			<jstl:out value="${row.surname}"/>
+		</display:column>
 	</display:table>
 </p>
 

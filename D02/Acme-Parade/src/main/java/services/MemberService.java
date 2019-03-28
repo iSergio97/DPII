@@ -178,7 +178,11 @@ public class MemberService {
 		result.setPhoneNumber(member.getPhoneNumber());
 		result.setAddress(member.getAddress());
 
+		result.getUserAccount().setUsername(member.getUsername());
+		result.getUserAccount().setPassword(member.getPassword());
+
 		this.validator.validate(result, bindingResult);
+		this.memberRepository.flush();
 
 		return result;
 	}

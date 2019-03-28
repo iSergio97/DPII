@@ -53,7 +53,6 @@ public class AcmeFloatService {
 		result.setDescription("");
 		result.setPictures(new ArrayList<String>());
 		// set relationships
-		result.setParades(new ArrayList<Parade>());
 		result.setBrotherhood(null);
 
 		return result;
@@ -95,7 +94,6 @@ public class AcmeFloatService {
 		acmeFloatForm.setTitle("");
 		acmeFloatForm.setDescription("");
 		acmeFloatForm.setPictures("");
-		acmeFloatForm.setParades(new ArrayList<Parade>());
 		return acmeFloatForm;
 	}
 
@@ -110,7 +108,6 @@ public class AcmeFloatService {
 		result.setTitle(acmeFloatForm.getTitle());
 		result.setDescription(acmeFloatForm.getDescription());
 		result.setPictures(ConversionUtils.stringToList(acmeFloatForm.getPictures(), " "));
-		result.setParades(acmeFloatForm.getParades());
 
 		this.validator.validate(result, bindingResult);
 
@@ -124,7 +121,6 @@ public class AcmeFloatService {
 		acmeFloatForm.setTitle(acmeFloat.getTitle());
 		acmeFloatForm.setDescription(acmeFloat.getDescription());
 		acmeFloatForm.setPictures(ConversionUtils.listToString(acmeFloat.getPictures(), " "));
-		acmeFloatForm.setParades(acmeFloat.getParades());
 
 		return acmeFloatForm;
 	}

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- * tiles.xml * * Copyright (C) 2018 Universidad de Sevilla * * The use 
-	of this project is hereby constrained to the conditions of the * TDG Licence, 
-	a copy of which you may download from * http://www.tdg-seville.info/License.html -->
+<!-- 
+ * tiles.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -17,12 +19,16 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		
-		<value>/views/acmefloat/tiles.xml</value>
+		<value>/views/float/tiles.xml</value>
 		<value>/views/administrator/tiles.xml</value>
 		<value>/views/brotherhood/tiles.xml</value>
 		<value>/views/enrolment/tiles.xml</value>
 		<value>/views/parade/tiles.xml</value>
 		<value>/views/profile/tiles.xml</value>
+		<value>/views/legalRecord/tiles.xml</value>
+		<value>/views/linkRecord/tiles.xml</value>
+		<value>/views/miscellaneousRecord/tiles.xml</value>
+		<value>/views/periodRecord/tiles.xml</value>
 		<value>/views/register/tiles.xml</value>
 		<value>/views/request/tiles.xml</value>
 	</util:list>

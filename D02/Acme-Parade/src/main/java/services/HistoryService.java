@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.HistoryRepository;
+import security.Authority;
+import security.LoginService;
 import domain.History;
 import domain.Record;
 
@@ -41,6 +43,12 @@ public class HistoryService {
 	// CRUD methods
 
 	public History create() {
+		Assert.notNull(LoginService.getPrincipal());
+
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+
 		final History result = new History();
 		final List<Record> records = new ArrayList<>();
 
@@ -51,6 +59,11 @@ public class HistoryService {
 	}
 
 	public History save(final History history) {
+		Assert.notNull(LoginService.getPrincipal());
+		final Authority a = new Authority();
+		a.setAuthority(Authority.BROTHERHOOD);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
+		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(history));
 		Assert.isTrue(history != null);
 		return this.historyRepository.save(history);
 	}
@@ -61,6 +74,8 @@ public class HistoryService {
 	}
 
 	public void delete(final History history) {
+		Assert.notNull(LoginService.getPrincipal());
+		Assert.isTrue(history.getBrotherhood().equals(this.brotherhoodService.findPrincipal()));
 		Assert.isTrue(history != null);
 		this.historyRepository.delete(history);
 	}

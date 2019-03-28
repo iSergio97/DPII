@@ -3,11 +3,7 @@
 <!-- 
  * junit.xml
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -17,10 +13,12 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	">
-<!-- Revisar. Posible mala sintaxis -->
-<bean id="validator" class="org.springframework.validation.beanValidation.LocalValidatorFactoryBean"/>
 
-	<import resource="datasource.xml" />
 	<import resource="config/packages.xml" />
+	<import resource="config/i18n-l10n.xml" />
+	
+	<import resource="messages.xml" />
+	<import resource="datasource.xml" />	
+	<import resource="validator.xml" />
 	
 </beans>

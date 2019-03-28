@@ -1,11 +1,7 @@
 <%--
- * action-2.jsp
+ * request/memberShow.jsp
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -68,4 +64,3 @@
 		<input type="submit" name="delete" value="<spring:message code='delete' />" />
 	</form>
 </jstl:if>
-

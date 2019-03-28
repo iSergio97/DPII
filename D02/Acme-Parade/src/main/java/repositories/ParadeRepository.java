@@ -28,7 +28,7 @@ public interface ParadeRepository extends JpaRepository<Parade, Integer> {
 	@Query("select p from Parade p where brotherhood.userAccount.id = ?1")
 	List<Parade> findAllByBrotherhoodAccountId(int id);
 
-	@Query("select p from Parade p join p.brotherhood.enrolments e where e.member.id = ?1")
+	@Query("select p from Parade p join p.brotherhood.enrolments e where e.member.id= ?1")
 	List<Parade> findPossibleMemberParades(int id);
 
 }

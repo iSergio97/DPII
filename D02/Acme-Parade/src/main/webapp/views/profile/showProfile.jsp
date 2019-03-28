@@ -1,11 +1,7 @@
 <%--
- * action-1.jsp
+ * profile/showProfile.jsp
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -51,10 +47,12 @@
 	<jstl:out value="${actor.title}" />
 	<br>
 <strong> <spring:message code="actor.stablishmentDate" />: </strong>
-	<!-- TODO: Revisar porqué no muestra la fecha -->
 	<jstl:out value="${actor.establishmentDate}" />
 </jstl:if>
 <br>
+<spring:message code="actor.export" />
+<br>
+<spring:message code="actor.caution" />
 <br>
 <jstl:if test="${reqURI eq 'admin'}">
 <a href="profile/admin/export.do"><spring:message code="exportData" /></a>

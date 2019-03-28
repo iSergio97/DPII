@@ -1,11 +1,7 @@
 <%--
- * action-1.jsp
+ * request/brotherhoodList.jsp
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -24,10 +20,20 @@
 	requestURI="/request/brotherhood/list.do" pagesize="5"
 	class="displaytag">
 
-	<display:column property="parade.title" titleKey="request.parade"/>
-	<display:column property="HLine" titleKey="request.hLine"/>
-	<display:column property="VLine" titleKey="request.vLine" />
-	<display:column property="status" titleKey="request.status" />
-	<display:column> <a href="request/brotherhood/show.do?requestId=${row.id}" > <spring:message code="request.show"/></a></display:column>
+	<display:column titleKey="request.parade">
+		<jstl:out value="${row.parade.title}" />
+	</display:column>
+	<display:column titleKey="request.hLine">
+		<jstl:out value="${row.Hline}" />
+	</display:column>
+	<display:column titleKey="request.vLine">
+		<jstl:out value="${row.Vline}" />
+	</display:column>
+	<display:column titleKey="request.status">
+		<jstl:out value="${row.status}" />
+	</display:column>
+	<display:column>
+		<a href="request/brotherhood/show.do?requestId=${row.id}" > <spring:message code="request.show"/></a>
+	</display:column>
 
 </display:table>

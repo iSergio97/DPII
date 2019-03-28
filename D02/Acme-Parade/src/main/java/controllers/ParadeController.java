@@ -1,15 +1,21 @@
+/*
+ * ParadeController.java
+ * 
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ */
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
-import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +38,13 @@ public class ParadeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AcmeFloatService	acmeFloatService;
+	private ParadeService		paradeService;
+
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+
 	@Autowired
-	private ParadeService		paradeService;
+	private AcmeFloatService	acmeFloatService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -84,7 +92,6 @@ public class ParadeController extends AbstractController {
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
-		parade.setAcmeFloats(new ArrayList<AcmeFloat>());
 		result = this.createEditModelAndView(parade, "edit");
 
 		return result;
@@ -93,36 +100,32 @@ public class ParadeController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final ParadeForm paradeForm, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("parade") final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
 		Parade parade;
 
-		parade = this.paradeService.reconstruct(paradeForm, binding);
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(parade, "edit");
-		else
-			try {
-				parade.setIsDraft(true);
-				this.paradeService.save(parade);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
-			}
+		if (paradeForm.getMoment() == null)
+			// final ObjectError momentError = new ObjectError("moment", "Fecha no válida.");
+			// binding.addError(momentError);
+			binding.rejectValue("moment", "error.moment");
+		else if (paradeForm.getMoment() != null && paradeForm.getMoment().before(new Date()))
+			// final ObjectError momentBeforeError = new ObjectError("moment", "La fecha es anterior a la actual.");
+			// binding.addError(momentBeforeError);
+			binding.rejectValue("moment", "error.momentBefore");
 
-		return result;
-	}
-
-	// Delete -----------------------------------------------------------------
-
-	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final Parade parade, final BindingResult binding) {
-		ModelAndView result;
+		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
+			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
+			// binding.addError(isDraftError);
+			binding.reject("error.isDraft");
 
 		try {
-			this.paradeService.delete(parade);
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			this.paradeService.save(parade);
 			result = new ModelAndView("redirect:list.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(paradeForm, "edit");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
 		}
 
 		return result;
@@ -131,19 +134,52 @@ public class ParadeController extends AbstractController {
 	// Save in Final Mode -----------------------------------------------------
 
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "finalMode")
-	public ModelAndView finalMode(@Valid final Parade parade, final BindingResult binding) {
+	public ModelAndView finalMode(final ParadeForm paradeForm, final BindingResult binding) {
 		ModelAndView result;
+		Parade parade;
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(parade, "edit");
-		else
-			try {
-				parade.setIsDraft(false);
-				this.paradeService.save(parade);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(parade, "parade.commit.error", "edit");
-			}
+		if (paradeForm.getMoment() == null)
+			// final ObjectError momentError = new ObjectError("moment", "Fecha no válida.");
+			// binding.addError(momentError);
+			binding.rejectValue("moment", "error.moment");
+		else if (paradeForm.getMoment() != null && paradeForm.getMoment().before(new Date()))
+			// final ObjectError momentBeforeError = new ObjectError("moment", "La fecha es anterior a la actual.");
+			// binding.addError(momentBeforeError);
+			binding.rejectValue("moment", "error.momentBefore");
+
+		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
+			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
+			// binding.addError(isDraftError);
+			binding.reject("error.isDraft");
+
+		try {
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			parade.setIsDraft(false);
+			this.paradeService.save(parade);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(paradeForm, "edit");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+		}
+
+		return result;
+	}
+
+	// Delete -----------------------------------------------------------------
+
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final ParadeForm paradeForm, final BindingResult binding) {
+		ModelAndView result;
+		Parade parade;
+
+		try {
+			parade = this.paradeService.reconstruct(paradeForm, binding);
+			this.paradeService.delete(parade);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+		}
 
 		return result;
 	}
@@ -154,25 +190,14 @@ public class ParadeController extends AbstractController {
 	public ModelAndView show(@RequestParam final int paradeId) {
 		ModelAndView result;
 		Parade parade;
-		parade = this.paradeService.findOne(paradeId);
-
-		Brotherhood brotherhood;
-		Collection<AcmeFloat> acmeFloats;
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
+		Assert.isTrue((!parade.getIsDraft()) || parade.getBrotherhood().getUserAccount().getId() == LoginService.getPrincipal().getId());
 
-		brotherhood = parade.getBrotherhood();
-		final UserAccount userAccount = brotherhood.getUserAccount();
-		acmeFloats = this.acmeFloatService.findFloatsByBrotherhoodUserAccount(userAccount.getId());
-
-		result = new ModelAndView("parade/public/show");
-		result.addObject("brotherhood", brotherhood);
-		result.addObject("acmeFloats", acmeFloats);
+		result = new ModelAndView("parade/public/" + "show");
 
 		result.addObject("parade", parade);
-
-		// result.addObject("messageCode", null);
 
 		return result;
 	}
@@ -201,6 +226,34 @@ public class ParadeController extends AbstractController {
 		result.addObject("acmeFloats", acmeFloats);
 
 		result.addObject("parade", parade);
+
+		result.addObject("messageCode", messageCode);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final ParadeForm paradeForm, final String method) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(paradeForm, null, method);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final ParadeForm paradeForm, final String messageCode, final String method) {
+		final ModelAndView result;
+		final Brotherhood brotherhood;
+		final Collection<AcmeFloat> acmeFloats;
+		final UserAccount userAccount = LoginService.getPrincipal();
+
+		brotherhood = this.brotherhoodService.findPrincipal();
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
+
+		result = new ModelAndView("parade/brotherhood/" + method);
+		result.addObject("brotherhood", brotherhood);
+		result.addObject("acmeFloats", acmeFloats);
+
+		result.addObject("parade", paradeForm);
 
 		result.addObject("messageCode", messageCode);
 

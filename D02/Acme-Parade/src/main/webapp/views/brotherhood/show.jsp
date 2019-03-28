@@ -1,5 +1,5 @@
 <%--
- * show.jsp
+ * brotherhood/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -13,6 +13,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 	<!-- Output fields -->
@@ -35,62 +36,109 @@
 	<jstl:out value="${brotherhood.area.name}"/>
 <br>
 
-<strong>
-	<spring:message code="brotherhood.pictures"/>:
-</strong>
-<jstl:forEach items="${brotherhood.pictures}" var="picture">
-	<img alt="picture" src="${picture}">
-</jstl:forEach>
+<jstl:if test="${fn:length(brotherhood.pictures) eq 0}">
+	<strong>
+		<spring:message code="brotherhood.pictures" />:
+	</strong>
+		<spring:message code="brotherhood.noPictures" />
+</jstl:if>
+<jstl:if test="${fn:length(brotherhood.pictures) ne 0}">
+	<h2>
+		<spring:message code="brotherhood.pictures"/>
+	</h2>
+		<jstl:forEach items="${brotherhood.pictures}" var="picture">
+			<img alt="picture" src='<jstl:out value="${picture}"></jstl:out>'>
+		</jstl:forEach>
+</jstl:if>
 <br>
 
-<h2>
-	<spring:message code="brotherhood.parades"/>
-</h2>
-<display:table name="parades" id="row" pagesize="5" class="displaytag">
+<jstl:if test="${fn:length(parades) eq 0}">
+	<strong>
+		<spring:message code="brotherhood.parades"/>
+	</strong>
+		<spring:message code="brotherhood.noParades"/>
+</jstl:if>
 
-	<display:column property="title" titleKey="parade.title" />
-	<display:column property="moment" titleKey="parade.moment" />
-	<display:column property="description" titleKey="parade.description" />
+<jstl:if test="${fn:length(acmeFloats) eq 0}">
+	<strong>
+		<spring:message code="brotherhood.floats"/>
+	</strong>
+		<spring:message code="brotherhood.noFloats"/>
+</jstl:if>
 
-	<display:column titleKey="master.page.blank">
-		<a href="parade/public/show.do?paradeId=<jstl:out value="${row.id}" />">
-			<spring:message code="master.page.action.show"/>
-		</a>
-	</display:column>
+<jstl:if test="${fn:length(members) eq 0}">
+	<strong>
+		<spring:message code="brotherhood.members"/>
+	</strong>
+		<spring:message code="brotherhood.noMembers"/>
+</jstl:if>
 
-</display:table>
+<jstl:if test="${fn:length(parades) ne 0}">
+	<h2>
+		<spring:message code="brotherhood.parades"/>
+	</h2>
+	<display:table name="parades" id="row" pagesize="5" class="displaytag">
 
-<h2>
-	<spring:message code="brotherhood.floats"/>
-</h2>
-<display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
+		<display:column titleKey="parade.title">
+			<jstl:out value="${row.title}"/>
+		</display:column>
+		<display:column titleKey="parade.moment">
+			<jstl:out value="${row.moment}"/>
+		</display:column>
+		<display:column titleKey="parade.description">
+			<jstl:out value="${row.description}"/>
+		</display:column>
 
-	<display:column property="title" titleKey="float.title" />
-	<display:column property="description" titleKey="float.description" />
+		<display:column titleKey="master.page.blank">
+			<a href="parade/public/show.do?paradeId=<jstl:out value="${row.id}" />"><spring:message code="master.page.action.show"/></a>
+		</display:column>
 
-	<display:column titleKey="master.page.blank">
-		<a href="float/public/show.do?floatId=<jstl:out value="${row.id}" />">
-			<spring:message code="master.page.action.show"/>
-		</a>
-	</display:column>
+	</display:table>
+</jstl:if>
 
-</display:table>
+<jstl:if test="${fn:length(acmeFloats) ne 0}">
+	<h2>
+		<spring:message code="brotherhood.floats"/>
+	</h2>
+	<display:table name="acmeFloats" id="row" pagesize="5" class="displaytag">
 
-<h2>
-	<spring:message code="brotherhood.members"/>
-</h2>
-<display:table name="members" id="row" pagesize="5" class="displaytag">
+		<display:column property="title" titleKey="float.title">
+			<jstl:out value="${row.title}" />
+		</display:column>
+		<display:column titleKey="float.description">
+			<jstl:out value="${row.description}" />
+		</display:column>
 
-	<display:column property="name" titleKey="actor.name" />
-	<display:column property="surname" titleKey="actor.surname" />
+		<display:column titleKey="master.page.blank">
+			<a href="float/public/show.do?floatId=<jstl:out value="${row.id}" />"><spring:message code="master.page.action.show"/></a>
+		</display:column>
 
-	<display:column titleKey="master.page.blank">
-		<a href="float/public/show.do?memberId=<jstl:out value="${row.id}" />">
-			<spring:message code="master.page.action.show"/>
-		</a>
-	</display:column>
+	</display:table>
+</jstl:if>
 
-</display:table>
+<jstl:if test="${fn:length(members) ne 0}">
+	<h2>
+		<spring:message code="brotherhood.members"/>
+	</h2>
+	<display:table name="members" id="row" pagesize="5" class="displaytag">
+
+		<display:column titleKey="actor.name">
+			<jstl:out value="${row.name}" />
+		</display:column>
+		<display:column titleKey="actor.middleName">
+			<jstl:if test="${not empty row.middleName}">
+				<jstl:out value="${row.middleName}" />
+			</jstl:if>
+			<jstl:if test="${empty row.middleName}">
+				<jstl:out value="-"></jstl:out>
+			</jstl:if>
+		</display:column>
+		<display:column titleKey="actor.surname">
+			<jstl:out value="${row.surname}" />
+		</display:column>
+
+	</display:table>
+</jstl:if>
 
 	<!-- Buttons -->
 	

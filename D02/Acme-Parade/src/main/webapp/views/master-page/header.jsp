@@ -1,20 +1,31 @@
 <%--
- * header.jsp
+ * master-page/header.jsp
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+	<jstl:choose>
+		<jstl:when test="${systemConfiguration != null}" >
+			<jstl:choose>
+				<jstl:when test="${empty systemConfiguration.banner}" >
+					<a href="#"><img src="<jstl:out value="${systemConfiguration.banner}" />" alt="Acme Parade Co., Inc." /></a>
+				</jstl:when>
+				<jstl:otherwise>
+					<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:when>
+		<jstl:otherwise>
+			<a href="#"><img src="images/logo.png" alt="Acme Madruga Co., Inc." /></a>
+		</jstl:otherwise>
+	</jstl:choose>
 </div>
 
 <div>
@@ -102,6 +113,18 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="enrolment/brotherhood/list.do"><spring:message code="master.page.brotherhood.enrolment.list" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('BROTHERHOOD')">
+			<li><a class="fNiv"><spring:message	code="master.page.brotherhood.history" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="periodRecord/list.do"><spring:message code="master.page.brotherhood.periodRecord" /></a></li>
+					<li><a href="legalRecord/list.do"><spring:message code="master.page.brotherhood.legalRecord" /></a></li>
+					<li><a href="linkRecord/list.do"><spring:message code="master.page.brotherhood.linkRecord" /></a></li>
+					<li><a href="miscellaneousRecord/list.do"><spring:message code="master.page.brotherhood.miscellaneousRecord" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

@@ -7,7 +7,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -28,7 +27,6 @@ public class AcmeFloat extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private List<Parade>	parades;
 	private Brotherhood		brotherhood;
 
 
@@ -69,16 +67,6 @@ public class AcmeFloat extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
-
-	@ManyToMany
-	@Valid
-	public List<Parade> getParades() {
-		return this.parades;
-	}
-
-	public void setParades(final List<Parade> parades) {
-		this.parades = parades;
-	}
 
 	@ManyToOne
 	@Valid

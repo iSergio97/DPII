@@ -3,11 +3,7 @@
 <!-- 
  * servlet.xml
  *
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -58,14 +54,8 @@
 	<!-- I18n and L10n -->
 
 	<import resource="config/i18n-l10n.xml" />
-
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="cacheSeconds" value="1" />
-		<property name="basenames" ref="messages" />
-		<property name="defaultEncoding" value="ISO-8859-1" />
-		<property name="fallbackToSystemLocale" value="false" />
-	</bean>
+	
+	<import resource="messages.xml" />
 
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -95,10 +85,7 @@
 
 	<!-- Validator -->
 
-	<bean name="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="validationMessageSource" ref="messageSource" />
-	</bean>
+	<import resource="validator.xml"/>
 
 	<!-- Security -->
 

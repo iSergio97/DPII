@@ -1,16 +1,6 @@
-/*
- * AdministratorController.java
- * 
- * Copyright (C) 2018 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the
- * TDG Licence, a copy of which you may download from
- * http://www.tdg-seville.info/License.html
- */
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -52,18 +42,17 @@ public class AcmeFloatController extends AbstractController {
 
 	// Show -------------------------------------------------------------------
 
-	@RequestMapping(value = "/brotherhood/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(value = "id") final int id) {
+	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam(value = "floatId") final int acmeFloatId) {
 		final ModelAndView result;
 		final AcmeFloat acmeFloat;
 
-		if (this.brotherhoodService.findPrincipal() == null)
-			return new ModelAndView("redirect:/welcome/index.do");
-		acmeFloat = this.acmeFloatService.findOne(id);
-		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+		acmeFloat = this.acmeFloatService.findOne(acmeFloatId);
+		if (acmeFloat == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("float/show");
+		result = new ModelAndView("float/public/" + "show");
+
 		result.addObject("acmeFloat", acmeFloat);
 
 		return result;
@@ -78,6 +67,8 @@ public class AcmeFloatController extends AbstractController {
 		final Brotherhood brotherhood;
 
 		brotherhood = this.brotherhoodService.findPrincipal();
+		if (brotherhood == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloats = brotherhood.getAcmeFloats();
 
 		result = new ModelAndView("float/list");
@@ -94,14 +85,9 @@ public class AcmeFloatController extends AbstractController {
 		final AcmeFloatForm acmeFloatForm;
 
 		acmeFloatForm = this.acmeFloatService.createForm();
-		final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
-		final HashMap<Integer, String> paradesMap = new HashMap<>();
-		for (final Parade parade : parades)
-			paradesMap.put(parade.getId(), parade.getTitle());
 
 		result = new ModelAndView("float/edit");
 		result.addObject("acmeFloatForm", acmeFloatForm);
-		result.addObject("paradesMap", paradesMap);
 
 		return result;
 	}
@@ -117,17 +103,14 @@ public class AcmeFloatController extends AbstractController {
 		if (this.brotherhoodService.findPrincipal() == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloat = this.acmeFloatService.findOne(id);
+		if (acmeFloat == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
 			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloatForm = this.acmeFloatService.deconstruct(acmeFloat);
-		final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
-		final HashMap<Integer, String> paradesMap = new HashMap<>();
-		for (final Parade parade : parades)
-			paradesMap.put(parade.getId(), parade.getTitle());
 
 		result = new ModelAndView("float/edit");
 		result.addObject("acmeFloatForm", acmeFloatForm);
-		result.addObject("paradesMap", paradesMap);
 
 		return result;
 	}
@@ -146,24 +129,16 @@ public class AcmeFloatController extends AbstractController {
 				acmeFloat = this.acmeFloatService.findOne(acmeFloatForm.getId());
 				if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
 					return new ModelAndView("redirect:/welcome/index.do");
+				if (acmeFloat == null)
+					return new ModelAndView("redirect:/welcome/index.do");
 			}
 			acmeFloat = this.acmeFloatService.reconstruct(acmeFloatForm, bindingResult);
 			acmeFloat.setBrotherhood(this.brotherhoodService.findPrincipal());
-			if (acmeFloat.getParades() == null)
-				acmeFloat.setParades(new ArrayList<Parade>());
-			for (final Parade parade : acmeFloat.getParades())
-				if (!this.brotherhoodService.findPrincipal().equals(parade.getBrotherhood()))
-					return new ModelAndView("redirect:/welcome/index.do");
 			acmeFloat = this.acmeFloatService.save(acmeFloat);
 			result = this.show(acmeFloat.getId());
 		} else {
-			final Collection<Parade> parades = this.brotherhoodService.findPrincipal().getParades();
-			final HashMap<Integer, String> paradesMap = new HashMap<>();
-			for (final Parade parade : parades)
-				paradesMap.put(parade.getId(), parade.getTitle());
 			result = new ModelAndView("float/edit");
 			result.addObject("acmeFloatForm", acmeFloatForm);
-			result.addObject("paradesMap", paradesMap);
 		}
 
 		return result;
@@ -179,6 +154,8 @@ public class AcmeFloatController extends AbstractController {
 		if (this.brotherhoodService.findPrincipal() == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		acmeFloat = this.acmeFloatService.findOne(id);
+		if (acmeFloat == null)
+			return new ModelAndView("redirect:/welcome/index.do");
 		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
 			return new ModelAndView("redirect:/welcome/index.do");
 		this.acmeFloatService.delete(acmeFloat);

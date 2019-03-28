@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class ParadeService {
 	private BrotherhoodService	brotherhoodService;
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
+	// Supporting services
 
 	@Autowired
 	private Validator			validator;
@@ -67,42 +69,48 @@ public class ParadeService {
 		parade.setAcmeFloats(new ArrayList<AcmeFloat>());
 		parade.setIsDraft(true);
 		parade.setDescription("");
-		parade.setMoment(new Date());
 		parade.setTitle("");
-		if (parade.getTicker() == null || parade.getTicker().isEmpty()) {
-			final Calendar calendar = new GregorianCalendar();
-			String dateString = "";
-			dateString += String.format("%02d", calendar.get(Calendar.YEAR) % 100);
-			dateString += String.format("%02d", calendar.get(Calendar.MONTH) + 1);
-			dateString += String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
-			dateString += "-";
-			String ticker;
-			do {
-				ticker = dateString;
-				for (int i = 0; i < ParadeService.TICKER_LENGTH; ++i)
-					ticker += ParadeService.TICKER_ALPHABET.charAt(this.random.nextInt(ParadeService.TICKER_ALPHABET.length()));
-			} while (this.paradeRepository.findByTicker(ticker).size() > 0);
-			parade.setTicker(ticker);
-		}
-
+		if (parade.getTicker() == null || parade.getTicker().isEmpty())
+			this.generateTicker(parade);
 		return parade;
 	}
 
-	public Parade save(final Parade parade) {
-		Assert.isTrue(parade != null);
-		if (parade.getMoment() == null)
-			parade.setMoment(new Date());
+	private void generateTicker(final Parade parade) {
+		final Calendar calendar = new GregorianCalendar();
+		String dateString = "";
+		dateString += String.format("%02d", calendar.get(Calendar.YEAR) % 100);
+		dateString += String.format("%02d", calendar.get(Calendar.MONTH) + 1);
+		dateString += String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
+		dateString += "-";
+		String ticker;
+		do {
+			ticker = dateString;
+			for (int i = 0; i < ParadeService.TICKER_LENGTH; ++i)
+				ticker += ParadeService.TICKER_ALPHABET.charAt(this.random.nextInt(ParadeService.TICKER_ALPHABET.length()));
+		} while (this.paradeRepository.findByTicker(ticker).size() > 0);
+		parade.setTicker(ticker);
+	}
 
-		//TODO: if ticker existe en BBDD, generar nuevo, else, se guarda
-		return this.paradeRepository.save(parade);
+	public Parade save(final Parade parade) {
+		Assert.notNull(parade);
+
+		Parade res = null;
+		while (res == null || res.getId() == 0)
+			try {
+				res = this.paradeRepository.save(parade);
+			} catch (final Throwable oops) {
+				this.generateTicker(parade);
+			}
+
+		return res;
 	}
 
 	public void delete(final Parade parade) {
-		Assert.isTrue(parade != null);
+		Assert.notNull(parade);
+		Assert.isTrue(parade.getIsDraft());
 
 		this.paradeRepository.delete(parade);
 	}
-
 	public Parade findOne(final int id) {
 		return this.paradeRepository.findOne(id);
 	}
@@ -138,7 +146,7 @@ public class ParadeService {
 		return this.paradeRepository.findPossibleMemberParades(memberId);
 	}
 
-	public Parade reconstruct(final ParadeForm paradeForm, final BindingResult bindingResult) {
+	public Parade reconstruct(final ParadeForm paradeForm, final BindingResult binding) {
 		Parade result;
 
 		if (paradeForm.getId() == 0)
@@ -151,7 +159,10 @@ public class ParadeService {
 		result.setMoment(paradeForm.getMoment());
 		result.setAcmeFloats(paradeForm.getAcmeFloats());
 
-		this.validator.validate(result, bindingResult);
+		this.validator.validate(result, binding);
+		this.paradeRepository.flush();
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}

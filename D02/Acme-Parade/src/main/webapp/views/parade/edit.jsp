@@ -1,5 +1,5 @@
 <%--
- * edit.jsp
+ * parade/edit.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -20,49 +20,43 @@
 
 	<!-- Hidden fields -->
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	
-	<form:hidden path="ticker" />
-	
-	<form:hidden path="brotherhood"/>
 
 	<!-- Input fields -->
 	<form:label path="title">
-		<spring:message code="parade.title" />
+		<strong><spring:message code="parade.title" /></strong>
 	</form:label>
 	<form:input path="title" />
 	<form:errors cssClass="error" path="title" />
 	<br>
 
 	<form:label path="description">
-		<spring:message code="parade.description" />
+		<strong><spring:message code="parade.description" /></strong>
 	</form:label>
 	<form:textarea path="description" />
 	<form:errors cssClass="error" path="description" />
 	<br>
 	
 	<form:label path="moment">
-		<spring:message code="parade.moment" />
+		<strong><spring:message code="parade.moment" /></strong>
 	</form:label>
-	<form:input path="moment" />
+	<form:input path="moment" placeholder="dd/mm/yyyy hh:mm"/>
 	<form:errors cssClass="error" path="moment" />
 	<br>
-	
+
 	<form:label path="acmeFloats">
-		<spring:message code="parade.acmeFloats" />
+		<strong><spring:message code="parade.acmeFloats" /></strong>
 	</form:label>
 	<form:select id="acmeFloats" path="acmeFloats">
-		<form:options items="${acmeFloats}" itemLabel="title"
-			itemValue="id" />
-		<form:option value="" label="----" />
+		<form:options items="${acmeFloats}" itemLabel="title" itemValue="id" />
 	</form:select>
 	<form:errors cssClass="error" path="acmeFloats" />
 	<br>
 
 	<acme:submit name="save" code="save"/>
-	<input type="submit" name="finalMode"
-		value="<spring:message code='parade.finalMode'/>" />
-	<acme:cancel url="welcome/index.do" code="master.page.action.cancel"/>
-
+	<jstl:if test="${parade.id != 0}">
+		<input type="submit" name="finalMode"
+			value="<spring:message code='parade.finalMode'/>" />
+	</jstl:if>
+	<acme:cancel url="parade/brotherhood/list.do" code="master.page.action.cancel"/>
 
 </form:form>

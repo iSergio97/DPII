@@ -1,3 +1,20 @@
+<!--
+ * register/register.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<script>
+	function alertPhoneNumber() {
+		var phoneNumber = document.getElementById('phoneNumber').value;
+		var re = new RegExp("^[0-9]{4,}$");
+		var option = true;
+		if (re.test(phoneNumber)) {
+			option = confirm('Entra en el alert');
+		}
+		return option;
+	}
+</script>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -19,7 +36,7 @@
 
 	<div>
 		<form:form modelAttribute="member" method="POST"
-			action="register/member/edit.do">
+			action="register/member/edit.do" id="test">
 
 			<!-- Campos ocultos -->
 
@@ -32,7 +49,7 @@
 			<br>
 			<acme:register code="surname" path="surname" />
 			<br>
-			<acme:register code="photo" path="photo" />
+			<acme:registerPhoto code="photo" path="photo" />
 			<br>
 			<acme:register code="email" path="email" />
 			<br>
@@ -47,12 +64,12 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-
-			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<acme:submit name="save" code="save" />
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 
@@ -68,7 +85,7 @@
 
 	<div>
 		<form:form modelAttribute="administrator" method="POST"
-			action="register/administrator/edit.do">
+			action="register/administrator/edit.do" id="test">
 
 			<!-- Campos ocultos -->
 
@@ -96,10 +113,12 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-
+			<br>
 			<spring:message code="termsAndConditions" />
-
-			<acme:submit name="save" code="save" />
+			<br>
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 
@@ -138,7 +157,7 @@
 			<br>
 			<acme:register code="title" path="title" />
 			<br>
-			<acme:registerDate code="establishmentDate" path="establishmentDate"/>
+			<acme:registerDate code="establishmentDate" path="establishmentDate" />
 			<br>
 
 			<!-- Campos de usuario -->
@@ -148,18 +167,15 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-			
-			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<acme:submit name="save" code="save" />
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
-
 
 		</form:form>
 	</div>
 </jstl:if>
-
-

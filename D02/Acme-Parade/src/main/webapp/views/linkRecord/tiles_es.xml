@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * linkRecord/tiles_es.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	
+	<definition name="/linkRecord/create" extends="master.page">
+		<put-attribute name="title" value="Crear link Record" />
+		<put-attribute name="body" value="/views/linkRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/linkRecord/edit" extends="master.page">
+		<put-attribute name="title" value="Editar link Record" />
+		<put-attribute name="body" value="/views/linkRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/linkRecord/list" extends="master.page">
+		<put-attribute name="title" value="Listar link Records" />
+		<put-attribute name="body" value="/views/linkRecord/list.jsp" />
+	</definition>
+	
+	<definition name="/linkRecord/show" extends="master.page">
+		<put-attribute name="title" value="Mostrar link Record" />
+		<put-attribute name="body" value="/views/linkRecord/show.jsp" />
+	</definition>
+	
+</tiles-definitions>

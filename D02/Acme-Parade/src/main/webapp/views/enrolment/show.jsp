@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * enrolment/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  --%>
@@ -14,17 +14,30 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><strong> <spring:message code="member.name"/>:</strong> <jstl:out value="${member.name}"/></p>
-<p><strong> <spring:message code="member.surname"/></strong>
-	<jstl:out value="${member.surname}"/> </p>
-<p><strong> <spring:message code="member.position"/>:</strong>
-<jstl:if test="${locale == 'es'}">
-	<jstl:out value="${es}"/>
-</jstl:if>
-
-<jstl:if test="${locale == 'en'}">
-	<jstl:out value="${en}"/>
-</jstl:if>
+<p>
+	<strong>
+		<spring:message code="member.name"/>:
+	</strong>
+		<jstl:out value="${member.name}"/>
+</p>
+<p>
+	<strong>
+		<spring:message code="member.surname"/>:
+	</strong>
+		<jstl:out value="${member.surname}"/>
+</p>
+<p>
+	<strong>
+		<spring:message code="member.position"/>:
+	</strong>
+	<jstl:if test="${locale == 'es'}">
+		<jstl:out value="${es}"/>
+	</jstl:if>
+	<jstl:if test="${locale == 'en'}">
+		<jstl:out value="${en}"/>
+	</jstl:if>
 </p>
 
-<a href="enrolment/brotherhood/edit.do?enrolmentId=${enrolment.id}"> <spring:message code="enrolment.edit"/> </a>
+<a href="enrolment/brotherhood/edit.do?enrolmentId=${enrolment.id}">
+	<spring:message code="enrolment.edit"/>
+</a>

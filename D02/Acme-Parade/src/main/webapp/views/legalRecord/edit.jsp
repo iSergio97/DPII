@@ -1,3 +1,8 @@
+<%--
+ * legalRecord/edit.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -9,12 +14,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="acmeFloatForm" method="POST" action="float/brotherhood/save.do">
+<form:form modelAttribute="legalRecord" method="POST" action="legalRecord/edit.do">
 
 	<!-- Hidden fields -->
 
 	<form:hidden path="id" />
-
+	
 	<!-- Input fields -->
 
 	<div id="title" class="title">
@@ -24,7 +29,8 @@
 		<form:input path="title" />
 		<form:errors path="title" />
 	</div>
-
+	
+	
 	<div id="description" class="description">
 		<form:label path="description">
 			<spring:message code="description" />
@@ -32,27 +38,34 @@
 		<form:input path="description" />
 		<form:errors path="description" />
 	</div>
-
-	<div id="pictures" class="pictures">
-		<form:label path="pictures">
-			<spring:message code="pictures" />
+	
+	<div id="legalName" class="legalName">
+		<form:label path="legalName">
+			<spring:message code="legalName" />
 		</form:label>
-		<form:input path="pictures" />
-		<form:errors path="pictures" />
+		<form:input path="legalName" />
+		<form:errors path="legalName" />
 	</div>
-
-	<div id="parades" class="parades">
-		<form:label path="parades">
-			<spring:message code="parades" />
+	
+	<div id="VAT" class="VAT">
+		<form:label path="VAT">
+			<spring:message code="VAT" />
 		</form:label>
-		<form:checkboxes items="${paradesMap}" id="parades" path="parades" />
+		<form:input path="VAT" />
+		<form:errors path="VAT" />
 	</div>
-
+	
+	<div id="applicableLaws" class="applicableLaws">
+		<form:label path="applicableLaws">
+			<spring:message code="applicableLaws" />
+		</form:label>
+		<form:input path="applicableLaws" />
+		<form:errors path="applicableLaws" />
+	</div>
+	
 	<!-- Form options -->
 
-	<input type="submit" name="edit" value="<spring:message code='send'/>" />
-	<input type="button" name="cancel"
-		value="<spring:message code='cancel' />"
-		onclick="javascript: relativeRedir('welcome/index.do');" />
-
+	<input type="submit" name="save" value="<spring:message code="send" />" />
+	<input type="button" name="cancel" value="<spring:message code="cancel" />" onclick="javascript: relativeRedir('welcome/index.do');" />	
+	
 </form:form>
