@@ -124,8 +124,6 @@ public class LegalRecordController extends AbstractController {
 		bro = this.brotherhoodService.findPrincipal();
 		h = bro.getHistory();
 		records = h.getRecords();
-		if (record.getVAT() < 0.0)
-			bindingResult.rejectValue("VAT", "min.vat");
 
 		if (record.getVAT() < 0.0)
 			bindingResult.rejectValue("VAT", "min.vat");
