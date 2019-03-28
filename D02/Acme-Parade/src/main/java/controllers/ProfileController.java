@@ -349,14 +349,15 @@ public class ProfileController extends AbstractController {
 						for (final AcmeFloat a : p.getAcmeFloats()) {
 							as.add(new Paragraph("title: " + a.getTitle()));
 							as.add(new Paragraph("description: " + a.getDescription()));
+							as.add(new Paragraph("pictures: "));
 							if (a.getPictures().size() != 0)
 								for (final String s : a.getPictures())
 									as.add(new Paragraph(s));
 							else
-								as.add(new Paragraph("a[]"));
+								as.add(new Paragraph("[]"));
 						}
 					else
-						as.add(new Paragraph("b[]"));
+						as.add(new Paragraph("[]"));
 					as.add(new Paragraph("\n"));
 				}
 			else
