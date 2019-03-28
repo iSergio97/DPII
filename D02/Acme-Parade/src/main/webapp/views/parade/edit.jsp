@@ -51,11 +51,15 @@
 	</form:select>
 	<form:errors cssClass="error" path="acmeFloats" />
 	<br>
+	
+	<!-- Buttons -->
 
-	<acme:submit name="save" code="save"/>
+	<acme:submit name="save" code="master.page.action.save"/>
 	<jstl:if test="${parade.id != 0}">
 		<input type="submit" name="finalMode"
 			value="<spring:message code='parade.finalMode'/>" />
+		<input type="submit" name="delete"
+			value="<spring:message code='master.page.action.delete'/>" />
 	</jstl:if>
 	<acme:cancel url="parade/brotherhood/list.do" code="master.page.action.cancel"/>
 

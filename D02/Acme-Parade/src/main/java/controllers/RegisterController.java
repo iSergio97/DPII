@@ -1,7 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
@@ -23,6 +26,7 @@ import services.FinderService;
 import services.MemberService;
 import services.MessageBoxService;
 import services.SystemConfigurationService;
+import utilities.RandomGenerator;
 import domain.Administrator;
 import domain.Area;
 import domain.Brotherhood;
@@ -154,6 +158,44 @@ public class RegisterController extends AbstractController {
 
 		return result;
 	}
+
+	// Delete: Administrator --------------------------------------------------
+
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "deleteAdministrator")
+	public ModelAndView deleteAdministrator(final AdministratorForm administratorForm, final BindingResult binding) {
+		ModelAndView result;
+		Administrator administrator;
+
+		try {
+			administrator = this.administratorService.reconstructForm(administratorForm, binding);
+			if (LoginService.getPrincipal().getId() != administrator.getUserAccount().getId())
+				result = new ModelAndView("redirect:/welcome/index.do");
+			else {
+				UserAccount userAccount;
+				userAccount = administrator.getUserAccount();
+				administrator.setName(".");
+				administrator.setMiddleName(null);
+				administrator.setSurname(".");
+				administrator.setPhoto(null);
+				administrator.setEmail("identifier@");
+				administrator.setPhoneNumber("0000");
+				administrator.setAddress(null);
+				administrator.setIsSuspicious(false);
+				administrator.setPolarityScore(null);
+				administrator.setIsBanned(true);
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				administrator.setUserAccount(userAccount);
+				this.administratorService.save(administrator);
+				result = new ModelAndView("redirect:../j_spring_security_logout");
+			}
+		} catch (final Throwable oops) {
+			result = this.createAndEditModelAndView(administratorForm, "administrator.commit.error");
+		}
+
+		return result;
+	}
+
 	// Administrator ancillary methods ---------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final AdministratorForm administrator) {
@@ -301,6 +343,45 @@ public class RegisterController extends AbstractController {
 		return result;
 	}
 
+	// Delete: Brotherhood ----------------------------------------------------
+
+	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "deleteBrotherhood")
+	public ModelAndView deleteBrotherhood(final BrotherhoodForm brotherhoodForm, final BindingResult binding) {
+		ModelAndView result;
+		Brotherhood brotherhood;
+
+		try {
+			brotherhood = this.brotherhoodService.reconstructForm(brotherhoodForm, binding);
+			if (LoginService.getPrincipal().getId() != brotherhood.getUserAccount().getId())
+				result = new ModelAndView("redirect:/welcome/index.do");
+			else {
+				UserAccount userAccount;
+				userAccount = brotherhood.getUserAccount();
+				brotherhood.setName(".");
+				brotherhood.setMiddleName(null);
+				brotherhood.setSurname(".");
+				brotherhood.setPhoto(null);
+				brotherhood.setEmail("identifier@");
+				brotherhood.setPhoneNumber("0000");
+				brotherhood.setAddress(null);
+				brotherhood.setIsSuspicious(false);
+				brotherhood.setPolarityScore(null);
+				brotherhood.setIsBanned(true);
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				brotherhood.setUserAccount(userAccount);
+				brotherhood.setTitle(".");
+				brotherhood.setEstablishmentDate(new Date(1900, 01, 01));
+				brotherhood.setPictures(new ArrayList<String>());
+				this.brotherhoodService.save(brotherhood);
+				result = new ModelAndView("redirect:../j_spring_security_logout");
+			}
+		} catch (final Throwable oops) {
+			result = this.createAndEditModelAndView(brotherhoodForm, "brotherhood.commit.error");
+		}
+
+		return result;
+	}
 	// Brotherhood ancillary methods -----------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final BrotherhoodForm brotherhood) {
@@ -411,6 +492,44 @@ public class RegisterController extends AbstractController {
 		}
 		return result;
 	}
+
+	// Delete: Member --------------------------------------------------
+
+	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "deleteMember")
+	public ModelAndView deleteMember(final MemberForm memberForm, final BindingResult binding) {
+		ModelAndView result;
+		Member member;
+
+		try {
+			member = this.memberService.reconstructForm(memberForm, binding);
+			if (LoginService.getPrincipal().getId() != member.getUserAccount().getId())
+				result = new ModelAndView("redirect:/welcome/index.do");
+			else {
+				UserAccount userAccount;
+				userAccount = member.getUserAccount();
+				member.setName(".");
+				member.setMiddleName(null);
+				member.setSurname(".");
+				member.setPhoto(null);
+				member.setEmail("identifier@");
+				member.setPhoneNumber("0000");
+				member.setAddress(null);
+				member.setIsSuspicious(false);
+				member.setPolarityScore(null);
+				member.setIsBanned(true);
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
+				member.setUserAccount(userAccount);
+				this.memberService.save(member);
+				result = new ModelAndView("redirect:../j_spring_security_logout");
+			}
+		} catch (final Throwable oops) {
+			result = this.createAndEditModelAndView(memberForm, "brotherhood.commit.error");
+		}
+
+		return result;
+	}
+
 	// Member ancillary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final MemberForm member) {
 		ModelAndView result;
