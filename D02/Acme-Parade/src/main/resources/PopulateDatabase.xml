@@ -750,7 +750,7 @@
 		<list>
 		</list>
 		</property>
-		<property name="history" ref="history4"/>
+	<!--  	<property name="history" ref="history4"/> -->
 	</bean>
 
 	<!-- Members -->
@@ -1021,6 +1021,7 @@
 	<!--  HISTORIES -->
 	
 	<bean id="history1" class="domain.History">
+		<property name="brotherhood" ref = "brotherhood1"/>
 		<property name="records">
 			<list>
 				<ref bean="inceptionRecord1"/>
@@ -1033,6 +1034,7 @@
 	</bean>
 	
 	<bean id="history2" class="domain.History">
+		<property name="brotherhood" ref = "brotherhood2"/>
 		<property name="records">
 			<list>
 				<ref bean="inceptionRecord2"/>
@@ -1045,6 +1047,7 @@
 	</bean>
 	
 	<bean id="history3" class="domain.History">
+		<property name="brotherhood" ref = "brotherhood3"/>
 		<property name="records">
 			<list>
 				<ref bean="inceptionRecord3"/>
@@ -1056,7 +1059,8 @@
 		</property>
 	</bean>
 	
-	<bean id="history4" class="domain.History">
+<!-- 	<bean id="history4" class="domain.History">
+		<property name="brotherhood" ref = "brotherhood4"/>
 		<property name="records">
 			<list>
 				<ref bean="inceptionRecord4"/>
@@ -1066,7 +1070,7 @@
 				<ref bean="miscellaneousRecord4"/>
 			</list>
 		</property>
-	</bean>
+	</bean>   -->
 	
 	<!-- INCEPTION RECORDS -->
 	
@@ -1100,7 +1104,7 @@
 		</property>
 	</bean>
 	
-	<bean id="inceptionRecord4" class="domain.InceptionRecord">
+<!-- 	<bean id="inceptionRecord4" class="domain.InceptionRecord">
 		<property name="title" value="título de inception record 4"/>
 		<property name="description" value = "descripción de inception record 4"/>
 		<property name="history" ref="history4"/>
@@ -1108,7 +1112,7 @@
 			<list>
 			</list>
 		</property>
-	</bean>
+	</bean>  -->
 	
 	<!-- PERIOD RECORDS -->
 
@@ -1148,7 +1152,7 @@
 		</property>
 	</bean>
 	
-	<bean id="periodRecord4" class="domain.PeriodRecord">
+<!-- 	<bean id="periodRecord4" class="domain.PeriodRecord">
 		<property name="title" value="título de period record 4"/>
 		<property name="description" value = "descripción de period record 4"/>
 		<property name="history" ref="history4"/>
@@ -1158,7 +1162,7 @@
 			<list>
 			</list>
 		</property>
-	</bean>
+	</bean>   -->
 	
 	<!-- LEGAL RECORDS -->
 	
@@ -1189,14 +1193,14 @@
 		<property name="applicableLaws" value="Applicable Laws for legal Record 3"/>
 	</bean>
 	
-	<bean id="legalRecord4" class="domain.LegalRecord">
+<!-- 	<bean id="legalRecord4" class="domain.LegalRecord">
 		<property name="title" value="título de legal record 4"/>
 		<property name="description" value = "descripción de legal record 4"/>
 		<property name="history" ref="history4"/>
 		<property name="legalName" value="legal name 4"/>
 		<property name="VAT" value="20.0"/>
 		<property name="applicableLaws" value="Applicable Laws for legal Record 4"/>
-	</bean>
+	</bean>   -->
 	
 	<!-- LINK RECORDS -->
 	
@@ -1221,12 +1225,12 @@
 		<property name="brotherhood" ref="brotherhood1"/>
 	</bean>
 	
-	<bean id="linkRecord4" class="domain.LinkRecord">
+<!-- 	<bean id="linkRecord4" class="domain.LinkRecord">
 		<property name="title" value="título de link record 4"/>
 		<property name="description" value = "descripción de link record 4"/>
 		<property name="history" ref="history4"/>
 		<property name="brotherhood" ref="brotherhood2"/>
-	</bean>
+	</bean>   -->
 	
 	<!-- MISCELLANEOUS RECORDS -->
 	
@@ -1248,11 +1252,11 @@
 		<property name="history" ref="history3"/>
 	</bean>
 	
-	<bean id="miscellaneousRecord4" class="domain.MiscellaneousRecord">
+<!-- 	<bean id="miscellaneousRecord4" class="domain.MiscellaneousRecord">
 		<property name="title" value="título de miscellaneous record 4"/>
 		<property name="description" value = "descripción de miscellaneous record 4"/>
 		<property name="history" ref="history4"/>
-	</bean>
+	</bean>   -->
 
 	<!-- Other domain beans come here -->
 
