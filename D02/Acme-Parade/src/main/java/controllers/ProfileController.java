@@ -156,7 +156,7 @@ public class ProfileController extends AbstractController {
 			final String locale = System.getProperty("user.home");
 			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
 			as.open();
-			as.addTitle("Export userData");
+			as.add(new Paragraph("Exporting user data"));
 			System.out.println("Entra al try");
 			System.out.println("Crea el documento");
 			final Paragraph userData = new Paragraph("Userdata");
@@ -185,55 +185,66 @@ public class ProfileController extends AbstractController {
 			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
 			as.add(messages);
 			System.out.println("Crea messages");
-			for (final Message m : member.getMessagesSent()) {
-				as.add(new Paragraph(m.getRecipients().toArray()[0].toString()));
-				as.add(new Paragraph(m.getSubject()));
-				as.add(new Paragraph(m.getBody()));
-				as.add(new Paragraph(m.getTags().toString()));
-				as.add(new Paragraph(m.getDate().toGMTString()));
-				as.add(new Paragraph(m.getPriority().toString()));
-			}
-			for (final Message m : member.getMessagesReceived()) {
-				as.add(new Paragraph(m.getSender().getName()));
-				as.add(new Paragraph(m.getBody()));
-				as.add(new Paragraph(m.getSubject()));
-				as.add(new Paragraph(m.getTags().toString()));
-				as.add(new Paragraph(m.getPriority().toString()));
-				as.add(new Paragraph(m.getDate().toGMTString()));
-			}
-
+			if (member.getMessagesSent().size() != 0)
+				for (final Message m : member.getMessagesSent()) {
+					as.add(new Paragraph(m.getRecipients().toArray()[0].toString()));
+					as.add(new Paragraph(m.getSubject()));
+					as.add(new Paragraph(m.getBody()));
+					as.add(new Paragraph(m.getTags().toString()));
+					as.add(new Paragraph(m.getDate().toGMTString()));
+					as.add(new Paragraph(m.getPriority().toString()));
+				}
+			else
+				as.add(new Paragraph("[]"));
+			if (member.getMessagesReceived().size() != 0)
+				for (final Message m : member.getMessagesReceived()) {
+					as.add(new Paragraph(m.getSender().getName()));
+					as.add(new Paragraph(m.getBody()));
+					as.add(new Paragraph(m.getSubject()));
+					as.add(new Paragraph(m.getTags().toString()));
+					as.add(new Paragraph(m.getPriority().toString()));
+					as.add(new Paragraph(m.getDate().toGMTString()));
+				}
+			else
+				as.add(new Paragraph("[]"));
 			final Paragraph profiles = new Paragraph("\n\nProfiles");
 			as.add(profiles);
 			System.out.println("Crea profiles");
-			for (final SocialProfile p : member.getSocialProfiles()) {
-				as.add(new Paragraph("nick: " + p.getNick()));
-				as.add(new Paragraph("link: " + p.getProfileLink()));
-				as.add(new Paragraph("social network: " + p.getSocialNetworkName()));
-			}
+			if (member.getSocialProfiles().size() != 0)
+				for (final SocialProfile p : member.getSocialProfiles()) {
+					as.add(new Paragraph("nick: " + p.getNick()));
+					as.add(new Paragraph("link: " + p.getProfileLink()));
+					as.add(new Paragraph("social network: " + p.getSocialNetworkName()));
+				}
+			else
+				as.add(new Paragraph("[]"));
 			final Paragraph enrols = new Paragraph("\n\nEnrols");
 			as.add(enrols);
 			System.out.println("Crea enrols");
-			for (final Enrolment e : member.getEnrolments()) {
-				as.add(new Paragraph("brotherhood: " + e.getBrotherhood().getTitle()));
-				as.add(new Paragraph("join moment: " + e.getMoment().toGMTString()));
-				if (e.getExitMoment() != null)
-					as.add(new Paragraph("exit moment: " + e.getExitMoment().toGMTString()));
-				else
-					as.add(new Paragraph("exit moment: null"));
-
-				as.add(new Paragraph("position: " + e.getPosition().getStrings().values().toString()));
-
-			}
+			if (member.getEnrolments().size() != 0)
+				for (final Enrolment e : member.getEnrolments()) {
+					as.add(new Paragraph("brotherhood: " + e.getBrotherhood().getTitle()));
+					as.add(new Paragraph("join moment: " + e.getMoment().toGMTString()));
+					if (e.getExitMoment() != null)
+						as.add(new Paragraph("exit moment: " + e.getExitMoment().toGMTString()));
+					else
+						as.add(new Paragraph("exit moment: null"));
+					as.add(new Paragraph("position: " + e.getPosition().getStrings().values()));
+				}
+			else
+				as.add(new Paragraph("[]"));
 			final Paragraph requests = new Paragraph("\n\nRequests");
 			as.add(requests);
 			System.out.println("Crea requests");
-			for (final Request r : member.getRequests()) {
-				as.add(new Paragraph("parade: " + r.getParade().toString()));
-				as.add(new Paragraph("status:" + r.getStatus()));
-				as.add(new Paragraph("reason:" + r.getReason()));
-				as.add(new Paragraph("position: " + r.getHLine() + ", " + r.getVLine()));
-			}
-
+			if (member.getRequests().size() != 0)
+				for (final Request r : member.getRequests()) {
+					as.add(new Paragraph("parade: " + r.getParade().toString()));
+					as.add(new Paragraph("status:" + r.getStatus()));
+					as.add(new Paragraph("reason:" + r.getReason()));
+					as.add(new Paragraph("position: " + r.getHLine() + ", " + r.getVLine()));
+				}
+			else
+				as.add(new Paragraph("[]"));
 			final Finder f = member.getFinder();
 			final Paragraph finder = new Paragraph("\n\nFinder");
 			System.out.println("Crea finder");
