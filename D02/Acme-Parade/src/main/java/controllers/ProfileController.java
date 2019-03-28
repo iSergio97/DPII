@@ -23,9 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.AdministratorService;
 import services.BrotherhoodService;
+import services.InceptionRecordService;
+import services.LegalRecordService;
 import services.LinkRecordService;
 import services.MemberService;
 import services.MessageBoxService;
+import services.MiscellaneousRecordService;
+import services.PeriodRecordService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -37,10 +41,14 @@ import com.lowagie.text.pdf.PdfWriter;
 import domain.Administrator;
 import domain.Brotherhood;
 import domain.Enrolment;
+import domain.InceptionRecord;
+import domain.LegalRecord;
 import domain.LinkRecord;
 import domain.Member;
 import domain.Message;
 import domain.MessageBox;
+import domain.MiscellaneousRecord;
+import domain.PeriodRecord;
 import domain.SocialProfile;
 import forms.AdministratorForm;
 import forms.BrotherhoodForm;
@@ -51,19 +59,31 @@ import forms.MemberForm;
 public class ProfileController extends AbstractController {
 
 	@Autowired
-	private MemberService			memberService;
+	private MemberService				memberService;
 
 	@Autowired
-	private BrotherhoodService		brotherhoodService;
+	private BrotherhoodService			brotherhoodService;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private MessageBoxService		messageBoxService;
+	private MessageBoxService			messageBoxService;
 
 	@Autowired
-	private LinkRecordService		linkRecordService;
+	private LinkRecordService			linkRecordService;
+
+	@Autowired
+	private MiscellaneousRecordService	miscellaneousRecordService;
+
+	@Autowired
+	private LegalRecordService			legalRecordService;
+
+	@Autowired
+	private InceptionRecordService		inceptionRecordService;
+
+	@Autowired
+	private PeriodRecordService			periodRecordService;
 
 
 	// Action-1 ---------------------------------------------------------------		
@@ -147,8 +167,8 @@ public class ProfileController extends AbstractController {
 	}
 
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "/member/export", method = RequestMethod.GET)
-	public ModelAndView exportMember() {
+	@RequestMapping(value = "/brotherhood/export", method = RequestMethod.GET)
+	public ModelAndView exportBrotherhood() {
 		ModelAndView result;
 		final Brotherhood member = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
 		result = new ModelAndView("redirect:/welcome/index.do");
@@ -238,26 +258,86 @@ public class ProfileController extends AbstractController {
 					else
 						as.add(new Paragraph("exit moment: null"));
 					as.add(new Paragraph("position: " + e.getPosition().getStrings()));
-					as.add(new Paragraph("\n)"));
+					as.add(new Paragraph("\n"));
 				}
 			else
 				as.add(new Paragraph("[]"));
 
-			as.add(new Paragraph("\n\narea"));
+			as.add(new Paragraph("\n\nArea"));
 			as.add(new Paragraph(member.getArea().getName()));
 			as.add(new Paragraph("\n\npictures: "));
 			for (final String s : member.getArea().getPictures())
 				as.add(new Paragraph(s));
 
+			final int idHistory = member.getHistory().getId();
 			as.add(new Paragraph("Link records: "));
-			final List<LinkRecord> lR = (List<LinkRecord>) this.linkRecordService.getLinkRecordsByHistory(member.getHistory().getId());
-			for (final LinkRecord r : lR) {
-				as.add(new Paragraph(r.getTitle()));
-				as.add(new Paragraph(r.getDescription()));
-				as.add(new Paragraph(r.getBrotherhood().getTitle()));
+			final List<LinkRecord> lR = (List<LinkRecord>) this.linkRecordService.getLinkRecordsByHistory(idHistory);
+			if (!lR.isEmpty())
+				for (final LinkRecord r : lR) {
+					as.add(new Paragraph("title: " + r.getTitle()));
+					as.add(new Paragraph("description: " + r.getDescription()));
+					as.add(new Paragraph("brotherhood: " + r.getBrotherhood().getTitle()));
+					as.add(new Paragraph("\n"));
+				}
+			else
+				as.add(new Paragraph("[]"));
+			as.add(new Paragraph("Miscellaneous records: "));
+			final List<MiscellaneousRecord> mR = (List<MiscellaneousRecord>) this.miscellaneousRecordService.getMiscellaneousRecordsByHistory(idHistory);
+			if (!mR.isEmpty())
+				for (final MiscellaneousRecord r : mR) {
+					as.add(new Paragraph("title: " + r.getTitle()));
+					as.add(new Paragraph("title: " + r.getDescription()));
+					as.add(new Paragraph("\n"));
+				}
+			else
+				as.add(new Paragraph("[]"));
+			as.add(new Paragraph("Legal records: "));
+			final List<LegalRecord> legalRecord = (List<LegalRecord>) this.legalRecordService.getLegalRecordsByHistory(idHistory);
+			if (!legalRecord.isEmpty())
+				for (final LegalRecord r : legalRecord) {
+					as.add(new Paragraph("title: " + r.getTitle()));
+					as.add(new Paragraph("description: " + r.getDescription()));
+					as.add(new Paragraph("legal name: " + r.getLegalName()));
+					final String vat = String.valueOf(r.getVAT());
+					as.add(new Paragraph("vat: " + vat));
+					as.add(new Paragraph("aplicable laws: " + r.getApplicableLaws()));
+					as.add(new Paragraph("\n"));
+				}
+			else {
+				as.add(new Paragraph("[]"));
+				as.add(new Paragraph("\n"));
 			}
+			final InceptionRecord iR = this.inceptionRecordService.getInceptionRecordByHistory(idHistory);
+			as.add(new Paragraph("Inception record: "));
+			if (iR != null) {
+				as.add(new Paragraph("title: " + iR.getTitle()));
+				as.add(new Paragraph("description: " + iR.getDescription()));
+				as.add(new Paragraph("photos: "));
+				if (!iR.getPhotos().isEmpty())
+					for (final String s : iR.getPhotos())
+						as.add(new Paragraph(s));
+				else
+					as.add(new Paragraph("[]"));
+			}
+			as.add(new Paragraph("\n"));
 
-			//TODO: Seguir acabando la exportación de records
+			final List<PeriodRecord> pR = (List<PeriodRecord>) this.periodRecordService.getPeriodRecordsByHistory(idHistory);
+			if (!pR.isEmpty())
+				for (final PeriodRecord p : pR) {
+					as.add(new Paragraph(p.getTitle()));
+					as.add(new Paragraph(p.getDescription()));
+					as.add(new Paragraph(String.valueOf(p.getStartYear())));
+					as.add(new Paragraph(String.valueOf(p.getEndYear())));
+					if (!p.getPhotos().isEmpty())
+						for (final String s : p.getPhotos())
+							as.add(new Paragraph(s));
+					as.add(new Paragraph("\n"));
+				}
+			else
+				as.add(new Paragraph("[]"));
+
+			as.add(new Paragraph("\n\nParades"));
+
 		} catch (FileNotFoundException | DocumentException e1) {
 			e1.printStackTrace();
 		}
@@ -268,10 +348,10 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "/brotherhood/export", method = RequestMethod.GET)
-	public ModelAndView exportBrotherhood() {
+	@RequestMapping(value = "/member/export", method = RequestMethod.GET)
+	public ModelAndView exportMember() {
 		final ModelAndView result;
-		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Brotherhood member = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
 		result = new ModelAndView("redirect:/welcome/index.do");
 		final String username = member.getUserAccount().getUsername();
 		final String password = member.getUserAccount().getPassword();

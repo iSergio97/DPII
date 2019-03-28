@@ -99,4 +99,7 @@ public class InceptionRecordService {
 		return this.inceptionRecordRepository.findAll();
 	}
 
+	public InceptionRecord getInceptionRecordByHistory(final int historyId) {
+		return this.inceptionRecordRepository.getInceptionRecordByHistory(historyId);
+	}
 }
