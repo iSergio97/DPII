@@ -2,6 +2,7 @@ E:\DPII\D02\Acme-Parade\src\main\java\domain\Finder.java
 E:\DPII\D02\Acme-Parade\src\main\java\domain\PeriodRecord.java
 E:\DPII\D02\Acme-Parade\src\main\java\repositories\MiscellaneousRecordRepository.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\ParadeService.java
+E:\DPII\D02\Acme-Parade\src\main\java\utilities\RandomGenerator.java
 E:\DPII\D02\Acme-Parade\src\main\java\repositories\AreaRepository.java
 E:\DPII\D02\Acme-Parade\src\main\java\domain\Enrolment.java
 E:\DPII\D02\Acme-Parade\src\main\java\domain\SocialProfile.java
@@ -21,6 +22,7 @@ E:\DPII\D02\Acme-Parade\src\main\java\controllers\ProfileController.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\PositionToStringConverter.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\EnrolmentService.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\StringToPositionConverter.java
+E:\DPII\D02\Acme-Parade\src\main\java\forms\SystemConfigurationForm.java
 E:\DPII\D02\Acme-Parade\src\main\java\repositories\PositionRepository.java
 E:\DPII\D02\Acme-Parade\src\main\java\repositories\SystemConfigurationRepository.java
 E:\DPII\D02\Acme-Parade\src\main\java\utilities\internal\EclipseConsole.java
@@ -69,6 +71,7 @@ E:\DPII\D02\Acme-Parade\src\main\java\repositories\InceptionRecordRepository.jav
 E:\DPII\D02\Acme-Parade\src\main\java\domain\Priority.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\RecordService.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\MiscellaneousRecordService.java
+E:\DPII\D02\Acme-Parade\src\main\java\forms\PriorityForm.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\FinderService.java
 E:\DPII\D02\Acme-Parade\src\main\java\forms\InceptionRecordForm.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\StringToAdministratorConverter.java
@@ -102,12 +105,16 @@ E:\DPII\D02\Acme-Parade\src\main\java\controllers\AdministratorController.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\SocialProfileToStringConverter.java
 E:\DPII\D02\Acme-Parade\src\main\java\utilities\InitialiseDatabase.java
 E:\DPII\D02\Acme-Parade\src\main\java\forms\LinkRecordForm.java
+E:\DPII\D02\Acme-Parade\src\main\java\forms\AreaForm.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\MessageService.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\FinderToStringConverter.java
 E:\DPII\D02\Acme-Parade\src\main\java\domain\Brotherhood.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\ActorToStringConverter.java
+E:\DPII\D02\Acme-Parade\src\main\java\controllers\HistoryController.java
+E:\DPII\D02\Acme-Parade\src\main\java\controllers\InceptionRecordController.java
 E:\DPII\D02\Acme-Parade\src\main\java\converters\StringToSystemConfigurationConverter.java
 E:\DPII\D02\Acme-Parade\src\main\java\services\InceptionRecordService.java
+E:\DPII\D02\Acme-Parade\src\main\java\forms\PositionForm.java
 E:\DPII\D02\Acme-Parade\src\main\java\controllers\MemberController.java
 E:\DPII\D02\Acme-Parade\src\main\java\domain\Member.java
 E:\DPII\D02\Acme-Parade\src\main\java\utilities\PopulateDatabase.java
