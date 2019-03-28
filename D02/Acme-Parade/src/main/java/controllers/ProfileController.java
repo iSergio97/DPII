@@ -38,6 +38,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+import domain.AcmeFloat;
 import domain.Administrator;
 import domain.Brotherhood;
 import domain.Enrolment;
@@ -48,6 +49,7 @@ import domain.Member;
 import domain.Message;
 import domain.MessageBox;
 import domain.MiscellaneousRecord;
+import domain.Parade;
 import domain.PeriodRecord;
 import domain.SocialProfile;
 import forms.AdministratorForm;
@@ -337,6 +339,28 @@ public class ProfileController extends AbstractController {
 				as.add(new Paragraph("[]"));
 
 			as.add(new Paragraph("\n\nParades"));
+			final List<Parade> ls = (List<Parade>) member.getParades();
+			if (!ls.isEmpty())
+				for (final Parade p : ls) {
+					as.add(new Paragraph("title: " + p.getTitle()));
+					as.add(new Paragraph("description: " + p.getDescription()));
+					as.add(new Paragraph("floats: "));
+					if (p.getAcmeFloats().size() != 0)
+						for (final AcmeFloat a : p.getAcmeFloats()) {
+							as.add(new Paragraph("title: " + a.getTitle()));
+							as.add(new Paragraph("description: " + a.getDescription()));
+							if (a.getPictures().size() != 0)
+								for (final String s : a.getPictures())
+									as.add(new Paragraph(s));
+							else
+								as.add(new Paragraph("a[]"));
+						}
+					else
+						as.add(new Paragraph("b[]"));
+					as.add(new Paragraph("\n"));
+				}
+			else
+				as.add(new Paragraph("c[]"));
 
 		} catch (FileNotFoundException | DocumentException e1) {
 			e1.printStackTrace();
