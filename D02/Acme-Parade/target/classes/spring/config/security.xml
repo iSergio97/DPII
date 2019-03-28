@@ -56,6 +56,7 @@
 		<security:intercept-url pattern="/float/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 			<security:intercept-url pattern="/history/**" access="hasRole('BROTHERHOOD')" />
+			<security:intercept-url pattern="/inceptionRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/legalRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/linkRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/miscellaneousRecord/**" access="hasRole('BROTHERHOOD')" />
