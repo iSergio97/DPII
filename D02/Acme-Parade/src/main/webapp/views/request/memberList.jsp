@@ -24,7 +24,7 @@
 		<jstl:out value="${row.parade.title}" />
 	</display:column>
 	<display:column titleKey="request.hLine">
-		<jstl:out value="${row.Hline}" />
+		<jstl:out value="${row.HLine}" />
 	</display:column>
 	<display:column property="VLine" titleKey="request.vLine">
 		<jstl:out value="${row.VLine}" />

@@ -13,17 +13,17 @@
 <tiles-definitions>
 	
 	<definition name="/linkRecord/create" extends="master.page">
-		<put-attribute name="title" value="Crear link Record" />
+		<put-attribute name="title" value="Crear Registro de Enlace" />
 		<put-attribute name="body" value="/views/linkRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/linkRecord/edit" extends="master.page">
-		<put-attribute name="title" value="Editar link Record" />
+		<put-attribute name="title" value="Editar Registro de Enlace" />
 		<put-attribute name="body" value="/views/linkRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/linkRecord/list" extends="master.page">
-		<put-attribute name="title" value="Listar link Records" />
+		<put-attribute name="title" value="Listar Registros de Enlace" />
 		<put-attribute name="body" value="/views/linkRecord/list.jsp" />
 	</definition>
 	

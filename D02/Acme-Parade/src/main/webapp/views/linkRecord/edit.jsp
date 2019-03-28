@@ -13,6 +13,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form modelAttribute="linkRecord" method="POST" action="linkRecord/edit.do">
 
@@ -53,6 +54,15 @@
 	<!-- Form options -->
 
 	<input type="submit" name="save" value="<spring:message code="send" />" />
+	
+
+<form action="linkRecord/edit.do" method="POST">
+	<input type="hidden" name="id" value="<jstl:out value='${linkRecord.id}' />" />
+	<p>
+	</p>
+	<input type="submit" name="delete" value="<spring:message code='delete' />" />
+</form>
+
 	<input type="button" name="cancel" value="<spring:message code="cancel" />" onclick="javascript: relativeRedir('welcome/index.do');" />
 	
 	

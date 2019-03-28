@@ -106,6 +106,7 @@ public class PeriodRecordService {
 		Assert.isTrue(this.brotherhoodService.findPrincipal().getHistory().equals(record.getHistory()));
 		Assert.isTrue(record != null);
 
+		record.setHistory(null);
 		this.periodRecordRepository.delete(record);
 	}
 

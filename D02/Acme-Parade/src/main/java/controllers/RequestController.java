@@ -3,12 +3,11 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -117,7 +116,7 @@ public class RequestController extends AbstractController {
 	// Save
 
 	@RequestMapping(value = "/member/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid final RequestForm request, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("request") final RequestForm request, final BindingResult bindingResult) {
 		ModelAndView result;
 		Request request2;
 
@@ -185,23 +184,24 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/brotherhood/accept", method = RequestMethod.POST)
-	public ModelAndView acceptMember(@RequestParam(value = "id") final int id, @RequestParam(value = "HLine") final int hLine, @RequestParam(value = "VLine") final int vLine) {
+	@RequestMapping(value = "/brotherhood/accept", method = RequestMethod.POST, params = "accept")
+	public ModelAndView acceptMember(@ModelAttribute("request") final RequestForm requestForm, final BindingResult binding) {
 		Request request;
-		Collection<Request> requests;
+		ModelAndView result;
 
-		requests = this.requestService.getOrderedBrotherhoodRequests(this.brotherhoodService.findPrincipal().getId());
-		request = this.requestService.findOne(id);
-		request.setStatus("APPROVED");
-		for (final Request r : requests)
-			if (r.getHLine().equals(request.getHLine()) && r.getVLine().equals(request.getVLine()))
-				break;
-			else
-				request.setHLine(hLine);
-		request.setVLine(vLine);
-		request = this.requestService.save(request);
+		request = this.requestService.reconstructFormBroAccept(requestForm, binding);
 
-		return this.brotherhoodShow(id);
+		if (binding.hasErrors())
+			result = this.acceptModelAndView(requestForm);
+		else
+			try {
+				request.setStatus("APPROVED");
+				this.requestService.save(request);
+				result = new ModelAndView("redirect:/request/brotherhood/list.do");
+			} catch (final Throwable oops) {
+				result = this.createAndEditModelAndView(requestForm, "request.commit.error");
+			}
+		return result;
 	}
 
 	//----Reject Member
@@ -219,17 +219,24 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/brotherhood/reject", method = RequestMethod.POST)
-	public ModelAndView rejectMember(@RequestParam(value = "id") final int id, @RequestParam(value = "reason") final String reason) {
+	@RequestMapping(value = "/brotherhood/reject", method = RequestMethod.POST, params = "reject")
+	public ModelAndView rejectMember(@ModelAttribute("request") final RequestForm requestForm, final BindingResult binding) {
 		Request request;
+		ModelAndView result;
 
-		request = this.requestService.findOne(id);
-		request.setStatus("REJECTED");
-		request.setReason(reason);
+		request = this.requestService.reconstructFormBroReject(requestForm, binding);
 
-		request = this.requestService.save(request);
-
-		return this.brotherhoodShow(id);
+		if (binding.hasErrors())
+			result = this.rejectModelAndView(requestForm);
+		else
+			try {
+				request.setStatus("REJECTED");
+				this.requestService.save(request);
+				result = new ModelAndView("redirect:/request/brotherhood/list.do");
+			} catch (final Throwable oops) {
+				result = this.createAndEditModelAndView(requestForm, "request.commit.error");
+			}
+		return result;
 	}
 
 	// Delete -----------------------------------------------------------------
@@ -271,6 +278,40 @@ public class RequestController extends AbstractController {
 		result = new ModelAndView("/request/member/create");
 		result.addObject("request", request);
 		result.addObject("parades", parades);
+		result.addObject("message", message);
+
+		return result;
+	}
+
+	protected ModelAndView acceptModelAndView(final RequestForm request) {
+		ModelAndView result;
+
+		result = this.acceptModelAndView(request, null);
+
+		return result;
+	}
+
+	protected ModelAndView acceptModelAndView(final RequestForm request, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("/request/brotherhood/accept");
+		result.addObject("message", message);
+
+		return result;
+	}
+
+	protected ModelAndView rejectModelAndView(final RequestForm request) {
+		ModelAndView result;
+
+		result = this.rejectModelAndView(request, null);
+
+		return result;
+	}
+
+	protected ModelAndView rejectModelAndView(final RequestForm request, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("/request/brotherhood/reject");
 		result.addObject("message", message);
 
 		return result;

@@ -15,32 +15,18 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<p>
-	<spring:message code="request.parade" />
-	<jstl:out value=": ${request.parade.title}" />
-</p>
 
-<p>
-<spring:message code="request.status" />
-	<jstl:choose>
-			<jstl:when test = "${request.status == 'PENDING'}">
-				<spring:message code="request.status.pending" />
-			</jstl:when>
-			<jstl:when test = "${request.status == 'APPROVED'}">
-				<spring:message code="request.status.approved" />
-			</jstl:when>
-			<jstl:when test = "${request.status == 'REJECTED'}">
-				<spring:message code="request.status.rejected" />
-			</jstl:when>
-			<jstl:otherwise>
-			</jstl:otherwise>
-		</jstl:choose>
-</p>
+<form:form modelAttribute="request" action="request/brotherhood/accept.do" method="POST">
 
+<!-- Hidden Attributes -->
+
+	
+	<form:hidden path="status" />
+	<form:hidden path="reason" />
+	<form:hidden path="parade" />
 
 <!-- Form options -->
 
-<form action="request/brotherhood/accept.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${request.id}' />" />
 	<p>
 	<spring:message code="request.hLine" />
@@ -52,6 +38,6 @@
 	<br><input type="number" name="VLine" min="1" value="${request.VLine}">
 </p>
 	<input type="submit" name="accept" value="<spring:message code='request.accept' />" />
-</form>
+</form:form>
 
 <acme:cancel url="welcome/index.do" code="cancel" />

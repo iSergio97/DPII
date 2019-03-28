@@ -34,9 +34,4 @@
 	</a>
 </p>
 
-<form action="linkRecord/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${linkRecord.id}' />" />
-	<input type="submit" name="delete" value="<spring:message code='delete' />" />
-</form>
-
 <input type="button" name="edit" value="<spring:message code='edit' />" onclick="javascript: relativeRedir('linkRecord/edit.do?id=${linkRecord.id}');" />

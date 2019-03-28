@@ -120,6 +120,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.brotherhood.history" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="history/show.do"><spring:message code="master.page.brotherhood.history.show" /></a></li>
 					<li><a href="periodRecord/list.do"><spring:message code="master.page.brotherhood.periodRecord" /></a></li>
 					<li><a href="legalRecord/list.do"><spring:message code="master.page.brotherhood.legalRecord" /></a></li>
 					<li><a href="linkRecord/list.do"><spring:message code="master.page.brotherhood.linkRecord" /></a></li>

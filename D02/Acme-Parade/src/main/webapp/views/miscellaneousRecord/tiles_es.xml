@@ -13,17 +13,17 @@
 <tiles-definitions>
 	
 	<definition name="/miscellaneousRecord/create" extends="master.page">
-		<put-attribute name="title" value="Crear miscellaneous Record" />
+		<put-attribute name="title" value="Crear Registro de Miscelánea" />
 		<put-attribute name="body" value="/views/miscellaneousRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/miscellaneousRecord/edit" extends="master.page">
-		<put-attribute name="title" value="Editar miscellaneous Record" />
+		<put-attribute name="title" value="Editar Registro de Miscelánea" />
 		<put-attribute name="body" value="/views/miscellaneousRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/miscellaneousRecord/list" extends="master.page">
-		<put-attribute name="title" value="Listar miscellaneous Record" />
+		<put-attribute name="title" value="Listar Registros de Miscelánea" />
 		<put-attribute name="body" value="/views/miscellaneousRecord/list.jsp" />
 	</definition>
 	

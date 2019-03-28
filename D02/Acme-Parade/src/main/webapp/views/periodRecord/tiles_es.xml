@@ -13,22 +13,22 @@
 <tiles-definitions>
 	
 	<definition name="/periodRecord/create" extends="master.page">
-		<put-attribute name="title" value="Crear period Record" />
+		<put-attribute name="title" value="Crear Registro de Periodo" />
 		<put-attribute name="body" value="/views/periodRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/periodRecord/edit" extends="master.page">
-		<put-attribute name="title" value="Editar period Record" />
+		<put-attribute name="title" value="Editar Registro de Periodo" />
 		<put-attribute name="body" value="/views/periodRecord/edit.jsp" />
 	</definition>
 	
 	<definition name="/periodRecord/list" extends="master.page">
-		<put-attribute name="title" value="Listar Period Records" />
+		<put-attribute name="title" value="Listar Registros de Periodo" />
 		<put-attribute name="body" value="/views/periodRecord/list.jsp" />
 	</definition>
 	
 	<definition name="/periodRecord/show" extends="master.page">
-		<put-attribute name="title" value="Mostrars Period Record" />
+		<put-attribute name="title" value="Mostrar Registro de Periodo" />
 		<put-attribute name="body" value="/views/periodRecord/show.jsp" />
 	</definition>
 	

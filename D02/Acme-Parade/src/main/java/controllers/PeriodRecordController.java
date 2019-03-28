@@ -63,7 +63,7 @@ public class PeriodRecordController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/periodRecord/show", method = RequestMethod.POST, params = "addPhoto")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "addPhoto")
 	public ModelAndView show(@RequestParam(value = "id") final int id, @RequestParam(value = "photo") final String photo) {
 		PeriodRecord periodRecord;
 
@@ -78,7 +78,7 @@ public class PeriodRecordController extends AbstractController {
 		return this.show(periodRecord.getId());
 	}
 
-	@RequestMapping(value = "/periodRecord/show", method = RequestMethod.POST, params = "deletePhoto")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "deletePhoto")
 	public ModelAndView show(@RequestParam(value = "id") final int id, @RequestParam(value = "photoIndex") final int photoIndex) {
 		PeriodRecord periodRecord;
 
@@ -173,7 +173,7 @@ public class PeriodRecordController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/periodRecord/delete", params = "delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit", params = "delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final PeriodRecord periodRecord;

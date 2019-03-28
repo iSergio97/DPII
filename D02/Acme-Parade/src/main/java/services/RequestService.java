@@ -141,6 +141,34 @@ public class RequestService {
 		res.setMember(this.memberService.findByUserAccountId(LoginService.getPrincipal().getId()));
 
 		this.validator.validate(res, bindingResult);
+		this.requestRepository.flush();
+
+		return res;
+	}
+
+	public Request reconstructFormBroAccept(final RequestForm form, final BindingResult bindingResult) {
+		Request res;
+
+		res = this.requestRepository.findOne(form.getId());
+
+		res.setHLine(form.getHLine());
+		res.setVLine(form.getVLine());
+
+		this.validator.validate(res, bindingResult);
+		this.requestRepository.flush();
+
+		return res;
+	}
+
+	public Request reconstructFormBroReject(final RequestForm form, final BindingResult bindingResult) {
+		Request res;
+
+		res = this.requestRepository.findOne(form.getId());
+
+		res.setReason(form.getReason());
+
+		this.validator.validate(res, bindingResult);
+		this.requestRepository.flush();
 
 		return res;
 	}

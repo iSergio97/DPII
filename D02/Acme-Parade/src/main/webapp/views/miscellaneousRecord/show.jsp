@@ -26,14 +26,6 @@
 	<jstl:out value="${miscellaneousRecord.title}" />
 </p>
 
-
-
-
-<form action="miscellaneousRecord/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${miscellaneousRecord.id}' />" />
-	<input type="submit" name="delete" value="<spring:message code='delete' />" />
-</form>
-
 <input type="button" name="edit" value="<spring:message code='edit' />" onclick="javascript: relativeRedir('miscellaneousRecord/edit.do?id=${miscellaneousRecord.id}');" />
 
 

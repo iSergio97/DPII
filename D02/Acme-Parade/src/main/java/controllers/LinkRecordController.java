@@ -149,7 +149,7 @@ public class LinkRecordController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/linkRecord/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final LinkRecord linkRecord;

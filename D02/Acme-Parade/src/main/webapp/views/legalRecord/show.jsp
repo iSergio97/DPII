@@ -44,11 +44,4 @@
 	<jstl:out value="${legalRecord.applicableLaws}"/>
 </p>
 
-
-
-<form action="legalRecord/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${legalRecord.id}' />" />
-	<input type="submit" name="delete" value="<spring:message code='delete' />" />
-</form>
-
 <input type="button" name="edit" value="<spring:message code='edit' />" onclick="javascript: relativeRedir('legalRecord/edit.do?id=${legalRecord.id}');" />
