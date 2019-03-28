@@ -55,7 +55,7 @@
 
 </form:form>
 
-<form action="acmefloat/brotherhood/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
+<form action="float/brotherhood/delete.do" method="POST">
+	<input type="hidden" name="id" value="<jstl:out value='${acmeFloatForm.id}' />" />
 	<input type="submit" name="delete" value="<spring:message code='delete' />" />
 </form>

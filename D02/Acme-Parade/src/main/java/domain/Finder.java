@@ -42,15 +42,6 @@ public class Finder extends DomainEntity {
 		this.keyword = keyword;
 	}
 
-	@ManyToOne
-	public Area getArea() {
-		return this.area;
-	}
-
-	public void setArea(final Area area) {
-		this.area = area;
-	}
-
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getMinimumDate() {

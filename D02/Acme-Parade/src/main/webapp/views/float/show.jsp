@@ -30,14 +30,6 @@
 </p>
 
 <p>
-	<spring:message code="parades" />
-	<jstl:forEach items="${acmeFloat.parades}" var="parade">
-		<br>
-		<jstl:out value="${parade.title}" />
-	</jstl:forEach>
-</p>
-
-<p>
 	<spring:message code="pictures" />
 	<jstl:set var="pictureIndex" value="${0}" />
 	<jstl:forEach items="${acmeFloat.pictures}" var="picture">
@@ -45,8 +37,3 @@
 		<jstl:out value="${picture}" />
 	</jstl:forEach>
 </p>
-
-<form action="acmefloat/brotherhood/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${acmeFloat.id}' />" />
-	<input type="submit" name="delete" value="<spring:message code='delete' />" />
-</form>

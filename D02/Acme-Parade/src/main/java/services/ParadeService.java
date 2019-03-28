@@ -122,6 +122,10 @@ public class ParadeService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
+	public List<Parade> findParadesWithAcmeFloat(final AcmeFloat acmeFloat) {
+		return this.paradeRepository.findParadesWithAcmeFloat(acmeFloat.getId());
+	}
+
 	public List<Parade> findWithin30Days() {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());

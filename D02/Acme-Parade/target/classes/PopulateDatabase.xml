@@ -17,7 +17,7 @@
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="defaultCountryCode" value="+34" />
 		<property name="systemName" value="Acme Madrugá" />
-		<property name="banner" value="https://tinyurl.com/acme-madruga" />
+		<property name="banner" value="" />
 		<property name="finderDuration" value="3600" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="positiveWords">

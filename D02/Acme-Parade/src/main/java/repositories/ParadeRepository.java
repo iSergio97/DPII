@@ -31,4 +31,7 @@ public interface ParadeRepository extends JpaRepository<Parade, Integer> {
 	@Query("select p from Parade p join p.brotherhood.enrolments e where e.member.id= ?1")
 	List<Parade> findPossibleMemberParades(int id);
 
+	@Query("select p1 from Parade p1 where not exists (select f from Parade p2 left join p2.acmeFloats f where p1 = p2 and f.id = ?1)")
+	List<Parade> findParadesWithAcmeFloat(int acmeFloat);
+
 }

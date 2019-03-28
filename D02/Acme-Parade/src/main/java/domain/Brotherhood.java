@@ -3,7 +3,6 @@ package domain;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -114,7 +113,7 @@ public class Brotherhood extends Actor {
 		return this.acmeFloats;
 	}
 
-	public void setAcmeFloats(final List<AcmeFloat> acmeFloats) {
+	public void setAcmeFloats(final Collection<AcmeFloat> acmeFloats) {
 		this.acmeFloats = acmeFloats;
 	}
 

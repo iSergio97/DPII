@@ -2,7 +2,6 @@
 package controllers;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import javax.validation.Valid;
 
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AcmeFloatService;
 import services.BrotherhoodService;
+import services.ParadeService;
 import domain.AcmeFloat;
 import domain.Brotherhood;
 import domain.Parade;
@@ -32,6 +32,8 @@ public class AcmeFloatController extends AbstractController {
 	private AcmeFloatService	acmeFloatService;
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+	@Autowired
+	private ParadeService		paradeService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -43,15 +45,15 @@ public class AcmeFloatController extends AbstractController {
 	// Show -------------------------------------------------------------------
 
 	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(value = "floatId") final int acmeFloatId) {
+	public ModelAndView show(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final AcmeFloat acmeFloat;
 
-		acmeFloat = this.acmeFloatService.findOne(acmeFloatId);
+		acmeFloat = this.acmeFloatService.findOne(id);
 		if (acmeFloat == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("float/public/" + "show");
+		result = new ModelAndView("float/show");
 
 		result.addObject("acmeFloat", acmeFloat);
 
@@ -127,9 +129,9 @@ public class AcmeFloatController extends AbstractController {
 			AcmeFloat acmeFloat;
 			if (acmeFloatForm.getId() != 0) {
 				acmeFloat = this.acmeFloatService.findOne(acmeFloatForm.getId());
-				if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
-					return new ModelAndView("redirect:/welcome/index.do");
 				if (acmeFloat == null)
+					return new ModelAndView("redirect:/welcome/index.do");
+				if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
 					return new ModelAndView("redirect:/welcome/index.do");
 			}
 			acmeFloat = this.acmeFloatService.reconstruct(acmeFloatForm, bindingResult);
@@ -148,21 +150,28 @@ public class AcmeFloatController extends AbstractController {
 
 	@RequestMapping(value = "/brotherhood/delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
-		final ModelAndView result;
 		final AcmeFloat acmeFloat;
+		final Brotherhood principal;
 
-		if (this.brotherhoodService.findPrincipal() == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+		principal = this.brotherhoodService.findPrincipal();
 		acmeFloat = this.acmeFloatService.findOne(id);
 		if (acmeFloat == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!this.brotherhoodService.findPrincipal().equals(acmeFloat.getBrotherhood()))
+		if (!acmeFloat.getBrotherhood().equals(principal))
 			return new ModelAndView("redirect:/welcome/index.do");
+		for (final Parade parade : this.paradeService.findParadesWithAcmeFloat(acmeFloat)) {
+			final Collection<AcmeFloat> acmeFloats = parade.getAcmeFloats();
+			acmeFloats.remove(acmeFloat);
+			parade.setAcmeFloats(acmeFloats);
+			this.paradeService.save(parade);
+		}
+		final Collection<AcmeFloat> acmeFloats = principal.getAcmeFloats();
+		acmeFloats.remove(acmeFloat);
+		principal.setAcmeFloats(acmeFloats);
+		this.brotherhoodService.save(principal);
 		this.acmeFloatService.delete(acmeFloat);
 
-		result = this.list();
-
-		return result;
+		return this.list();
 	}
 
 }
