@@ -52,6 +52,8 @@
 <br>
 <spring:message code="actor.export" />
 <br>
+<spring:message code="actor.caution" />
+<br>
 <jstl:if test="${reqURI eq 'admin'}">
 <a href="profile/admin/export.do"><spring:message code="exportData" /></a>
 </jstl:if>

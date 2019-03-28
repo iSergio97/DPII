@@ -340,44 +340,7 @@ public class RegisterController extends AbstractController {
 	@RequestMapping(value = "/member/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("member") final MemberForm member, final BindingResult bindingResult) {
 		ModelAndView result;
-		Member member2;
-		/*
-		 * member2 = this.memberService.reconstructForm(member, bindingResult);
-		 * if (bindingResult.hasErrors())
-		 * result = this.createEditModelAndView(member);
-		 * else
-		 * try {
-		 * if (member.getPassword().equals(member.getConfirmPassword())) {
-		 * if (member2.getId() == 0) {
-		 * final Finder finder = member2.getFinder();
-		 * final Finder saved = this.finderService.save(finder);
-		 * member2.setFinder(saved);
-		 * member2.getUserAccount().setUsername(member.getUsername());
-		 * member2.getUserAccount().setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-		 * final UserAccount ua = member2.getUserAccount();
-		 * final UserAccount uas = this.userAccountRepository.save(ua);
-		 * member2.setUserAccount(uas);
-		 * final Member savedM = this.memberService.save(member2);
-		 * final Collection<MessageBox> mbs = this.messageBoxService.createSystemBoxes();
-		 * for (final MessageBox mb : mbs) {
-		 * mb.setActor(savedM);
-		 * this.messageBoxService.save(mb);
-		 * }
-		 * } else {
-		 * final UserAccount ua = member2.getUserAccount();
-		 * ua.setUsername(member.getUsername());
-		 * ua.setPassword(new Md5PasswordEncoder().encodePassword(member.getPassword(), null));
-		 * final UserAccount saved = this.userAccountRepository.save(ua);
-		 * member2.setUserAccount(saved);
-		 * this.memberService.save(member2);
-		 * }
-		 * result = new ModelAndView("redirect:/welcome/index.do");
-		 * } else
-		 * result = this.createAndEditModelAndView(member, "register.member.error");
-		 * } catch (final Throwable e) {
-		 * result = this.createAndEditModelAndView(member, "register.member.error");
-		 * }
-		 */
+		final Member member2;
 		final List<String> userNames = this.userAccountRepository.getUserNames();
 		if (member.getId() == 0) {
 			if (userNames.contains(member.getUsername())) {

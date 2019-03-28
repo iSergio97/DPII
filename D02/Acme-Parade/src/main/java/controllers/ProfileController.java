@@ -23,11 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.AdministratorService;
 import services.BrotherhoodService;
+import services.LinkRecordService;
 import services.MemberService;
 import services.MessageBoxService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
@@ -35,11 +37,10 @@ import com.lowagie.text.pdf.PdfWriter;
 import domain.Administrator;
 import domain.Brotherhood;
 import domain.Enrolment;
-import domain.Finder;
+import domain.LinkRecord;
 import domain.Member;
 import domain.Message;
 import domain.MessageBox;
-import domain.Request;
 import domain.SocialProfile;
 import forms.AdministratorForm;
 import forms.BrotherhoodForm;
@@ -60,6 +61,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private MessageBoxService		messageBoxService;
+
+	@Autowired
+	private LinkRecordService		linkRecordService;
 
 
 	// Action-1 ---------------------------------------------------------------		
@@ -146,8 +150,7 @@ public class ProfileController extends AbstractController {
 	@RequestMapping(value = "/member/export", method = RequestMethod.GET)
 	public ModelAndView exportMember() {
 		ModelAndView result;
-		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final List<MessageBox> ls = this.messageBoxService.messageFromActor(member);
+		final Brotherhood member = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
 		result = new ModelAndView("redirect:/welcome/index.do");
 		final String username = member.getUserAccount().getUsername();
 		final String password = member.getUserAccount().getPassword();
@@ -156,7 +159,9 @@ public class ProfileController extends AbstractController {
 			final String locale = System.getProperty("user.home");
 			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
 			as.open();
-			as.add(new Paragraph("Exporting user data"));
+			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+			gpdr.setAlignment(Element.ALIGN_CENTER);
+			as.add(gpdr);
 			System.out.println("Entra al try");
 			System.out.println("Crea el documento");
 			final Paragraph userData = new Paragraph("Userdata");
@@ -166,7 +171,127 @@ public class ProfileController extends AbstractController {
 			as.add(name);
 			final Paragraph md = new Paragraph("middle name: " + member.getMiddleName());
 			as.add(md);
-			//System.out.println(as.addSubject("middle name: " + member.getMiddleName()));
+			as.add(new Paragraph("surname: " + member.getSurname()));
+			as.add(new Paragraph("photo: " + member.getPhoto()));
+			as.add(new Paragraph("email: " + member.getEmail()));
+			as.add(new Paragraph("phone number: " + member.getPhoneNumber()));
+			as.add(new Paragraph("address: " + member.getAddress()));
+			as.add(new Paragraph("polarity score: " + member.getPolarityScore().toString()));
+			as.add(new Paragraph("title: " + member.getTitle()));
+			as.add(new Paragraph("establishment date: " + member.getEstablishmentDate().toGMTString()));
+			as.add(new Paragraph("pictures: "));
+			for (final String s : member.getPictures())
+				as.add(new Paragraph(s));
+			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
+			as.add(userAccount);
+			System.out.println("Crea userAccount");
+			as.add(new Paragraph("useraccount: " + username));
+			as.add(new Paragraph("password: " + password));
+			as.add(new Paragraph("authority: " + member.getUserAccount().getAuthorities().toArray()[0]));
+			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
+			as.add(messages);
+			System.out.println("Crea messages");
+			if (member.getMessagesSent().size() != 0)
+				for (final Message m : member.getMessagesSent()) {
+					as.add(new Paragraph(m.getRecipients().toArray()[0].toString()));
+					as.add(new Paragraph(m.getSubject()));
+					as.add(new Paragraph(m.getBody()));
+					as.add(new Paragraph(m.getTags().toString()));
+					as.add(new Paragraph(m.getDate().toGMTString()));
+					as.add(new Paragraph(m.getPriority().toString()));
+				}
+			else
+				as.add(new Paragraph("[]"));
+
+			as.add(new Paragraph("\n\nMessages received"));
+			if (member.getMessagesReceived().size() != 0)
+				for (final Message m : member.getMessagesReceived()) {
+					as.add(new Paragraph(m.getSender().getName()));
+					as.add(new Paragraph(m.getBody()));
+					as.add(new Paragraph(m.getSubject()));
+					as.add(new Paragraph(m.getTags().toString()));
+					as.add(new Paragraph(m.getPriority().toString()));
+					as.add(new Paragraph(m.getDate().toGMTString()));
+				}
+			else
+				as.add(new Paragraph("[]"));
+			final Paragraph profiles = new Paragraph("\n\nProfiles");
+			as.add(profiles);
+			System.out.println("Crea profiles");
+			if (member.getSocialProfiles().size() != 0)
+				for (final SocialProfile p : member.getSocialProfiles()) {
+					as.add(new Paragraph("nick: " + p.getNick()));
+					as.add(new Paragraph("link: " + p.getProfileLink()));
+					as.add(new Paragraph("social network: " + p.getSocialNetworkName()));
+				}
+			else
+				as.add(new Paragraph("[]"));
+			final Paragraph enrols = new Paragraph("\n\nEnrols");
+			as.add(enrols);
+			System.out.println("Crea enrols");
+			if (member.getEnrolments().size() != 0)
+				for (final Enrolment e : member.getEnrolments()) {
+					as.add(new Paragraph("brotherhood: " + e.getMember().getName()));
+					as.add(new Paragraph("join moment: " + e.getMoment().toGMTString()));
+					if (e.getExitMoment() != null)
+						as.add(new Paragraph("exit moment: " + e.getExitMoment().toGMTString()));
+					else
+						as.add(new Paragraph("exit moment: null"));
+					as.add(new Paragraph("position: " + e.getPosition().getStrings()));
+					as.add(new Paragraph("\n)"));
+				}
+			else
+				as.add(new Paragraph("[]"));
+
+			as.add(new Paragraph("\n\narea"));
+			as.add(new Paragraph(member.getArea().getName()));
+			as.add(new Paragraph("\n\npictures: "));
+			for (final String s : member.getArea().getPictures())
+				as.add(new Paragraph(s));
+
+			as.add(new Paragraph("Link records: "));
+			final List<LinkRecord> lR = (List<LinkRecord>) this.linkRecordService.getLinkRecordsByHistory(member.getHistory().getId());
+			for (final LinkRecord r : lR) {
+				as.add(new Paragraph(r.getTitle()));
+				as.add(new Paragraph(r.getDescription()));
+				as.add(new Paragraph(r.getBrotherhood().getTitle()));
+			}
+
+			//TODO: Seguir acabando la exportación de records
+		} catch (FileNotFoundException | DocumentException e1) {
+			e1.printStackTrace();
+		}
+
+		as.close();
+		result.addObject("as", as);
+
+		return result;
+	}
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value = "/brotherhood/export", method = RequestMethod.GET)
+	public ModelAndView exportBrotherhood() {
+		final ModelAndView result;
+		final Member member = this.memberService.findByUserAccountId(LoginService.getPrincipal().getId());
+		result = new ModelAndView("redirect:/welcome/index.do");
+		final String username = member.getUserAccount().getUsername();
+		final String password = member.getUserAccount().getPassword();
+		final Document as = new Document(PageSize.A4);
+		try {
+			final String locale = System.getProperty("user.home");
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
+			as.open();
+			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+			gpdr.setAlignment(Element.ALIGN_CENTER);
+			as.add(gpdr);
+			System.out.println("Entra al try");
+			System.out.println("Crea el documento");
+			final Paragraph userData = new Paragraph("Userdata");
+			as.add(userData);
+			System.out.println("Crea userData");
+			final Paragraph name = new Paragraph("name: " + member.getName());
+			as.add(name);
+			final Paragraph md = new Paragraph("middle name: " + member.getMiddleName());
+			as.add(md);
 			as.add(new Paragraph("surname: " + member.getSurname()));
 			as.add(new Paragraph("photo: " + member.getPhoto()));
 			as.add(new Paragraph("email: " + member.getEmail()));
@@ -217,69 +342,12 @@ public class ProfileController extends AbstractController {
 				}
 			else
 				as.add(new Paragraph("[]"));
-			final Paragraph enrols = new Paragraph("\n\nEnrols");
-			as.add(enrols);
-			System.out.println("Crea enrols");
-			if (member.getEnrolments().size() != 0)
-				for (final Enrolment e : member.getEnrolments()) {
-					as.add(new Paragraph("brotherhood: " + e.getBrotherhood().getTitle()));
-					as.add(new Paragraph("join moment: " + e.getMoment().toGMTString()));
-					if (e.getExitMoment() != null)
-						as.add(new Paragraph("exit moment: " + e.getExitMoment().toGMTString()));
-					else
-						as.add(new Paragraph("exit moment: null"));
-					as.add(new Paragraph("position: " + e.getPosition().getStrings()));
-				}
-			else
-				as.add(new Paragraph("[]"));
-			final Paragraph requests = new Paragraph("\n\nRequests");
-			as.add(requests);
-			System.out.println("Crea requests");
-			if (member.getRequests().size() != 0)
-				for (final Request r : member.getRequests()) {
-					as.add(new Paragraph("parade: " + r.getParade().getTitle()));
-					as.add(new Paragraph("status: " + r.getStatus()));
-					as.add(new Paragraph("reason:" + r.getReason()));
-					as.add(new Paragraph("position: " + r.getHLine() + ", " + r.getVLine()));
-					as.add(new Paragraph("\n"));
-				}
-			else
-				as.add(new Paragraph("[]"));
-
-			final Finder f = member.getFinder();
-			final Paragraph finder = new Paragraph("\n\nFinder");
-			System.out.println("Crea finder");
-			as.add(finder);
-			as.add(new Paragraph("keyword: " + f.getKeyword()));
-			as.add(new Paragraph("area: " + f.getArea().getName()));
 		} catch (FileNotFoundException | DocumentException e1) {
 			e1.printStackTrace();
 		}
 
-		as.close();
-		result.addObject("as", as);
-		result.addObject("actor", member);
-		result.addObject("messageBox", ls);
-
 		return result;
 	}
-	@RequestMapping(value = "/brotherhood/export", method = RequestMethod.GET)
-	public ModelAndView exportBrotherhood() {
-		ModelAndView result;
-		final Brotherhood brotherhood = this.brotherhoodService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final String reqURI = "brotherhood";
-		final List<MessageBox> ls = this.messageBoxService.messageFromActor(brotherhood);
-		result = new ModelAndView("profile/brotherhood/export");
-		result.addObject("actor", brotherhood);
-		result.addObject("username", brotherhood.getUserAccount().getUsername());
-		result.addObject("password", brotherhood.getUserAccount().getPassword());
-		result.addObject("size", brotherhood.getPictures().size());
-		result.addObject("brotherhood", reqURI);
-		result.addObject("messageBox", ls);
-
-		return result;
-	}
-
 	@RequestMapping(value = "/admin/export", method = RequestMethod.GET)
 	public ModelAndView exportAdmin() {
 		ModelAndView result;
