@@ -1,6 +1,7 @@
 
 package repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,5 +36,8 @@ public interface BrotherhoodRepository extends JpaRepository<Brotherhood, Intege
 
 	@Query("select b from Brotherhood b where b.history.records.size > (select avg(b2.history.records.size) from Brotherhood b2)")
 	List<Brotherhood> findWithHistoryLargerThanAverage();
+
+	@Query("select b from Brotherhood b where b.name not like '.'")
+	Collection<Brotherhood> findAllListable();
 
 }

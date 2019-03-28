@@ -56,7 +56,9 @@
 			<br>
 			<br>
 			<acme:submit name="save" code="save" />
-			<br>
+			<jstl:if test="${member.id != 0}">
+				<acme:submit name="deleteMember" code="master.page.action.delete"/>
+			</jstl:if>
 			<acme:cancel url="welcome/index.do" code="cancel" />
 
 		</form:form>
@@ -100,7 +102,9 @@
 			<acme:password code="confirmPassword" path="confirmPassword" />
 
 			<acme:submit name="save" code="save" />
-			<br>
+			<jstl:if test="${administrator.id != 0}">
+				<acme:submit name="deleteAdministrator" code="master.page.action.delete"/>
+			</jstl:if>
 			<acme:cancel url="security/login.do" code="cancel" />
 
 		</form:form>
@@ -152,7 +156,9 @@
 			<spring:message code="termsAndConditions" />
 			<br>
 			<acme:submit name="save" code="save" />
-			<br>
+			<jstl:if test="${brotherhood.id != 0}">
+				<acme:submit name="deleteBrotherhood" code="master.page.action.delete"/>
+			</jstl:if>
 			<acme:cancel url="security/login.do" code="cancel" />
 
 

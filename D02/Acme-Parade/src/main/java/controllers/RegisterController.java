@@ -167,7 +167,7 @@ public class RegisterController extends AbstractController {
 		Administrator administrator;
 
 		try {
-			administrator = this.administratorService.reconstructForm(administratorForm, binding);
+			administrator = this.administratorService.findOne(administratorForm.getId());
 			if (LoginService.getPrincipal().getId() != administrator.getUserAccount().getId())
 				result = new ModelAndView("redirect:/welcome/index.do");
 			else {
@@ -187,7 +187,7 @@ public class RegisterController extends AbstractController {
 				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
 				administrator.setUserAccount(userAccount);
 				this.administratorService.save(administrator);
-				result = new ModelAndView("redirect:../j_spring_security_logout");
+				result = new ModelAndView("redirect:/j_spring_security_logout");
 			}
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(administratorForm, "administrator.commit.error");
@@ -351,7 +351,7 @@ public class RegisterController extends AbstractController {
 		Brotherhood brotherhood;
 
 		try {
-			brotherhood = this.brotherhoodService.reconstructForm(brotherhoodForm, binding);
+			brotherhood = this.brotherhoodService.findOne(brotherhoodForm.getId());
 			if (LoginService.getPrincipal().getId() != brotherhood.getUserAccount().getId())
 				result = new ModelAndView("redirect:/welcome/index.do");
 			else {
@@ -371,10 +371,10 @@ public class RegisterController extends AbstractController {
 				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
 				brotherhood.setUserAccount(userAccount);
 				brotherhood.setTitle(".");
-				brotherhood.setEstablishmentDate(new Date(1900, 01, 01));
+				brotherhood.setEstablishmentDate(new Date(1900, 1, 1));
 				brotherhood.setPictures(new ArrayList<String>());
 				this.brotherhoodService.save(brotherhood);
-				result = new ModelAndView("redirect:../j_spring_security_logout");
+				result = new ModelAndView("redirect:/j_spring_security_logout");
 			}
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(brotherhoodForm, "brotherhood.commit.error");
@@ -501,7 +501,7 @@ public class RegisterController extends AbstractController {
 		Member member;
 
 		try {
-			member = this.memberService.reconstructForm(memberForm, binding);
+			member = this.memberService.findOne(memberForm.getId());
 			if (LoginService.getPrincipal().getId() != member.getUserAccount().getId())
 				result = new ModelAndView("redirect:/welcome/index.do");
 			else {
@@ -521,7 +521,7 @@ public class RegisterController extends AbstractController {
 				userAccount.setUsername(RandomGenerator.getAlphaNumericString(32));
 				member.setUserAccount(userAccount);
 				this.memberService.save(member);
-				result = new ModelAndView("redirect:../j_spring_security_logout");
+				result = new ModelAndView("redirect:/j_spring_security_logout");
 			}
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(memberForm, "brotherhood.commit.error");

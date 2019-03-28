@@ -70,9 +70,6 @@
 			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
 				<spring:message code="save" />
 			</button>
-			<jstl:if test="${member.id != 0}">
-				<acme:submit name="deleteMember" code="master.page.action.delete"/>
-			</jstl:if>
 			<acme:cancel url="security/login.do" code="cancel" />
 
 		</form:form>
@@ -121,9 +118,6 @@
 			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
 				<spring:message code="save" />
 			</button>
-			<jstl:if test="${administrator.id != 0}">
-				<acme:submit name="deleteAdministrator" code="master.page.action.delete"/>
-			</jstl:if>
 			<acme:cancel url="security/login.do" code="cancel" />
 
 		</form:form>
@@ -177,9 +171,6 @@
 			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
 				<spring:message code="save" />
 			</button>
-			<jstl:if test="${brotherhood.id != 0}">
-				<acme:submit name="deleteBrotherhood" code="master.page.action.delete"/>
-			</jstl:if>
 			<acme:cancel url="security/login.do" code="cancel" />
 
 		</form:form>

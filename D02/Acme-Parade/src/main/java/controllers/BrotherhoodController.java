@@ -55,7 +55,7 @@ public class BrotherhoodController extends AbstractController {
 		final ModelAndView result;
 		Collection<Brotherhood> brotherhoods;
 
-		brotherhoods = this.brotherhoodService.findAll();
+		brotherhoods = this.brotherhoodService.findAllListable();
 
 		result = new ModelAndView("brotherhood/public/list");
 		result.addObject("brotherhoods", brotherhoods);
@@ -89,7 +89,7 @@ public class BrotherhoodController extends AbstractController {
 		final UserAccount userAccount = brotherhood.getUserAccount();
 
 		parades = this.paradeService.findAllFinalByBrotherhoodAccountId(userAccount.getId());
-		acmeFloats = this.acmeFloatService.findFloatsByBrotherhoodUserAccount(userAccount.getId());
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
 		members = this.memberService.findMemebersByBrotherhoodAccountId(userAccount.getId());
 
 		result = new ModelAndView("brotherhood/public/" + "show");

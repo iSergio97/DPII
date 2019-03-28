@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,10 @@ public class BrotherhoodService {
 	public Brotherhood findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.findByUserAccountId(userAccount.getId());
+	}
+
+	public Collection<Brotherhood> findAllListable() {
+		return this.brotherhoodRepository.findAllListable();
 	}
 
 	public Brotherhood reconstruct(final BrotherhoodForm brotherhood, final BindingResult bindingResult) {

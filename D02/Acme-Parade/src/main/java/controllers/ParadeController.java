@@ -235,7 +235,7 @@ public class ParadeController extends AbstractController {
 		final UserAccount userAccount = LoginService.getPrincipal();
 
 		brotherhood = this.brotherhoodService.findPrincipal();
-		acmeFloats = this.acmeFloatService.findFloatsByBrotherhoodUserAccount(userAccount.getId());
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
 
 		result = new ModelAndView("parade/brotherhood/" + method);
 		result.addObject("brotherhood", brotherhood);
@@ -263,7 +263,7 @@ public class ParadeController extends AbstractController {
 		final UserAccount userAccount = LoginService.getPrincipal();
 
 		brotherhood = this.brotherhoodService.findPrincipal();
-		acmeFloats = this.acmeFloatService.findFloatsByBrotherhoodUserAccount(userAccount.getId());
+		acmeFloats = this.acmeFloatService.findAcmeFloats(userAccount.getId());
 
 		result = new ModelAndView("parade/brotherhood/" + method);
 		result.addObject("brotherhood", brotherhood);
