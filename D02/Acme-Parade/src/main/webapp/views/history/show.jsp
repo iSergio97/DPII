@@ -14,6 +14,9 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<jstl:if test="${inceptionRecord == null}">
+<a href="inceptionRecord/create.do"><spring:message code="create" /></a>
+</jstl:if>
 
 <display:table name="inceptionRecord" id="row" requestURI="history/show.do" class="displaytag">
 
@@ -139,7 +142,6 @@
 	<display:column titleKey="edit">
 		<a href="periodRecord/edit.do?id=${row.id}"><spring:message code="edit" /></a>
 	</display:column>
-	
 </display:table>
 
 

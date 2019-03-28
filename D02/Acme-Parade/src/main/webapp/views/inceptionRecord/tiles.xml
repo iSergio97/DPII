@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * periodRecord/tiles.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	
+	<definition name="/inceptionRecord/create" extends="master.page">
+		<put-attribute name="title" value="Create inception Record" />
+		<put-attribute name="body" value="/views/inceptionRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/inceptionRecord/edit" extends="master.page">
+		<put-attribute name="title" value="Edit inception Record" />
+		<put-attribute name="body" value="/views/inceptionRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/inceptionRecord/list" extends="master.page">
+		<put-attribute name="title" value="List inception Records" />
+		<put-attribute name="body" value="/views/inceptionRecord/list.jsp" />
+	</definition>
+	
+	<definition name="/inceptionRecord/show" extends="master.page">
+		<put-attribute name="title" value="Show inception Record" />
+		<put-attribute name="body" value="/views/inceptionRecord/show.jsp" />
+	</definition>
+	
+</tiles-definitions>
