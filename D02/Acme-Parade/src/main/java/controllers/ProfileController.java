@@ -27,6 +27,7 @@ import services.InceptionRecordService;
 import services.LegalRecordService;
 import services.LinkRecordService;
 import services.MemberService;
+import services.MessageBoxService;
 import services.MiscellaneousRecordService;
 import services.PeriodRecordService;
 
@@ -46,6 +47,7 @@ import domain.LegalRecord;
 import domain.LinkRecord;
 import domain.Member;
 import domain.Message;
+import domain.MessageBox;
 import domain.MiscellaneousRecord;
 import domain.Parade;
 import domain.PeriodRecord;
@@ -66,6 +68,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private AdministratorService		administratorService;
+
+	@Autowired
+	private MessageBoxService			messageBoxService;
 
 	@Autowired
 	private LinkRecordService			linkRecordService;
@@ -120,7 +125,7 @@ public class ProfileController extends AbstractController {
 
 		result = new ModelAndView("profile/admin/show");
 		result.addObject("actor", admin);
-		result.addObject("reqURI", reqURI);
+		result.addObject("admin", reqURI);
 
 		return result;
 	}
@@ -174,7 +179,7 @@ public class ProfileController extends AbstractController {
 		final Document as = new Document(PageSize.A4);
 		try {
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
 			as.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);
@@ -378,7 +383,7 @@ public class ProfileController extends AbstractController {
 		final Document as = new Document(PageSize.A4);
 		try {
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
+			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\test.pdf"));
 			as.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);
@@ -448,84 +453,18 @@ public class ProfileController extends AbstractController {
 
 		return result;
 	}
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/admin/export", method = RequestMethod.GET)
 	public ModelAndView exportAdmin() {
-		final ModelAndView result;
-		final Administrator member = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		result = new ModelAndView("redirect:/welcome/index.do");
-		final String username = member.getUserAccount().getUsername();
-		final String password = member.getUserAccount().getPassword();
-		final Document as = new Document(PageSize.A4);
-		try {
-			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(as, new FileOutputStream(locale + "\\Desktop\\export.pdf"));
-			as.open();
-			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
-			gpdr.setAlignment(Element.ALIGN_CENTER);
-			as.add(gpdr);
-			System.out.println("Entra al try");
-			System.out.println("Crea el documento");
-			final Paragraph userData = new Paragraph("Userdata");
-			as.add(userData);
-			System.out.println("Crea userData");
-			final Paragraph name = new Paragraph("name: " + member.getName());
-			as.add(name);
-			final Paragraph md = new Paragraph("middle name: " + member.getMiddleName());
-			as.add(md);
-			as.add(new Paragraph("surname: " + member.getSurname()));
-			as.add(new Paragraph("photo: " + member.getPhoto()));
-			as.add(new Paragraph("email: " + member.getEmail()));
-			as.add(new Paragraph("phone number: " + member.getPhoneNumber()));
-			as.add(new Paragraph("address: " + member.getAddress()));
-			as.add(new Paragraph("polarity score: " + member.getPolarityScore().toString()));
-			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
-			as.add(userAccount);
-			System.out.println("Crea userAccount");
-			as.add(new Paragraph("useraccount: " + username));
-			as.add(new Paragraph("password: " + password));
-			as.add(new Paragraph("authority: " + member.getUserAccount().getAuthorities().toArray()[0]));
-			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
-			as.add(messages);
-			System.out.println("Crea messages");
-			if (member.getMessagesSent().size() != 0)
-				for (final Message m : member.getMessagesSent()) {
-					as.add(new Paragraph(m.getRecipients().toArray()[0].toString()));
-					as.add(new Paragraph(m.getSubject()));
-					as.add(new Paragraph(m.getBody()));
-					as.add(new Paragraph(m.getTags().toString()));
-					as.add(new Paragraph(m.getDate().toGMTString()));
-					as.add(new Paragraph(m.getPriority().toString()));
-				}
-			else
-				as.add(new Paragraph("[]"));
-
-			as.add(new Paragraph("\n\nMessages received"));
-			if (member.getMessagesReceived().size() != 0)
-				for (final Message m : member.getMessagesReceived()) {
-					as.add(new Paragraph(m.getSender().getName()));
-					as.add(new Paragraph(m.getBody()));
-					as.add(new Paragraph(m.getSubject()));
-					as.add(new Paragraph(m.getTags().toString()));
-					as.add(new Paragraph(m.getPriority().toString()));
-					as.add(new Paragraph(m.getDate().toGMTString()));
-				}
-			else
-				as.add(new Paragraph("[]"));
-			final Paragraph profiles = new Paragraph("\n\nProfiles");
-			as.add(profiles);
-			System.out.println("Crea profiles");
-			if (member.getSocialProfiles().size() != 0)
-				for (final SocialProfile p : member.getSocialProfiles()) {
-					as.add(new Paragraph("nick: " + p.getNick()));
-					as.add(new Paragraph("link: " + p.getProfileLink()));
-					as.add(new Paragraph("social network: " + p.getSocialNetworkName()));
-				}
-			else
-				as.add(new Paragraph("[]"));
-		} catch (FileNotFoundException | DocumentException e1) {
-			e1.printStackTrace();
-		}
+		ModelAndView result;
+		final Administrator admin = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final String reqURI = "admin";
+		final List<MessageBox> ls = this.messageBoxService.messageFromActor(admin);
+		result = new ModelAndView("profile/admin/export");
+		result.addObject("actor", admin);
+		result.addObject("username", admin.getUserAccount().getUsername());
+		result.addObject("password", admin.getUserAccount().getPassword());
+		result.addObject("messageBox", ls);
+		result.addObject("admin", reqURI);
 
 		return result;
 	}
