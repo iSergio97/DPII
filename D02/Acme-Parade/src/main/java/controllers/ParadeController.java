@@ -92,7 +92,12 @@ public class ParadeController extends AbstractController {
 
 		parade = this.paradeService.findOne(paradeId);
 		Assert.notNull(parade);
-		result = this.createEditModelAndView(parade, "edit");
+		if (LoginService.getPrincipal().getId() != parade.getBrotherhood().getUserAccount().getId())
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else if (this.paradeService.findOne(parade.getId()).getIsDraft() == false)
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else
+			result = this.createEditModelAndView(parade, "edit");
 
 		return result;
 	}
@@ -114,19 +119,17 @@ public class ParadeController extends AbstractController {
 			binding.rejectValue("moment", "error.momentBefore");
 
 		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
-			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
-			// binding.addError(isDraftError);
-			binding.reject("error.isDraft");
-
-		try {
-			parade = this.paradeService.reconstruct(paradeForm, binding);
-			this.paradeService.save(parade);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(paradeForm, "edit");
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
-		}
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else
+			try {
+				parade = this.paradeService.reconstruct(paradeForm, binding);
+				this.paradeService.save(parade);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final ValidationException oops) {
+				result = this.createEditModelAndView(paradeForm, "edit");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+			}
 
 		return result;
 	}
@@ -148,20 +151,18 @@ public class ParadeController extends AbstractController {
 			binding.rejectValue("moment", "error.momentBefore");
 
 		if (paradeForm.getId() != 0 && this.paradeService.findOne(paradeForm.getId()).getIsDraft() == false)
-			// final ObjectError isDraftError = new ObjectError("isDraft", "Esta procesión no se puede editar.");
-			// binding.addError(isDraftError);
-			binding.reject("error.isDraft");
-
-		try {
-			parade = this.paradeService.reconstruct(paradeForm, binding);
-			parade.setIsDraft(false);
-			this.paradeService.save(parade);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(paradeForm, "edit");
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
-		}
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else
+			try {
+				parade = this.paradeService.reconstruct(paradeForm, binding);
+				parade.setIsDraft(false);
+				this.paradeService.save(parade);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final ValidationException oops) {
+				result = this.createEditModelAndView(paradeForm, "edit");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(paradeForm, "parade.commit.error", "edit");
+			}
 
 		return result;
 	}
