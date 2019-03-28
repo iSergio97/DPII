@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,6 +154,13 @@ public class PeriodRecordController extends AbstractController {
 		bro = this.brotherhoodService.findPrincipal();
 		h = bro.getHistory();
 		records = h.getRecords();
+
+		if (record.getEndYear() < record.getStartYear())
+			bindingResult.rejectValue("endYear", "error.endYear");
+
+		final int actual = new Date().getYear();
+		if (record.getStartYear() > actual)
+			bindingResult.rejectValue("startYear", "error.startYear");
 
 		record2 = this.periodRecordService.reconstruct(record, bindingResult);
 		if (bindingResult.hasErrors())
