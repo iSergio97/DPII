@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.PriorityRepository;
+import utilities.ConversionUtils;
 import domain.Priority;
+import forms.PriorityForm;
 
 @Service
 @Transactional
@@ -22,9 +26,15 @@ public class PriorityService {
 	@Autowired
 	private PriorityRepository	priorityRepository;
 
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	@Autowired
+	private Validator			validator;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -68,6 +78,39 @@ public class PriorityService {
 
 	public List<Priority> findAll() {
 		return this.priorityRepository.findAll();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Form methods
+
+	public PriorityForm createForm() {
+		final PriorityForm priorityForm = new PriorityForm();
+		priorityForm.setStrings("");
+		return priorityForm;
+	}
+
+	public Priority reconstruct(final PriorityForm priorityForm, final BindingResult bindingResult) {
+		Priority result;
+
+		if (priorityForm.getId() == 0)
+			result = this.create();
+		else
+			result = this.priorityRepository.findOne(priorityForm.getId());
+
+		result.setStrings(ConversionUtils.stringToMap(priorityForm.getStrings(), ":", ";"));
+
+		this.validator.validate(result, bindingResult);
+
+		return result;
+	}
+
+	public PriorityForm deconstruct(final Priority priority) {
+		final PriorityForm priorityForm = this.createForm();
+
+		priorityForm.setId(priority.getId());
+		priorityForm.setStrings(ConversionUtils.mapToString(priority.getStrings(), ":", ";"));
+
+		return priorityForm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

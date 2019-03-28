@@ -195,9 +195,11 @@ public class RequestService {
 			return result;
 		final Long maximumNumberOfRequests = (Long) membersRequests.get(0)[1];
 		final Double tenPercentOfTheMaximumNumberOfRequests = maximumNumberOfRequests.doubleValue() * 0.1d;
-		final int i = 0;
-		while (i < membersRequests.size() ? ((Long) membersRequests.get(i)[1]) >= tenPercentOfTheMaximumNumberOfRequests : false)
-			result.add((Member) membersRequests.get(i)[0]);
+		for (int i = 0; i < membersRequests.size(); ++i)
+			if (((Long) membersRequests.get(i)[1]) >= tenPercentOfTheMaximumNumberOfRequests)
+				result.add((Member) membersRequests.get(i)[0]);
+			else
+				break;
 		return result;
 	}
 

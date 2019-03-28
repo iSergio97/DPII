@@ -69,8 +69,8 @@ public class Enrolment extends DomainEntity {
 		this.position = position;
 	}
 
-	@ManyToOne(optional = true)
 	@Valid
+	@ManyToOne(optional = true)
 	public Brotherhood getBrotherhood() {
 		return this.brotherhood;
 	}

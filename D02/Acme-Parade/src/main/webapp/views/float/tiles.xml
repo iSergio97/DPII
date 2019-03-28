@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * float/tiles.xml
+ * tiles.xml
  *
- * Copyright (C) 2019 Group 16 Desing & Testing II
+ * Copyright (C) 2018 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
  -->
 
 <!DOCTYPE tiles-definitions PUBLIC
@@ -12,23 +16,18 @@
        
 <tiles-definitions>
 	
-	<definition name="float/create" extends="master.page">
-		<put-attribute name="title" value="Create Float" />
-		<put-attribute name="body" value="/views/float/create.jsp" />
-	</definition>
-	
 	<definition name="float/edit" extends="master.page">
-		<put-attribute name="title" value="Edit Float" />
+		<put-attribute name="title" value="Edit float" />
 		<put-attribute name="body" value="/views/float/edit.jsp" />
 	</definition>
 	
 	<definition name="float/list" extends="master.page">
-		<put-attribute name="title" value="List Floats" />
+		<put-attribute name="title" value="List floats" />
 		<put-attribute name="body" value="/views/float/list.jsp" />
 	</definition>
 	
-	<definition name="float/public/show" extends="master.page">
-		<put-attribute name="title" value="Show Float" />
+	<definition name="float/show" extends="master.page">
+		<put-attribute name="title" value="Show float" />
 		<put-attribute name="body" value="/views/float/show.jsp" />
 	</definition>
 	

@@ -1,8 +1,3 @@
-<%--
- * float/show.jsp
- *
- * Copyright (C) 2019 Group 16 Desing & Testing II
- --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -13,40 +8,32 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<strong>
-	<spring:message code="title" />:
-</strong>
+<p>
+	<spring:message code="title" />
+	<br>
 	<jstl:out value="${acmeFloat.title}" />
-<br>
-
-<strong>
-	<spring:message code="description" />:
-</strong>
+</p>
+<p>
+	<spring:message code="description" />
+	<br>
 	<jstl:out value="${acmeFloat.description}" />
-<br>
+</p>
+<p>
+	<spring:message code="brotherhood" />
+	<br>
+	<jstl:out value="${acmeFloat.brotherhood.name}" />
+	<br>
+	<jstl:out value="${acmeFloat.brotherhood.middleName}" />
+	<br>
+	<jstl:out value="${acmeFloat.brotherhood.surname}" />
+</p>
 
-<jstl:if test="${fn:length(acmeFloats.pictures) ne 0}">
-	<h2>
-		<spring:message code="pictures" />
-	</h2>
-		<jstl:set var="pictureIndex" value="${0}" />
-		<jstl:forEach items="${acmeFloat.pictures}" var="picture">
-			<br>
-			<img alt="picture" src='<jstl:out value="${picture}"></jstl:out>'>
-		</jstl:forEach>
-</jstl:if>
-
-<jstl:if test="${fn:length(acmeFloats.pictures) eq 0}">
-	<strong>
-		<spring:message code="pictures" />:
-	</strong>
-		<spring:message code="noPictures" />
-</jstl:if>
-<br>
-
-	<!-- Buttons -->
-	
-<acme:cancel url="welcome/index.do" code="master.page.action.cancel"/>
+<p>
+	<spring:message code="pictures" />
+	<jstl:set var="pictureIndex" value="${0}" />
+	<jstl:forEach items="${acmeFloat.pictures}" var="picture">
+		<br>
+		<jstl:out value="${picture}" />
+	</jstl:forEach>
+</p>

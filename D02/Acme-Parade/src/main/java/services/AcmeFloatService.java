@@ -127,8 +127,8 @@ public class AcmeFloatService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Collection<AcmeFloat> findAcmeFloats(final int principalId) {
-		return this.acmeFloatRepository.findAcmeFloats(principalId);
+	public Collection<AcmeFloat> findFloatsByBrotherhoodUserAccount(final int id) {
+		return this.acmeFloatRepository.findFloatsByBrotherhoodUserAccount(id);
 	}
 
 }

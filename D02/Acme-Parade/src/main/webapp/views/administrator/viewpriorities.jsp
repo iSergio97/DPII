@@ -17,11 +17,14 @@
 <display:table name="priorities" id="row" class="displaytag">
 
 	<display:column titleKey="priority.value">
-		<form action="administrator/editpriority.do" method="POST">
-			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
-			<input type="text" name="priority" value="<jstl:forEach items="${row.strings}" var="entry"><jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />;</jstl:forEach>" />
-			<input type="submit" name="editpriority" value="<spring:message code='priority.edit' />" />
-		</form>
+		<jstl:forEach items="${row.strings}" var="entry">
+			<jstl:out value="${entry.key}" />:<jstl:out value="${entry.value}" />
+			<br />
+		</jstl:forEach>
+	</display:column>
+
+	<display:column titleKey="priority.edit">
+		<a href="administrator/editpriority.do?id=${row.id}"><spring:message code="priority.edit" /></a>
 	</display:column>
 
 	<display:column titleKey="priority.delete">
@@ -33,7 +36,6 @@
 
 </display:table>
 
-<form action="administrator/addpriority.do" method="POST">
-	<input type="text" name="priority" />
-	<input type="submit" name="addpriority" value="<spring:message code='priority.add' />" />
-</form>
+<p>
+	<a href="administrator/createpriority.do"><spring:message code="priority.create" /></a>
+</p>

@@ -12,7 +12,6 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -109,7 +108,7 @@ public class Actor extends DomainEntity {
 		this.email = email;
 	}
 
-	@Pattern(regexp = "^(\\+\\d{1,3} (\\(\\d{1,3}\\) )?)?\\d{4,}$")
+	@Pattern(regexp = "^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -188,8 +187,7 @@ public class Actor extends DomainEntity {
 
 	@Valid
 	@NotNull
-	// TODO: What does NotNull here?
-	@ElementCollection
+	@OneToMany
 	public Collection<SocialProfile> getSocialProfiles() {
 		return this.socialProfiles;
 	}

@@ -10,14 +10,16 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,10 @@ import domain.Area;
 import domain.Position;
 import domain.Priority;
 import domain.SystemConfiguration;
+import forms.AreaForm;
+import forms.PositionForm;
+import forms.PriorityForm;
+import forms.SystemConfigurationForm;
 
 @Controller
 @RequestMapping("/administrator")
@@ -69,40 +75,6 @@ public class AdministratorController extends AbstractController {
 		super();
 	}
 
-	// Utility methods -------------------------------------------------------------
-
-	private static String listToString(final List<String> list, final String elementSeparator) {
-		String result = "";
-		for (final String string : list)
-			result = result + string + elementSeparator;
-		return result.substring(0, result.length() - 1);
-	}
-
-	private static List<String> stringToList(final String string, final String elementSeparator) {
-		final List<String> result = new ArrayList<>();
-		for (final String s : string.split(elementSeparator))
-			if (s.length() > 0)
-				result.add(s);
-		return result;
-	}
-
-	private static String mapToString(final Map<String, String> map, final String pairSeparator, final String entrySeparator) {
-		String result = "";
-		for (final Entry<String, String> entry : map.entrySet())
-			result = result + entry.getKey() + pairSeparator + entry.getValue() + entrySeparator;
-		return result.substring(0, result.length() - 1);
-	}
-
-	private static Map<String, String> stringToMap(final String string, final String pairSeparator, final String entrySeparator) {
-		final Map<String, String> result = new HashMap<>();
-		for (final String entry : string.split(entrySeparator))
-			if (entry.length() > 0) {
-				final String[] pair = entry.split(pairSeparator);
-				result.put(pair[0], pair[1]);
-			}
-		return result;
-	}
-
 	// Dashboard -------------------------------------------------------------------
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
@@ -111,7 +83,7 @@ public class AdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/dashboard");
 
-		// QUERY C.1
+		// QUERY 1.C.1
 		// The average, the minimum, the maximum, and the standard deviation of the number of members per brotherhood.
 
 		final Double[] brotherhoodMemberStatistics = this.brotherhoodService.getMemberStatistics();
@@ -120,45 +92,64 @@ public class AdministratorController extends AbstractController {
 		result.addObject("brotherhoodMemberStatisticsAverage", brotherhoodMemberStatistics[2]);
 		result.addObject("brotherhoodMemberStatisticsStandardDeviation", brotherhoodMemberStatistics[3]);
 
-		// QUERY C.2
+		// QUERY 1.C.2
 		// The largest brotherhoods.
 
 		result.addObject("largestBrotherhoods", this.brotherhoodService.findLargestBrotherhoods(3));
 
-		// QUERY C.3
+		// QUERY 1.C.3
 		// The smallest brotherhoods.
 
 		result.addObject("smallestBrotherhoods", this.brotherhoodService.findSmallestBrotherhoods(3));
 
-		// QUERY C.4
+		// QUERY 1.C.4
 		// The ratio of requests to march in a parade, grouped by their status.
 
 		result.addObject("acceptedRequestRatio", this.requestService.getAcceptedRatio());
 		result.addObject("rejectedRequestRatio", this.requestService.getRejectedRatio());
 		result.addObject("pendingRequestRatio", this.requestService.getPendingRatio());
 
-		// QUERY C.5
+		// QUERY 1.C.5
 		// The parades that are going to be organised in 30 days or less.
 
 		result.addObject("paradesWithin30Days", this.paradeService.findWithin30Days());
 
-		// QUERY C.6
-		// The ratio of requests to march grouped by status.
-
-		// QUERY C.7
+		// QUERY 1.C.7
 		// The listing of members who have got at least 10% the maximum number of request to march accepted.
 
 		result.addObject("membersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests", this.requestService.getMembersWithAtLeastTenPercentOfTheMaximumNumberOfAcceptedRequests());
 
-		// QUERY C.8
+		// QUERY 1.C.8
 		// A histogram of positions.
 
 		final List<Position> allPositions = this.positionService.findAll();
-		final double totalPositions = allPositions.size();
 		final Map<String, Double> positionHistogram = new HashMap<>();
-		for (final Position position : allPositions)
-			positionHistogram.put(position.getStrings().get("en"), this.enrolmentService.countWithPosition(position) * 100.0d / totalPositions);
+		for (final Position position : allPositions) {
+			Double proportion = (double) this.enrolmentService.countWithPosition(position);
+			proportion *= 100.0d;
+			proportion /= this.enrolmentService.count();
+			positionHistogram.put(position.getStrings().get("en"), proportion);
+		}
 		result.addObject("positionHistogram", positionHistogram);
+
+		// QUERY 2.C.1
+		// The average, the minimum, the maximum, and the standard deviation of the size of the history of brotherhood.
+
+		final Double[] brotherhoodHistoryStatistics = this.brotherhoodService.getHistoryStatistics();
+		result.addObject("brotherhoodHistoryStatisticsMinimum", brotherhoodHistoryStatistics[0]);
+		result.addObject("brotherhoodHistoryStatisticsMaximum", brotherhoodHistoryStatistics[1]);
+		result.addObject("brotherhoodHistoryMemberStatisticsAverage", brotherhoodHistoryStatistics[2]);
+		result.addObject("brotherhoodHistoryStatisticsStandardDeviation", brotherhoodHistoryStatistics[3]);
+
+		// QUERY 2.C.2
+		// The brotherhoods with the largest history.
+
+		result.addObject("brotherhoodsWithLargestHistory", this.brotherhoodService.findBrotherhoodsWithTheLargestHistory(3));
+
+		// QUERY 2.C.3
+		// The brotherhoods with history larger than the average.
+
+		result.addObject("brotherhoodsWithHistoryLargerThanTheAverage", this.brotherhoodService.findBrotherhoodsWithHistoryLargerThanAverage());
 
 		return result;
 	}
@@ -168,53 +159,49 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.GET)
 	public ModelAndView systemConfiguration() {
 		final ModelAndView result;
-		final SystemConfiguration systemConfiguration;
+		final SystemConfigurationForm systemConfigurationForm;
 
-		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
+		systemConfigurationForm = this.systemConfigurationService.deconstruct(this.systemConfigurationService.getSystemConfiguration());
 
 		result = new ModelAndView("administrator/systemconfiguration");
-		result.addObject("defaultCountryCode", systemConfiguration.getDefaultCountryCode());
-		result.addObject("systemName", systemConfiguration.getSystemName());
-		result.addObject("banner", systemConfiguration.getBanner());
-		result.addObject("finderDuration", systemConfiguration.getFinderDuration());
-		result.addObject("maximumFinderResults", systemConfiguration.getMaximumFinderResults());
-		result.addObject("positiveWords", AdministratorController.listToString(systemConfiguration.getPositiveWords(), ","));
-		result.addObject("negativeWords", AdministratorController.listToString(systemConfiguration.getNegativeWords(), ","));
-		result.addObject("spamWords", AdministratorController.listToString(systemConfiguration.getSpamWords(), ","));
-		result.addObject("welcomeMessages", AdministratorController.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
-		result.addObject("warningMessages", AdministratorController.mapToString(systemConfiguration.getWarningMessages(), ":", ";"));
+		result.addObject("systemConfigurationForm", systemConfigurationForm);
 		final Map<Integer, String> positionsMap = new HashMap<>();
 		for (final Position position : this.positionService.findAll())
 			positionsMap.put(position.getId(), position.getStrings().get("en"));
 		result.addObject("positionsMap", positionsMap);
-		result.addObject("lowestPositionId", systemConfiguration.getLowestPosition().getId());
+
 		return result;
 	}
 
 	@RequestMapping(value = "/systemconfiguration", method = RequestMethod.POST)
-	public ModelAndView systemConfiguration(@RequestParam(value = "defaultCountryCode") final String defaultCountryCode, @RequestParam(value = "systemName") final String systemName, @RequestParam(value = "banner") final String banner, @RequestParam(
-		value = "finderDuration") final int finderDuration, @RequestParam(value = "maximumFinderResults") final int maximumFinderResults, @RequestParam(value = "positiveWords") final String positiveWords,
-		@RequestParam(value = "negativeWords") final String negativeWords, @RequestParam(value = "spamWords") final String spamWords, @RequestParam(value = "welcomeMessages") final String welcomeMessages,
-		@RequestParam(value = "warningMessages") final String warningMessages, @RequestParam(value = "positionId") final int positionId) {
-		final SystemConfiguration systemConfiguration;
+	public ModelAndView systemConfiguration(@Valid @ModelAttribute("systemConfigurationForm") final SystemConfigurationForm systemConfigurationForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+		SystemConfiguration systemConfiguration;
 
-		systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
-		systemConfiguration.setDefaultCountryCode(defaultCountryCode);
-		systemConfiguration.setSystemName(systemName);
-		systemConfiguration.setBanner(banner);
-		systemConfiguration.setFinderDuration(finderDuration);
-		systemConfiguration.setMaximumFinderResults(maximumFinderResults);
-		systemConfiguration.setPositiveWords(AdministratorController.stringToList(positiveWords, ","));
-		systemConfiguration.setNegativeWords(AdministratorController.stringToList(negativeWords, ","));
-		systemConfiguration.setSpamWords(AdministratorController.stringToList(spamWords, ","));
-		systemConfiguration.setWelcomeMessages(AdministratorController.stringToMap(welcomeMessages, ":", ";"));
-		systemConfiguration.setWarningMessages(AdministratorController.stringToMap(warningMessages, ":", ";"));
-		systemConfiguration.setLowestPosition(this.positionService.findOne(positionId));
-		this.systemConfigurationService.save(systemConfiguration);
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/systemconfiguration");
 
-		return this.systemConfiguration();
+			result.addObject("systemConfigurationForm", systemConfigurationForm);
+			final Map<Integer, String> positionsMap = new HashMap<>();
+			for (final Position position : this.positionService.findAll())
+				positionsMap.put(position.getId(), position.getStrings().get("en"));
+			result.addObject("positionsMap", positionsMap);
+			result.addObject("error", true);
+		} else {
+			systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
+			this.systemConfigurationService.save(systemConfiguration);
+
+			result = new ModelAndView("administrator/systemconfiguration");
+			result.addObject("systemConfigurationForm", systemConfigurationForm);
+			final Map<Integer, String> positionsMap = new HashMap<>();
+			for (final Position position : this.positionService.findAll())
+				positionsMap.put(position.getId(), position.getStrings().get("en"));
+			result.addObject("positionsMap", positionsMap);
+			result.addObject("success", true);
+		}
+
+		return result;
 	}
-
 	// Area ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/viewareas", method = RequestMethod.GET)
@@ -227,22 +214,44 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addarea", method = RequestMethod.POST)
-	public ModelAndView addArea(@RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
-		final Area area = this.areaService.create();
-		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures, " "));
-		this.areaService.save(area);
-		return this.viewAreas();
+	@RequestMapping(value = "/createarea", method = RequestMethod.GET)
+	public ModelAndView createArea() {
+		final ModelAndView result;
+		final AreaForm areaForm;
+
+		result = new ModelAndView("administrator/editarea");
+		areaForm = this.areaService.createForm();
+		result.addObject("areaForm", areaForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editarea", method = RequestMethod.POST)
-	public ModelAndView editArea(@RequestParam(value = "id") final int id, @RequestParam(value = "name") final String name, @RequestParam(value = "pictures") final String pictures) {
-		final Area area = this.areaService.findOne(id);
-		area.setName(name);
-		area.setPictures(AdministratorController.stringToList(pictures, " "));
-		this.areaService.save(area);
-		return this.viewAreas();
+	@RequestMapping(value = "/editarea", method = RequestMethod.GET)
+	public ModelAndView editArea(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final AreaForm areaForm;
+
+		result = new ModelAndView("administrator/editarea");
+		areaForm = this.areaService.deconstruct(this.areaService.findOne(id));
+		result.addObject("areaForm", areaForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/savearea", method = RequestMethod.POST)
+	public ModelAndView saveArea(@Valid @ModelAttribute("areaForm") final AreaForm areaForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editarea");
+			result.addObject("areaForm", areaForm);
+		} else {
+			final Area area = this.areaService.reconstruct(areaForm, bindingResult);
+			this.areaService.save(area);
+			result = this.viewAreas();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deletearea", method = RequestMethod.POST)
@@ -265,20 +274,44 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addposition", method = RequestMethod.POST)
-	public ModelAndView addPosition(@RequestParam(value = "position") final String positionString) {
-		final Position position = this.positionService.create();
-		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
-		this.positionService.save(position);
-		return this.viewPositions();
+	@RequestMapping(value = "/createposition", method = RequestMethod.GET)
+	public ModelAndView createPosition() {
+		final ModelAndView result;
+		final PositionForm positionForm;
+
+		result = new ModelAndView("administrator/editposition");
+		positionForm = this.positionService.createForm();
+		result.addObject("positionForm", positionForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editposition", method = RequestMethod.POST)
-	public ModelAndView editPosition(@RequestParam(value = "id") final int id, @RequestParam(value = "position") final String positionString) {
-		final Position position = this.positionService.findOne(id);
-		position.setStrings(AdministratorController.stringToMap(positionString, ":", ";"));
-		this.positionService.save(position);
-		return this.viewPositions();
+	@RequestMapping(value = "/editposition", method = RequestMethod.GET)
+	public ModelAndView editPosition(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final PositionForm positionForm;
+
+		result = new ModelAndView("administrator/editposition");
+		positionForm = this.positionService.deconstruct(this.positionService.findOne(id));
+		result.addObject("positionForm", positionForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/saveposition", method = RequestMethod.POST)
+	public ModelAndView savePosition(@Valid @ModelAttribute("positionForm") final PositionForm positionForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editposition");
+			result.addObject("positionForm", positionForm);
+		} else {
+			final Position position = this.positionService.reconstruct(positionForm, bindingResult);
+			this.positionService.save(position);
+			result = this.viewPositions();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deleteposition", method = RequestMethod.POST)
@@ -301,20 +334,44 @@ public class AdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addpriority", method = RequestMethod.POST)
-	public ModelAndView addPriority(@RequestParam(value = "priority") final String priorityString) {
-		final Priority priority = this.priorityService.create();
-		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
-		this.priorityService.save(priority);
-		return this.viewPriorities();
+	@RequestMapping(value = "/createpriority", method = RequestMethod.GET)
+	public ModelAndView createPriority() {
+		final ModelAndView result;
+		final PriorityForm priorityForm;
+
+		result = new ModelAndView("administrator/editpriority");
+		priorityForm = this.priorityService.createForm();
+		result.addObject("priorityForm", priorityForm);
+
+		return result;
 	}
 
-	@RequestMapping(value = "/editpriority", method = RequestMethod.POST)
-	public ModelAndView editPriority(@RequestParam(value = "id") final int id, @RequestParam(value = "priority") final String priorityString) {
-		final Priority priority = this.priorityService.findOne(id);
-		priority.setStrings(AdministratorController.stringToMap(priorityString, ":", ";"));
-		this.priorityService.save(priority);
-		return this.viewPriorities();
+	@RequestMapping(value = "/editpriority", method = RequestMethod.GET)
+	public ModelAndView editPriority(@RequestParam(value = "id") final int id) {
+		final ModelAndView result;
+		final PriorityForm priorityForm;
+
+		result = new ModelAndView("administrator/editpriority");
+		priorityForm = this.priorityService.deconstruct(this.priorityService.findOne(id));
+		result.addObject("priorityForm", priorityForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/savepriority", method = RequestMethod.POST)
+	public ModelAndView savePriority(@Valid @ModelAttribute("priorityForm") final PriorityForm priorityForm, final BindingResult bindingResult) {
+		final ModelAndView result;
+
+		if (bindingResult.hasErrors()) {
+			result = new ModelAndView("administrator/editpriority");
+			result.addObject("priorityForm", priorityForm);
+		} else {
+			final Priority priority = this.priorityService.reconstruct(priorityForm, bindingResult);
+			this.priorityService.save(priority);
+			result = this.viewPriorities();
+		}
+
+		return result;
 	}
 
 	@RequestMapping(value = "/deletepriority", method = RequestMethod.POST)

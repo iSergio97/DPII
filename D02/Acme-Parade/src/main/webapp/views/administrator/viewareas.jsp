@@ -17,21 +17,18 @@
 <display:table name="areas" id="row" class="displaytag">
 
 	<display:column titleKey="area.name">
-		<form action="administrator/editarea.do" method="POST">
-			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
-			<input type="text" name="name" value="<jstl:out value="${row.name}" />" />
-			<input type="hidden" name="pictures" value="<jstl:forEach items="${row.pictures}" var="picture"><jstl:out value="${picture}" /><jstl:out value=" " /></jstl:forEach>" />
-			<input type="submit" name="editarea" value="<spring:message code='area.edit' />" />
-		</form>
+		<jstl:out value="${row.name}" />
 	</display:column>
 
 	<display:column titleKey="area.pictures">
-		<form action="administrator/editarea.do" method="POST">
-			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
-			<input type="hidden" name="name" value="<jstl:out value="${row.name}" />" />
-			<input type="text" name="pictures" value="<jstl:forEach items="${row.pictures}" var="picture"><jstl:out value="${picture}" /><jstl:out value=" " /></jstl:forEach>" />
-			<input type="submit" name="editarea" value="<spring:message code='area.edit' />" />
-		</form>
+		<jstl:forEach items="${row.pictures}" var="picture">
+			<jstl:out value="${picture}" />
+			<br />
+		</jstl:forEach>
+	</display:column>
+
+	<display:column titleKey="area.edit">
+		<a href="administrator/editarea.do?id=${row.id}"><spring:message code="area.edit" /></a>
 	</display:column>
 
 	<display:column titleKey="area.delete">
@@ -43,8 +40,6 @@
 
 </display:table>
 
-<form action="administrator/addarea.do" method="POST">
-	<input type="text" name="name" />
-	<input type="text" name="pictures" />
-	<input type="submit" name="addarea" value="<spring:message code='area.add' />" />
-</form>
+<p>
+	<a href="administrator/createarea.do"><spring:message code="area.create" /></a>
+</p>

@@ -26,56 +26,106 @@
 	</p>
 </jstl:if>
 
-<form method="POST">
-	<p>
-		<spring:message code="systemConfiguration.defaultCountryCode" />
-		<br><input type="text" name="defaultCountryCode" value="<jstl:out value="${defaultCountryCode}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.systemName" />
-		<br><input type="text" name="systemName" value="<jstl:out value="${systemName}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.banner" />
-		<br><input type="text" name="banner" value="<jstl:out value="${banner}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.finderDuration" />
-		<br><input type="text" name="finderDuration" value="<jstl:out value="${finderDuration}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.maximumFinderResults" />
-		<br><input type="text" name="maximumFinderResults" value="<jstl:out value="${maximumFinderResults}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.positiveWords" />
-		<br><input type="text" name="positiveWords" value="<jstl:out value="${positiveWords}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.negativeWords" />
-		<br><input type="text" name="negativeWords" value="<jstl:out value="${negativeWords}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.spamWords" />
-		<br><input type="text" name="spamWords" value="<jstl:out value="${spamWords}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.welcomeMessages" />
-		<br><input type="text" name="welcomeMessages" value="<jstl:out value="${welcomeMessages}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.warningMessages" />
-		<br><input type="text" name="warningMessages" value="<jstl:out value="${warningMessages}" />">
-	</p>
-	<p>
-		<spring:message code="systemConfiguration.lowestPosition" />
-		<jstl:forEach items="${positionsMap}" var="entry">
-			<jstl:set var = "checkedValue" value = "false"/>
-			<jstl:if test = "${entry.key == lowestPositionId}">
-				<jstl:set var = "checkedValue" value = "true"/>
-			</jstl:if>
-			<input type="checkbox" name="positionId" value="${entry.key}" checked="${checkedValue}" /><jstl:out value="${entry.value}" /><br>
-		</jstl:forEach>
-	</p>
-	<input type="submit" name="save" value="<spring:message code="systemConfiguration.save" />" />
-</form>
+<form:form modelAttribute="systemConfigurationForm" method="POST" action="administrator/systemconfiguration.do">
+
+	<!-- Hidden fields -->
+
+	<form:hidden path="id" />
+
+	<!-- Input fields -->
+
+	<div id="defaultCountryCode" class="defaultCountryCode">
+		<form:label path="defaultCountryCode">
+			<spring:message code="systemConfiguration.defaultCountryCode" />
+		</form:label>
+		<form:input path="defaultCountryCode" />
+		<form:errors path="defaultCountryCode" />
+	</div>
+
+	<div id="systemName" class="systemName">
+		<form:label path="systemName">
+			<spring:message code="systemConfiguration.systemName" />
+		</form:label>
+		<form:input path="systemName" />
+		<form:errors path="systemName" />
+	</div>
+
+	<div id="banner" class="banner">
+		<form:label path="banner">
+			<spring:message code="systemConfiguration.banner" />
+		</form:label>
+		<form:input path="banner" />
+		<form:errors path="banner" />
+	</div>
+
+	<div id="finderDuration" class="finderDuration">
+		<form:label path="finderDuration">
+			<spring:message code="systemConfiguration.finderDuration" />
+		</form:label>
+		<form:input path="finderDuration" />
+		<form:errors path="finderDuration" />
+	</div>
+
+	<div id="maximumFinderResults" class="maximumFinderResults">
+		<form:label path="maximumFinderResults">
+			<spring:message code="systemConfiguration.maximumFinderResults" />
+		</form:label>
+		<form:input path="maximumFinderResults" />
+		<form:errors path="maximumFinderResults" />
+	</div>
+
+	<div id="positiveWords" class="positiveWords">
+		<form:label path="positiveWords">
+			<spring:message code="systemConfiguration.positiveWords" />
+		</form:label>
+		<form:input path="positiveWords" />
+		<form:errors path="positiveWords" />
+	</div>
+
+	<div id="negativeWords" class="negativeWords">
+		<form:label path="negativeWords">
+			<spring:message code="systemConfiguration.negativeWords" />
+		</form:label>
+		<form:input path="negativeWords" />
+		<form:errors path="negativeWords" />
+	</div>
+
+	<div id="spamWords" class="spamWords">
+		<form:label path="spamWords">
+			<spring:message code="systemConfiguration.spamWords" />
+		</form:label>
+		<form:input path="spamWords" />
+		<form:errors path="spamWords" />
+	</div>
+
+	<div id="welcomeMessages" class="welcomeMessages">
+		<form:label path="welcomeMessages">
+			<spring:message code="systemConfiguration.welcomeMessages" />
+		</form:label>
+		<form:input path="welcomeMessages" />
+		<form:errors path="welcomeMessages" />
+	</div>
+
+	<div id="warningMessages" class="warningMessages">
+		<form:label path="warningMessages">
+			<spring:message code="systemConfiguration.warningMessages" />
+		</form:label>
+		<form:input path="warningMessages" />
+		<form:errors path="warningMessages" />
+	</div>
+
+	<div id="lowestPosition" class="lowestPosition">
+		<form:label path="lowestPosition">
+			<spring:message code="systemConfiguration.lowestPosition" />
+		</form:label>
+		<form:radiobuttons items="${positionsMap}" id="lowestPosition" path="lowestPosition" />
+	</div>
+
+	<!-- Form options -->
+
+	<input type="submit" name="edit" value="<spring:message code='systemConfiguration.save'/>" />
+	<input type="button" name="cancel"
+		value="<spring:message code='systemConfiguration.cancel' />"
+		onclick="javascript: relativeRedir('welcome/index.do');" />
+
+</form:form>
