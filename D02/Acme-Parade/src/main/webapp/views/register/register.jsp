@@ -5,15 +5,13 @@
  -->
 
 <script>
-	function alerta() {
-		var phoneNumber = document.getElementById('phoneNumber').innerHTML;
+	function alertPhoneNumber() {
+		var phoneNumber = document.getElementById('phoneNumber').value;
 		var re = new RegExp("^[0-9]{4,}$");
-		//if(!phoneNumber.startsWith('+') || phoneNumber.startsWith('(')) {
-		//if('a' == 'a'){
+		var option = true;
 		if (re.test(phoneNumber)) {
-			var option = confirm('Entra en el alert');
+			option = confirm('Entra en el alert');
 		}
-
 		return option;
 	}
 </script>
@@ -35,7 +33,6 @@
 	<p>
 		<spring:message code="register.member" />
 	</p>
-
 
 	<div>
 		<form:form modelAttribute="member" method="POST"
@@ -67,16 +64,12 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-
-			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<!--<acme:submit name="save" code="save"/> -->
-			<button type="submit" name="save" id="test" onclick="return alerta()">
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
 				<spring:message code="save" />
 			</button>
-
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 
@@ -120,10 +113,12 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-
+			<br>
 			<spring:message code="termsAndConditions" />
-
-			<acme:submit name="save" code="save" />
+			<br>
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
 
@@ -172,15 +167,14 @@
 			<acme:password code="password" path="password" />
 			<br>
 			<acme:password code="confirmPassword" path="confirmPassword" />
-
-			<br>
 			<br>
 			<spring:message code="termsAndConditions" />
 			<br>
-			<acme:submit name="save" code="save" />
+			<button type="submit" name="save" id="test" onclick="return alertPhoneNumber();">
+				<spring:message code="save" />
+			</button>
 			<br>
 			<acme:cancel url="security/login.do" code="cancel" />
-
 
 		</form:form>
 	</div>
