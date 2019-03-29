@@ -16,7 +16,7 @@
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="defaultCountryCode" value="+34" />
-		<property name="systemName" value="Acme Madrugá" />
+		<property name="systemName" value="Acme Parade" />
 		<property name="banner" value="" />
 		<property name="finderDuration" value="3600" />
 		<property name="maximumFinderResults" value="10" />
@@ -67,8 +67,8 @@
 		</property>
 		<property name="welcomeMessages">
 			<map>
-				<entry key="en" value="Welcome to Acme Madrugá, the site to organise your parades." />
-				<entry key="es" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar desfiles." />
+				<entry key="en" value="Welcome to Acme Parade, the site to organise your parades." />
+				<entry key="es" value="¡Bienvenidos a Acme Parade! Tu sitio para organizar desfiles." />
 			</map>
 		</property>
 		<property name="warningMessages">
