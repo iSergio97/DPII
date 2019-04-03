@@ -1,55 +1,28 @@
-/*
- * Position.java
- * 
- * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
- */
 
-package domain;
+package forms;
 
-import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Position extends DomainEntity {
+public class PositionForm {
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Fields
+	private String	title;
+	private String	description;
+	private String	profileRequired;
+	private String	skillsRequired;
+	private String	technologiesRequired;
+	private double	salaryOffered;
+	private Date	deadline;
+	private int		id;
+	private String	status;
 
-	private String				title;
-	private String				description;
-	private String				profileRequired;
-	private String				skillsRequired;
-	private String				technologiesRequired;
-	private double				salaryOffered;
-	private Date				deadline;
-	private boolean				isDraft;
-	private String				status;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationships
-
-	private Company				company;
-	private Collection<Problem>	problems;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Field access methods
 
 	@NotBlank
 	public String getTitle() {
@@ -116,36 +89,12 @@ public class Position extends DomainEntity {
 		this.deadline = deadline;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
-
-	@ManyToOne
-	@Valid
-	public Company getCompany() {
-		return this.company;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setCompany(final Company company) {
-		this.company = company;
-	}
-
-	@Valid
-	@ManyToMany
-	public Collection<Problem> getProblems() {
-		return this.problems;
-	}
-
-	public void setProblems(final Collection<Problem> problems) {
-		this.problems = problems;
-	}
-
-	@Basic
-	public Boolean getIsDraft() {
-		return this.isDraft;
-	}
-
-	public void setIsDraft(final Boolean isDraft) {
-		this.isDraft = isDraft;
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 	@NotNull
