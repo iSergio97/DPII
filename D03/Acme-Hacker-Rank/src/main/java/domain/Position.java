@@ -40,6 +40,8 @@ public class Position extends DomainEntity {
 	private Date				deadline;
 	private boolean				isDraft;
 	private String				status;
+	private Date				submitMoment;
+	private String				ticker;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -139,15 +141,6 @@ public class Position extends DomainEntity {
 		this.problems = problems;
 	}
 
-	@Basic
-	public Boolean getIsDraft() {
-		return this.isDraft;
-	}
-
-	public void setIsDraft(final Boolean isDraft) {
-		this.isDraft = isDraft;
-	}
-
 	@NotNull
 	@NotBlank
 	@Pattern(regexp = "^APPROVED|REJECTED|PENDING|CANCELLED$")
@@ -157,6 +150,37 @@ public class Position extends DomainEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	@Basic
+	public boolean isDraft() {
+		return this.isDraft;
+	}
+
+	public void setDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
+	}
+
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getSubmitMoment() {
+		return this.submitMoment;
+	}
+
+	public void setSubmitMoment(final Date submitMoment) {
+		this.submitMoment = submitMoment;
+	}
+
+	@NotNull
+	@NotBlank
+	@Pattern(regexp = "^([A-Z]{4}-[0-9]{4})$")
+	public String getTicker() {
+		return this.ticker;
+	}
+
+	public void setTicker(final String ticker) {
+		this.ticker = ticker;
 	}
 
 }

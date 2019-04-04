@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -44,7 +45,7 @@ public class PositionService {
 		position.setSkillsRequired("");
 		position.setTechnologiesRequired("");
 		position.setSalaryOffered(0);
-		position.setIsDraft(true);
+		position.setDraft(true);
 		position.setStatus("");
 
 		return position;
@@ -69,6 +70,7 @@ public class PositionService {
 
 	public Position save(final Position position) {
 		Assert.isTrue(position != null);
+		//TODO: Añadir ticker a la hora de guardar
 		return this.positionRepository.save(position);
 	}
 
@@ -104,17 +106,6 @@ public class PositionService {
 			res = this.create();
 		else
 			res = this.positionRepository.findOne(position.getId());
-		/*
-		 * private String title;
-		 * private String description;
-		 * private String profileRequired;
-		 * private String skillsRequired;
-		 * private String technologiesRequired;
-		 * private double salaryOffered;
-		 * private Date deadline;
-		 * private boolean isDraft;
-		 * private String status;
-		 */
 
 		res.setTitle(position.getTitle());
 		res.setDescription(position.getDescription());
@@ -124,6 +115,7 @@ public class PositionService {
 		res.setSalaryOffered(position.getSalaryOffered());
 		res.setDeadline(position.getDeadline());
 		res.setStatus(position.getStatus());
+		res.setSubmitMoment(new Date());
 
 		this.validator.validate(res, bindingResult);
 		this.positionRepository.flush();

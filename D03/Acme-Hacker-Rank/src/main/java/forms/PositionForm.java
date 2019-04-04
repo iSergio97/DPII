@@ -22,6 +22,7 @@ public class PositionForm {
 	private Date	deadline;
 	private int		id;
 	private String	status;
+	private Date	submitMoment;
 
 
 	@NotBlank
@@ -106,6 +107,17 @@ public class PositionForm {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getSubmitMode() {
+		return this.submitMoment;
+	}
+
+	public void setSubmitMode(final Date submitMode) {
+		this.submitMoment = submitMode;
 	}
 
 }
