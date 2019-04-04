@@ -155,11 +155,21 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 			<list />
 		</property>
 		<property name="socialProfiles">
-			<list />
+			<list>
+				<ref bean="socialProfile1" />
+			</list>
 		</property>
 		<property name="applications">
 			<list />
 		</property>
+	</bean>
+
+	<!-- Social profiles -->
+
+	<bean id="socialProfile1" class="domain.SocialProfile">
+		<property name="nick" value="Aiden_P" />
+		<property name="socialNetworkName" value="nudle" />
+		<property name="profileLink" value="https://www.google.com" />
 	</bean>
 
 </beans>

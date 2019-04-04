@@ -1,3 +1,10 @@
 #./src/main/resources/Entities.map
-#Fri Mar 29 19:34:18 CET 2019
-systemConfiguration=2
+#Thu Apr 04 15:55:13 CEST 2019
+administrator1=13
+systemConfiguration=9
+hacker1=15
+socialProfile1=16
+company1=14
+userAccountCompany1=11
+userAccountHacker1=12
+userAccountAdministrator1=10

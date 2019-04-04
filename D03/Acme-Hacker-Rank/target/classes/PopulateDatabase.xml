@@ -41,4 +41,135 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		</property>
 	</bean>
 
+	<!-- User accounts -->
+
+	<bean id="userAccountAdministrator1" class="security.UserAccount">
+		<property name="username" value="administrator1" />
+		<property name="password" value="d5cee333abe432891a0de57d0ee38713" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMINISTRATOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="userAccountCompany1" class="security.UserAccount">
+		<property name="username" value="company1" />
+		<property name="password" value="df655f976f7c9d3263815bd981225cd9" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="COMPANY" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="userAccountHacker1" class="security.UserAccount">
+		<property name="username" value="hacker1" />
+		<property name="password" value="2ba2a8ac968a7a2b0a7baa7f2fef18d2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="HACKER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Administrators -->
+
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="Señor" />
+		<property name="surnames">
+			<list>
+				<value>X</value>
+			</list>
+		</property>
+		<property name="vat" value="ES1234567890" />
+		<property name="photo" value="" />
+		<property name="email" value="x@gmail.com" />
+		<property name="phoneNumber" value="+34 (420) 696969" />
+		<property name="address" value="" />
+		<property name="isSpammer" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountAdministrator1" />
+		<property name="messagePool">
+			<list />
+		</property>
+		<property name="socialProfiles">
+			<list />
+		</property>
+	</bean>
+
+	<!-- Companies -->
+
+	<bean id="company1" class="domain.Company">
+		<property name="name" value="Hackersur" />
+		<property name="surnames">
+			<list>
+				<value>Corp</value>
+			</list>
+		</property>
+		<property name="vat" value="ES1111111111" />
+		<property name="photo" value="" />
+		<property name="email" value="hackersur@gmail.com" />
+		<property name="phoneNumber" value="+34 (111) 111111" />
+		<property name="address" value="" />
+		<property name="isSpammer" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountCompany1" />
+		<property name="messagePool">
+			<list />
+		</property>
+		<property name="socialProfiles">
+			<list />
+		</property>
+		<property name="commercialName" value="Hackersur Corp" />
+		<property name="positions">
+			<list />
+		</property>
+		<property name="problems">
+			<list />
+		</property>
+	</bean>
+
+	<!-- Hackers -->
+
+	<bean id="hacker1" class="domain.Hacker">
+		<property name="name" value="Aiden" />
+		<property name="surnames">
+			<list>
+				<value>Pearce</value>
+			</list>
+		</property>
+		<property name="vat" value="ES2222222222" />
+		<property name="photo" value="" />
+		<property name="email" value="aidenpearce@gmail.com" />
+		<property name="phoneNumber" value="+1 (123) 456789" />
+		<property name="address" value="" />
+		<property name="isSpammer" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountHacker1" />
+		<property name="messagePool">
+			<list />
+		</property>
+		<property name="socialProfiles">
+			<list>
+				<ref bean="socialProfile1" />
+			</list>
+		</property>
+		<property name="applications">
+			<list />
+		</property>
+	</bean>
+
+	<!-- Social profiles -->
+
+	<bean id="socialProfile1" class="domain.SocialProfile">
+		<property name="nick" value="Aiden_P" />
+		<property name="socialNetworkName" value="nudle" />
+		<property name="profileLink" value="https://www.google.com" />
+	</bean>
+
 </beans>
