@@ -53,7 +53,6 @@ public class EducationData extends DomainEntity {
 		this.institution = institution;
 	}
 
-	@NotBlank
 	public double getMark() {
 		return this.mark;
 	}

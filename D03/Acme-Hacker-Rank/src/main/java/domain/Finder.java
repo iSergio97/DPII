@@ -11,8 +11,11 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
@@ -25,10 +28,17 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String	keyword;
-	private double	minimumSalary;
-	private Date	minimumDeadline;
-	private Date	maximumDeadline;
+	private String		keyword;
+	private Date		deadline;
+	private double		minimumSalary;
+	private Date		maximumDeadline;
+	private Date		moment;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
+
+	private Hacker		hacker;
+	private Position	position;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +53,16 @@ public class Finder extends DomainEntity {
 		this.keyword = keyword;
 	}
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getDeadline() {
+		return this.deadline;
+	}
+
+	public void setDeadline(final Date deadline) {
+		this.deadline = deadline;
+	}
+
 	@Range(min = 0)
 	public double getMinimumSalary() {
 		return this.minimumSalary;
@@ -54,22 +74,43 @@ public class Finder extends DomainEntity {
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getMinimumDeadline() {
-		return this.minimumDeadline;
-	}
-
-	public void setMinimumDeadline(final Date minimumDeadline) {
-		this.minimumDeadline = minimumDeadline;
-	}
-
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getMaximumDeadline() {
 		return this.maximumDeadline;
 	}
 
 	public void setMaximumDeadline(final Date maximumDeadline) {
 		this.maximumDeadline = maximumDeadline;
+	}
+
+	public Date getMoment() {
+		return this.moment;
+	}
+
+	public void setMoment(final Date moment) {
+		this.moment = moment;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
+
+	@OneToOne
+	@Valid
+	public Hacker getHacker() {
+		return this.hacker;
+	}
+
+	public void setHacker(final Hacker hacker) {
+		this.hacker = hacker;
+	}
+
+	@ManyToMany
+	@Valid
+	public Position getPosition() {
+		return this.position;
+	}
+
+	public void setPosition(final Position position) {
+		this.position = position;
 	}
 
 }

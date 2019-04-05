@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -59,7 +58,7 @@ public class PersonalData extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@NotEmpty
+	@NotBlank
 	@URL
 	public String getGitHubProfile() {
 		return this.gitHubProfile;
@@ -69,7 +68,7 @@ public class PersonalData extends DomainEntity {
 		this.gitHubProfile = gitHubProfile;
 	}
 
-	@NotEmpty
+	@NotBlank
 	@URL
 	public String getLinkedInProfile() {
 		return this.linkedInProfile;

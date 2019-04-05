@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -112,7 +111,7 @@ public class Application extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToMany()
+	@ManyToOne
 	public Position getPosition() {
 		return this.position;
 	}

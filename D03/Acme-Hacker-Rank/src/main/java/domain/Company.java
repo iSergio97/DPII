@@ -6,13 +6,9 @@
 
 package domain;
 
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -23,14 +19,11 @@ public class Company extends Actor {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String					commercialName;
+	private String	commercialName;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
-
-	private Collection<Position>	positions;
-	private Collection<Problem>		problems;
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
@@ -46,25 +39,5 @@ public class Company extends Actor {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
-
-	@OneToMany(mappedBy = "company")
-	@Valid
-	public Collection<Position> getPositions() {
-		return this.positions;
-	}
-
-	public void setPositions(final Collection<Position> positions) {
-		this.positions = positions;
-	}
-
-	@OneToMany(mappedBy = "company")
-	@Valid
-	public Collection<Problem> getProblems() {
-		return this.problems;
-	}
-
-	public void setProblems(final Collection<Problem> problems) {
-		this.problems = problems;
-	}
 
 }
