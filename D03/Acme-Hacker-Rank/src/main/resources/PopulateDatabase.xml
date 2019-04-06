@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-PopulateDatabase.xml
-
-Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
--->
+<!-- PopulateDatabase.xml Copyright (c) 2019 Group 16 of Design and Testing 
+	II, University of Seville -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -15,10 +12,11 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 	<!-- System configuration -->
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
-		<property name="defaultCountryCode" value="+34" />
+		<property name="defaultCC" value="+34" />
 		<property name="systemName" value="Acme Hacker Rank" />
-		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
-		<property name="finderDuration" value="3600" />
+		<property name="banner"
+			value="https://i.imgur.com/7b8lu4b.png" />
+		<property name="finderCacheTime" value="20" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="spamWords">
 			<list>
@@ -30,15 +28,86 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 				<value>Nigeria</value>
 				<value>sexo</value>
 				<value>un millón</value>
-				<value>ha sido seleccionado</value> 
+				<value>ha sido seleccionado</value>
 			</list>
 		</property>
-		<property name="welcomeMessages">
-			<map>
-				<entry key="en" value="Welcome to Acme Hacker Rank! We're IT hacker's favourite job marketplace!" />
-				<entry key="es" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
-			</map>
+		<property name="welcomeMessage"
+			value="Welcome to Acme Hacker Rank! We're IT hacker's favourite job marketplace!" />
+		<property name="welcomeMessageES"
+			value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+		<property name="warningMessage"
+			value="Your data has not been sold recently." />
+		<property name="warningMessageES"
+			value="Sus datos no han sido vendidos recientemente." />
+	</bean>
+
+	<!-- USERACCOUNTS -->
+
+	<bean id="userAccountAdmin1" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password"
+			value="e00cf25ad42683b3df678c61f42c6bda" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMINISTRATOR" />
+				</bean>
+			</list>
 		</property>
 	</bean>
+
+	<!-- MESSAGE BOXES -->
+
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<!-- ADMINISTRATOR ACCOUNT -->
+
+	<bean id="admin1" class="domain.Administrator">
+		<property name="name" value="Señor" />
+		<property name="surnames" value="X" />
+		<property name="vat" value="123" />
+		<property name="creditCard" ref="creditCard1" />
+		<property name="photo" value="" />
+		<property name="email" value="x@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 4206969" />
+		<property name="address" value="" />
+		<property name="flagged" value="false" />
+		<property name="banned" value="false" />
+		<property name="userAccount" ref="userAccountAdmin1" />
+	</bean>
+
+	<!-- Credit cards -->
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holder" value="Holder" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="0000111122223333" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2023" />
+		<property name="CVV" value="123" />
+	</bean>
+
+
 
 </beans>
