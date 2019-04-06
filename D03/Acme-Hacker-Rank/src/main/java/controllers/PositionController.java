@@ -34,8 +34,8 @@ public class PositionController extends AbstractController {
 	@Autowired
 	private CompanyService	companyService;
 
-	@Autowired
-	private ProblemService	problemService;
+	//@Autowired
+	//private ProblemService	problemService;
 
 
 	public PositionController() {
@@ -104,7 +104,7 @@ public class PositionController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Problem> problems;//company.getProblems(); Cambiarlo por una query
+		final Collection<Problem> problems = null;//company.getProblems(); Cambiarlo por una query
 
 		result = new ModelAndView("position/company/list");
 

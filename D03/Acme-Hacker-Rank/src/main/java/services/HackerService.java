@@ -23,7 +23,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.ConversionUtils;
 
 @Service
 @Transactional
@@ -122,7 +121,7 @@ public class HackerService {
 
 		hackerForm.setName("");
 		hackerForm.setSurnames("");
-		hackerForm.setVat("");
+		hackerForm.setVat(0);
 		hackerForm.setPhoto("");
 		hackerForm.setEmail("");
 		hackerForm.setPhoneNumber("");
@@ -160,7 +159,7 @@ public class HackerService {
 
 		hackerForm.setId(hacker.getId());
 		hackerForm.setName(hacker.getName());
-		hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
+		hackerForm.setSurnames(hacker.getSurnames());
 		hackerForm.setVat(hacker.getVat());
 		hackerForm.setPhoto(hacker.getPhoto());
 		hackerForm.setEmail(hacker.getEmail());
