@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,10 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.PositionRepository;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
+import repositories.PositionRepository;
 
 @Service
 @Transactional
@@ -41,10 +40,10 @@ public class PositionService {
 		position.setTitle("");
 		position.setDescription("");
 		position.setProblems(new ArrayList<Problem>());
-		position.setProfileRequired("");
-		position.setSkillsRequired("");
-		position.setTechnologiesRequired("");
-		position.setSalaryOffered(0);
+		position.setProfile("");
+		position.setSkills("");
+		position.setTechnologies("");
+		position.setSalary(0);
 		position.setDraft(true);
 		position.setStatus("");
 
@@ -57,10 +56,10 @@ public class PositionService {
 
 		posForm.setDescription("");
 		posForm.setTitle("");
-		posForm.setProfileRequired("");
-		posForm.setSalaryOffered(0);
-		posForm.setSkillsRequired("");
-		posForm.setTechnologiesRequired("");
+		posForm.setProfile("");
+		posForm.setSalary(0);
+		posForm.setSkills("");
+		posForm.setTechnologies("");
 
 		return posForm;
 	}
@@ -109,13 +108,12 @@ public class PositionService {
 
 		res.setTitle(position.getTitle());
 		res.setDescription(position.getDescription());
-		res.setProfileRequired(position.getProfileRequired());
-		res.setSkillsRequired(position.getSkillsRequired());
-		res.setTechnologiesRequired(position.getTechnologiesRequired());
-		res.setSalaryOffered(position.getSalaryOffered());
+		res.setProfile(position.getProfile());
+		res.setSkills(position.getSkills());
+		res.setTechnologies(position.getTechnologies());
+		res.setSalary(position.getSalary());
 		res.setDeadline(position.getDeadline());
 		res.setStatus(position.getStatus());
-		res.setSubmitMoment(new Date());
 
 		this.validator.validate(res, bindingResult);
 		this.positionRepository.flush();

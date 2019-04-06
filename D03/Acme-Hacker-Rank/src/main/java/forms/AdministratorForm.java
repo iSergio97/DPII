@@ -1,6 +1,6 @@
 /*
  * AdministratorForm.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -21,7 +21,7 @@ public class AdministratorForm {
 	private int		id;
 	private String	name;
 	private String	surnames;
-	private String	vat;
+	private int		vat;
 	private String	email;
 	private String	photo;
 	private String	phoneNumber;
@@ -64,13 +64,11 @@ public class AdministratorForm {
 	}
 
 	@NotNull
-	// Matches 2 letters followed by between 5 and 15 alphanumeric characters
-	@Pattern(regexp = "^[\\w]{2}[\\d\\w]{5,15}$")
-	public String getVat() {
+	public int getVat() {
 		return this.vat;
 	}
 
-	public void setVat(final String vat) {
+	public void setVat(final int vat) {
 		this.vat = vat;
 	}
 

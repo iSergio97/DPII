@@ -23,7 +23,7 @@ public class MiscellaneousData extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String				data;
+	private String				freeText;
 	private Collection<String>	attachments;
 
 
@@ -32,11 +32,11 @@ public class MiscellaneousData extends DomainEntity {
 
 	@NotBlank
 	public String getData() {
-		return this.data;
+		return this.freeText;
 	}
 
 	public void setData(final String data) {
-		this.data = data;
+		this.freeText = data;
 	}
 
 	@NotNull

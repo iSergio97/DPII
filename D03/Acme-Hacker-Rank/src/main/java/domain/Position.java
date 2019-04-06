@@ -11,7 +11,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -33,15 +34,14 @@ public class Position extends DomainEntity {
 
 	private String				title;
 	private String				description;
-	private String				profileRequired;
-	private String				skillsRequired;
-	private String				technologiesRequired;
-	private double				salaryOffered;
 	private Date				deadline;
+	private String				profile;
+	private String				skills;
+	private String				technologies;
+	private double				salary;
+	private String				ticker;
 	private boolean				isDraft;
 	private String				status;
-	private Date				submitMoment;
-	private String				ticker;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -71,42 +71,6 @@ public class Position extends DomainEntity {
 		this.description = description;
 	}
 
-	@NotBlank
-	public String getProfileRequired() {
-		return this.profileRequired;
-	}
-
-	public void setProfileRequired(final String profileRequired) {
-		this.profileRequired = profileRequired;
-	}
-
-	@NotNull
-	public String getSkillsRequired() {
-		return this.skillsRequired;
-	}
-
-	public void setSkillsRequired(final String skillsRequired) {
-		this.skillsRequired = skillsRequired;
-	}
-
-	@NotNull
-	public String getTechnologiesRequired() {
-		return this.technologiesRequired;
-	}
-
-	public void setTechnologiesRequired(final String technologiesRequired) {
-		this.technologiesRequired = technologiesRequired;
-	}
-
-	@NotBlank
-	public double getSalaryOffered() {
-		return this.salaryOffered;
-	}
-
-	public void setSalaryOffered(final double salaryOffered) {
-		this.salaryOffered = salaryOffered;
-	}
-
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -116,6 +80,69 @@ public class Position extends DomainEntity {
 
 	public void setDeadline(final Date deadline) {
 		this.deadline = deadline;
+	}
+
+	public String getProfile() {
+		return this.profile;
+	}
+
+	public void setProfile(final String profile) {
+		this.profile = profile;
+	}
+
+	@NotBlank
+	public String getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(final String skills) {
+		this.skills = skills;
+	}
+
+	@NotBlank
+	public String getTechnologies() {
+		return this.technologies;
+	}
+
+	public void setTechnologies(final String technologies) {
+		this.technologies = technologies;
+	}
+
+	public double getSalary() {
+		return this.salary;
+	}
+
+	public void setSalary(final double salary) {
+		this.salary = salary;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^([A-Z]){6}-([\\d]){5}$")
+	@Column(unique = true)
+	public String getTicker() {
+		return this.ticker;
+	}
+
+	public void setTicker(final String ticker) {
+		this.ticker = ticker;
+	}
+
+	public boolean isDraft() {
+		return this.isDraft;
+	}
+
+	public void setDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(final String status) {
+		this.status = status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -131,56 +158,15 @@ public class Position extends DomainEntity {
 		this.company = company;
 	}
 
-	@Valid
 	@ManyToMany
+	@Valid
+	@NotEmpty
 	public Collection<Problem> getProblems() {
 		return this.problems;
 	}
 
 	public void setProblems(final Collection<Problem> problems) {
 		this.problems = problems;
-	}
-
-	@NotNull
-	@NotBlank
-	@Pattern(regexp = "^APPROVED|REJECTED|PENDING|CANCELLED$")
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-
-	@Basic
-	public boolean isDraft() {
-		return this.isDraft;
-	}
-
-	public void setDraft(final boolean isDraft) {
-		this.isDraft = isDraft;
-	}
-
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getSubmitMoment() {
-		return this.submitMoment;
-	}
-
-	public void setSubmitMoment(final Date submitMoment) {
-		this.submitMoment = submitMoment;
-	}
-
-	@NotNull
-	@NotBlank
-	@Pattern(regexp = "^([A-Z]{4}-[0-9]{4})$")
-	public String getTicker() {
-		return this.ticker;
-	}
-
-	public void setTicker(final String ticker) {
-		this.ticker = ticker;
 	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * HackerService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,17 +16,14 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Hacker;
+import forms.HackerForm;
 import repositories.HackerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
 import utilities.ConversionUtils;
-import domain.Application;
-import domain.Hacker;
-import domain.Message;
-import domain.SocialProfile;
-import forms.HackerForm;
 
 @Service
 @Transactional
@@ -75,21 +72,16 @@ public class HackerService {
 		userAccount = this.userAccountRepository.save(userAccount);
 		// set fields
 		hacker.setName("");
-		hacker.setSurnames(new ArrayList<String>());
-		hacker.setVat("");
+		hacker.setSurnames("");
+		hacker.setVat(0);
 		hacker.setPhoto("");
 		hacker.setEmail("");
 		hacker.setPhoneNumber("");
 		hacker.setAddress("");
-		hacker.setIsSpammer(false);
-		hacker.setIsBanned(false);
+		hacker.setBanned(false);
 		// set relationships
 		hacker.setUserAccount(userAccount);
 		hacker.setCreditCard(null);
-		hacker.setMessagePool(new ArrayList<Message>());
-		hacker.setSocialProfiles(new ArrayList<SocialProfile>());
-		hacker.setCurriculum(null);
-		hacker.setApplications(new ArrayList<Application>());
 
 		return hacker;
 	}
@@ -152,7 +144,7 @@ public class HackerService {
 
 		result.setName(hackerForm.getName());
 		result.setVat(hackerForm.getVat());
-		result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
+		result.setSurnames(hackerForm.getSurnames());
 		result.setPhoto(hackerForm.getPhoto());
 		result.setEmail(hackerForm.getEmail());
 		result.setPhoneNumber(hackerForm.getPhoneNumber());

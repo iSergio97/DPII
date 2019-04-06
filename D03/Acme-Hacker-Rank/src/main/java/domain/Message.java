@@ -1,6 +1,6 @@
 /*
  * Message.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,13 +13,16 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -29,24 +32,26 @@ public class Message extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private Date				date;
-	private String				subject;
-	private String				body;
-	private Collection<String>	tags;
+	private Date					date;
+	private String					subject;
+	private String					body;
+	private String					priority;
+	private Collection<String>		tags;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Actor				sender;
-	private Actor				recipient;
+	private Actor					sender;
+	private Collection<Actor>		recipients;
+	private Collection<MessageBox>	messageBoxes;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
 	@NotNull
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getDate() {
 		return this.date;
 	}
@@ -71,6 +76,16 @@ public class Message extends DomainEntity {
 
 	public void setBody(final String body) {
 		this.body = body;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	public String getPriority() {
+		return this.priority;
+	}
+
+	public void setPriority(final String priority) {
+		this.priority = priority;
 	}
 
 	@NotNull
@@ -99,13 +114,25 @@ public class Message extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
-	public Actor getRecipient() {
-		return this.recipient;
+	@ManyToMany
+	public Collection<Actor> getRecipients() {
+		return this.recipients;
 	}
 
-	public void setRecipient(final Actor recipient) {
-		this.recipient = recipient;
+	public void setRecipients(final Collection<Actor> recipients) {
+		this.recipients = recipients;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany
+	@NotEmpty
+	public Collection<MessageBox> getMessageBoxes() {
+		return this.messageBoxes;
+	}
+
+	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
+		this.messageBoxes = messageBoxes;
 	}
 
 }

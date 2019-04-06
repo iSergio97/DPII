@@ -1,6 +1,6 @@
 /*
  * AdministratorService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,16 +16,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Administrator;
+import forms.AdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.ConversionUtils;
-import domain.Administrator;
-import domain.Message;
-import domain.SocialProfile;
-import forms.AdministratorForm;
 
 @Service
 @Transactional
@@ -74,19 +71,16 @@ public class AdministratorService {
 		userAccount = this.userAccountRepository.save(userAccount);
 		// set fields
 		administrator.setName("");
-		administrator.setSurnames(new ArrayList<String>());
-		administrator.setVat("");
+		administrator.setSurnames("");
 		administrator.setPhoto("");
 		administrator.setEmail("");
 		administrator.setPhoneNumber("");
 		administrator.setAddress("");
-		administrator.setIsSpammer(false);
-		administrator.setIsBanned(false);
+		administrator.setBanned(false);
 		// set relationships
 		administrator.setUserAccount(userAccount);
 		administrator.setCreditCard(null);
-		administrator.setMessagePool(new ArrayList<Message>());
-		administrator.setSocialProfiles(new ArrayList<SocialProfile>());
+		//administrator.setMessagePool(new ArrayList<Message>());
 
 		return administrator;
 	}
@@ -127,7 +121,6 @@ public class AdministratorService {
 
 		administratorForm.setName("");
 		administratorForm.setSurnames("");
-		administratorForm.setVat("");
 		administratorForm.setPhoto("");
 		administratorForm.setEmail("");
 		administratorForm.setPhoneNumber("");
@@ -149,7 +142,7 @@ public class AdministratorService {
 
 		result.setName(administratorForm.getName());
 		result.setVat(administratorForm.getVat());
-		result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
+		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
 		result.setPhoneNumber(administratorForm.getPhoneNumber());
@@ -165,7 +158,7 @@ public class AdministratorService {
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
-		administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
+		administratorForm.setSurnames(administratorForm.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());

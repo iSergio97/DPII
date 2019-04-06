@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.CompanyService;
-import services.PositionService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
+import security.LoginService;
+import services.CompanyService;
+import services.PositionService;
 
 @Controller
 @RequestMapping("/position")
@@ -72,11 +72,7 @@ public class PositionController extends AbstractController {
 				if (company != null && !pos.isDraft()) {
 					pos.setProblems(test);
 					pos.setCompany(company);
-					final Collection<Position> ls = new ArrayList<>(company.getPositions());
-					ls.add(pos);
-					company.setPositions(ls);
 					this.positionService.save(pos);
-					this.companyService.save(company);
 					result = new ModelAndView("redirect:/company/list.do");
 				} else
 					result = new ModelAndView("redirect:/welcome/index.do");
@@ -98,6 +94,8 @@ public class PositionController extends AbstractController {
 		position = this.positionService.findOne(positionId);
 
 		result.addObject("position", position);
+
+		return result;
 	}
 
 	// List -------------------------------------------------------------------
@@ -106,7 +104,7 @@ public class PositionController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Problem> problems = company.getProblems();
+		final Collection<Problem> problems;//company.getProblems(); Cambiarlo por una query
 
 		result = new ModelAndView("position/company/list");
 
@@ -128,7 +126,7 @@ public class PositionController extends AbstractController {
 
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 		//TODO: Hacer query que obtenga los problemas de una compañía y se le asigne a la position
-		problems = this.problemService.getProblemsOfCompany(company.getId());
+		//problems = this.problemService.getProblemsOfCompany(company.getId()); Sacar queries
 
 		result = new ModelAndView("position/company/create");
 		//result.addObject("problems", problems);

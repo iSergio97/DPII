@@ -1,24 +1,23 @@
 /*
  * SystemConfiguration.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.MapKeyClass;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -28,27 +27,22 @@ public class SystemConfiguration extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String				defaultCountryCode;
 	private String				systemName;
 	private String				banner;
-	private int					finderDuration;
+	private String				welcomeMessage;
+	private String				welcomeMessageES;
+	private String				defaultCC;
+	private int					finderCacheTime;
 	private int					maximumFinderResults;
-	private List<String>		spamWords;
-	private Map<String, String>	welcomeMessages;
+	private Collection<String>	spamWords;
+	private String				warningMessage;
+	private String				warningMessageES;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
-		return this.defaultCountryCode;
-	}
-
-	public void setDefaultCountryCode(final String defaultCountryCode) {
-		this.defaultCountryCode = defaultCountryCode;
-	}
-
+	@NotBlank
 	public String getSystemName() {
 		return this.systemName;
 	}
@@ -57,6 +51,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.systemName = systemName;
 	}
 
+	@NotBlank
 	@URL
 	public String getBanner() {
 		return this.banner;
@@ -66,14 +61,41 @@ public class SystemConfiguration extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@Min(value = 3600)
-	@Max(value = 86400)
-	public int getFinderDuration() {
-		return this.finderDuration;
+	@NotBlank
+	public String getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setFinderDuration(final int finderDuration) {
-		this.finderDuration = finderDuration;
+	public void setWelcomeMessage(final String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
+	}
+
+	@NotBlank
+	public String getWelcomeMessageES() {
+		return this.welcomeMessageES;
+	}
+
+	public void setWelcomeMessageES(final String welcomeMessageES) {
+		this.welcomeMessageES = welcomeMessageES;
+	}
+
+	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
+	public String getDefaultCC() {
+		return this.defaultCC;
+	}
+
+	public void setDefaultCC(final String defaultCC) {
+		this.defaultCC = defaultCC;
+	}
+
+	@Min(value = 1)
+	@Max(value = 24)
+	public int getFinderCacheTime() {
+		return this.finderCacheTime;
+	}
+
+	public void setFinderCacheTime(final int finderCacheTime) {
+		this.finderCacheTime = finderCacheTime;
 	}
 
 	@Min(value = 1)
@@ -88,23 +110,28 @@ public class SystemConfiguration extends DomainEntity {
 
 	@NotNull
 	@ElementCollection
-	public List<String> getSpamWords() {
+	public Collection<String> getSpamWords() {
 		return this.spamWords;
 	}
 
-	public void setSpamWords(final List<String> spamWords) {
+	public void setSpamWords(final Collection<String> spamWords) {
 		this.spamWords = spamWords;
 	}
 
-	@NotNull
-	@ElementCollection(targetClass = String.class)
-	@MapKeyClass(String.class)
-	public Map<String, String> getWelcomeMessages() {
-		return this.welcomeMessages;
+	public String getWarningMessage() {
+		return this.warningMessage;
 	}
 
-	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
+	public void setWarningMessage(final String warmingMessage) {
+		this.warningMessage = warmingMessage;
+	}
+
+	public String getWarningMessageES() {
+		return this.warningMessageES;
+	}
+
+	public void setWarningMessageES(final String warmingMessageES) {
+		this.warningMessageES = warmingMessageES;
 	}
 
 }

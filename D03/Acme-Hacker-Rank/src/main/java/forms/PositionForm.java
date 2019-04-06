@@ -15,10 +15,10 @@ public class PositionForm {
 
 	private String	title;
 	private String	description;
-	private String	profileRequired;
-	private String	skillsRequired;
-	private String	technologiesRequired;
-	private double	salaryOffered;
+	private String	profile;
+	private String	skills;
+	private String	technologies;
+	private double	salary;
 	private Date	deadline;
 	private int		id;
 	private String	status;
@@ -44,39 +44,39 @@ public class PositionForm {
 	}
 
 	@NotBlank
-	public String getProfileRequired() {
-		return this.profileRequired;
+	public String getProfile() {
+		return this.profile;
 	}
 
-	public void setProfileRequired(final String profileRequired) {
-		this.profileRequired = profileRequired;
-	}
-
-	@NotNull
-	public String getSkillsRequired() {
-		return this.skillsRequired;
-	}
-
-	public void setSkillsRequired(final String skillsRequired) {
-		this.skillsRequired = skillsRequired;
+	public void setProfile(final String profile) {
+		this.profile = profile;
 	}
 
 	@NotNull
-	public String getTechnologiesRequired() {
-		return this.technologiesRequired;
+	public String getSkills() {
+		return this.skills;
 	}
 
-	public void setTechnologiesRequired(final String technologiesRequired) {
-		this.technologiesRequired = technologiesRequired;
+	public void setSkills(final String skills) {
+		this.skills = skills;
+	}
+
+	@NotNull
+	public String getTechnologies() {
+		return this.technologies;
+	}
+
+	public void setTechnologies(final String technologies) {
+		this.technologies = technologies;
 	}
 
 	@NotBlank
-	public double getSalaryOffered() {
-		return this.salaryOffered;
+	public double getSalary() {
+		return this.salary;
 	}
 
-	public void setSalaryOffered(final double salaryOffered) {
-		this.salaryOffered = salaryOffered;
+	public void setSalary(final double salary) {
+		this.salary = salary;
 	}
 
 	@NotNull
