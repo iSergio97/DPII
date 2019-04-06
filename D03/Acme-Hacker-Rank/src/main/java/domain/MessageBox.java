@@ -38,6 +38,7 @@ public class MessageBox extends DomainEntity {
 		this.name = name;
 	}
 
+	@Valid
 	public boolean isSystem() {
 		return this.isSystem;
 	}

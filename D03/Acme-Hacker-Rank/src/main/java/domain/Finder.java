@@ -1,6 +1,6 @@
 /*
  * Finder.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -103,7 +103,7 @@ public class Finder extends DomainEntity {
 		this.hacker = hacker;
 	}
 
-	@ManyToMany
+	@ManyToOne
 	@Valid
 	public Position getPosition() {
 		return this.position;

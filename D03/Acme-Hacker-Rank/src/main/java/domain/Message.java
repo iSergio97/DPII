@@ -1,6 +1,6 @@
 /*
  * Message.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -42,7 +42,7 @@ public class Message extends DomainEntity {
 	// Relationships
 
 	private Actor					sender;
-	private Actor					recipient;
+	private Collection<Actor>		recipients;
 	private Collection<MessageBox>	messageBoxes;
 
 
@@ -115,13 +115,12 @@ public class Message extends DomainEntity {
 	@NotNull
 	@Valid
 	@ManyToMany
-	@NotEmpty
-	public Actor getRecipient() {
-		return this.recipient;
+	public Collection<Actor> getRecipients() {
+		return this.recipients;
 	}
 
-	public void setRecipient(final Actor recipient) {
-		this.recipient = recipient;
+	public void setRecipients(final Collection<Actor> recipients) {
+		this.recipients = recipients;
 	}
 
 	@NotNull

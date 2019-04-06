@@ -1,6 +1,6 @@
 /*
  * SystemConfiguration.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -35,6 +35,8 @@ public class SystemConfiguration extends DomainEntity {
 	private int					finderCacheTime;
 	private int					maximumFinderResults;
 	private Collection<String>	spamWords;
+	private String				warningMessage;
+	private String				warningMessageES;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +116,22 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setSpamWords(final Collection<String> spamWords) {
 		this.spamWords = spamWords;
+	}
+
+	public String getWarningMessage() {
+		return this.warningMessage;
+	}
+
+	public void setWarningMessage(final String warmingMessage) {
+		this.warningMessage = warmingMessage;
+	}
+
+	public String getWarningMessageES() {
+		return this.warningMessageES;
+	}
+
+	public void setWarningMessageES(final String warmingMessageES) {
+		this.warningMessageES = warmingMessageES;
 	}
 
 }
