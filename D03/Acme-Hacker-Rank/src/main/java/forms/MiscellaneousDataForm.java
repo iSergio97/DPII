@@ -1,34 +1,19 @@
-/*
- * MiscellaneousData.java
- *
- * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
- */
 
-package domain;
+package forms;
 
 import java.util.Collection;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class MiscellaneousData extends DomainEntity {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Fields
+public class MiscellaneousDataForm {
 
 	private String				freeText;
 	private Collection<String>	attachments;
+	private int					id;
 
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Field access methods
 
 	@NotBlank
 	public String getFreeText() {
@@ -39,14 +24,22 @@ public class MiscellaneousData extends DomainEntity {
 		this.freeText = freeText;
 	}
 
-	@NotNull
 	@ElementCollection
+	@NotNull
 	public Collection<String> getAttachments() {
 		return this.attachments;
 	}
 
 	public void setAttachments(final Collection<String> attachments) {
 		this.attachments = attachments;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 }
