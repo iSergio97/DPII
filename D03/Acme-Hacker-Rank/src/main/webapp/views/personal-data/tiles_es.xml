@@ -15,5 +15,10 @@
 		<put-attribute name="title" value="Crear Información personal" />
 		<put-attribute name="body" value="/views/personal-data/create.jsp" />
 	</definition>
+	
+		<definition name="personal-data/hacker/show" extends="master.page">
+		<put-attribute name="title" value="Show personal data" />
+		<put-attribute name="body" value="/views/personal-data/show.jsp" />
+	</definition>
 
 </tiles-definitions>

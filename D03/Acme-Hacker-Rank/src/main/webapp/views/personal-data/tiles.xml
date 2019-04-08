@@ -16,5 +16,11 @@
 		<put-attribute name="title" value="Create personal data" />
 		<put-attribute name="body" value="/views/personal-data/create.jsp" />
 	</definition>
+	
+	<!-- Cambiar esto a una vista genérica de los data en curriculum -->
+		<definition name="personal-data/hacker/show" extends="master.page">
+		<put-attribute name="title" value="Show personal data" />
+		<put-attribute name="body" value="/views/personal-data/show.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -79,6 +79,21 @@ public class PersonalDataController {
 		return result;
 	}
 
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	public ModelAndView show() {
+		ModelAndView result;
+		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Curriculum cr = this.curriculumService.findCurriculumByHacker(hacker);
+		final PersonalData pData = cr.getPersonalData();
+
+		result = new ModelAndView("personal-data/hacker/show");
+
+		result.addObject("personalData", pData);
+
+		return result;
+
+	}
+
 	//TODO: Añadir método para editar
 
 	//TODO: Añadir método para eliminar
