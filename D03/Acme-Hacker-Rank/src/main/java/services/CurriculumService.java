@@ -71,8 +71,12 @@ public class CurriculumService {
 		return this.curriculumRepository.findAll();
 	}
 
-	public Curriculum findCurriculumByHacker(final Hacker hacker) {
-
-		return this.curriculumRepository.findCurriculumByHacker(hacker.getId());
+	public Collection<Curriculum> findCurriculumsByHacker(final Hacker hacker) {
+		return this.curriculumRepository.findCurriculumsByHacker(hacker.getId());
 	}
+
+	public Curriculum findCurriculumByPDId(final int id) {
+		return this.curriculumRepository.findCurriculumByPDId(id);
+	}
+
 }

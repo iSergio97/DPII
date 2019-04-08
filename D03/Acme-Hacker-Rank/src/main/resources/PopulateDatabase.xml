@@ -63,7 +63,7 @@
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="ADMINISTRATOR" />
+					<property name="authority" value="HACKER" />
 				</bean>
 			</list>
 		</property>

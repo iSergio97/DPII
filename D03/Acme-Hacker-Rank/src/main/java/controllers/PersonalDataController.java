@@ -54,16 +54,17 @@ public class PersonalDataController {
 		ModelAndView result;
 		final PersonalData pData;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		Curriculum cr = this.curriculumService.findCurriculumByHacker(hacker);
-		if (cr == null)
+		Curriculum cr;
+		if (pdForm.getId() != 0)
+			cr = this.curriculumService.findCurriculumByPDId(pdForm.getId());
+		else
 			cr = this.curriculumService.create();
-		//TODO: Comprobar más adelante si la validación de campos se produce bien
-		//TODO: Revisar porqué no aparecen los errores
 		try {
 			pData = this.personalDataService.reconstructForm(pdForm, bindingResult);
 			if (!bindingResult.hasErrors()) {
 				final PersonalData data = this.personalDataService.save(pData);
 				cr.setPersonalData(data);
+				cr.setHacker(hacker);
 				this.curriculumService.save(cr);
 				//cr.setHacker(hacker);
 				//Añadire redirect a la vista de curriculum
@@ -78,25 +79,6 @@ public class PersonalDataController {
 
 		return result;
 	}
-
-	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show() {
-		ModelAndView result;
-		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Curriculum cr = this.curriculumService.findCurriculumByHacker(hacker);
-		final PersonalData pData = cr.getPersonalData();
-
-		result = new ModelAndView("personal-data/hacker/show");
-
-		result.addObject("personalData", pData);
-
-		return result;
-
-	}
-
-	//TODO: Añadir método para editar
-
-	//TODO: Añadir método para eliminar
 
 	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm) {
 		return this.createEditModelAndView(pdForm, null);

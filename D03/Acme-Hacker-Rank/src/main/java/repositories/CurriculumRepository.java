@@ -6,6 +6,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,8 @@ import domain.Curriculum;
 public interface CurriculumRepository extends JpaRepository<Curriculum, Integer> {
 
 	@Query("select c from Curriculum c join c.hacker h where h.id = ?1")
-	Curriculum findCurriculumByHacker(int id);
+	Collection<Curriculum> findCurriculumsByHacker(int id);
 
+	@Query("select c from Curriculum c join c.personalData p where p.id = ?1")
+	Curriculum findCurriculumByPDId(int id);
 }
