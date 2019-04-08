@@ -21,12 +21,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.ConversionUtils;
 import domain.Company;
-import domain.Message;
-import domain.Position;
-import domain.Problem;
-import domain.SocialProfile;
 import forms.CompanyForm;
 
 @Service
@@ -77,21 +72,17 @@ public class CompanyService {
 		// set fields
 		company.setCommercialName("");
 		company.setName("");
-		company.setSurnames(new ArrayList<String>());
+		company.setSurnames("");
 		company.setVat("");
 		company.setPhoto("");
 		company.setEmail("");
 		company.setPhoneNumber("");
 		company.setAddress("");
-		company.setIsSpammer(false);
+		company.setIsFlagged(false);
 		company.setIsBanned(false);
 		// set relationships
 		company.setUserAccount(userAccount);
 		company.setCreditCard(null);
-		company.setMessagePool(new ArrayList<Message>());
-		company.setSocialProfiles(new ArrayList<SocialProfile>());
-		company.setPositions(new ArrayList<Position>());
-		company.setProblems(new ArrayList<Problem>());
 
 		return company;
 	}
@@ -156,7 +147,8 @@ public class CompanyService {
 		result.setCommercialName(companyForm.getCommercialName());
 		result.setName(companyForm.getName());
 		result.setVat(companyForm.getVat());
-		result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
+		// result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
+		result.setSurnames(companyForm.getSurnames());
 		result.setPhoto(companyForm.getPhoto());
 		result.setEmail(companyForm.getEmail());
 		result.setPhoneNumber(companyForm.getPhoneNumber());
@@ -173,7 +165,8 @@ public class CompanyService {
 		companyForm.setId(company.getId());
 		companyForm.setCommercialName(company.getCommercialName());
 		companyForm.setName(company.getName());
-		companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
+		// companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
+		companyForm.setSurnames(company.getSurnames());
 		companyForm.setVat(company.getVat());
 		companyForm.setPhoto(company.getPhoto());
 		companyForm.setEmail(company.getEmail());
