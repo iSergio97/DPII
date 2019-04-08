@@ -46,9 +46,8 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
-					<security:authorize access="hasRole('MEMBER')">
-					<li><a href="profile/member/show.do"><spring:message code="master.page.profile.showProfile" /></a></li>
-					<li><a href="profile/member/edit.do"><spring:message code="master.page.profile.editProfile" /></a></li>
+					<security:authorize access="hasRole('HACKER')">
+					<li><a href="personal-data/hacker/create.do"><spring:message code="master.page.pd.create" /></a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('BROTHERHOOD')">
 					<li><a href="profile/brotherhood/show.do"><spring:message code="master.page.profile.showProfile" /></a></li>
@@ -77,13 +76,11 @@
 			</li>
 		</security:authorize>
 		
-		<security:authorize access="hasRole('MEMBER')">
-			<li><a class="fNiv"><spring:message	code="master.page.member" /></a>
+		<security:authorize access="hasRole('HACKER')">
+			<li><a class="fNiv"><spring:message	code="master.page.hacker.curriculum" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="enrolment/member/create.do"><spring:message code="master.page.member.enrolment.create" /></a></li>
-					<li><a href="enrolment/member/list.do"><spring:message code="master.page.member.enrolment.list" /></a></li>
-					<li><a href="request/member/list.do"><spring:message code="master.page.member.request.list" /></a></li>
+					<li><a href="personal-data/hacker/create.do"><spring:message code="master.page.pd.create" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -132,6 +129,7 @@
 		</security:authorize>
 		
 			<li><a href="brotherhood/public/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>
+			
 		
 	</ul>
 </div>

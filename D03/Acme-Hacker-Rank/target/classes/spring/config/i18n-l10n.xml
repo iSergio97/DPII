@@ -18,6 +18,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/misc/messages</value>
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
+		<value>/views/personal-data/messages</value>
 	</util:list>
 
 </beans>

@@ -131,6 +131,7 @@ public class PositionController extends AbstractController {
 		result = new ModelAndView("position/company/create");
 		//result.addObject("problems", problems);
 		result.addObject("message", message);
+		result.addObject("position", position);
 
 		return result;
 

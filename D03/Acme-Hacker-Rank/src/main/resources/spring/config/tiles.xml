@@ -18,6 +18,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/misc/tiles.xml</value>
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
+		<value>/views/personal-data/tiles.xml</value>
 	</util:list>
 
 </beans>

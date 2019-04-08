@@ -3,11 +3,14 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.PersonalData;
 import forms.PersonalDataForm;
@@ -18,7 +21,10 @@ import repositories.PersonalDataRepository;
 public class PersonalDataService {
 
 	@Autowired
-	private PersonalDataRepository personalDataRepository;
+	private PersonalDataRepository	personalDataRepository;
+
+	@Autowired
+	private Validator				validator;
 
 
 	public PersonalDataService() {
@@ -90,6 +96,12 @@ public class PersonalDataService {
 		result.setLinkedInProfile(pdForm.getLinkedInProfile());
 		result.setPhoneNumber(pdForm.getPhoneNumber());
 		result.setStatement(pdForm.getStatement());
+
+		this.validator.validate(result, bindingResult);
+		this.personalDataRepository.flush();
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
