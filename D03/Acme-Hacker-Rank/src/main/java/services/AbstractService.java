@@ -19,19 +19,19 @@ import domain.DomainEntity;
 
 @Service
 @Transactional
-public abstract class AbstractService<T extends DomainEntity> {
+public abstract class AbstractService<R extends AbstractRepository<E>, E extends DomainEntity> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Managed repository
 
 	@Autowired
-	AbstractRepository<T>	abstractRepository;
+	protected R			repository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Validator
 
 	@Autowired
-	Validator				validator;
+	protected Validator	validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -45,10 +45,10 @@ public abstract class AbstractService<T extends DomainEntity> {
 	// CRUD methods
 
 	@SuppressWarnings("rawtypes")
-	public T create() {
+	public E create() {
 		@SuppressWarnings("unchecked")
-		final Class<T> domainClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		T bean = null;
+		final Class<E> domainClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+		E bean = null;
 		try {
 			bean = domainClass.newInstance();
 			for (final Method method : domainClass.getMethods())
@@ -120,27 +120,32 @@ public abstract class AbstractService<T extends DomainEntity> {
 		return bean;
 	}
 
-	public T save(final T t) {
-		Assert.isTrue(t != null);
-		return this.abstractRepository.save(t);
+	public E save(final E entity) {
+		Assert.notNull(entity);
+		return this.repository.save(entity);
 	}
 
-	public void delete(final T actor) {
-		Assert.isTrue(actor != null);
-		this.abstractRepository.delete(actor);
+	public List<E> save(final Iterable<E> entities) {
+		Assert.notNull(entities);
+		return this.repository.save(entities);
 	}
 
-	public void delete(final Iterable<T> t) {
-		Assert.isTrue(t != null);
-		this.abstractRepository.delete(t);
+	public void delete(final E entity) {
+		Assert.notNull(entity);
+		this.repository.delete(entity);
 	}
 
-	public T findOne(final int id) {
-		return this.abstractRepository.findOne(id);
+	public void delete(final Iterable<E> entities) {
+		Assert.notNull(entities);
+		this.repository.delete(entities);
 	}
 
-	public List<T> findAll() {
-		return this.abstractRepository.findAll();
+	public E findOne(final int id) {
+		return this.repository.findOne(id);
+	}
+
+	public List<E> findAll() {
+		return this.repository.findAll();
 	}
 
 }

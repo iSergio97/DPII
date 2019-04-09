@@ -12,9 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.CompanyRepository;
 import security.Authority;
@@ -31,13 +29,7 @@ import forms.CompanyForm;
 
 @Service
 @Transactional
-public class CompanyService {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private CompanyRepository		companyRepository;
+public class CompanyService extends AbstractService<CompanyRepository, Company> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
@@ -45,23 +37,11 @@ public class CompanyService {
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
-
-	@Autowired
-	private Validator				validator;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public CompanyService() {
-		super();
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public Company create() {
 		final Company company = new Company();
 
@@ -96,34 +76,6 @@ public class CompanyService {
 		return company;
 	}
 
-	public Company save(final Company company) {
-		Assert.isTrue(company != null);
-		return this.companyRepository.save(company);
-	}
-
-	public Iterable<Company> save(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		return this.companyRepository.save(companys);
-	}
-
-	public void delete(final Company company) {
-		Assert.isTrue(company != null);
-		this.companyRepository.delete(company);
-	}
-
-	public void delete(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		this.companyRepository.delete(companys);
-	}
-
-	public Company findOne(final int id) {
-		return this.companyRepository.findOne(id);
-	}
-
-	public List<Company> findAll() {
-		return this.companyRepository.findAll();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
@@ -151,7 +103,7 @@ public class CompanyService {
 		if (companyForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.companyRepository.findOne(companyForm.getId());
+			result = this.repository.findOne(companyForm.getId());
 
 		result.setCommercialName(companyForm.getCommercialName());
 		result.setName(companyForm.getName());
@@ -188,7 +140,7 @@ public class CompanyService {
 	// Ancillary methods
 
 	public Company findByUserAccountId(final int id) {
-		return this.companyRepository.findByUserAccountId(id);
+		return this.repository.findByUserAccountId(id);
 	}
 
 	public Company findPrincipal() {

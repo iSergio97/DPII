@@ -12,9 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.HackerRepository;
 import security.Authority;
@@ -30,13 +28,7 @@ import forms.HackerForm;
 
 @Service
 @Transactional
-public class HackerService {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private HackerRepository		hackerRepository;
+public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
@@ -44,23 +36,11 @@ public class HackerService {
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
-
-	@Autowired
-	private Validator				validator;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public HackerService() {
-		super();
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public Hacker create() {
 		final Hacker hacker = new Hacker();
 
@@ -94,34 +74,6 @@ public class HackerService {
 		return hacker;
 	}
 
-	public Hacker save(final Hacker hacker) {
-		Assert.isTrue(hacker != null);
-		return this.hackerRepository.save(hacker);
-	}
-
-	public Iterable<Hacker> save(final Iterable<Hacker> hackers) {
-		Assert.isTrue(hackers != null);
-		return this.hackerRepository.save(hackers);
-	}
-
-	public void delete(final Hacker hacker) {
-		Assert.isTrue(hacker != null);
-		this.hackerRepository.delete(hacker);
-	}
-
-	public void delete(final Iterable<Hacker> hackers) {
-		Assert.isTrue(hackers != null);
-		this.hackerRepository.delete(hackers);
-	}
-
-	public Hacker findOne(final int id) {
-		return this.hackerRepository.findOne(id);
-	}
-
-	public List<Hacker> findAll() {
-		return this.hackerRepository.findAll();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
@@ -148,7 +100,7 @@ public class HackerService {
 		if (hackerForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.hackerRepository.findOne(hackerForm.getId());
+			result = this.repository.findOne(hackerForm.getId());
 
 		result.setName(hackerForm.getName());
 		result.setVat(hackerForm.getVat());
@@ -183,7 +135,7 @@ public class HackerService {
 	// Ancillary methods
 
 	public Hacker findByUserAccountId(final int id) {
-		return this.hackerRepository.findByUserAccountId(id);
+		return this.repository.findByUserAccountId(id);
 	}
 
 	public Hacker findPrincipal() {
