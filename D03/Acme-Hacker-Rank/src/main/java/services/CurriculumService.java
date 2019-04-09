@@ -22,10 +22,19 @@ import security.LoginService;
 public class CurriculumService extends AbstractService<Curriculum> {
 
 	@Autowired
-	private CurriculumRepository	curriculumRepository;
+	private CurriculumRepository		curriculumRepository;
 
 	@Autowired
-	private HackerService			hackerService;
+	private HackerService				hackerService;
+
+	@Autowired
+	private EducationDataService		educationDataService;
+
+	@Autowired
+	private MiscellaneousDataService	miscellaneousDataService;
+
+	@Autowired
+	private PositionDataService			positionDataService;
 
 
 	public CurriculumService() {
@@ -34,6 +43,7 @@ public class CurriculumService extends AbstractService<Curriculum> {
 
 	public Curriculum create() {
 		final Curriculum curriculum = new Curriculum();
+		curriculum.setName("");
 		curriculum.setEducationData(new ArrayList<EducationData>());
 		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		curriculum.setHacker(principal);
@@ -54,6 +64,16 @@ public class CurriculumService extends AbstractService<Curriculum> {
 
 	public Curriculum findCurriculumByPDId(final int id) {
 		return this.curriculumRepository.findCurriculumByPDId(id);
+	}
+
+	public void saveAllCr(final Curriculum cr) {
+		final Collection<EducationData> lsEdu = cr.getEducationData();
+		final Collection<MiscellaneousData> lsMis = cr.getMiscellaneousData();
+		final Collection<PositionData> lsPos = cr.getPositionData();
+
+		this.educationDataService.save(lsEdu);
+		this.miscellaneousDataService.save(lsMis);
+		this.positionDataService.save(lsPos);
 	}
 
 }

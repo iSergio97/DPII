@@ -17,6 +17,7 @@
 
 <form:form modelAttribute="personalData" action="personal-data/hacker/edit.do">
 
+<acme:register code="curriculumName" path="curriculumName"/>
 <acme:register code="fullName" path="fullName"/>
 <acme:register code="ghProf" path="gitHubProfile"/>
 <acme:register code="liProf" path="linkedInProfile"/>

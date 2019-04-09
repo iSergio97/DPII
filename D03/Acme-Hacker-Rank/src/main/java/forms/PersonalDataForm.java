@@ -14,6 +14,7 @@ public class PersonalDataForm {
 	private String	gitHubProfile;
 	private String	linkedInProfile;
 	private int		id;
+	private String	curriculumName;
 
 
 	@NotBlank
@@ -69,6 +70,15 @@ public class PersonalDataForm {
 
 	public void setId(final int id) {
 		this.id = id;
+	}
+
+	@NotBlank
+	public String getCurriculumName() {
+		return this.curriculumName;
+	}
+
+	public void setCurriculumName(final String curriculumName) {
+		this.curriculumName = curriculumName;
 	}
 
 }

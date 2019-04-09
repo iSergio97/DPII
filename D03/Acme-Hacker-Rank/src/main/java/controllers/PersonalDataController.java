@@ -6,6 +6,7 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,16 +57,24 @@ public class PersonalDataController {
 		final PersonalData pData;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Curriculum cr;
-		if (personalData.getId() != 0)
-			cr = this.curriculumService.findCurriculumByPDId(personalData.getId());
-		else
+		if (personalData.getId() == 0)
 			cr = this.curriculumService.create();
+		else
+			cr = this.curriculumService.findCurriculumByPDId(personalData.getId());
+		if (personalData.getCurriculumName().isEmpty()) {
+			final ObjectError error = new ObjectError("curriculumName", "This curriculum name must not be empty!");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("curriculumName", "error.curriculum.name");
+		}
 		try {
 			pData = this.personalDataService.reconstructForm(personalData, bindingResult);
 			if (!bindingResult.hasErrors()) {
 				final PersonalData data = this.personalDataService.save(pData);
 				cr.setPersonalData(data);
 				cr.setHacker(hacker);
+				cr.setPersonalData(data);
+				this.curriculumService.saveAllCr(cr);
+				cr.setName(personalData.getCurriculumName());
 				this.curriculumService.save(cr);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} else

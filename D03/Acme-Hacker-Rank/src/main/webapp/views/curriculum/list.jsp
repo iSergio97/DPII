@@ -13,6 +13,9 @@
 	Añadir propiedad a curricula para poder mostrar su nombre
  --%>
 	
+	<display:column titleKey="<spring:message code='curricula.name' />">
+		<jstl:out value="${row.name}" />
+	</display:column>
 	<display:column titleKey="show">
 		<a href="/curricula/hacker/show.do?curriculaId=${row.id}"> <spring:message code="show"/></a>
 	</display:column>

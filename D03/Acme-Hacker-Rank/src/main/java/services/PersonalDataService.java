@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Curriculum;
 import domain.PersonalData;
 import forms.PersonalDataForm;
 import repositories.PersonalDataRepository;
@@ -23,6 +24,9 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 
 	@Autowired
 	private Validator				validator;
+
+	@Autowired
+	private CurriculumService		curriculumService;
 
 
 	public PersonalDataService() {
@@ -49,6 +53,7 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 	public PersonalDataForm createForm() {
 		final PersonalDataForm pdForm = new PersonalDataForm();
 
+		pdForm.setCurriculumName("");
 		pdForm.setFullName("");
 		pdForm.setGitHubProfile("");
 		pdForm.setLinkedInProfile("");
@@ -83,7 +88,9 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 
 	public PersonalDataForm deconstruct(final PersonalData pData) {
 		final PersonalDataForm pdForm = this.createForm();
+		final Curriculum cr = this.curriculumService.findCurriculumByPDId(pdForm.getId());
 
+		pdForm.setCurriculumName(cr.getName());
 		pdForm.setFullName(pData.getFullName());
 		pdForm.setGitHubProfile(pData.getGitHubProfile());
 		pdForm.setLinkedInProfile(pData.getLinkedInProfile());
