@@ -13,7 +13,7 @@
 	Añadir propiedad a curricula para poder mostrar su nombre
  --%>
 	
-	<display:column titleKey="<spring:message code='curricula.name' />">
+	<display:column titleKey="curricula.name" >
 		<jstl:out value="${row.name}" />
 	</display:column>
 	<display:column titleKey="show">
