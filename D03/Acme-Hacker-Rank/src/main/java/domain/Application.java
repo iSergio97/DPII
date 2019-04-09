@@ -12,6 +12,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -30,16 +31,17 @@ public class Application extends DomainEntity {
 	// Fields
 
 	private Date		moment;
+	private Date		submitMoment;
 	private String		explanations;
 	private String		codeLink;
 	private String		status;
-	private Date		submitMoment;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Problem		problem;
 	private Position	position;
+	private Curriculum	curriculum;
 	private Hacker		hacker;
 
 
@@ -57,7 +59,17 @@ public class Application extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@NotBlank
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getSubmitMoment() {
+		return this.submitMoment;
+	}
+
+	public void setSubmitMoment(final Date submitMoment) {
+		this.submitMoment = submitMoment;
+	}
+
 	public String getExplanations() {
 		return this.explanations;
 	}
@@ -67,7 +79,6 @@ public class Application extends DomainEntity {
 	}
 
 	@URL
-	@NotBlank
 	public String getCodeLink() {
 		return this.codeLink;
 	}
@@ -84,17 +95,6 @@ public class Application extends DomainEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getSubmitMoment() {
-		return this.submitMoment;
-	}
-
-	public void setSubmitMoment(final Date submitMoment) {
-		this.submitMoment = submitMoment;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -128,6 +128,16 @@ public class Application extends DomainEntity {
 
 	public void setHacker(final Hacker hacker) {
 		this.hacker = hacker;
+	}
+
+	@Valid
+	@OneToOne
+	public Curriculum getCurriculum() {
+		return this.curriculum;
+	}
+
+	public void setCurriculum(final Curriculum curriculum) {
+		this.curriculum = curriculum;
 	}
 
 }
