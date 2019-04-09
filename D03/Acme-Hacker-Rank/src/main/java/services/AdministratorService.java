@@ -12,9 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
 import security.Authority;
@@ -29,13 +27,7 @@ import forms.AdministratorForm;
 
 @Service
 @Transactional
-public class AdministratorService {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private AdministratorRepository	administratorRepository;
+public class AdministratorService extends AbstractService<AdministratorRepository, Administrator> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
@@ -43,23 +35,11 @@ public class AdministratorService {
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
-
-	@Autowired
-	private Validator				validator;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public AdministratorService() {
-		super();
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public Administrator create() {
 		final Administrator administrator = new Administrator();
 
@@ -91,34 +71,6 @@ public class AdministratorService {
 		return administrator;
 	}
 
-	public Administrator save(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		return this.administratorRepository.save(administrator);
-	}
-
-	public Iterable<Administrator> save(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		return this.administratorRepository.save(administrators);
-	}
-
-	public void delete(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		this.administratorRepository.delete(administrator);
-	}
-
-	public void delete(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		this.administratorRepository.delete(administrators);
-	}
-
-	public Administrator findOne(final int id) {
-		return this.administratorRepository.findOne(id);
-	}
-
-	public List<Administrator> findAll() {
-		return this.administratorRepository.findAll();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
@@ -145,7 +97,7 @@ public class AdministratorService {
 		if (administratorForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.administratorRepository.findOne(administratorForm.getId());
+			result = this.repository.findOne(administratorForm.getId());
 
 		result.setName(administratorForm.getName());
 		result.setVat(administratorForm.getVat());
@@ -180,7 +132,7 @@ public class AdministratorService {
 	// Ancillary methods
 
 	public Administrator findByUserAccountId(final int id) {
-		return this.administratorRepository.findByUserAccountId(id);
+		return this.repository.findByUserAccountId(id);
 	}
 
 	public Administrator findPrincipal() {
