@@ -1,3 +1,8 @@
+/*
+ * AbstractService.java
+ * 
+ * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+ */
 
 package services;
 
@@ -34,80 +39,87 @@ public abstract class AbstractService<R extends AbstractRepository<E>, E extends
 	@Autowired
 	protected Validator	validator;
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Other fields
+
+	protected Class<R>	repositoryClass;
+	protected Class<E>	domainClass;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Constructor
 
+	@SuppressWarnings("unchecked")
 	public AbstractService() {
 		super();
+		this.repositoryClass = (Class<R>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		this.domainClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
-	// CRUD methods
+	// Utility methods
 
 	@SuppressWarnings("rawtypes")
-	public E create() {
-		@SuppressWarnings("unchecked")
-		final Class<E> domainClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-		E bean = null;
+	public <C> C instanceClass(final Class<C> c) {
+		C instance = null;
 		try {
-			bean = domainClass.newInstance();
-			for (final Method method : domainClass.getMethods())
+			instance = c.newInstance();
+			for (final Method method : c.getMethods())
 				if (method.getName().startsWith("set"))
 					switch (method.getParameterTypes()[0].getName()) {
 					case "boolean":
 					case "java.lang.Boolean":
-						method.invoke(bean, Boolean.FALSE);
+						method.invoke(instance, Boolean.FALSE);
 						break;
 					case "byte":
 					case "java.lang.Byte":
-						method.invoke(bean, Byte.valueOf((byte) 0));
+						method.invoke(instance, Byte.valueOf((byte) 0));
 						break;
 					case "short":
 					case "java.lang.Short":
-						method.invoke(bean, Short.valueOf((short) 0));
+						method.invoke(instance, Short.valueOf((short) 0));
 						break;
 					case "int":
 					case "java.lang.Integer":
-						method.invoke(bean, Integer.valueOf(0));
+						method.invoke(instance, Integer.valueOf(0));
 						break;
 					case "long":
 					case "java.lang.Long":
-						method.invoke(bean, Long.valueOf(0L));
+						method.invoke(instance, Long.valueOf(0L));
 						break;
 					case "float":
 					case "java.lang.Float":
-						method.invoke(bean, Float.valueOf(0.0f));
+						method.invoke(instance, Float.valueOf(0.0f));
 						break;
 					case "double":
 					case "java.lang.Double":
-						method.invoke(bean, Double.valueOf(0.0d));
+						method.invoke(instance, Double.valueOf(0.0d));
 						break;
 					case "char":
 					case "java.lang.Character":
-						method.invoke(bean, ' ');
+						method.invoke(instance, ' ');
 						break;
 					case "java.lang.CharSequence":
 					case "java.lang.String":
-						method.invoke(bean, "");
+						method.invoke(instance, "");
 						break;
 					case "java.lang.Iterable":
 					case "java.util.Collection":
 					case "java.util.List":
 					case "java.util.AbstractList":
 					case "java.util.ArrayList":
-						method.invoke(bean, new ArrayList());
+						method.invoke(instance, new ArrayList());
 						break;
 					case "java.util.Map":
 					case "java.util.AbstractMap":
 					case "java.util.HashMap":
-						method.invoke(bean, new HashMap());
+						method.invoke(instance, new HashMap());
 						break;
 					case "java.util.Date":
-						method.invoke(bean, new Date());
+						method.invoke(instance, new Date());
 						break;
 					default:
-						method.invoke(bean, new Object[] {
+						method.invoke(instance, new Object[] {
 							null
 						});
 						break;
@@ -121,7 +133,14 @@ public abstract class AbstractService<R extends AbstractRepository<E>, E extends
 		} catch (final IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		return bean;
+		return instance;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// CRUD methods
+
+	public E create() {
+		return this.instanceClass(this.domainClass);
 	}
 
 	public E save(final E entity) {
