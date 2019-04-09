@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -101,6 +102,9 @@ public abstract class AbstractService<R extends AbstractRepository<E>, E extends
 					case "java.util.AbstractMap":
 					case "java.util.HashMap":
 						method.invoke(bean, new HashMap());
+						break;
+					case "java.util.Date":
+						method.invoke(bean, new Date());
 						break;
 					default:
 						method.invoke(bean, new Object[] {
