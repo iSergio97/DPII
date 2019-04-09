@@ -21,13 +21,16 @@ public class SystemConfigurationForm {
 	// Fields
 
 	private int		id;
-	private String	defaultCountryCode;
+	private String	defaultCC;
 	private String	systemName;
 	private String	banner;
-	private int		finderDuration;
+	private int		finderCacheTime;
 	private int		maximumFinderResults;
 	private String	spamWords;
-	private String	welcomeMessages;
+	private String	welcomeMessage;
+	private String	welcomeMessageES;
+	private String	warningMessage;
+	private String	warningMessageES;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -43,12 +46,12 @@ public class SystemConfigurationForm {
 	}
 
 	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
-		return this.defaultCountryCode;
+	public String getDefaultCC() {
+		return this.defaultCC;
 	}
 
-	public void setDefaultCountryCode(final String defaultCountryCode) {
-		this.defaultCountryCode = defaultCountryCode;
+	public void setDefaultCC(final String defaultCountryCode) {
+		this.defaultCC = defaultCountryCode;
 	}
 
 	@NotBlank
@@ -69,14 +72,14 @@ public class SystemConfigurationForm {
 		this.banner = banner;
 	}
 
-	@Min(value = 3600)
-	@Max(value = 86400)
-	public int getFinderDuration() {
-		return this.finderDuration;
+	@Min(value = 1)
+	@Max(value = 24)
+	public int getFinderCacheTime() {
+		return this.finderCacheTime;
 	}
 
-	public void setFinderDuration(final int finderDuration) {
-		this.finderDuration = finderDuration;
+	public void setFinderCacheTime(final int finderDuration) {
+		this.finderCacheTime = finderDuration;
 	}
 
 	@Min(value = 1)
@@ -100,15 +103,42 @@ public class SystemConfigurationForm {
 		this.spamWords = spamWords;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
-	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
-	public String getWelcomeMessages() {
-		return this.welcomeMessages;
+	// @Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
+	public String getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setWelcomeMessages(final String welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
+	public void setWelcomeMessage(final String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
+	}
+
+	@NotBlank
+	public String getWelcomeMessageES() {
+		return this.welcomeMessageES;
+	}
+
+	public void setWelcomeMessageES(final String welcomeMessageES) {
+		this.welcomeMessageES = welcomeMessageES;
+	}
+
+	@NotBlank
+	public String getWarningMessage() {
+		return this.warningMessage;
+	}
+
+	public void setWarningMessage(final String warningMessage) {
+		this.warningMessage = warningMessage;
+	}
+
+	@NotBlank
+	public String getWarningMessageES() {
+		return this.warningMessageES;
+	}
+
+	public void setWarningMessageES(final String warningMessageES) {
+		this.warningMessageES = warningMessageES;
 	}
 
 }

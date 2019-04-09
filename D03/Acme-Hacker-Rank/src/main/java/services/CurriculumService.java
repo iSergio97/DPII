@@ -19,7 +19,7 @@ import security.LoginService;
 
 @Service
 @Transactional
-public class CurriculumService {
+public class CurriculumService extends AbstractService<Curriculum> {
 
 	@Autowired
 	private CurriculumRepository	curriculumRepository;
@@ -43,32 +43,9 @@ public class CurriculumService {
 		return curriculum;
 	}
 
-	public Curriculum save(final Curriculum curriculum) {
-		Assert.isTrue(curriculum != null);
-		return this.curriculumRepository.save(curriculum);
-	}
-
 	public Iterable<Curriculum> save(final Iterable<Curriculum> curriculum) {
 		Assert.isTrue(curriculum != null);
 		return this.curriculumRepository.save(curriculum);
-	}
-
-	public void delete(final Curriculum curriculum) {
-		Assert.isTrue(curriculum != null);
-		this.curriculumRepository.delete(curriculum);
-	}
-
-	public void delete(final Iterable<Curriculum> curriculum) {
-		Assert.isTrue(curriculum != null);
-		this.curriculumRepository.delete(curriculum);
-	}
-
-	public Curriculum findOne(final int id) {
-		return this.curriculumRepository.findOne(id);
-	}
-
-	public Collection<Curriculum> findAll() {
-		return this.curriculumRepository.findAll();
 	}
 
 	public Collection<Curriculum> findCurriculumsByHacker(final Hacker hacker) {

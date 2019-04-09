@@ -1,6 +1,6 @@
 /*
  * Actor.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 import security.UserAccount;
@@ -32,7 +31,7 @@ public class Actor extends DomainEntity {
 
 	private String		name;
 	private String		surnames;
-	private int			vat;
+	private String		vat;
 	private CreditCard	creditCard;
 	private String		photo;
 	private String		email;
@@ -68,12 +67,11 @@ public class Actor extends DomainEntity {
 		this.surnames = surnames;
 	}
 
-	@Range(min = 0)
-	public int getVat() {
+	public String getVat() {
 		return this.vat;
 	}
 
-	public void setVat(final int vat) {
+	public void setVat(final String vat) {
 		this.vat = vat;
 	}
 
@@ -124,19 +122,19 @@ public class Actor extends DomainEntity {
 		this.address = address;
 	}
 
-	public boolean isFlagged() {
+	public boolean getIsFlagged() {
 		return this.isFlagged;
 	}
 
-	public void setFlagged(final boolean isFlagged) {
+	public void setIsFlagged(final boolean isFlagged) {
 		this.isFlagged = isFlagged;
 	}
 
-	public boolean isBanned() {
+	public boolean getIsBanned() {
 		return this.isBanned;
 	}
 
-	public void setBanned(final boolean isBanned) {
+	public void setIsBanned(final boolean isBanned) {
 		this.isBanned = isBanned;
 	}
 

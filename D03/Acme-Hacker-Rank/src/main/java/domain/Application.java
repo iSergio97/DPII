@@ -1,6 +1,6 @@
 /*
  * Application.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -33,7 +33,6 @@ public class Application extends DomainEntity {
 	private String		explanations;
 	private String		codeLink;
 	private String		status;
-	private Date		submitMoment;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -84,17 +83,6 @@ public class Application extends DomainEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getSubmitMoment() {
-		return this.submitMoment;
-	}
-
-	public void setSubmitMoment(final Date submitMoment) {
-		this.submitMoment = submitMoment;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

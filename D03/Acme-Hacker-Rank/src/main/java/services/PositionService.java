@@ -20,7 +20,7 @@ import repositories.PositionRepository;
 
 @Service
 @Transactional
-public class PositionService {
+public class PositionService extends AbstractService<Position> {
 
 	@Autowired
 	private PositionRepository	positionRepository;
@@ -67,33 +67,9 @@ public class PositionService {
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
-	public Position save(final Position position) {
-		Assert.isTrue(position != null);
-		//TODO: Añadir ticker a la hora de guardar
-		return this.positionRepository.save(position);
-	}
-
 	public Iterable<Position> save(final Iterable<Position> positions) {
 		Assert.isTrue(positions != null);
 		return this.positionRepository.save(positions);
-	}
-
-	public void delete(final Position Position) {
-		Assert.isTrue(Position != null);
-		this.positionRepository.delete(Position);
-	}
-
-	public void delete(final Iterable<Position> Positions) {
-		Assert.isTrue(Positions != null);
-		this.positionRepository.delete(Positions);
-	}
-
-	public Position findOne(final int id) {
-		return this.positionRepository.findOne(id);
-	}
-
-	public List<Position> findAll() {
-		return this.positionRepository.findAll();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

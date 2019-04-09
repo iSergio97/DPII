@@ -1,6 +1,6 @@
 /*
  * AdministratorService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,13 +16,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Administrator;
-import forms.AdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Administrator;
+import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
@@ -72,16 +72,16 @@ public class AdministratorService {
 		// set fields
 		administrator.setName("");
 		administrator.setSurnames("");
-		administrator.setPhoto("");
+		administrator.setVat("");
 		administrator.setEmail("");
+		administrator.setCreditCard(null);
+		administrator.setPhoto("");
 		administrator.setPhoneNumber("");
 		administrator.setAddress("");
-		administrator.setBanned(false);
+		administrator.setIsFlagged(false);
+		administrator.setIsBanned(false);
 		// set relationships
 		administrator.setUserAccount(userAccount);
-		administrator.setCreditCard(null);
-		//administrator.setMessagePool(new ArrayList<Message>());
-
 		return administrator;
 	}
 
@@ -116,11 +116,12 @@ public class AdministratorService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public AdministratorForm createForm() {
-		final AdministratorForm administratorForm = new AdministratorForm();
+	public RegisterAdministratorForm createForm() {
+		final RegisterAdministratorForm administratorForm = new RegisterAdministratorForm();
 
 		administratorForm.setName("");
 		administratorForm.setSurnames("");
+		administratorForm.setVat("");
 		administratorForm.setPhoto("");
 		administratorForm.setEmail("");
 		administratorForm.setPhoneNumber("");
@@ -132,7 +133,7 @@ public class AdministratorService {
 		return administratorForm;
 	}
 
-	public Administrator reconstructForm(final AdministratorForm administratorForm, final BindingResult bindingResult) {
+	public Administrator reconstructForm(final RegisterAdministratorForm administratorForm, final BindingResult bindingResult) {
 		final Administrator result;
 
 		if (administratorForm.getId() == 0)
@@ -142,6 +143,7 @@ public class AdministratorService {
 
 		result.setName(administratorForm.getName());
 		result.setVat(administratorForm.getVat());
+		// result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
 		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
@@ -152,12 +154,12 @@ public class AdministratorService {
 
 		return result;
 	}
-
-	public AdministratorForm deconstruct(final Administrator administrator) {
-		final AdministratorForm administratorForm = this.createForm();
+	public RegisterAdministratorForm deconstruct(final Administrator administrator) {
+		final RegisterAdministratorForm administratorForm = this.createForm();
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
+		// administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
 		administratorForm.setSurnames(administratorForm.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());

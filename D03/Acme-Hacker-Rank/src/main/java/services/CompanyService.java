@@ -1,6 +1,6 @@
 /*
  * CompanyService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,13 +16,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Company;
-import forms.CompanyForm;
 import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Company;
+import forms.RegisterCompanyForm;
 
 @Service
 @Transactional
@@ -73,13 +73,13 @@ public class CompanyService {
 		company.setCommercialName("");
 		company.setName("");
 		company.setSurnames("");
-		company.setVat(0);
+		company.setVat("");
 		company.setPhoto("");
 		company.setEmail("");
 		company.setPhoneNumber("");
 		company.setAddress("");
-		company.setFlagged(false);
-		company.setBanned(false);
+		company.setIsFlagged(false);
+		company.setIsBanned(false);
 		// set relationships
 		company.setUserAccount(userAccount);
 		company.setCreditCard(null);
@@ -118,8 +118,8 @@ public class CompanyService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public CompanyForm createForm() {
-		final CompanyForm companyForm = new CompanyForm();
+	public RegisterCompanyForm createForm() {
+		final RegisterCompanyForm companyForm = new RegisterCompanyForm();
 
 		companyForm.setCommercialName("");
 		companyForm.setName("");
@@ -136,7 +136,7 @@ public class CompanyService {
 		return companyForm;
 	}
 
-	public Company reconstructForm(final CompanyForm companyForm, final BindingResult bindingResult) {
+	public Company reconstructForm(final RegisterCompanyForm companyForm, final BindingResult bindingResult) {
 		final Company result;
 
 		if (companyForm.getId() == 0)
@@ -146,8 +146,9 @@ public class CompanyService {
 
 		result.setCommercialName(companyForm.getCommercialName());
 		result.setName(companyForm.getName());
-		//result.setVat(companyForm.getVat());
-		//result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
+		result.setVat(companyForm.getVat());
+		// result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
+		result.setSurnames(companyForm.getSurnames());
 		result.setPhoto(companyForm.getPhoto());
 		result.setEmail(companyForm.getEmail());
 		result.setPhoneNumber(companyForm.getPhoneNumber());
@@ -158,14 +159,15 @@ public class CompanyService {
 		return result;
 	}
 
-	public CompanyForm deconstruct(final Company company) {
-		final CompanyForm companyForm = this.createForm();
+	public RegisterCompanyForm deconstruct(final Company company) {
+		final RegisterCompanyForm companyForm = this.createForm();
 
 		companyForm.setId(company.getId());
 		companyForm.setCommercialName(company.getCommercialName());
 		companyForm.setName(company.getName());
-		//companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
-		//companyForm.setVat(company.getVat());
+		// companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
+		companyForm.setSurnames(company.getSurnames());
+		companyForm.setVat(company.getVat());
 		companyForm.setPhoto(company.getPhoto());
 		companyForm.setEmail(company.getEmail());
 		companyForm.setPhoneNumber(company.getPhoneNumber());

@@ -16,7 +16,7 @@
 		<property name="systemName" value="Acme Hacker Rank" />
 		<property name="banner"
 			value="https://i.imgur.com/7b8lu4b.png" />
-		<property name="finderCacheTime" value="20" />
+		<property name="finderCacheTime" value="1" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="spamWords">
 			<list>
@@ -315,8 +315,8 @@
 		<property name="email" value="x@gmail.com" />
 		<property name="phoneNumber" value="+1 (420) 4206969" />
 		<property name="address" value="" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountAdmin1" />
 	</bean>
 
@@ -329,8 +329,8 @@
 		<property name="email" value="hackerman@gmail.com" />
 		<property name="phoneNumber" value="+34 (420) 7418523" />
 		<property name="address" value="La deep web" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountHacker1" />
 	</bean>
 
@@ -343,8 +343,8 @@
 		<property name="email" value="overwatch@teamArrow.com" />
 		<property name="phoneNumber" value="+1 (474) 5421175" />
 		<property name="address" value="Arrow base" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountHacker2" />
 	</bean>
 
@@ -357,8 +357,8 @@
 		<property name="email" value="mrterrific@teamArrow.com" />
 		<property name="phoneNumber" value="+1 (420) 4241969" />
 		<property name="address" value="Arrow base" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountHacker3" />
 	</bean>
 
@@ -372,8 +372,8 @@
 		<property name="email" value="argus@argus.com" />
 		<property name="phoneNumber" value="+1 (441) 7415724" />
 		<property name="address" value="" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountCompany1" />
 	</bean>
 
@@ -387,8 +387,8 @@
 		<property name="email" value="queenSL@queenCons.com" />
 		<property name="phoneNumber" value="+1 (420) 9517536" />
 		<property name="address" value="" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountCompany2" />
 	</bean>
 
@@ -402,8 +402,8 @@
 		<property name="email" value="palmer@palmer.com" />
 		<property name="phoneNumber" value="+1 (420) 1245786" />
 		<property name="address" value="" />
-		<property name="flagged" value="false" />
-		<property name="banned" value="false" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountCompany3" />
 	</bean>
 

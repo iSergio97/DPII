@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.PersonalDataRepository;
 import domain.PersonalData;
 import forms.PersonalDataForm;
+import repositories.PersonalDataRepository;
 
 @Service
 @Transactional
-public class PersonalDataService {
+public class PersonalDataService extends AbstractService<PersonalData> {
 
 	@Autowired
 	private PersonalDataRepository	personalDataRepository;
@@ -43,32 +41,9 @@ public class PersonalDataService {
 		return pData;
 	}
 
-	public PersonalData save(final PersonalData pData) {
-		Assert.isTrue(pData != null);
-		return this.personalDataRepository.save(pData);
-	}
-
 	public Iterable<PersonalData> save(final Iterable<PersonalData> pDatas) {
 		Assert.isTrue(pDatas != null);
 		return this.personalDataRepository.save(pDatas);
-	}
-
-	public void delete(final PersonalData pData) {
-		Assert.isTrue(pData != null);
-		this.personalDataRepository.delete(pData);
-	}
-
-	public void delete(final Iterable<PersonalData> pData) {
-		Assert.isTrue(pData != null);
-		this.personalDataRepository.delete(pData);
-	}
-
-	public PersonalData findOne(final int id) {
-		return this.personalDataRepository.findOne(id);
-	}
-
-	public Collection<PersonalData> findAll() {
-		return this.personalDataRepository.findAll();
 	}
 
 	public PersonalDataForm createForm() {

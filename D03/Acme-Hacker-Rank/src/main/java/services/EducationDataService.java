@@ -15,7 +15,7 @@ import repositories.EducationDataRepository;
 
 @Service
 @Transactional
-public class EducationDataService {
+public class EducationDataService extends AbstractService<EducationData>{
 
 	@Autowired
 	private EducationDataRepository educationDataRepository;
@@ -35,32 +35,9 @@ public class EducationDataService {
 		return eData;
 	}
 
-	public EducationData save(final EducationData pData) {
-		Assert.isTrue(pData != null);
-		return this.educationDataRepository.save(pData);
-	}
-
 	public Iterable<EducationData> save(final Iterable<EducationData> pDatas) {
 		Assert.isTrue(pDatas != null);
 		return this.educationDataRepository.save(pDatas);
-	}
-
-	public void delete(final EducationData pData) {
-		Assert.isTrue(pData != null);
-		this.educationDataRepository.delete(pData);
-	}
-
-	public void delete(final Iterable<EducationData> pData) {
-		Assert.isTrue(pData != null);
-		this.educationDataRepository.delete(pData);
-	}
-
-	public EducationData findOne(final int id) {
-		return this.educationDataRepository.findOne(id);
-	}
-
-	public Collection<EducationData> findAll() {
-		return this.educationDataRepository.findAll();
 	}
 
 	public EducationDataForm createForm() {

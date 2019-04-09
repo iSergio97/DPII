@@ -1,6 +1,6 @@
 /*
  * HackerService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,13 +16,13 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Hacker;
-import forms.HackerForm;
 import repositories.HackerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Hacker;
+import forms.RegisterHackerForm;
 
 @Service
 @Transactional
@@ -72,12 +72,13 @@ public class HackerService {
 		// set fields
 		hacker.setName("");
 		hacker.setSurnames("");
-		hacker.setVat(0);
+		hacker.setVat("");
 		hacker.setPhoto("");
 		hacker.setEmail("");
 		hacker.setPhoneNumber("");
 		hacker.setAddress("");
-		hacker.setBanned(false);
+		hacker.setIsFlagged(false);
+		hacker.setIsBanned(false);
 		// set relationships
 		hacker.setUserAccount(userAccount);
 		hacker.setCreditCard(null);
@@ -116,12 +117,12 @@ public class HackerService {
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public HackerForm createForm() {
-		final HackerForm hackerForm = new HackerForm();
+	public RegisterHackerForm createForm() {
+		final RegisterHackerForm hackerForm = new RegisterHackerForm();
 
 		hackerForm.setName("");
 		hackerForm.setSurnames("");
-		hackerForm.setVat(0);
+		hackerForm.setVat("");
 		hackerForm.setPhoto("");
 		hackerForm.setEmail("");
 		hackerForm.setPhoneNumber("");
@@ -133,7 +134,7 @@ public class HackerService {
 		return hackerForm;
 	}
 
-	public Hacker reconstructForm(final HackerForm hackerForm, final BindingResult bindingResult) {
+	public Hacker reconstructForm(final RegisterHackerForm hackerForm, final BindingResult bindingResult) {
 		final Hacker result;
 
 		if (hackerForm.getId() == 0)
@@ -143,6 +144,7 @@ public class HackerService {
 
 		result.setName(hackerForm.getName());
 		result.setVat(hackerForm.getVat());
+		// result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
 		result.setSurnames(hackerForm.getSurnames());
 		result.setPhoto(hackerForm.getPhoto());
 		result.setEmail(hackerForm.getEmail());
@@ -154,11 +156,12 @@ public class HackerService {
 		return result;
 	}
 
-	public HackerForm deconstruct(final Hacker hacker) {
-		final HackerForm hackerForm = this.createForm();
+	public RegisterHackerForm deconstruct(final Hacker hacker) {
+		final RegisterHackerForm hackerForm = this.createForm();
 
 		hackerForm.setId(hacker.getId());
 		hackerForm.setName(hacker.getName());
+		// hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
 		hackerForm.setSurnames(hacker.getSurnames());
 		hackerForm.setVat(hacker.getVat());
 		hackerForm.setPhoto(hacker.getPhoto());

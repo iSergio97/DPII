@@ -16,7 +16,7 @@ import repositories.MiscellaneousDataRepository;
 
 @Service
 @Transactional
-public class MiscellaneousDataService {
+public class MiscellaneousDataService extends AbstractService<MiscellaneousData> {
 
 	@Autowired
 	private MiscellaneousDataRepository miscellaneousDataRepository;
@@ -35,32 +35,9 @@ public class MiscellaneousDataService {
 		return mData;
 	}
 
-	public MiscellaneousData save(final MiscellaneousData data) {
-		Assert.isTrue(data != null);
-		return this.miscellaneousDataRepository.save(data);
-	}
-
 	public Iterable<MiscellaneousData> save(final Iterable<MiscellaneousData> datas) {
 		Assert.isTrue(datas != null);
 		return this.miscellaneousDataRepository.save(datas);
-	}
-
-	public void delete(final MiscellaneousData data) {
-		Assert.isTrue(data != null);
-		this.miscellaneousDataRepository.delete(data);
-	}
-
-	public void delete(final Iterable<MiscellaneousData> data) {
-		Assert.isTrue(data != null);
-		this.miscellaneousDataRepository.delete(data);
-	}
-
-	public MiscellaneousData findOne(final int id) {
-		return this.miscellaneousDataRepository.findOne(id);
-	}
-
-	public Collection<MiscellaneousData> findAll() {
-		return this.miscellaneousDataRepository.findAll();
 	}
 
 	public MiscellaneousDataForm createForm() {
