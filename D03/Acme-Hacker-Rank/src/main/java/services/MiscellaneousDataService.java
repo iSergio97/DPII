@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,16 +48,26 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		return mDataForm;
 	}
 
-	public MiscellaneousData reconscructForm(final MiscellaneousDataForm mDataForm, final BindingResult bindingResult) {
+	////////////////////////////////////////////////////////////////////////////////
+	// Additional methods
+
+	public int findOwner(final int miscellaneousDataId) {
+		return this.miscellaneousDataRepository.findOwner(miscellaneousDataId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public MiscellaneousData reconstruct(final MiscellaneousDataForm miscellaneousDataForm, final BindingResult bindingResult) {
 		final MiscellaneousData result;
 
-		if (mDataForm.getId() == 0)
+		if (miscellaneousDataForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.miscellaneousDataRepository.findOne(mDataForm.getId());
+			result = this.miscellaneousDataRepository.findOne(miscellaneousDataForm.getId());
 
-		result.setAttachments(mDataForm.getAttachments());
-		result.setFreeText(mDataForm.getFreeText());
+		result.setAttachments(miscellaneousDataForm.getAttachments());
+		result.setFreeText(miscellaneousDataForm.getFreeText());
 
 		return result;
 	}
@@ -72,4 +81,5 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 
 		return form;
 	}
+
 }

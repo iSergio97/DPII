@@ -6,11 +6,15 @@
 
 package repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.MiscellaneousData;
 
 @Repository
 public interface MiscellaneousDataRepository extends AbstractRepository<MiscellaneousData> {
+
+	@Query("select c.hacker.userAccount.id from Curriculum c join c.miscellaneousData md where md.id = ?1")
+	int findOwner(int miscellaneousDataId);
 
 }
