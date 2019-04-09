@@ -19,11 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.ConversionUtils;
-import domain.Application;
 import domain.Hacker;
-import domain.Message;
-import domain.SocialProfile;
 import forms.HackerForm;
 
 @Service
@@ -55,21 +51,17 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 		userAccount = this.userAccountRepository.save(userAccount);
 		// set fields
 		hacker.setName("");
-		hacker.setSurnames(new ArrayList<String>());
+		hacker.setSurnames("");
 		hacker.setVat("");
 		hacker.setPhoto("");
 		hacker.setEmail("");
 		hacker.setPhoneNumber("");
 		hacker.setAddress("");
-		hacker.setIsSpammer(false);
+		hacker.setIsFlagged(false);
 		hacker.setIsBanned(false);
 		// set relationships
 		hacker.setUserAccount(userAccount);
 		hacker.setCreditCard(null);
-		hacker.setMessagePool(new ArrayList<Message>());
-		hacker.setSocialProfiles(new ArrayList<SocialProfile>());
-		hacker.setCurriculum(null);
-		hacker.setApplications(new ArrayList<Application>());
 
 		return hacker;
 	}
@@ -104,7 +96,8 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 		result.setName(hackerForm.getName());
 		result.setVat(hackerForm.getVat());
-		result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
+		// result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
+		result.setSurnames(hackerForm.getSurnames());
 		result.setPhoto(hackerForm.getPhoto());
 		result.setEmail(hackerForm.getEmail());
 		result.setPhoneNumber(hackerForm.getPhoneNumber());
@@ -120,7 +113,8 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 		hackerForm.setId(hacker.getId());
 		hackerForm.setName(hacker.getName());
-		hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
+		// hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
+		hackerForm.setSurnames(hacker.getSurnames());
 		hackerForm.setVat(hacker.getVat());
 		hackerForm.setPhoto(hacker.getPhoto());
 		hackerForm.setEmail(hacker.getEmail());

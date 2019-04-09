@@ -19,10 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utilities.ConversionUtils;
 import domain.Administrator;
-import domain.Message;
-import domain.SocialProfile;
 import forms.AdministratorForm;
 
 @Service
@@ -54,20 +51,17 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		userAccount = this.userAccountRepository.save(userAccount);
 		// set fields
 		administrator.setName("");
-		administrator.setSurnames(new ArrayList<String>());
+		administrator.setSurnames("");
 		administrator.setVat("");
-		administrator.setPhoto("");
 		administrator.setEmail("");
+		administrator.setCreditCard(null);
+		administrator.setPhoto("");
 		administrator.setPhoneNumber("");
 		administrator.setAddress("");
-		administrator.setIsSpammer(false);
+		administrator.setIsFlagged(false);
 		administrator.setIsBanned(false);
 		// set relationships
 		administrator.setUserAccount(userAccount);
-		administrator.setCreditCard(null);
-		administrator.setMessagePool(new ArrayList<Message>());
-		administrator.setSocialProfiles(new ArrayList<SocialProfile>());
-
 		return administrator;
 	}
 
@@ -101,7 +95,8 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 		result.setName(administratorForm.getName());
 		result.setVat(administratorForm.getVat());
-		result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
+		// result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
+		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
 		result.setPhoneNumber(administratorForm.getPhoneNumber());
@@ -111,13 +106,13 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 		return result;
 	}
-
 	public AdministratorForm deconstruct(final Administrator administrator) {
 		final AdministratorForm administratorForm = this.createForm();
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
-		administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
+		// administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
+		administratorForm.setSurnames(administratorForm.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());

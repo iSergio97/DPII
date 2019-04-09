@@ -11,15 +11,18 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -31,16 +34,20 @@ public class Position extends DomainEntity {
 
 	private String				title;
 	private String				description;
-	private String				profileRequired;
-	private Collection<String>	skillsRequired;
-	private Collection<String>	technologiesRequired;
-	private double				salaryOffered;
 	private Date				deadline;
+	private String				profile;
+	private String				skills;
+	private String				technologies;
+	private double				salary;
+	private String				ticker;
+	private boolean				isDraft;
+	private String				status;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Company				company;
+	private Collection<Problem>	problems;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -64,44 +71,6 @@ public class Position extends DomainEntity {
 		this.description = description;
 	}
 
-	@NotBlank
-	public String getProfileRequired() {
-		return this.profileRequired;
-	}
-
-	public void setProfileRequired(final String profileRequired) {
-		this.profileRequired = profileRequired;
-	}
-
-	@NotNull
-	@ElementCollection
-	public Collection<String> getSkillsRequired() {
-		return this.skillsRequired;
-	}
-
-	public void setSkillsRequired(final Collection<String> skillsRequired) {
-		this.skillsRequired = skillsRequired;
-	}
-
-	@NotNull
-	@ElementCollection
-	public Collection<String> getTechnologiesRequired() {
-		return this.technologiesRequired;
-	}
-
-	public void setTechnologiesRequired(final Collection<String> technologiesRequired) {
-		this.technologiesRequired = technologiesRequired;
-	}
-
-	@NotBlank
-	public double getSalaryOffered() {
-		return this.salaryOffered;
-	}
-
-	public void setSalaryOffered(final double salaryOffered) {
-		this.salaryOffered = salaryOffered;
-	}
-
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -111,6 +80,69 @@ public class Position extends DomainEntity {
 
 	public void setDeadline(final Date deadline) {
 		this.deadline = deadline;
+	}
+
+	public String getProfile() {
+		return this.profile;
+	}
+
+	public void setProfile(final String profile) {
+		this.profile = profile;
+	}
+
+	@NotBlank
+	public String getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(final String skills) {
+		this.skills = skills;
+	}
+
+	@NotBlank
+	public String getTechnologies() {
+		return this.technologies;
+	}
+
+	public void setTechnologies(final String technologies) {
+		this.technologies = technologies;
+	}
+
+	public double getSalary() {
+		return this.salary;
+	}
+
+	public void setSalary(final double salary) {
+		this.salary = salary;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^([A-Z]){6}-([\\d]){5}$")
+	@Column(unique = true)
+	public String getTicker() {
+		return this.ticker;
+	}
+
+	public void setTicker(final String ticker) {
+		this.ticker = ticker;
+	}
+
+	public boolean isDraft() {
+		return this.isDraft;
+	}
+
+	public void setDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(final String status) {
+		this.status = status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +156,17 @@ public class Position extends DomainEntity {
 
 	public void setCompany(final Company company) {
 		this.company = company;
+	}
+
+	@ManyToMany
+	@Valid
+	@NotEmpty
+	public Collection<Problem> getProblems() {
+		return this.problems;
+	}
+
+	public void setProblems(final Collection<Problem> problems) {
+		this.problems = problems;
 	}
 
 }
