@@ -45,7 +45,7 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.HACKER);
+		authority.setAuthority(Authority.COMPANY);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount = this.userAccountRepository.save(userAccount);
