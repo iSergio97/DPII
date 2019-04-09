@@ -12,9 +12,9 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PersonalDataRepository;
 import domain.PersonalData;
 import forms.PersonalDataForm;
-import repositories.PersonalDataRepository;
 
 @Service
 @Transactional
@@ -98,7 +98,7 @@ public class PersonalDataService {
 		result.setStatement(pdForm.getStatement());
 
 		this.validator.validate(result, bindingResult);
-		this.personalDataRepository.flush();
+		//this.personalDataRepository.flush();
 
 		if (bindingResult.hasErrors())
 			throw new ValidationException();

@@ -6,6 +6,7 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,31 +51,29 @@ public class PersonalDataController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView save(final PersonalDataForm pdForm, final BindingResult bindingResult) {
+	public ModelAndView save(@ModelAttribute("personalData") final PersonalDataForm personalData, final BindingResult bindingResult) {
 		ModelAndView result;
 		final PersonalData pData;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Curriculum cr;
-		if (pdForm.getId() != 0)
-			cr = this.curriculumService.findCurriculumByPDId(pdForm.getId());
+		if (personalData.getId() != 0)
+			cr = this.curriculumService.findCurriculumByPDId(personalData.getId());
 		else
 			cr = this.curriculumService.create();
 		try {
-			pData = this.personalDataService.reconstructForm(pdForm, bindingResult);
+			pData = this.personalDataService.reconstructForm(personalData, bindingResult);
 			if (!bindingResult.hasErrors()) {
 				final PersonalData data = this.personalDataService.save(pData);
 				cr.setPersonalData(data);
 				cr.setHacker(hacker);
 				this.curriculumService.save(cr);
-				//cr.setHacker(hacker);
-				//Añadire redirect a la vista de curriculum
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final ValidationException valExp) {
-			result = this.createEditModelAndView(pdForm);
+			result = this.createEditModelAndView(personalData);
 		} catch (final Throwable ops) {
-			result = this.createEditModelAndView(pdForm, "commit.error");
+			result = this.createEditModelAndView(personalData, "commit.error");
 		}
 
 		return result;
