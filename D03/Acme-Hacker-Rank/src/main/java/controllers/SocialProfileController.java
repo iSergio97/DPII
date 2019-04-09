@@ -145,10 +145,12 @@ public class SocialProfileController extends AbstractController {
 		if (!bindingResult.hasErrors()) {
 			socialProfile = this.socialProfileService.reconstructForm(socialProfileForm, bindingResult);
 			socialProfile = this.socialProfileService.save(socialProfile);
-			final Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
-			socialProfiles.add(socialProfile);
-			actor.setSocialProfiles(socialProfiles);
-			this.actorService.save(actor);
+			if (socialProfileForm.getId() == 0) {
+				final Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
+				socialProfiles.add(socialProfile);
+				actor.setSocialProfiles(socialProfiles);
+				this.actorService.save(actor);
+			}
 			result = this.show(socialProfile.getId());
 		} else {
 			result = new ModelAndView("socialprofile/actor/edit");

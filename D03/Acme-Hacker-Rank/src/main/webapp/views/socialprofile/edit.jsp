@@ -55,7 +55,9 @@
 
 </form:form>
 
-<form action="socialprofile/actor/delete.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${socialProfileForm.id}' />" />
-	<input type="submit" name="delete" value="<spring:message code='delete' />" />
-</form>
+<jstl:if test="${socialProfileForm.id != 0}">
+	<form action="socialprofile/actor/delete.do" method="POST">
+		<input type="hidden" name="id" value="<jstl:out value='${socialProfileForm.id}' />" />
+		<input type="submit" name="delete" value="<spring:message code='delete' />" />
+	</form>
+</jstl:if>
