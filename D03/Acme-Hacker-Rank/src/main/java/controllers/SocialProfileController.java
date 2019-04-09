@@ -49,7 +49,7 @@ public class SocialProfileController extends AbstractController {
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		socialProfiles = actor.getSocialProfiles();
+		socialProfiles = this.socialProfileService.findByActor(actor);
 
 		result = new ModelAndView("socialprofile/actor/list");
 		result.addObject("socialProfiles", socialProfiles);
@@ -71,7 +71,7 @@ public class SocialProfileController extends AbstractController {
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!actor.getSocialProfiles().contains(socialProfile))
+		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
 		result = new ModelAndView("socialprofile/actor/show");
@@ -114,7 +114,7 @@ public class SocialProfileController extends AbstractController {
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!actor.getSocialProfiles().contains(socialProfile))
+		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
 		result = new ModelAndView("socialprofile/actor/edit");
@@ -139,18 +139,13 @@ public class SocialProfileController extends AbstractController {
 			socialProfile = this.socialProfileService.findOne(socialProfileForm.getId());
 			if (socialProfile == null)
 				return new ModelAndView("redirect:/welcome/index.do");
-			if (!actor.getSocialProfiles().contains(socialProfile))
+			if (!socialProfile.getActor().equals(actor))
 				return new ModelAndView("redirect:/welcome/index.do");
 		}
 		if (!bindingResult.hasErrors()) {
 			socialProfile = this.socialProfileService.reconstructForm(socialProfileForm, bindingResult);
+			socialProfile.setActor(actor);
 			socialProfile = this.socialProfileService.save(socialProfile);
-			if (socialProfileForm.getId() == 0) {
-				final Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
-				socialProfiles.add(socialProfile);
-				actor.setSocialProfiles(socialProfiles);
-				this.actorService.save(actor);
-			}
 			result = this.show(socialProfile.getId());
 		} else {
 			result = new ModelAndView("socialprofile/actor/edit");
@@ -173,13 +168,9 @@ public class SocialProfileController extends AbstractController {
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!actor.getSocialProfiles().contains(socialProfile))
+		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Collection<SocialProfile> socialProfiles = actor.getSocialProfiles();
-		socialProfiles.remove(socialProfile);
-		actor.setSocialProfiles(socialProfiles);
-		this.actorService.save(actor);
 		this.socialProfileService.delete(socialProfile);
 
 		return this.list();

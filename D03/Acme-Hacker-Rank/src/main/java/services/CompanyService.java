@@ -38,31 +38,18 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 
 	@Override
 	public Company create() {
-		final Company company = new Company();
+		final Company company = super.create();
 
 		// create user account
 		UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.ADMINISTRATOR);
+		authority.setAuthority(Authority.HACKER);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount = this.userAccountRepository.save(userAccount);
-		// set fields
-		company.setCommercialName("");
-		company.setName("");
-		company.setSurnames("");
-		company.setVat("");
-		company.setPhoto("");
-		company.setEmail("");
-		company.setPhoneNumber("");
-		company.setAddress("");
-		company.setIsFlagged(false);
-		company.setIsBanned(false);
-		// set relationships
 		company.setUserAccount(userAccount);
-		company.setCreditCard(null);
 
 		return company;
 	}
@@ -99,7 +86,6 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		result.setCommercialName(companyForm.getCommercialName());
 		result.setName(companyForm.getName());
 		result.setVat(companyForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
 		result.setSurnames(companyForm.getSurnames());
 		result.setPhoto(companyForm.getPhoto());
 		result.setEmail(companyForm.getEmail());
@@ -117,7 +103,6 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		companyForm.setId(company.getId());
 		companyForm.setCommercialName(company.getCommercialName());
 		companyForm.setName(company.getName());
-		// companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
 		companyForm.setSurnames(company.getSurnames());
 		companyForm.setVat(company.getVat());
 		companyForm.setPhoto(company.getPhoto());

@@ -6,11 +6,14 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import repositories.SocialProfileRepository;
+import domain.Actor;
 import domain.SocialProfile;
 import forms.SocialProfileForm;
 
@@ -61,5 +64,9 @@ public class SocialProfileService extends AbstractService<SocialProfileRepositor
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
+
+	public Collection<SocialProfile> findByActor(final Actor actor) {
+		return this.repository.findByActorId(actor.getId());
+	}
 
 }

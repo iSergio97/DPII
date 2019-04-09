@@ -38,7 +38,7 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 	@Override
 	public Administrator create() {
-		final Administrator administrator = new Administrator();
+		final Administrator administrator = super.create();
 
 		// create user account
 		UserAccount userAccount = new UserAccount();
@@ -49,19 +49,8 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount = this.userAccountRepository.save(userAccount);
-		// set fields
-		administrator.setName("");
-		administrator.setSurnames("");
-		administrator.setVat("");
-		administrator.setEmail("");
-		administrator.setCreditCard(null);
-		administrator.setPhoto("");
-		administrator.setPhoneNumber("");
-		administrator.setAddress("");
-		administrator.setIsFlagged(false);
-		administrator.setIsBanned(false);
-		// set relationships
 		administrator.setUserAccount(userAccount);
+
 		return administrator;
 	}
 
@@ -95,7 +84,6 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 		result.setName(administratorForm.getName());
 		result.setVat(administratorForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
 		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
@@ -106,13 +94,13 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 		return result;
 	}
+
 	public AdministratorForm deconstruct(final Administrator administrator) {
 		final AdministratorForm administratorForm = this.createForm();
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
-		// administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
-		administratorForm.setSurnames(administratorForm.getSurnames());
+		administratorForm.setSurnames(administrator.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());

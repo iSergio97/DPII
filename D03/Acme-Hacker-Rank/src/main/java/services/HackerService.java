@@ -38,30 +38,18 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 	@Override
 	public Hacker create() {
-		final Hacker hacker = new Hacker();
+		final Hacker hacker = super.create();
 
 		// create user account
 		UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.ADMINISTRATOR);
+		authority.setAuthority(Authority.HACKER);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount = this.userAccountRepository.save(userAccount);
-		// set fields
-		hacker.setName("");
-		hacker.setSurnames("");
-		hacker.setVat("");
-		hacker.setPhoto("");
-		hacker.setEmail("");
-		hacker.setPhoneNumber("");
-		hacker.setAddress("");
-		hacker.setIsFlagged(false);
-		hacker.setIsBanned(false);
-		// set relationships
 		hacker.setUserAccount(userAccount);
-		hacker.setCreditCard(null);
 
 		return hacker;
 	}
@@ -96,7 +84,6 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 		result.setName(hackerForm.getName());
 		result.setVat(hackerForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
 		result.setSurnames(hackerForm.getSurnames());
 		result.setPhoto(hackerForm.getPhoto());
 		result.setEmail(hackerForm.getEmail());
@@ -113,7 +100,6 @@ public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 		hackerForm.setId(hacker.getId());
 		hackerForm.setName(hacker.getName());
-		// hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
 		hackerForm.setSurnames(hacker.getSurnames());
 		hackerForm.setVat(hacker.getVat());
 		hackerForm.setPhoto(hacker.getPhoto());
