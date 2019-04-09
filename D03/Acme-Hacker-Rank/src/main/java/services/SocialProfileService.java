@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import repositories.SocialProfileRepository;
 import domain.SocialProfile;
 import forms.SocialProfileForm;
 
 @Service
 @Transactional
-public class SocialProfileService extends AbstractService<SocialProfile> {
+public class SocialProfileService extends AbstractService<SocialProfileRepository, SocialProfile> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
