@@ -65,9 +65,9 @@ public class SystemConfigurationService {
 	public SystemConfigurationForm deconstruct(final SystemConfiguration systemConfiguration) {
 		final SystemConfigurationForm systemConfigurationForm = new SystemConfigurationForm();
 		systemConfigurationForm.setId(systemConfiguration.getId());
-		systemConfigurationForm.setDefaultCountryCode(systemConfiguration.getDefaultCountryCode());
 		systemConfigurationForm.setSystemName(systemConfiguration.getSystemName());
 		systemConfigurationForm.setBanner(systemConfiguration.getBanner());
+		systemConfigurationForm.setDefaultCountryCode(systemConfiguration.getDefaultCountryCode());
 		systemConfigurationForm.setFinderCacheTime(systemConfiguration.getFinderCacheTime());
 		systemConfigurationForm.setMaximumFinderResults(systemConfiguration.getMaximumFinderResults());
 		systemConfigurationForm.setSpamWords(ConversionUtils.listToString(systemConfiguration.getSpamWords(), ","));
@@ -77,9 +77,9 @@ public class SystemConfigurationService {
 
 	public SystemConfiguration reconstruct(final SystemConfigurationForm systemConfigurationForm, final BindingResult bindingResult) {
 		final SystemConfiguration systemConfiguration = this.getSystemConfiguration();
-		systemConfiguration.setDefaultCountryCode(systemConfigurationForm.getDefaultCountryCode());
 		systemConfiguration.setSystemName(systemConfigurationForm.getSystemName());
 		systemConfiguration.setBanner(systemConfigurationForm.getBanner());
+		systemConfiguration.setDefaultCountryCode(systemConfigurationForm.getDefaultCountryCode());
 		systemConfiguration.setFinderCacheTime(systemConfigurationForm.getFinderCacheTime());
 		systemConfiguration.setMaximumFinderResults(systemConfigurationForm.getMaximumFinderResults());
 		systemConfiguration.setSpamWords(ConversionUtils.stringToList(systemConfigurationForm.getSpamWords(), ","));

@@ -49,10 +49,10 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 
 		<!-- ADMIN -->
-		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 
 		<!-- REGISTER -->
-		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/register/company/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/hacker/create.do" access="isAnonymous()" />
 
