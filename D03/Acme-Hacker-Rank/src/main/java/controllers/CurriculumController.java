@@ -51,23 +51,24 @@ public class CurriculumController {
 	}
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(value = "id") final int id) {
+	public ModelAndView show(@RequestParam final int curriculumId) {
 		ModelAndView result;
-		final Curriculum cr = this.curriculumService.findOne(id);
+		final Curriculum cr = this.curriculumService.findOne(curriculumId);
 		final Hacker hacker = cr.getHacker();
 		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		if (hacker != principal)
 			result = new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("/curricula/hacker/show");
+		result = new ModelAndView("curricula/hacker/show");
 
 		final PersonalData pData = cr.getPersonalData();
 		final Collection<MiscellaneousData> mDatas = cr.getMiscellaneousData();
 		final Collection<EducationData> eDatas = cr.getEducationData();
 		final Collection<PositionData> pDatas = cr.getPositionData();
 
+		result.addObject("crName", cr.getName());
 		result.addObject("personalData", pData);
-		result.addObject("missData", mDatas);
+		result.addObject("misData", mDatas);
 		result.addObject("eDatas", eDatas);
 		result.addObject("personalDatas", pDatas);
 

@@ -1,6 +1,10 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Curriculum;
@@ -85,6 +90,26 @@ public class PersonalDataController {
 			result = this.createEditModelAndView(personalData, "commit.error");
 		}
 
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int personalDataID) {
+		ModelAndView result;
+		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Collection<Curriculum> cl = this.curriculumService.findCurriculumsByHacker(hacker);
+		final List<Integer> ls = new ArrayList<>();
+		for (final Curriculum c : cl)
+			ls.add(c.getPersonalData().getId());
+
+		if (!ls.contains(personalDataID))
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else {
+			final PersonalData pd = this.personalDataService.findOne(personalDataID);
+			final PersonalDataForm pdForm = this.personalDataService.deconstruct(pd);
+			result = new ModelAndView("personal-data/hacker/edit");
+			result.addObject("personalData", pdForm);
+		}
 		return result;
 	}
 
