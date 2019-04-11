@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +17,9 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 
 	@Autowired
 	private MiscellaneousDataRepository miscellaneousDataRepository;
+	
+	@Autowired
+	private Validator validator;
 
 
 	public MiscellaneousDataService() {
@@ -26,12 +27,20 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 	}
 
 	public MiscellaneousData create() {
-		final MiscellaneousData mData = new MiscellaneousData();
+		final MiscellaneousData miscellaneousData = new MiscellaneousData();
 
-		mData.setAttachments(new ArrayList<String>());
-		mData.setFreeText("");
+		miscellaneousData.setAttachments("");
+		miscellaneousData.setFreeText("");
 
-		return mData;
+		return miscellaneousData;
+	}
+
+	public MiscellaneousDataForm createForm(final MiscellaneousData miscellaneousData) {
+		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
+		miscellaneousDataForm.setAttachments(miscellaneousData.getAttachments());
+		miscellaneousDataForm.setFreeText(miscellaneousData.getFreeText());
+		miscellaneousDataForm.setId(miscellaneousData.getId());
+		return miscellaneousDataForm;
 	}
 
 	public Iterable<MiscellaneousData> save(final Iterable<MiscellaneousData> datas) {
@@ -40,12 +49,12 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 	}
 
 	public MiscellaneousDataForm createForm() {
-		final MiscellaneousDataForm mDataForm = new MiscellaneousDataForm();
+		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
 
-		mDataForm.setAttachments(new ArrayList<String>());
-		mDataForm.setFreeText("");
+		miscellaneousDataForm.setAttachments("");
+		miscellaneousDataForm.setFreeText("");
 
-		return mDataForm;
+		return miscellaneousDataForm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -55,10 +64,14 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		return this.miscellaneousDataRepository.findOwner(miscellaneousDataId);
 	}
 
+	public int findCurriculum(final int miscellaneousDataId) {
+		return this.miscellaneousDataRepository.findCurriculum(miscellaneousDataId);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public MiscellaneousData reconstruct(final MiscellaneousDataForm miscellaneousDataForm, final BindingResult bindingResult) {
+	public MiscellaneousData reconstruct(final MiscellaneousDataForm miscellaneousDataForm, final BindingResult binding) {
 		final MiscellaneousData result;
 
 		if (miscellaneousDataForm.getId() == 0)
@@ -69,6 +82,8 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		result.setAttachments(miscellaneousDataForm.getAttachments());
 		result.setFreeText(miscellaneousDataForm.getFreeText());
 
+		this.validator.Validate(result, binding);
+		
 		return result;
 	}
 

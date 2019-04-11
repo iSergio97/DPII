@@ -1,8 +1,6 @@
 
 package forms;
 
-import java.util.Collection;
-
 import javax.persistence.ElementCollection;
 import javax.validation.constraints.NotNull;
 
@@ -10,9 +8,10 @@ import org.hibernate.validator.constraints.NotBlank;
 
 public class MiscellaneousDataForm {
 
-	private String				freeText;
-	private Collection<String>	attachments;
-	private int					id;
+	private String	freeText;
+	private String	attachments;
+	private int		id;
+	private int		curriculumId;
 
 
 	@NotBlank
@@ -26,12 +25,12 @@ public class MiscellaneousDataForm {
 
 	@ElementCollection
 	@NotNull
-	public Collection<String> getAttachments() {
+	public String getAttachments() {
 		return this.attachments;
 	}
 
-	public void setAttachments(final Collection<String> attachments) {
-		this.attachments = attachments;
+	public void setAttachments(final String string) {
+		this.attachments = string;
 	}
 
 	public int getId() {
@@ -40,6 +39,14 @@ public class MiscellaneousDataForm {
 
 	public void setId(final int id) {
 		this.id = id;
+	}
+
+	public int getCurriculumId() {
+		return this.curriculumId;
+	}
+
+	public void setCurriculumId(final int curriculumId) {
+		this.curriculumId = curriculumId;
 	}
 
 }

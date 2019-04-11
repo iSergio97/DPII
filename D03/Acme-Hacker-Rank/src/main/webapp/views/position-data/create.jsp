@@ -2,7 +2,7 @@
  * personal-data/create.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
- * @author Sergio Garrido Domínguez
+ * @author José Antonio Domínguez Gómez
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -15,11 +15,18 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form modelAttribute="miscellaneousData" action="miscellaneous-data/hacker/edit.do">
+<form:form modelAttribute="positionData" action="position-data/hacker/edit.do">
 
-<acme:register code="freeText" path="miscellaneousData.freeText"/>
-<acme:register code="attachments" path="miscellaneousData.attachments"/>
+	<!-- Input fields -->
 
-<acme:submit name="save" code="save"/>
-<acme:cancel url="welcome/index.do" code="cancel"/>
+	<acme:register code="title" path="positionData.title"/>
+	<acme:register code="description" path="positionData.description"/>
+	<acme:register code="startDate" path="positionData.startDate"/>
+	<acme:register code="endDate" path="positionData.endDate"/>
+
+	<!-- Buttons -->
+
+	<acme:submit name="save" code="save"/>
+	<acme:cancel url="welcome/index.do" code="cancel"/>
+
 </form:form>

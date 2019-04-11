@@ -1,5 +1,5 @@
 <%--
- * miscellaneous-data/show.jsp
+ * education-data/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez
@@ -20,15 +20,33 @@
 	<!-- Output fields -->
 	
 <strong>
-	<spring:message code="miscellaneousData.freeText"/>:
+	<spring:message code="educationData.degree"/>:
 </strong>
-	<jstl:out value="${miscellaneousData.freeText}"></jstl:out>
+	<jstl:out value="${educationData.degree}"></jstl:out>
 <br>
 
 <strong>
-	<spring:message code="miscellaneousData.attachments"/>:
+	<spring:message code="educationData.institution"/>:
 </strong>
-	<jstl:out value="${miscellaneousData.attachments}"></jstl:out>
+	<jstl:out value="${educationData.institution}"></jstl:out>
+<br>
+
+<strong>
+	<spring:message code="educationData.mark"/>:
+</strong>
+	<jstl:out value="${educationData.mark}"></jstl:out>
+<br>
+
+<strong>
+	<spring:message code="educationData.startDate"/>:
+</strong>
+	<jstl:out value="${educationData.startDate}"></jstl:out>
+<br>
+
+<strong>
+	<spring:message code="educationData.endDate"/>:
+</strong>
+	<jstl:out value="${educationData.endDate}"></jstl:out>
 <br>
 
 	<!-- Buttons -->

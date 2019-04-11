@@ -42,21 +42,22 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		-->
 
-		<!-- [PUBLIC] -->
+<!--
+		 [PUBLIC] 
 		<security:intercept-url pattern="/brotherhood/public/list.do" access="permitAll" />
 		<security:intercept-url pattern="/brotherhood/public/show.do" access="permitAll" />
 		<security:intercept-url pattern="/float/public/show.do" access="permitAll" />
 		<security:intercept-url pattern="/parade/public/show.do" access="permitAll" />
 
-		<!-- [ADMIN] -->
+		 [ADMIN] 
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
 
-		<!-- [BROTHERHOOD] -->
+		 [BROTHERHOOD] 
 		<security:intercept-url pattern="/enrolment/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/float/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-			<security:intercept-url pattern="/history/**" access="hasRole('BROTHERHOOD')" />
-			<security:intercept-url pattern="/inceptionRecord/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/history/**" access="hasRole('BROTHERHOOD')" />
+		<security:intercept-url pattern="/inceptionRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/legalRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/linkRecord/**" access="hasRole('BROTHERHOOD')" />
 		<security:intercept-url pattern="/miscellaneousRecord/**" access="hasRole('BROTHERHOOD')" />
@@ -66,14 +67,22 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/personal-data/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/curricula/hacker/**" access="hasRole('HACKER')" />
 
-		<!-- [MEMBER] -->
+		 [MEMBER] 
 		<security:intercept-url pattern="/enrolment/member/**" access="hasRole('MEMBER')" />
 		<security:intercept-url pattern="/request/member/**" access="hasRole('MEMBER')" />
+-->
+
+		<!-- [HACKER] -->
+		<security:intercept-url pattern="/curriculum/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/personal-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/position-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/educational-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/miscellaneous-data/hacker/**" access="hasRole('HACKER')" />
 
 		<!-- REGISTER -->
-		<security:intercept-url pattern="/register/member/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/register/brotherhood/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/register/administrator.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/register/company.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/hacker.do" access="isAnonymous()" />
 
 		<security:form-login
 			login-page="/security/login.do"

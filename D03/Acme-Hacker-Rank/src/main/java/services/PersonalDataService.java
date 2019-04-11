@@ -88,7 +88,7 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 
 	public PersonalDataForm deconstruct(final PersonalData pData) {
 		final PersonalDataForm pdForm = this.createForm();
-		final Curriculum cr = this.curriculumService.findCurriculumByPDId(pData.getId());
+		final Curriculum cr = this.curriculumService.findCurriculumByPDId(pdForm.getId());
 
 		pdForm.setCurriculumName(cr.getName());
 		pdForm.setFullName(pData.getFullName());
@@ -97,13 +97,8 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 		pdForm.setId(pData.getId());
 		pdForm.setPhoneNumber(pData.getPhoneNumber());
 		pdForm.setStatement(pData.getStatement());
-		pdForm.setId(pData.getId());
 
 		return pdForm;
-	}
-
-	public Integer findHackerByPDId(final int id) {
-		return this.personalDataRepository.findHackerByPDID(id);
 	}
 
 }
