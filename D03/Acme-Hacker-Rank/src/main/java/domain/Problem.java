@@ -28,7 +28,7 @@ public class Problem extends DomainEntity {
 	private String				title;
 	private String				statement;
 	private String				hint;
-	private Collection<String>	attachments;
+	private String	attachments;
 	private boolean				isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -66,13 +66,12 @@ public class Problem extends DomainEntity {
 		this.hint = hint;
 	}
 
-	@ElementCollection
 	@NotEmpty
-	public Collection<String> getAttachments() {
+	public String getAttachments() {
 		return this.attachments;
 	}
 
-	public void setAttachments(final Collection<String> attachments) {
+	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
 	}
 
