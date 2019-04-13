@@ -12,10 +12,11 @@
 	<!-- System configuration -->
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="defaultCC" value="+34" />
 		<property name="systemName" value="Acme Hacker Rank" />
-		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
-		<property name="defaultCountryCode" value="+34" />
-		<property name="finderCacheTime" value="3600" />
+		<property name="banner"
+			value="https://i.imgur.com/7b8lu4b.png" />
+		<property name="finderCacheTime" value="1" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="spamWords">
 			<list>
@@ -30,12 +31,14 @@
 				<value>ha sido seleccionado</value>
 			</list>
 		</property>
-		<property name="welcomeMessages">
-			<map>
-				<entry key="en" value="Welcome to Acme Hacker Rank! We’re IT hacker’s favourite job marketplace!" />
-				<entry key="es" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
-			</map>
-		</property>
+		<property name="welcomeMessage"
+			value="Welcome to Acme Hacker Rank! We're IT hacker's favourite job marketplace!" />
+		<property name="welcomeMessageES"
+			value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+		<property name="warningMessage"
+			value="Your data has not been sold recently." />
+		<property name="warningMessageES"
+			value="Sus datos no han sido vendidos recientemente." />
 	</bean>
 
 	<!-- USERACCOUNTS -->
@@ -362,7 +365,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="A.R.G.U.S." />
+		<property name="commercialName" value="ARGUS" />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
