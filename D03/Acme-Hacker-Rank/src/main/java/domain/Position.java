@@ -41,7 +41,6 @@ public class Position extends DomainEntity {
 	private double				salary;
 	private String				ticker;
 	private boolean				isDraft;
-	private String				status;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -127,22 +126,12 @@ public class Position extends DomainEntity {
 		this.ticker = ticker;
 	}
 
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return this.isDraft;
 	}
 
-	public void setDraft(final boolean isDraft) {
+	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
-	}
-
-	@NotBlank
-	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(final String status) {
-		this.status = status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
