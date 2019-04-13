@@ -365,7 +365,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="A.R.G.U.S." />
+		<property name="commercialName" value="ARGUS" />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />

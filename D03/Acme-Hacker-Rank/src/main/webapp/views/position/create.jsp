@@ -17,18 +17,26 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form modelAttribute="personalData"
-	action="personal-data/hacker/edit.do">
+<form:form modelAttribute="position" action="position/company/edit.do">
 
 	<form:hidden path="id" />
 
-	<acme:register code="curriculumName" path="curriculumName" />
-	<acme:register code="fullName" path="fullName" />
-	<acme:register code="ghProf" path="gitHubProfile" />
-	<acme:register code="liProf" path="linkedInProfile" />
-	<acme:register code="phoneNumber" path="phoneNumber" />
-	<acme:register code="statement" path="statement" />
+	<acme:register code="title" path="title" />
+	<acme:register code="description" path="description" />
+	<acme:register code="profile" path="profile" />
+	<acme:register code="skills" path="skills" />
+	<acme:register code="salary" path="salary" />
+	<acme:register code="technologies" path="technologies" />
+	<acme:register code="deadline" path="deadline" />
+	
+	<form:select path="problems">
+		<form:options value="${problems}" itemLabel="title" itemValue="id"/>
+	</form:select>
+	<form:errors cssClass="error" path="problems" />
+	<br>
+	<br>
 
 	<acme:submit name="save" code="save" />
 	<acme:cancel url="welcome/index.do" code="cancel" />
+
 </form:form>

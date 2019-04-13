@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
@@ -13,10 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
 import repositories.PositionRepository;
+import security.LoginService;
 
 @Service
 @Transactional
@@ -27,6 +30,13 @@ public class PositionService extends AbstractService<Position> {
 
 	@Autowired
 	private Validator			validator;
+
+	@Autowired
+	private CompanyService		companyService;
+
+	private static final int	TICKER_LENGTH	= 5;
+	private final Random		random			= new Random();
+	private static final String	TICKER_NUMBER	= "0123456789";
 
 
 	public PositionService() {
@@ -45,7 +55,7 @@ public class PositionService extends AbstractService<Position> {
 		position.setTechnologies("");
 		position.setSalary(0);
 		position.setDraft(true);
-		position.setStatus("");
+		this.generateTicker(position);
 
 		return position;
 	}
@@ -60,6 +70,7 @@ public class PositionService extends AbstractService<Position> {
 		posForm.setSalary(0);
 		posForm.setSkills("");
 		posForm.setTechnologies("");
+		posForm.setProblems(new ArrayList<Problem>());
 
 		return posForm;
 	}
@@ -70,6 +81,21 @@ public class PositionService extends AbstractService<Position> {
 	public Iterable<Position> save(final Iterable<Position> positions) {
 		Assert.isTrue(positions != null);
 		return this.positionRepository.save(positions);
+	}
+
+	@Override
+	public Position save(final Position position) {
+		Assert.notNull(position);
+		Position res = this.findOne(position.getId());
+
+		while (res == null || res.getId() == 0)
+			try {
+				res = this.positionRepository.save(position);
+			} catch (final Throwable ops) {
+				this.generateTicker(position);
+			}
+
+		return res;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +115,11 @@ public class PositionService extends AbstractService<Position> {
 		res.setTechnologies(position.getTechnologies());
 		res.setSalary(position.getSalary());
 		res.setDeadline(position.getDeadline());
-		res.setStatus(position.getStatus());
+		if (position.getProblems() == null)
+			res.setProblems(new ArrayList<Problem>());
+		else
+			res.setProblems(position.getProblems());
+		res.setCompany(this.companyService.findPrincipal());
 
 		this.validator.validate(res, bindingResult);
 		this.positionRepository.flush();
@@ -98,4 +128,21 @@ public class PositionService extends AbstractService<Position> {
 
 		return res;
 	}
+
+	private void generateTicker(final Position position) {
+		String ticker = "";
+		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		ticker += company.getCommercialName().substring(0, 4);
+		ticker += "-";
+		do
+			for (int i = 0; i < PositionService.TICKER_LENGTH; ++i)
+				ticker += PositionService.TICKER_NUMBER.charAt(this.random.nextInt(PositionService.TICKER_NUMBER.length()));
+		while (this.positionRepository.findByTicker(ticker).size() > 0);
+		position.setTicker(ticker);
+	}
+
+	public List<Problem> findProblemsByCompany(final Company company) {
+		return this.positionRepository.findProblemsBycompany(company.getId());
+	}
+
 }

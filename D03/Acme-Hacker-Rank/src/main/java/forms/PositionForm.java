@@ -1,28 +1,30 @@
 
 package forms;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import domain.Problem;
+
 public class PositionForm {
 
-	private String	title;
-	private String	description;
-	private String	profile;
-	private String	skills;
-	private String	technologies;
-	private double	salary;
-	private Date	deadline;
-	private int		id;
-	private String	status;
-	private Date	submitMoment;
+	private String		title;
+	private String		description;
+	private String		profile;
+	private String		skills;
+	private String		technologies;
+	private double		salary;
+	private Date		deadline;
+	private int			id;
+	Collection<Problem>	problems;
 
 
 	@NotBlank
@@ -98,26 +100,14 @@ public class PositionForm {
 		this.id = id;
 	}
 
+	@Valid
 	@NotNull
-	@NotBlank
-	@Pattern(regexp = "^APPROVED|REJECTED|PENDING|CANCELLED$")
-	public String getStatus() {
-		return this.status;
+	public Collection<Problem> getProblems() {
+		return this.problems;
 	}
 
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getSubmitMode() {
-		return this.submitMoment;
-	}
-
-	public void setSubmitMode(final Date submitMode) {
-		this.submitMoment = submitMode;
+	public void setProblems(final Collection<Problem> problems) {
+		this.problems = problems;
 	}
 
 }
