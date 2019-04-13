@@ -1,5 +1,5 @@
 <%--
- * miscellaneous-data/show.jsp
+ * position-data/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez
@@ -20,15 +20,27 @@
 	<!-- Output fields -->
 	
 <strong>
-	<spring:message code="miscellaneousData.freeText"/>:
+	<spring:message code="positionData.title"/>:
 </strong>
-	<jstl:out value="${miscellaneousData.freeText}"></jstl:out>
+	<jstl:out value="${positionData.title}"></jstl:out>
 <br>
 
 <strong>
-	<spring:message code="miscellaneousData.attachments"/>:
+	<spring:message code="positionData.description"/>:
 </strong>
-	<jstl:out value="${miscellaneousData.attachments}"></jstl:out>
+	<jstl:out value="${positionData.description}"></jstl:out>
+<br>
+
+<strong>
+	<spring:message code="positionData.startDate"/>:
+</strong>
+	<jstl:out value="${positionData.startDate}"></jstl:out>
+<br>
+
+<strong>
+	<spring:message code="positionData.endDate"/>:
+</strong>
+	<jstl:out value="${positionData.endDate}"></jstl:out>
 <br>
 
 	<!-- Buttons -->

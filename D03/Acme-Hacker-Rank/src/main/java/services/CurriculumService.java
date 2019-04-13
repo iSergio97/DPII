@@ -76,4 +76,11 @@ public class CurriculumService extends AbstractService<Curriculum> {
 		this.positionDataService.save(lsPos);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Additional methods
+
+	public int findOwner(final int curriculumId) {
+		return this.curriculumRepository.findOwner(curriculumId);
+	}
+
 }

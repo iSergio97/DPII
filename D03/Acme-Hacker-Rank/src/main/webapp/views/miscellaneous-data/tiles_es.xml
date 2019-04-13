@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * misc/tiles_es .xml
+ * miscellaneous-data/tiles_es.xml
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
+ * @author José Antonio Domínguez Gómez
  -->
 
 <!DOCTYPE tiles-definitions PUBLIC
@@ -12,13 +13,23 @@
        
 <tiles-definitions>
 
-	<definition name="miscellaneous-data/hacker/create" extends="master.page">
-		<put-attribute name="title" value="Crear Información personal" />
-		<put-attribute name="body" value="/views/miscellaneous-data/create.jsp" />
+	<definition name="miscellaneous-data/hacker/list" extends="master.page">
+		<put-attribute name="title" value="Lista de Datos Misceláneos" />
+		<put-attribute name="body" value="/views/miscellaneous-data/list.jsp" />
 	</definition>
-	
+
+	<definition name="miscellaneous-data/hacker/create" extends="master.page">
+		<put-attribute name="title" value="Crear Datos Misceláneos" />
+		<put-attribute name="body" value="/views/miscellaneous-data/edit.jsp" />
+	</definition>
+
+	<definition name="miscellaneous-data/hacker/edit" extends="master.page">
+		<put-attribute name="title" value="Editar Datos Misceláneos" />
+		<put-attribute name="body" value="/views/miscellaneous-data/edit.jsp" />
+	</definition>
+
 	<definition name="miscellaneous-data/hacker/show" extends="master.page">
-		<put-attribute name="title" value="Show personal data" />
+		<put-attribute name="title" value="Mostrar Datos Misceláneos" />
 		<put-attribute name="body" value="/views/miscellaneous-data/show.jsp" />
 	</definition>
 

@@ -21,4 +21,7 @@ public interface CurriculumRepository extends AbstractRepository<Curriculum> {
 
 	@Query("select c from Curriculum c join c.personalData p where p.id = ?1")
 	Curriculum findCurriculumByPDId(int id);
+
+	@Query("select c.hacker.userAccount.id from Curriculum c where c.id = ?1")
+	int findOwner(int miscellaneousDataId);
 }
