@@ -8,11 +8,24 @@
 
 <tiles-definitions>
 
-<definition name="position/company/create"
+	<definition name="position/company/create"
 		extends="master.page">
-		<put-attribute name="title"
-			value="Create a position" />
+		<put-attribute name="title" value="Create a position" />
 		<put-attribute name="body"
 			value="/views/position/create.jsp" />
+	</definition>
+
+	<definition name="position/company/list"
+		extends="master.page">
+		<put-attribute name="title" value="Positions list" />
+		<put-attribute name="body"
+			value="/views/position/list.jsp" />
+	</definition>
+
+	<definition name="position/company/show"
+		extends="master.page">
+		<put-attribute name="title" value="Información" />
+		<put-attribute name="body"
+			value="/views/position/show.jsp" />
 	</definition>
 </tiles-definitions>

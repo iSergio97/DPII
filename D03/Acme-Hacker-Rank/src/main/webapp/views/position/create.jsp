@@ -1,5 +1,5 @@
 <%--
- * personal-data/create.jsp
+ * position/create.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author Sergio Garrido Domínguez

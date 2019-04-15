@@ -145,4 +145,8 @@ public class PositionService extends AbstractService<Position> {
 		return this.positionRepository.findProblemsBycompany(company.getId());
 	}
 
+	public List<Position> findPositionsByCompany(final Company company) {
+		return this.positionRepository.findPositionsByCompany(company.getId());
+	}
+
 }

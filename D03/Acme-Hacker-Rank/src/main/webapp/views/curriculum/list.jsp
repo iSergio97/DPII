@@ -16,7 +16,7 @@
 	<display:column titleKey="curricula.name" >
 		<jstl:out value="${row.name}" />
 	</display:column>
-	<display:column titleKey="show">
+	<display:column>
 		<a href="/curricula/hacker/show.do?curriculaId=${row.id}"> <spring:message code="show"/></a>
 	</display:column>
 

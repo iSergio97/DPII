@@ -22,4 +22,7 @@ public interface PositionRepository extends AbstractRepository<Position> {
 
 	@Query("select p from Problem p join p.company c where c.id = ?1")
 	List<Problem> findProblemsBycompany(int id);
+
+	@Query("select p from Position p join p.company c where c.id = ?1")
+	List<Position> findPositionsByCompany(int id);
 }

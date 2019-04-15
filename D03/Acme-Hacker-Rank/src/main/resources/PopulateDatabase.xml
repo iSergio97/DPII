@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<!-- PopulateDatabase.xml Copyright (c) 2019 Group 16 of Design and Testing 
-	II, University of Seville -->
+<!--
+PopulateDatabase.xml
+Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+-->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,11 +14,10 @@
 	<!-- System configuration -->
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
-		<property name="defaultCC" value="+34" />
 		<property name="systemName" value="Acme Hacker Rank" />
-		<property name="banner"
-			value="https://i.imgur.com/7b8lu4b.png" />
-		<property name="finderCacheTime" value="1" />
+		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
+		<property name="defaultCountryCode" value="+34" />
+		<property name="finderCacheTime" value="3600" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="spamWords">
 			<list>
@@ -31,14 +32,12 @@
 				<value>ha sido seleccionado</value>
 			</list>
 		</property>
-		<property name="welcomeMessage"
-			value="Welcome to Acme Hacker Rank! We're IT hacker's favourite job marketplace!" />
-		<property name="welcomeMessageES"
-			value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
-		<property name="warningMessage"
-			value="Your data has not been sold recently." />
-		<property name="warningMessageES"
-			value="Sus datos no han sido vendidos recientemente." />
+		<property name="welcomeMessages">
+			<map>
+				<entry key="en" value="Welcome to Acme Hacker Rank! We’re IT hacker’s favourite job marketplace!" />
+				<entry key="es" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+			</map>
+		</property>
 	</bean>
 
 	<!-- USERACCOUNTS -->
@@ -408,6 +407,7 @@
 	</bean>
 
 	<!-- Credit cards -->
+
 	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -471,6 +471,86 @@
 		<property name="CVV" value="123" />
 	</bean>
 
+	<!-- Curricula -->
 
+	<bean id="curriculum1" class="domain.Curriculum">
+		<property name="name" value="Name"/>
+		<property name="hacker" ref="hacker1" />
+		<property name="personalData" ref="personalData1" />
+		<property name="positionData">
+			<list>
+				<ref bean="positionData1" />
+			</list>
+		</property>
+		<property name="educationData">
+			<list>
+				<ref bean="educationData1" />
+			</list>
+		</property>
+		<property name="miscellaneousData">
+			<list>
+				<ref bean="miscellaneousData1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="personalData1" class="domain.PersonalData">
+		<property name="fullName" value="Sergio Hackerman" />
+		<property name="statement" value="Example statement" />
+		<property name="phoneNumber" value="+34 (420) 7418523" />
+		<property name="gitHubProfile" value="https://github.com/example" />
+		<property name="linkedInProfile" value="https://www.linkedin.com/in/linkedin" />
+	</bean>
+
+	<bean id="positionData1" class="domain.PositionData">
+		<property name="title" value="Example title" />
+		<property name="description" value="Example description" />
+		<property name="startDate" value="2016/01/01" />
+		<property name="endDate" value="2018/01/01" />
+	</bean>
+
+	<bean id="educationData1" class="domain.EducationData">
+		<property name="degree" value="Software Engineering" />
+		<property name="institution" value="University of Seville" />
+		<property name="mark" value="10.0" />
+		<property name="startDate" value="2012/01/01" />
+		<property name="endDate" value="2016/01/01" />
+	</bean>
+
+	<bean id="miscellaneousData1" class="domain.MiscellaneousData">
+		<property name="freeText" value="Example text" />
+		<property name="attachments" value="Example attachment 1"/>
+	</bean>
+
+	<!-- Positions -->
+
+	<bean id="position1" class="domain.Position">
+		<property name="title" value="Software engineer" />
+		<property name="description" value="To work designing software systems." />
+		<property name="deadline" value="2020/01/01" />
+		<property name="profile" value="Example profile" />
+		<property name="skills" value="Example skills" />
+		<property name="technologies" value="Example technologies" />
+		<property name="salary" value="1000.00" />
+		<property name="ticker" value="AAAA-00001" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+		<property name="problems">
+			<list>
+				<ref bean="problem1" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Problems -->
+
+	<bean id="problem1" class="domain.Problem">
+		<property name="title" value="Example title" />
+		<property name="statement" value="Example statement" />
+		<property name="hint" value="Example hint" />
+		<property name="attachments" value="Attachments" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
 
 </beans>

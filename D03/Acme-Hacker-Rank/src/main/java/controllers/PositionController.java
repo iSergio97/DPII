@@ -70,8 +70,6 @@ public class PositionController extends AbstractController {
 				pos = this.positionService.reconstruct(positionForm, bindingResult);
 				final Collection<Problem> test = new ArrayList<Problem>();
 				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-				if (pos.getProblems().size() < 2)
-					pos.setDraft(true);
 				if (company != null && pos.isDraft()) {
 					pos.setProblems(test);
 					pos.setCompany(company);
@@ -92,11 +90,15 @@ public class PositionController extends AbstractController {
 	public ModelAndView show(@RequestParam final int positionId) {
 		ModelAndView result;
 		Position position;
-		result = new ModelAndView("position/company/show");
+		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
-
-		result.addObject("position", position);
-
+		if (position.getCompany() == company) {
+			result = new ModelAndView("position/company/show");
+			result.addObject("position", position);
+			result.addObject("draft", position.isDraft());
+			result.addObject("problems", position.getProblems());
+		} else
+			result = new ModelAndView("position/company/list");
 		return result;
 	}
 
@@ -106,11 +108,23 @@ public class PositionController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Problem> problems = this.positionService.findProblemsByCompany(company);
+		final Collection<Position> pos = this.positionService.findPositionsByCompany(company);
 
 		result = new ModelAndView("position/company/list");
 
-		result.addObject("problems", problems);
+		result.addObject("positions", pos);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/company/draft", method = RequestMethod.POST)
+	public ModelAndView swapDraft(final int positionId) {
+		ModelAndView result;
+		final Position p = this.positionService.findOne(positionId);
+		final Company c = this.companyService.findPrincipal();
+		if (c == p.getCompany())
+			p.setDraft(false);
+		result = new ModelAndView("redirect:/company/list.do");
 
 		return result;
 	}
@@ -127,7 +141,6 @@ public class PositionController extends AbstractController {
 		final Collection<Problem> problems;
 
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		//TODO: Hacer query que obtenga los problemas de una compañía y se le asigne a la position
 		problems = this.positionService.findProblemsByCompany(company);
 
 		result = new ModelAndView("position/company/create");

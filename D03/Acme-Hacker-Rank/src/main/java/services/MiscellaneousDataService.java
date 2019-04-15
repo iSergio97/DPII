@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.MiscellaneousData;
 import forms.MiscellaneousDataForm;
@@ -16,10 +17,10 @@ import repositories.MiscellaneousDataRepository;
 public class MiscellaneousDataService extends AbstractService<MiscellaneousData> {
 
 	@Autowired
-	private MiscellaneousDataRepository miscellaneousDataRepository;
-	
+	private MiscellaneousDataRepository	miscellaneousDataRepository;
+
 	@Autowired
-	private Validator validator;
+	private Validator					validator;
 
 
 	public MiscellaneousDataService() {
@@ -82,8 +83,8 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		result.setAttachments(miscellaneousDataForm.getAttachments());
 		result.setFreeText(miscellaneousDataForm.getFreeText());
 
-		this.validator.Validate(result, binding);
-		
+		this.validator.validate(result, binding);
+
 		return result;
 	}
 
