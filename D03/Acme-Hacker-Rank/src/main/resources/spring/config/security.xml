@@ -48,6 +48,10 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/socialprofile/actor/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 
+		<!-- APPLICATION -->
+		<security:intercept-url pattern="/application/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/company/**" access="hasRole('COMPANY')" />
+
 		<!-- ADMIN -->
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 

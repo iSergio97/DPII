@@ -31,12 +31,12 @@ public class MiscellaneousData extends DomainEntity {
 	// Field access methods
 
 	@NotBlank
-	public String getData() {
+	public String getFreeText() {
 		return this.freeText;
 	}
 
-	public void setData(final String data) {
-		this.freeText = data;
+	public void setFreeText(final String freeText) {
+		this.freeText = freeText;
 	}
 
 	@NotNull

@@ -36,7 +36,7 @@ public class Curriculum extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToOne
+	@OneToOne(optional = true)
 	@Valid
 	public Hacker getHacker() {
 		return this.hacker;

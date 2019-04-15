@@ -20,6 +20,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/welcome/tiles.xml</value>
 		
 		<value>/views/administrator/tiles.xml</value>
+		<value>/views/application/tiles.xml</value>
 		<value>/views/socialprofile/tiles.xml</value>
 	</util:list>
 

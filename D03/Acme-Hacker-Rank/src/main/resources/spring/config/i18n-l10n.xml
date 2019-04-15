@@ -20,6 +20,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/welcome/messages</value>
 		
 		<value>/views/administrator/messages</value>
+		<value>/views/application/messages</value>
 		<value>/views/socialprofile/messages</value>
 	</util:list>
 

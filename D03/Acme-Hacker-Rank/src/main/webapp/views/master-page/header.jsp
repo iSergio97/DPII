@@ -63,7 +63,7 @@
 			</li>
 			<li><a class="fNiv" href="socialprofile/actor/list.do"><spring:message code="master.page.socialProfile" /></a></li>
 		</security:authorize>
-		
+
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
@@ -71,6 +71,15 @@
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="administrator/systemconfiguration.do"><spring:message code="master.page.administrator.systemconfiguration" /></a></li>
 					<li><a href="register/administrator/create.do"><spring:message code="master.page.administrator.register" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('HACKER')">
+			<li><a class="fNiv"><spring:message	code="master.page.hacker" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="application/hacker/list.do"><spring:message code="master.page.hacker.applications" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
