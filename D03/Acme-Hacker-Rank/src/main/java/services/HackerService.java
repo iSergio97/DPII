@@ -1,6 +1,6 @@
 /*
  * HackerService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -9,6 +9,8 @@ package services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +18,14 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.CreditCard;
+import domain.Hacker;
+import forms.RegisterHackerForm;
 import repositories.HackerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import domain.Hacker;
-import forms.RegisterHackerForm;
 
 @Service
 @Transactional
@@ -123,14 +126,18 @@ public class HackerService {
 		hackerForm.setName("");
 		hackerForm.setSurnames("");
 		hackerForm.setVat("");
-		hackerForm.setPhoto("");
 		hackerForm.setEmail("");
+		hackerForm.setPhoto("");
 		hackerForm.setPhoneNumber("");
 		hackerForm.setAddress("");
 		hackerForm.setUsername("");
 		hackerForm.setPassword("");
 		hackerForm.setConfirmPassword("");
-
+		hackerForm.setHolder("");
+		hackerForm.setBrand("");
+		hackerForm.setNumber("");
+		hackerForm.setExpirationMonth(1);
+		hackerForm.setExpirationYear(18);
 		return hackerForm;
 	}
 
@@ -143,15 +150,30 @@ public class HackerService {
 			result = this.hackerRepository.findOne(hackerForm.getId());
 
 		result.setName(hackerForm.getName());
-		result.setVat(hackerForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(hackerForm.getSurnames(), ","));
 		result.setSurnames(hackerForm.getSurnames());
-		result.setPhoto(hackerForm.getPhoto());
+		result.setVat(hackerForm.getVat());
 		result.setEmail(hackerForm.getEmail());
+		result.setPhoto(hackerForm.getPhoto());
 		result.setPhoneNumber(hackerForm.getPhoneNumber());
 		result.setAddress(hackerForm.getAddress());
 
+		result.getUserAccount().setUsername(hackerForm.getUsername());
+		result.getUserAccount().setPassword(hackerForm.getPassword());
+
+		final CreditCard cc = new CreditCard();
+		cc.setHolder(hackerForm.getHolder());
+		cc.setBrand(hackerForm.getBrand());
+		cc.setNumber(hackerForm.getNumber());
+		cc.setExpirationMonth(hackerForm.getExpirationMonth());
+		cc.setExpirationYear(hackerForm.getExpirationYear());
+		cc.setCVV(hackerForm.getCVV());
+
+		result.setCreditCard(cc);
+
 		this.validator.validate(result, bindingResult);
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}

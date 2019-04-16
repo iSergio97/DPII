@@ -38,3 +38,4 @@
 </jstl:forEach>
 
 <jstl:out value="Sacar un link por cada problem para una lista más cómoda de información"/>
+<jstl:out value="Añadir botón para eliminar, otro para editar y otro para poner en modo final"/>

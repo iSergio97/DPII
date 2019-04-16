@@ -23,5 +23,6 @@
 		-->
 		<value>/views/miscellaneous-data/tiles.xml</value>
 		<value>/views/position/tiles.xml</value>
+		<value>/views/register/tiles.xml</value>
 	</util:list>
 </beans>

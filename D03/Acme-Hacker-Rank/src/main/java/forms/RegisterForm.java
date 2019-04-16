@@ -34,8 +34,6 @@ public class RegisterForm {
 	private Integer	expirationMonth;
 	private Integer	expirationYear;
 	private Integer	CVV;
-	// Register itself
-	private boolean	confirmToS;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -202,14 +200,6 @@ public class RegisterForm {
 
 	public void setCVV(final Integer cVV) {
 		this.CVV = cVV;
-	}
-
-	public boolean getConfirmToS() {
-		return this.confirmToS;
-	}
-
-	public void setConfirmToS(final boolean confirmToS) {
-		this.confirmToS = confirmToS;
 	}
 
 }
