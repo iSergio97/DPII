@@ -21,7 +21,7 @@ import services.CurriculumService;
 import services.HackerService;
 
 @Controller
-@RequestMapping("/curricula/hacker")
+@RequestMapping("/curriculum/hacker")
 public class CurriculumController {
 
 	@Autowired
@@ -37,9 +37,9 @@ public class CurriculumController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		//TODO: Preguntar si un hacker puede tener más de una curricula
-		//TODO: Si puede, corregir método y listar los curricula con un botón para ver
-		//TODO: la información de cada curricula en profundidad
+		//TODO: Preguntar si un hacker puede tener más de un currículum
+		//TODO: Si puede, corregir método y listar los currículums con un botón para ver
+		//TODO: la información de cada currículum en profundidad
 		final ModelAndView result;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Collection<Curriculum> cr = this.curriculumService.findCurriculumsByHacker(hacker);
