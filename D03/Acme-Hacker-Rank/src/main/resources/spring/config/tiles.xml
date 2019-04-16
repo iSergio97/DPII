@@ -16,11 +16,8 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		<value>/views/curriculum/tiles.xml</value>
-		<value>/views/personal-data/tiles.xml</value>
-		<!--  
 		<value>/views/position-data/tiles.xml</value>
 		<value>/views/education-data/tiles.xml</value>
-		-->
 		<value>/views/miscellaneous-data/tiles.xml</value>
 		<value>/views/position/tiles.xml</value>
 		<value>/views/register/tiles.xml</value>

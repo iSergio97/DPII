@@ -76,7 +76,6 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/curriculum/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/personal-data/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/position-data/hacker/**" access="hasRole('HACKER')" />
-		<security:intercept-url pattern="/educational-data/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneous-data/hacker/**" access="hasRole('HACKER')" />
 
 		<!-- REGISTER -->

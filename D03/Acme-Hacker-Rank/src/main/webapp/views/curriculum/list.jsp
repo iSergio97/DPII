@@ -1,3 +1,11 @@
+<%--
+ * personal-data/create.jsp
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ * @author Sergio Garrido Domínguez
+ * @author José Antonio Domínguez Gómez
+ --%>
+
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,16 +16,13 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <display:table name="curriculums" id="row">
-
-<%--
-	Añadir propiedad a curricula para poder mostrar su nombre
- --%>
 	
-	<display:column titleKey="curricula.name" >
+	<display:column titleKey="curriculum.name" >
 		<jstl:out value="${row.name}" />
 	</display:column>
+	
 	<display:column>
-		<a href="/curricula/hacker/show.do?curriculaId=${row.id}"> <spring:message code="show"/></a>
+		<a href="/curriculum/hacker/show.do?curriculumId=${row.id}"> <spring:message code="action.show"/></a>
 	</display:column>
 
 </display:table>

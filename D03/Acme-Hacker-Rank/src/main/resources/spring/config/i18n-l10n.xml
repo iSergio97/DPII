@@ -19,7 +19,6 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 		<value>/views/curriculum/messages</value>
-		<value>/views/personal-data/messages</value>
 		<value>/views/position-data/messages</value>
 		<value>/views/education-data/messages</value>
 		<value>/views/miscellaneous-data/messages</value>
