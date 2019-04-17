@@ -364,7 +364,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="ARGUS" />
+		<property name="commercialName" value="A.R.G.U.S." />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
@@ -474,7 +474,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 	<!-- Curricula -->
 
 	<bean id="curriculum1" class="domain.Curriculum">
-		<property name="name" value="Name"/>
+		<property name="name" value="Example name" />
 		<property name="hacker" ref="hacker1" />
 		<property name="personalData" ref="personalData1" />
 		<property name="positionData">
@@ -519,7 +519,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 
 	<bean id="miscellaneousData1" class="domain.MiscellaneousData">
 		<property name="freeText" value="Example text" />
-		<property name="attachments" value="Example attachment 1"/>
+		<property name="attachments" value="Example attachment 1" />
 	</bean>
 
 	<!-- Positions -->

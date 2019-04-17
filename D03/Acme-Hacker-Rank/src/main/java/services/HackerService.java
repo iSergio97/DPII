@@ -138,6 +138,7 @@ public class HackerService {
 		hackerForm.setNumber("");
 		hackerForm.setExpirationMonth(1);
 		hackerForm.setExpirationYear(18);
+		hackerForm.setCVV(100);
 		return hackerForm;
 	}
 
@@ -170,6 +171,7 @@ public class HackerService {
 
 		result.setCreditCard(cc);
 
+		this.hackerRepository.flush();
 		this.validator.validate(result, bindingResult);
 
 		if (bindingResult.hasErrors())

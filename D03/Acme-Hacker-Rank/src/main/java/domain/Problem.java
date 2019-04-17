@@ -28,7 +28,7 @@ public class Problem extends DomainEntity {
 	private String				title;
 	private String				statement;
 	private String				hint;
-	private String	attachments;
+	private String				attachments;
 	private boolean				isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////

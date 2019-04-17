@@ -1,7 +1,6 @@
 
 package controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -75,71 +74,72 @@ public class RegisterController {
 	}
 
 	@RequestMapping(value = "/hacker/edit", method = RequestMethod.POST)
-	public ModelAndView registerHackerPost(@ModelAttribute("hacker") final RegisterHackerForm rhf, final BindingResult bindingResult) {
+	public ModelAndView registerHackerPost(@ModelAttribute("hacker") final RegisterHackerForm registerHackerForm, final BindingResult bindingResult) {
 		ModelAndView result;
-		final Hacker hacker;
+		final Hacker hacker2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
-		final Date date = new Date();
-		if (rhf.getExpirationMonth() < date.getMonth() && rhf.getExpirationYear() < date.getYear())
-			bindingResult.reject("creditCardExpired", "This credit card is expired. Please introduce other");
-
-		if (rhf.getId() == 0) {
-			if (usernames.contains(rhf.getUsername())) {
+		/*
+		 * final Date date = new Date();
+		 * if (registerHackerForm.getExpirationMonth() < date.getMonth() && registerHackerForm.getExpirationYear() < date.getYear())
+		 * bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+		 */
+		if (registerHackerForm.getId() == 0) {
+			if (usernames.contains(registerHackerForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("username", "error.existedUserName");
 			}
 		} else {
-			final Hacker hacker2 = this.hackerService.findPrincipal();
-			usernames.remove(hacker2.getUserAccount().getUsername());
-			if (usernames.contains(rhf.getUsername())) {
+			final Hacker hacker3 = this.hackerService.findPrincipal();
+			usernames.remove(hacker3.getUserAccount().getUsername());
+			if (usernames.contains(registerHackerForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("username", "error.existedUsername");
 			}
 		}
 
-		if (rhf.getUsername().length() < 5 || rhf.getUsername().length() > 32) {
+		if (registerHackerForm.getUsername().length() < 5 || registerHackerForm.getUsername().length() > 32) {
 			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("username", "error.shortUserName");
 		}
 
-		if (!rhf.getPassword().equals(rhf.getConfirmPassword())) {
+		if (!registerHackerForm.getPassword().equals(registerHackerForm.getConfirmPassword())) {
 			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("password", "error.wrongPass");
 		}
-		if (rhf.getPassword().length() == 0) {
+		if (registerHackerForm.getPassword().length() == 0) {
 			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("password", "error.nullPass");
 		}
 
-		if (rhf.getPhoneNumber().length() < 3) {
+		if (registerHackerForm.getPhoneNumber().length() < 3) {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
 		}
 
 		try {
-			hacker = this.hackerService.reconstructForm(rhf, bindingResult);
-			final UserAccount ua = hacker.getUserAccount();
-			ua.setPassword(new Md5PasswordEncoder().encodePassword(hacker.getUserAccount().getPassword(), null));
+			hacker2 = this.hackerService.reconstructForm(registerHackerForm, bindingResult);
+			final UserAccount ua = hacker2.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(hacker2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
-			hacker.setUserAccount(uaSaved);
-			final Hacker hackerSaved = this.hackerService.save(hacker);
-			if (hacker.getId() == 0)
+			hacker2.setUserAccount(uaSaved);
+			final Hacker hackerSaved = this.hackerService.save(hacker2);
+			if (hacker2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
 					mb.setActor(hackerSaved);
 					this.messageBoxService.save(mb);
 				}
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(rhf);
+			result = this.createEditModelAndView(registerHackerForm);
 		} catch (final Throwable valExp) {
-			result = this.createEditModelAndView(rhf, "register.hacker.error");
+			result = this.createEditModelAndView(registerHackerForm, "register.hacker.error");
 		}
 
 		return result;

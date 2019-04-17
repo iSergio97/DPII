@@ -6,18 +6,19 @@
 
 package domain;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.MapKeyClass;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -29,20 +30,16 @@ public class SystemConfiguration extends DomainEntity {
 
 	private String				systemName;
 	private String				banner;
-	private String				welcomeMessage;
-	private String				welcomeMessageES;
-	private String				defaultCC;
+	private String				defaultCountryCode;
 	private int					finderCacheTime;
 	private int					maximumFinderResults;
-	private Collection<String>	spamWords;
-	private String				warningMessage;
-	private String				warningMessageES;
+	private List<String>		spamWords;
+	private Map<String, String>	welcomeMessages;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@NotBlank
 	public String getSystemName() {
 		return this.systemName;
 	}
@@ -51,7 +48,6 @@ public class SystemConfiguration extends DomainEntity {
 		this.systemName = systemName;
 	}
 
-	@NotBlank
 	@URL
 	public String getBanner() {
 		return this.banner;
@@ -61,35 +57,17 @@ public class SystemConfiguration extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@NotBlank
-	public String getWelcomeMessage() {
-		return this.welcomeMessage;
-	}
-
-	public void setWelcomeMessage(final String welcomeMessage) {
-		this.welcomeMessage = welcomeMessage;
-	}
-
-	@NotBlank
-	public String getWelcomeMessageES() {
-		return this.welcomeMessageES;
-	}
-
-	public void setWelcomeMessageES(final String welcomeMessageES) {
-		this.welcomeMessageES = welcomeMessageES;
-	}
-
 	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCC() {
-		return this.defaultCC;
+	public String getDefaultCountryCode() {
+		return this.defaultCountryCode;
 	}
 
-	public void setDefaultCC(final String defaultCC) {
-		this.defaultCC = defaultCC;
+	public void setDefaultCountryCode(final String defaultCountryCode) {
+		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
+	@Min(value = 3600)
+	@Max(value = 86400)
 	public int getFinderCacheTime() {
 		return this.finderCacheTime;
 	}
@@ -110,28 +88,23 @@ public class SystemConfiguration extends DomainEntity {
 
 	@NotNull
 	@ElementCollection
-	public Collection<String> getSpamWords() {
+	public List<String> getSpamWords() {
 		return this.spamWords;
 	}
 
-	public void setSpamWords(final Collection<String> spamWords) {
+	public void setSpamWords(final List<String> spamWords) {
 		this.spamWords = spamWords;
 	}
 
-	public String getWarningMessage() {
-		return this.warningMessage;
+	@NotNull
+	@ElementCollection(targetClass = String.class)
+	@MapKeyClass(String.class)
+	public Map<String, String> getWelcomeMessages() {
+		return this.welcomeMessages;
 	}
 
-	public void setWarningMessage(final String warmingMessage) {
-		this.warningMessage = warmingMessage;
-	}
-
-	public String getWarningMessageES() {
-		return this.warningMessageES;
-	}
-
-	public void setWarningMessageES(final String warmingMessageES) {
-		this.warningMessageES = warmingMessageES;
+	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
+		this.welcomeMessages = welcomeMessages;
 	}
 
 }

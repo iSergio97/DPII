@@ -44,7 +44,7 @@ public class CurriculumController {
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Collection<Curriculum> cr = this.curriculumService.findCurriculumsByHacker(hacker);
 
-		result = new ModelAndView("curricula/hacker/list");
+		result = new ModelAndView("curriculum/hacker/list");
 		result.addObject("curriculums", cr);
 
 		return result;
@@ -59,7 +59,7 @@ public class CurriculumController {
 		if (hacker != principal)
 			result = new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("curricula/hacker/show");
+		result = new ModelAndView("curriculum/hacker/show");
 
 		final PersonalData pData = cr.getPersonalData();
 		final Collection<MiscellaneousData> mDatas = cr.getMiscellaneousData();
