@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -79,11 +80,10 @@ public class RegisterController {
 		final Hacker hacker2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
-		/*
-		 * final Date date = new Date();
-		 * if (registerHackerForm.getExpirationMonth() < date.getMonth() && registerHackerForm.getExpirationYear() < date.getYear())
-		 * bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
-		 */
+		final Date date = new Date();
+		if (registerHackerForm.getExpirationMonth() < date.getMonth() && registerHackerForm.getExpirationYear() < (date.getYear() % 100))
+			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+
 		if (registerHackerForm.getId() == 0) {
 			if (usernames.contains(registerHackerForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
@@ -140,6 +140,8 @@ public class RegisterController {
 			result = this.createEditModelAndView(registerHackerForm);
 		} catch (final Throwable valExp) {
 			result = this.createEditModelAndView(registerHackerForm, "register.hacker.error");
+			for (final ObjectError e : bindingResult.getAllErrors())
+				System.out.println(e);
 		}
 
 		return result;
@@ -172,17 +174,17 @@ public class RegisterController {
 		if (t instanceof RegisterAdministratorForm) {
 			type = "administrator";
 			result = new ModelAndView("register/administrator/create");
-			result.addObject("actor", t);
+			result.addObject("administrator", t);
 			result.addObject("type", type);
 		} else if (t instanceof RegisterHackerForm) {
 			type = "hacker";
 			result = new ModelAndView("register/hacker/create");
+			result.addObject("hacker", t);
 		} else if (t instanceof RegisterCompanyForm) {
 			type = "company";
 			result = new ModelAndView("register/company/create");
+			result.addObject("company", t);
 		}
-		result.addObject("actor", t);
-		result.addObject("type", type);
 
 		return result;
 	}

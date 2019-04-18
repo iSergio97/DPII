@@ -171,8 +171,9 @@ public class HackerService {
 
 		result.setCreditCard(cc);
 
-		this.hackerRepository.flush();
+		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
+		//		this.hackerRepository.flush();
 
 		if (bindingResult.hasErrors())
 			throw new ValidationException();

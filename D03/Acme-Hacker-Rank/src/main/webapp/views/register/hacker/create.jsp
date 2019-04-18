@@ -14,7 +14,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="actor" action="register/hacker/edit.do">
+<form:form modelAttribute="hacker" action="register/hacker/edit.do">
 
 	<%-- Campos de usuario --%>
 	<acme:register code="name" path="name"/>

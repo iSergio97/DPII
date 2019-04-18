@@ -1,7 +1,6 @@
 
 package forms;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -57,7 +56,7 @@ public class RegisterForm {
 		this.name = name;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches a list of strings with "," as an element separator, or an empty string
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getSurnames() {
@@ -68,7 +67,7 @@ public class RegisterForm {
 		this.surnames = surnames;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches 2 letters followed by between 5 and 15 alphanumeric characters
 	@Pattern(regexp = "^[\\w]{2}[\\d\\w]{5,15}$")
 	public String getVat() {
@@ -79,7 +78,7 @@ public class RegisterForm {
 		this.vat = vat;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches administrator email addresses
 	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
 	public String getEmail() {
@@ -101,7 +100,7 @@ public class RegisterForm {
 	}
 
 	// Optional
-	@NotNull
+	@NotBlank
 	// Matches a phone number or an empty string
 	@Pattern(regexp = "(^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$)|(^$)")
 	public String getPhoneNumber() {
@@ -113,7 +112,7 @@ public class RegisterForm {
 	}
 
 	// Optional
-	@NotNull
+	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
@@ -167,6 +166,7 @@ public class RegisterForm {
 		this.brand = brand;
 	}
 
+	@NotBlank
 	@Pattern(regexp = "^([\\d]){16}$")
 	public String getNumber() {
 		return this.number;
