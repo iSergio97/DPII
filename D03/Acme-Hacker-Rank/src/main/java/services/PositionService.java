@@ -56,6 +56,7 @@ public class PositionService extends AbstractService<Position> {
 		position.setSalary(0);
 		position.setDraft(true);
 		this.generateTicker(position);
+		position.setCompany(this.companyService.findPrincipal());
 
 		return position;
 	}

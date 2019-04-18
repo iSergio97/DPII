@@ -57,7 +57,7 @@ public class PositionController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
-	@RequestMapping(value = "company/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/company/edit", method = RequestMethod.POST)
 	public ModelAndView edit(@ModelAttribute("position") final PositionForm positionForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		Position pos;
@@ -70,7 +70,7 @@ public class PositionController extends AbstractController {
 				pos = this.positionService.reconstruct(positionForm, bindingResult);
 				final Collection<Problem> test = new ArrayList<Problem>();
 				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-				if (company != null && pos.isDraft()) {
+				if (company != null && (pos.getCompany().equals(company) && pos.isDraft())) {
 					pos.setProblems(test);
 					pos.setCompany(company);
 					this.positionService.save(pos);
@@ -82,6 +82,15 @@ public class PositionController extends AbstractController {
 				result = this.createEditModelAndView(positionForm, "commit.error");
 			}
 		return result;
+	}
+
+	@RequestMapping(value = "/company/final", method = RequestMethod.POST)
+	public ModelAndView finalMode(final int positionId) {
+		final Position pos = this.positionService.findOne(positionId);
+		if (pos.getProblems().size() > 1)
+			pos.setDraft(false);
+
+		return new ModelAndView("redirect:company/list.do");
 	}
 
 	// Show -------------------------------------------------------------------

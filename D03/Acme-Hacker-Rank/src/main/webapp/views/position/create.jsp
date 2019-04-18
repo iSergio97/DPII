@@ -28,11 +28,10 @@
 	<acme:register code="salary" path="salary" />
 	<acme:register code="technologies" path="technologies" />
 	<acme:register code="deadline" path="deadline" />
-	
+	<jstl:out value="Problems"/>
 	<form:select path="problems">
-		<form:options value="${problems}" itemLabel="title" itemValue="id"/>
+		<form:options items="${problems}" itemLabel="title" itemValue="id"/>
 	</form:select>
-	<form:errors cssClass="error" path="problems" />
 	<br>
 	<br>
 
