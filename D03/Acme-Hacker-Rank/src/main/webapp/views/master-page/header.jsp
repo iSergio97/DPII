@@ -41,6 +41,8 @@
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
+			<li><a class="fNiv" href="register/hacker/create.do"><spring:message
+						code="master.page.register.hacker" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -50,9 +52,9 @@
 			</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-				</ul>
-			</li>
+					<li><a href="j_spring_security_logout"><spring:message
+								code="master.page.logout" /> </a></li>
+				</ul></li>
 		</security:authorize>
 
 
