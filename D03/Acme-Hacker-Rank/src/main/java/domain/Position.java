@@ -133,15 +133,15 @@ public class Position extends DomainEntity {
 	public void setDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
-	
+
 	@Pattern(regexp = "^SUBMITTED|ACCEPTED|CANCELLED$")
 	public String getStatus() {
 		return this.status;
 	}
-	
+
 	public void setStatus(final String status) {
 		this.status = status;
-	}	
+	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods

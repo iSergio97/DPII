@@ -64,9 +64,21 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="curriculum/hacker/create.do"><spring:message
-								code="action.create" /></a></li>
+								code="action.create.curriculum" /></a></li>
 					<li><a href="curriculum/hacker/list.do"><spring:message
-								code="action.list" /></a></li>
+								code="action.list.curriculum" /></a></li>
+				</ul></li>
+		</security:authorize>
+		
+				<security:authorize access="hasRole('COMPANY')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.position" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="position/company/create.do"><spring:message
+								code="action.create.position" /></a></li>
+					<li><a href="position/company/list.do"><spring:message
+								code="action.list.position" /></a></li>
 				</ul></li>
 		</security:authorize>
 
