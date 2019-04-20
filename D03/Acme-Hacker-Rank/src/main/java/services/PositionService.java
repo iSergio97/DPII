@@ -57,6 +57,7 @@ public class PositionService extends AbstractService<Position> {
 		position.setDraft(true);
 		this.generateTicker(position);
 		position.setCompany(this.companyService.findPrincipal());
+		position.setStatus("SUBMITTED");
 
 		return position;
 	}
@@ -71,6 +72,7 @@ public class PositionService extends AbstractService<Position> {
 		posForm.setSalary(0);
 		posForm.setSkills("");
 		posForm.setTechnologies("");
+		posForm.setStatus("SUBMITTED");
 		posForm.setProblems(new ArrayList<Problem>());
 
 		return posForm;
@@ -116,11 +118,11 @@ public class PositionService extends AbstractService<Position> {
 		res.setTechnologies(position.getTechnologies());
 		res.setSalary(position.getSalary());
 		res.setDeadline(position.getDeadline());
+		res.setStatus(position.getStatus());
 		if (position.getProblems() == null)
 			res.setProblems(new ArrayList<Problem>());
 		else
 			res.setProblems(position.getProblems());
-		res.setCompany(this.companyService.findPrincipal());
 
 		this.validator.validate(res, bindingResult);
 		this.positionRepository.flush();
@@ -148,6 +150,23 @@ public class PositionService extends AbstractService<Position> {
 
 	public List<Position> findPositionsByCompany(final Company company) {
 		return this.positionRepository.findPositionsByCompany(company.getId());
+	}
+
+	public PositionForm deconstruct(final Position pos) {
+		final PositionForm pf = this.createForm();
+		pf.setTitle(pos.getTitle());
+		pf.setId(pos.getId());
+		pf.setTechnologies(pos.getTitle());
+		pf.setDescription(pos.getDescription());
+		pf.setDeadline(pos.getDeadline());
+		pf.setProfile(pf.getProfile());
+		pf.setSkills(pos.getSkills());
+		pf.setTechnologies(pos.getTechnologies());
+		pf.setSalary(pos.getSalary());
+		pf.setStatus(pos.getStatus());
+		pf.setProblems(pos.getProblems());
+
+		return pf;
 	}
 
 }

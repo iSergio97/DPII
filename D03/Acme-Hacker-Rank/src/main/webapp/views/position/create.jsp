@@ -20,6 +20,7 @@
 <form:form modelAttribute="position" action="position/company/edit.do">
 
 	<form:hidden path="id" />
+	<form:hidden path="status" />
 
 	<acme:register code="title" path="title" />
 	<acme:register code="description" path="description" />

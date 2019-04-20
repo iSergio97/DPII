@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -73,6 +75,7 @@ public class Position extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Future
 	public Date getDeadline() {
 		return this.deadline;
 	}
@@ -107,6 +110,7 @@ public class Position extends DomainEntity {
 		this.technologies = technologies;
 	}
 
+	@DecimalMin("0.0")
 	public double getSalary() {
 		return this.salary;
 	}

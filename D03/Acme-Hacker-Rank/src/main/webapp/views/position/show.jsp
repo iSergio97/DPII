@@ -31,6 +31,24 @@
 <br>
 <strong><spring:message code="salary"/></strong>: <jstl:out value="${position.salary }"/>
 <br>
+<strong><spring:message code="status"/></strong>: 
+<jstl:if test="${locale eq 'es' }">
+	<jstl:if test="${position.status eq 'SUBMITTED' }">
+		<jstl:out value="ENVIADO" />
+	</jstl:if>
+	<jstl:if test="${position.status eq 'ACCEPTED' }">
+		<jstl:out value="ACEPTADA"/>
+	</jstl:if>
+	<jstl:if test="${position.status eq 'CANCELLED' }">
+		<jstl:out value="CANCELADA"/>
+	</jstl:if>
+</jstl:if>
+
+<jstl:if test="${locale eq 'en' }">
+	<jstl:out value="${position.status }"/>
+</jstl:if>
+
+<br>
 <strong><spring:message code="problems"/></strong>: 
 <jstl:forEach var="i" items="${problems}">
 	<jstl:out value="${i.title}"/>
@@ -38,4 +56,14 @@
 </jstl:forEach>
 
 <jstl:out value="Sacar un link por cada problem para una lista más cómoda de información"/>
-<jstl:out value="Añadir botón para eliminar, otro para editar y otro para poner en modo final"/>
+
+<jstl:if test="${position.status eq 'SUBMITTED'}">
+	<a href="position/company/final.do?positionId=${position.id}"> <spring:message code="final" /> </a>
+	<br>
+	<br>
+	<a href="position/company/edit.do?positionId=${position.id}"> <spring:message code="edit" /> </a>
+</jstl:if>
+
+<jstl:if test="${position.status eq 'ACCEPTED'}">
+	<a href="position/company/cancel.do?positionId=${position.id}"> <spring:message code="canceled" /> </a>	
+</jstl:if>

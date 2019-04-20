@@ -1,8 +1,8 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 import javax.validation.ValidationException;
 
@@ -57,25 +57,33 @@ public class PositionController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
+	@RequestMapping(value = "/company/edit", method = RequestMethod.GET)
+	public ModelAndView edit(final int positionId) {
+		final ModelAndView res;
+		final Position pos = this.positionService.findOne(positionId);
+		if (!(this.companyService.findPrincipal() == null) || !(pos.getCompany() != this.companyService.findPrincipal())) {
+			final PositionForm posForm = this.positionService.deconstruct(pos);
+			res = this.createEditModelAndView(posForm);
+		} else
+			res = new ModelAndView("redirect:../welcome/index.do");
+
+		return res;
+	}
+
 	@RequestMapping(value = "/company/edit", method = RequestMethod.POST)
 	public ModelAndView edit(@ModelAttribute("position") final PositionForm positionForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		Position pos;
-		positionForm.setSalary(Double.valueOf(positionForm.getSalary()));
 
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(positionForm);
 		else
 			try {
 				pos = this.positionService.reconstruct(positionForm, bindingResult);
-				final Collection<Problem> test = new ArrayList<Problem>();
 				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-				if (company != null && (pos.getCompany().equals(company) && pos.isDraft())) {
-					pos.setProblems(test);
-					pos.setCompany(company);
+				if (company != null && (pos.getCompany().equals(company) && pos.isDraft()))
 					this.positionService.save(pos);
-				}
-				result = new ModelAndView("redirect:company/list.do");
+				result = new ModelAndView("redirect:list.do");
 			} catch (final ValidationException valExp) {
 				result = this.createEditModelAndView(positionForm);
 			} catch (final Throwable oops) {
@@ -84,30 +92,48 @@ public class PositionController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/company/final", method = RequestMethod.POST)
+	// Final -------------------------------------------------------------------
+
+	@RequestMapping(value = "/company/final", method = RequestMethod.GET)
 	public ModelAndView finalMode(final int positionId) {
 		final Position pos = this.positionService.findOne(positionId);
-		if (pos.getProblems().size() > 1)
+		if (pos != null && pos.getCompany() == this.companyService.findPrincipal() && pos.getProblems().size() > 1) {
 			pos.setDraft(false);
+			pos.setStatus("ACCEPTED");
+			this.positionService.save(pos);
+		}
+		return new ModelAndView("redirect:list.do");
+	}
 
-		return new ModelAndView("redirect:company/list.do");
+	// Cancel -------------------------------------------------------------------
+
+	@RequestMapping(value = "/company/cancel", method = RequestMethod.GET)
+	public ModelAndView cancelStatus(final int positionId) {
+		final Position pos = this.positionService.findOne(positionId);
+		if (pos != null && pos.getStatus().equals("ACCEPTED") && pos.getCompany() == this.companyService.findPrincipal()) {
+			pos.setStatus("CANCELLED");
+			this.positionService.save(pos);
+		}
+		return new ModelAndView("redirect:list.do");
 	}
 
 	// Show -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam final int positionId) {
-		ModelAndView result;
+		ModelAndView result = new ModelAndView("redirect:list.do");
 		Position position;
+		final String locale = Locale.getDefault().getLanguage();
 		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
-		if (position.getCompany() == company) {
+		if (position != null && position.getCompany() == company) {
 			result = new ModelAndView("position/company/show");
 			result.addObject("position", position);
 			result.addObject("draft", position.isDraft());
 			result.addObject("problems", position.getProblems());
-		} else
-			result = new ModelAndView("position/company/list");
+			result.addObject("locale", locale);
+		}
+
 		return result;
 	}
 
@@ -122,18 +148,6 @@ public class PositionController extends AbstractController {
 		result = new ModelAndView("position/company/list");
 
 		result.addObject("positions", pos);
-
-		return result;
-	}
-
-	@RequestMapping(value = "/company/draft", method = RequestMethod.POST)
-	public ModelAndView swapDraft(final int positionId) {
-		ModelAndView result;
-		final Position p = this.positionService.findOne(positionId);
-		final Company c = this.companyService.findPrincipal();
-		if (c == p.getCompany())
-			p.setDraft(false);
-		result = new ModelAndView("redirect:/company/list.do");
 
 		return result;
 	}
