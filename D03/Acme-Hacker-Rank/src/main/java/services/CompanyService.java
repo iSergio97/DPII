@@ -65,14 +65,16 @@ public class CompanyService {
 		final Company company = new Company();
 
 		// create user account
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.ADMINISTRATOR);
+		authority.setAuthority(Authority.COMPANY);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
+		userAccount.setPassword("");
+		userAccount.setUsername("");
+
 		// set fields
 		company.setCommercialName("");
 		company.setName("");
@@ -139,7 +141,7 @@ public class CompanyService {
 		companyForm.setHolder("");
 		companyForm.setNumber("");
 		final Date date = new Date();
-		companyForm.setExpirationMonth(date.getMonth());
+		companyForm.setExpirationMonth(date.getMonth() + 1);
 		companyForm.setExpirationYear(date.getYear() % 100);
 		companyForm.setCVV(100);
 

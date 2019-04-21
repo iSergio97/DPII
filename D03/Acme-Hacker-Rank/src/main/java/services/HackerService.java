@@ -7,6 +7,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -64,14 +65,16 @@ public class HackerService {
 		final Hacker hacker = new Hacker();
 
 		// create user account
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.ADMINISTRATOR);
+		authority.setAuthority(Authority.HACKER);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
+		userAccount.setUsername("");
+		userAccount.setPassword("");
+
 		// set fields
 		hacker.setName("");
 		hacker.setSurnames("");
@@ -136,8 +139,9 @@ public class HackerService {
 		hackerForm.setHolder("");
 		hackerForm.setBrand("");
 		hackerForm.setNumber("");
-		hackerForm.setExpirationMonth(1);
-		hackerForm.setExpirationYear(18);
+		final Date date = new Date();
+		hackerForm.setExpirationMonth(date.getMonth() + 1);
+		hackerForm.setExpirationYear(date.getYear() % 100);
 		hackerForm.setCVV(100);
 		return hackerForm;
 	}
