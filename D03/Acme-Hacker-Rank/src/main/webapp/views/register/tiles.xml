@@ -16,5 +16,28 @@
 			value="/views/register/hacker/create.jsp" />
 	</definition>
 
+	<definition name="register/hacker/edit"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/hacker/create.jsp" />
+	</definition>
+
+	<definition name="register/company/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as company" />
+		<put-attribute name="body"
+			value="/views/register/company/create.jsp" />
+	</definition>
+
+	<definition name="register/company/edit"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/company/create.jsp" />
+	</definition>
+
 
 </tiles-definitions>

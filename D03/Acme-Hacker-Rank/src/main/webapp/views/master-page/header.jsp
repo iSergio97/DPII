@@ -43,6 +43,8 @@
 						code="master.page.login" /></a></li>
 			<li><a class="fNiv" href="register/hacker/create.do"><spring:message
 						code="master.page.register.hacker" /></a></li>
+			<li><a class="fNiv" href="register/company/create.do"><spring:message
+						code="master.page.register.company" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -52,6 +54,20 @@
 			</a>
 				<ul>
 					<li class="arrow"></li>
+					<security:authorize access="hasRole('HACKER')">
+						<li><a href="register/hacker/edit.do"><spring:message
+									code="master.page.edit" /> </a></li>
+					</security:authorize>
+
+					<security:authorize access="hasRole('COMPANY')">
+						<li><a href="register/hacker/edit.do"><spring:message
+									code="master.page.edit" /> </a></li>
+					</security:authorize>
+
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="register/hacker/edit.do"><spring:message
+									code="master.page.edit" /> </a></li>
+					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 				</ul></li>
@@ -69,8 +85,8 @@
 								code="action.list.curriculum" /></a></li>
 				</ul></li>
 		</security:authorize>
-		
-				<security:authorize access="hasRole('COMPANY')">
+
+		<security:authorize access="hasRole('COMPANY')">
 			<li><a class="fNiv"><spring:message
 						code="master.page.position" /></a>
 				<ul>

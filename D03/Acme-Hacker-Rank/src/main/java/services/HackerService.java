@@ -186,7 +186,6 @@ public class HackerService {
 
 		hackerForm.setId(hacker.getId());
 		hackerForm.setName(hacker.getName());
-		// hackerForm.setSurnames(ConversionUtils.listToString(hacker.getSurnames(), ","));
 		hackerForm.setSurnames(hacker.getSurnames());
 		hackerForm.setVat(hacker.getVat());
 		hackerForm.setPhoto(hacker.getPhoto());
@@ -194,6 +193,11 @@ public class HackerService {
 		hackerForm.setPhoneNumber(hacker.getPhoneNumber());
 		hackerForm.setAddress(hacker.getAddress());
 		hackerForm.setUsername(hacker.getUserAccount().getUsername());
+		hackerForm.setHolder(hacker.getCreditCard().getHolder());
+		hackerForm.setBrand(hacker.getCreditCard().getBrand());
+		hackerForm.setNumber(hacker.getCreditCard().getNumber());
+		hackerForm.setExpirationMonth(hacker.getCreditCard().getExpirationMonth());
+		hackerForm.setExpirationYear(hacker.getCreditCard().getExpirationYear());
 
 		return hackerForm;
 	}

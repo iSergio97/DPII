@@ -57,7 +57,6 @@ public class RegisterForm {
 	}
 
 	@NotBlank
-	// Matches a list of strings with "," as an element separator, or an empty string
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getSurnames() {
 		return this.surnames;
