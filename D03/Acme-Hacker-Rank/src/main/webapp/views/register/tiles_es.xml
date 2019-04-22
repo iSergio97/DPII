@@ -23,10 +23,11 @@
 		<put-attribute name="body"
 			value="/views/register/hacker/create.jsp" />
 	</definition>
-	
-			<definition name="register/company/create"
+
+	<definition name="register/company/create"
 		extends="master.page">
-		<put-attribute name="title" value="Registrarse como empresa" />
+		<put-attribute name="title"
+			value="Registrarse como empresa" />
 		<put-attribute name="body"
 			value="/views/register/company/create.jsp" />
 	</definition>
@@ -37,6 +38,22 @@
 			value="Editar su perfil de empresa" />
 		<put-attribute name="body"
 			value="/views/register/company/create.jsp" />
+	</definition>
+
+	<definition name="register/administrator/create"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Registrarse como administrador" />
+		<put-attribute name="body"
+			value="/views/register/administrator/create.jsp" />
+	</definition>
+
+	<definition name="register/administrator/edit"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Editar su perfil de administrador" />
+		<put-attribute name="body"
+			value="/views/register/administrator/create.jsp" />
 	</definition>
 
 </tiles-definitions>

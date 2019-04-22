@@ -64,8 +64,11 @@
 									code="master.page.edit" /> </a></li>
 					</security:authorize>
 
-					<security:authorize access="hasRole('ADMIN')">
-						<li><a href="register/hacker/edit.do"><spring:message
+					<security:authorize access="hasRole('ADMINISTRATOR')">
+						<li><a href="register/administrator/create.do"><spring:message
+									code="master.page.create.admin" /> </a></li>
+
+						<li><a href="register/administrator/edit.do"><spring:message
 									code="master.page.edit" /> </a></li>
 					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message

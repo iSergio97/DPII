@@ -15,7 +15,6 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -26,29 +25,25 @@ import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 
 @Service
 @Transactional
-public class CompanyService {
+public class CompanyService extends AbstractService<Company> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Managed repository
 
 	@Autowired
-	private CompanyRepository		companyRepository;
+	private CompanyRepository	companyRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
 
 	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -91,34 +86,6 @@ public class CompanyService {
 		company.setCreditCard(null);
 
 		return company;
-	}
-
-	public Company save(final Company company) {
-		Assert.isTrue(company != null);
-		return this.companyRepository.save(company);
-	}
-
-	public Iterable<Company> save(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		return this.companyRepository.save(companys);
-	}
-
-	public void delete(final Company company) {
-		Assert.isTrue(company != null);
-		this.companyRepository.delete(company);
-	}
-
-	public void delete(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		this.companyRepository.delete(companys);
-	}
-
-	public Company findOne(final int id) {
-		return this.companyRepository.findOne(id);
-	}
-
-	public List<Company> findAll() {
-		return this.companyRepository.findAll();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

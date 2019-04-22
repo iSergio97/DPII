@@ -1,32 +1,34 @@
 /*
  * AdministratorService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Administrator;
+import domain.CreditCard;
+import forms.RegisterAdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
-import domain.Administrator;
-import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
-public class AdministratorService {
+public class AdministratorService extends AbstractService<Administrator> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Managed repository
@@ -36,9 +38,6 @@ public class AdministratorService {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
@@ -61,14 +60,16 @@ public class AdministratorService {
 		final Administrator administrator = new Administrator();
 
 		// create user account
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
 		authority.setAuthority(Authority.ADMINISTRATOR);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
+		userAccount.setUsername("");
+		userAccount.setPassword("");
+		administrator.setUserAccount(userAccount);
 		// set fields
 		administrator.setName("");
 		administrator.setSurnames("");
@@ -80,37 +81,9 @@ public class AdministratorService {
 		administrator.setAddress("");
 		administrator.setIsFlagged(false);
 		administrator.setIsBanned(false);
+
 		// set relationships
-		administrator.setUserAccount(userAccount);
 		return administrator;
-	}
-
-	public Administrator save(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		return this.administratorRepository.save(administrator);
-	}
-
-	public Iterable<Administrator> save(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		return this.administratorRepository.save(administrators);
-	}
-
-	public void delete(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		this.administratorRepository.delete(administrator);
-	}
-
-	public void delete(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		this.administratorRepository.delete(administrators);
-	}
-
-	public Administrator findOne(final int id) {
-		return this.administratorRepository.findOne(id);
-	}
-
-	public List<Administrator> findAll() {
-		return this.administratorRepository.findAll();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +102,12 @@ public class AdministratorService {
 		administratorForm.setUsername("");
 		administratorForm.setPassword("");
 		administratorForm.setConfirmPassword("");
+		administratorForm.setCVV(100);
+		administratorForm.setBrand("");
+		administratorForm.setHolder("");
+		final Date date = new Date();
+		administratorForm.setExpirationMonth(date.getMonth() + 1);
+		administratorForm.setExpirationYear(date.getYear() % 100);
 
 		return administratorForm;
 	}
@@ -142,15 +121,33 @@ public class AdministratorService {
 			result = this.administratorRepository.findOne(administratorForm.getId());
 
 		result.setName(administratorForm.getName());
+		result.setSurnames(administratorForm.getSurnames());
 		result.setVat(administratorForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
 		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
 		result.setPhoneNumber(administratorForm.getPhoneNumber());
 		result.setAddress(administratorForm.getAddress());
 
+		result.getUserAccount().setUsername(administratorForm.getUsername());
+		result.getUserAccount().setPassword(administratorForm.getPassword());
+
+		final CreditCard cc = new CreditCard();
+		cc.setHolder(administratorForm.getHolder());
+		cc.setBrand(administratorForm.getBrand());
+		cc.setNumber(administratorForm.getNumber());
+		cc.setExpirationMonth(administratorForm.getExpirationMonth());
+		cc.setExpirationYear(administratorForm.getExpirationYear());
+		cc.setCVV(administratorForm.getCVV());
+
+		result.setCreditCard(cc);
+
+		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
+		this.administratorRepository.flush();
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
@@ -159,14 +156,21 @@ public class AdministratorService {
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
-		// administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
-		administratorForm.setSurnames(administratorForm.getSurnames());
+		administratorForm.setSurnames(administrator.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());
 		administratorForm.setPhoneNumber(administrator.getPhoneNumber());
 		administratorForm.setAddress(administrator.getAddress());
+
 		administratorForm.setUsername(administrator.getUserAccount().getUsername());
+		administratorForm.setPassword(administrator.getUserAccount().getPassword());
+
+		administratorForm.setHolder(administrator.getCreditCard().getHolder());
+		administratorForm.setBrand(administrator.getCreditCard().getBrand());
+		administratorForm.setNumber(administrator.getCreditCard().getNumber());
+		administratorForm.setExpirationMonth(administrator.getCreditCard().getExpirationMonth());
+		administratorForm.setExpirationYear(administrator.getCreditCard().getExpirationYear());
 
 		return administratorForm;
 	}

@@ -15,7 +15,6 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -26,29 +25,25 @@ import repositories.HackerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 
 @Service
 @Transactional
-public class HackerService {
+public class HackerService extends AbstractService<Hacker> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Managed repository
 
 	@Autowired
-	private HackerRepository		hackerRepository;
+	private HackerRepository	hackerRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
 
 	@Autowired
-	private Validator				validator;
+	private Validator			validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -90,34 +85,6 @@ public class HackerService {
 		hacker.setCreditCard(null);
 
 		return hacker;
-	}
-
-	public Hacker save(final Hacker hacker) {
-		Assert.isTrue(hacker != null);
-		return this.hackerRepository.save(hacker);
-	}
-
-	public Iterable<Hacker> save(final Iterable<Hacker> hackers) {
-		Assert.isTrue(hackers != null);
-		return this.hackerRepository.save(hackers);
-	}
-
-	public void delete(final Hacker hacker) {
-		Assert.isTrue(hacker != null);
-		this.hackerRepository.delete(hacker);
-	}
-
-	public void delete(final Iterable<Hacker> hackers) {
-		Assert.isTrue(hackers != null);
-		this.hackerRepository.delete(hackers);
-	}
-
-	public Hacker findOne(final int id) {
-		return this.hackerRepository.findOne(id);
-	}
-
-	public List<Hacker> findAll() {
-		return this.hackerRepository.findAll();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
