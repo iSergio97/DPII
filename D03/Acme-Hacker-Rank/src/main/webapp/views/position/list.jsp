@@ -27,7 +27,7 @@
 		<jstl:out value="${row.description}" />
 	</display:column>
 	
-	<display:column property="info">
+	<display:column>
 		<a href="position/company/show.do?positionId=${row.id}" ><spring:message code="show"/></a>
 	</display:column>
 

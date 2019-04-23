@@ -66,8 +66,6 @@
 	<br>
 </jstl:forEach>
 
-<jstl:out
-	value="Sacar un link por cada problem para una lista m�s c�moda de informaci�n" />
 
 <jstl:if test="${position.status eq 'SUBMITTED'}">
 	<a href="position/company/final.do?positionId=${position.id}"> <spring:message
