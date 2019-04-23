@@ -88,7 +88,7 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 
 	public PersonalDataForm deconstruct(final PersonalData pData) {
 		final PersonalDataForm pdForm = this.createForm();
-		final Curriculum cr = this.curriculumService.findCurriculumByPDId(pdForm.getId());
+		final Curriculum cr = this.curriculumService.findCurriculumByPDId(pData.getId());
 
 		pdForm.setCurriculumName(cr.getName());
 		pdForm.setFullName(pData.getFullName());

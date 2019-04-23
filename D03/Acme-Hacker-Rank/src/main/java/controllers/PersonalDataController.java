@@ -44,18 +44,6 @@ public class PersonalDataController {
 		super();
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
-		final ModelAndView result;
-		PersonalDataForm pdForm;
-		pdForm = this.personalDataService.createForm();
-
-		result = this.createEditModelAndView(pdForm);
-
-		return result;
-
-	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute("personalData") final PersonalDataForm personalData, final BindingResult bindingResult) {
 		ModelAndView result;
@@ -107,7 +95,7 @@ public class PersonalDataController {
 		else {
 			final PersonalData pd = this.personalDataService.findOne(personalDataID);
 			final PersonalDataForm pdForm = this.personalDataService.deconstruct(pd);
-			result = new ModelAndView("personal-data/hacker/edit");
+			result = this.createEditModelAndView(pdForm);
 			result.addObject("personalData", pdForm);
 		}
 		return result;
@@ -120,7 +108,7 @@ public class PersonalDataController {
 	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("personal-data/hacker/create");
+		result = new ModelAndView("personal-data/hacker/edit");
 
 		result.addObject("personalData", pdForm);
 

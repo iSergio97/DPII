@@ -29,11 +29,9 @@
 	<!-- Buttons -->
 
 	<acme:submit name="save" code="action.save"/>
-	<!--
 	<jstl:if test="${miscellaneousData.id ne 0}">
 		<acme:submit name="delete" code="action.delete"/>
 	</jstl:if>
-	-->
 	<acme:cancel url="welcome/index.do" code="action.cancel"/>
 
 </form:form>

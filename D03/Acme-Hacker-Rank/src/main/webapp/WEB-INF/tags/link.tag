@@ -1,5 +1,5 @@
 <%--
- * register.tag
+ * showField.tag
  *
  * Copyright (C) Group 16 DP II
  * 
@@ -19,15 +19,18 @@
 
 <%-- Attributes --%> 
  
-<%@ attribute name="path" required="true" rtexprvalue="true" %>
+<%@ attribute name="value" required="true" rtexprvalue="true" %>
 <%@ attribute name="code" required="true" rtexprvalue="true" %>
 
 <%-- Definition --%>
 
 <div>
-	<form:label path="${path}">
-		<strong><spring:message code="${code}" />:</strong>
-	</form:label>
-	<form:input path="${path}"/>
-	<form:errors path="${path}" cssClass="error" />
+	<strong>
+		<spring:message code="${code}"/>:
+	</strong>
+	<jstl:if test="${empty value}">
+		<jstl:out value="N/A"/>
+	</jstl:if>
+		<a href="${value}"><jstl:out value="${value}"/></a>
+	<br>
 </div>

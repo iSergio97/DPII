@@ -16,9 +16,11 @@ import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PersonalData;
 import domain.PositionData;
+import forms.PersonalDataForm;
 import security.LoginService;
 import services.CurriculumService;
 import services.HackerService;
+import services.PersonalDataService;
 
 @Controller
 @RequestMapping("/curriculum/hacker")
@@ -30,9 +32,24 @@ public class CurriculumController {
 	@Autowired
 	private HackerService		hackerService;
 
+	@Autowired
+	private PersonalDataService	personalDataService;
+
 
 	public CurriculumController() {
 		super();
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		final ModelAndView result;
+		PersonalDataForm pdForm;
+		pdForm = this.personalDataService.createForm();
+
+		result = this.createEditModelAndView(pdForm);
+
+		return result;
+
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -73,6 +90,21 @@ public class CurriculumController {
 		result.addObject("personalDatas", pDatas);
 
 		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm) {
+		return this.createEditModelAndView(pdForm, null);
+	}
+
+	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("curriculum/hacker/create");
+
+		result.addObject("personalData", pdForm);
+
+		return result;
+
 	}
 
 }

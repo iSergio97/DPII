@@ -8,22 +8,14 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<strong> <jstl:out value="${crName}"/> </strong>
-<br>
-<br>
-
-
-<spring:message code="personalData.fullName"/>: <jstl:out value="${personalData.fullName}"/>
-<br>
-<spring:message code="personalData.phoneNumber"/>: <jstl:out value="${personalData.phoneNumber}"/>
-<br>
-<spring:message code="personalData.gitHubProfile"/>: <a href="${personalData.gitHubProfile}"> <jstl:out value="${personalData.gitHubProfile}"/> </a>
-<br>
-<spring:message code="personalData.linkedInProfile"/>: <a href="${personalData.linkedInProfile}"> <jstl:out value="${personalData.linkedInProfile}"/> </a>
-<br>
-<spring:message code="personalData.statement"/>: <jstl:out value="${personalData.statement}"/>
-<br>
-<br>
+<h2>
+	<jstl:out value="${crName}"/>: <spring:message code="personalData"/>
+</h2>
+	<acme:field code="personalData.fullName" value="${personalData.fullName}"/>
+	<acme:field code="personalData.phoneNumber" value="${personalData.phoneNumber}"/>
+	<acme:link code="personalData.gitHubProfile" value="${personalData.gitHubProfile}"/>
+	<acme:link code="personalData.linkedInProfile" value="${personalData.linkedInProfile}"/>
+	<acme:field code="personalData.statement" value="${personalData.statement}"/>
 
 <a href="personal-data/hacker/edit.do?personalDataID=${personalData.id}">
 <spring:message code="editPD"/>
@@ -32,14 +24,21 @@
 <br>
 <br>
 
+<h2>
+	<spring:message code="miscellaneousData"/>
+</h2>
 <display:table name="misData" id="row">
 
-	<display:column titleKey="freeText">
+	<display:column titleKey="miscellaneousData.freeText">
 		<jstl:out value="${row.freeText}" />
 	</display:column>
 	
-	<display:column titleKey="attachments">
+	<display:column titleKey="miscellaneousData.attachments">
 		<jstl:out value="${row.attachments}" />
+	</display:column>
+	
+	<display:column titleKey="blank">
+		<a href="miscellaneous-data/hacker/edit.do?miscellaneousDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
@@ -47,25 +46,28 @@
 <br>
 <br>
 
+<h2>
+	<spring:message code="educationData"/>
+</h2>
 <display:table name="eDatas" id="row">
 
-	<display:column titleKey="degree">
+	<display:column titleKey="educationData.degree">
 		<jstl:out value="${row.degree}" />
 	</display:column>
 	
-	<display:column titleKey="institution">
+	<display:column titleKey="educationData.institution">
 		<jstl:out value="${row.institution}" />
 	</display:column>
 	
-	<display:column titleKey="mark">
+	<display:column titleKey="educationData.mark">
 		<jstl:out value="${row.mark}" />
 	</display:column>
 	
-	<display:column titleKey="startDate">
+	<display:column titleKey="educationData.startDate">
 		<jstl:out value="${row.startDate}" />
 	</display:column>
 	
-	<display:column titleKey="endDate">
+	<display:column titleKey="educationData.endDate">
 		<jstl:out value="${row.endDate}" />
 	</display:column>
 
@@ -73,21 +75,24 @@
 <br>
 <br>
 
+<h2>
+	<spring:message code="positionData"/>
+</h2>
 <display:table name="personalDatas" id="row">
 
-	<display:column titleKey="title">
+	<display:column titleKey="positionData.title">
 		<jstl:out value="${row.title}" />
 	</display:column>
 	
-	<display:column titleKey="description">
+	<display:column titleKey="positionData.description">
 		<jstl:out value="${row.description}" />
 	</display:column>
 	
-	<display:column titleKey="startDate">
+	<display:column titleKey="positionData.startDate">
 		<jstl:out value="${row.startDate}" />
 	</display:column>
 	
-	<display:column titleKey="endDate">
+	<display:column titleKey="positionData.endDate">
 		<jstl:out value="${row.endDate}" />
 	</display:column>
 

@@ -163,8 +163,15 @@ public class MiscellaneousDataController {
 				if (LoginService.getPrincipal().getId() != miscellaneousDataOwnerId)
 					result = new ModelAndView("redirect:/welcome/index.do");
 				else {
+					// Remove miscellaneousData from Curriculum
+					final Curriculum c = this.curriculumService.findOne(miscellaneousDataForm.getCurriculumId());
+					final Collection<MiscellaneousData> md = c.getMiscellaneousData();
+					md.remove(miscellaneousData);
+					c.setMiscellaneousData(md);
+					this.curriculumService.save(c);
+					// Delete miscellaneousData
 					this.miscellaneousDataService.delete(miscellaneousData);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:/curriculum/hacker/list.do");
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "parade.commit.error", "edit");

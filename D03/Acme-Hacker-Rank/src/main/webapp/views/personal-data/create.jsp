@@ -2,7 +2,8 @@
  * personal-data/create.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
- * @author Sergio Garrido Domï¿½nguez
+ * @author Sergio Garrido Domínguez
+ * @author José Antonio Domínguez Gómez
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -11,10 +12,9 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
 <form:form modelAttribute="personalData"
@@ -22,13 +22,24 @@
 
 	<form:hidden path="id" />
 
-	<acme:register code="curriculumName" path="curriculumName" />
-	<acme:register code="fullName" path="fullName" />
-	<acme:register code="ghProf" path="gitHubProfile" />
-	<acme:register code="liProf" path="linkedInProfile" />
-	<acme:register code="phoneNumber" path="phoneNumber" />
-	<acme:register code="statement" path="statement" />
+	<h2>
+		<spring:message code="curriculum.fields" />
+	</h2>
+		<acme:register code="curriculum.name" path="curriculumName" />
 
-	<acme:submit name="save" code="save" />
-	<acme:cancel url="welcome/index.do" code="cancel" />
+	<h2>
+		<spring:message code="personalData.fields" />
+	</h2>
+		<acme:register path="fullName" code="personalData.fullName" />
+		<acme:register path="gitHubProfile" code="personalData.gitHubProfile" />
+		<acme:register path="linkedInProfile" code="personalData.linkedInProfile" />
+		<acme:register path="phoneNumber" code="personalData.phoneNumber" />
+		<acme:register path="statement" code="personalData.statement" />
+
+	<acme:submit name="save" code="action.save" />
+	<jstl:if test="${personalData.id ne 0}">
+		<acme:submit name="delete" code="action.delete"/>
+	</jstl:if>
+	<acme:cancel url="welcome/index.do" code="action.cancel" />
+
 </form:form>
