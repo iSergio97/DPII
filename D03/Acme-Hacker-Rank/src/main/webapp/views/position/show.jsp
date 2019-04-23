@@ -47,7 +47,7 @@
 <jstl:if test="${locale eq 'en' }">
 	<jstl:out value="${position.status }"/>
 </jstl:if>
-
+<%-- Corregir con Spring message --%>
 <br>
 <strong><spring:message code="problems"/></strong>: 
 <jstl:forEach var="i" items="${problems}">

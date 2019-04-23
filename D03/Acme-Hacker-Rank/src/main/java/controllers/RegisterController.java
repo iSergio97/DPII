@@ -80,6 +80,8 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
+		//Corregir fecha de validación
+		//Calendar
 		if (registerHackerForm.getExpirationMonth() < date.getMonth() && registerHackerForm.getExpirationYear() < (date.getYear() % 100))
 			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
 

@@ -6,6 +6,9 @@
 
 package repositories;
 
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Application;
@@ -13,4 +16,6 @@ import domain.Application;
 @Repository
 public interface ApplicationRepository extends AbstractRepository<Application> {
 
+	@Query("select a from Application a where a.hacker.id = ?1")
+	Collection<Application> findByHackerId(int id);
 }
