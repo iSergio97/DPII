@@ -15,7 +15,7 @@
 
 	<definition name="education-data/hacker/create" extends="master.page">
 		<put-attribute name="title" value="Create Education Data" />
-		<put-attribute name="body" value="/views/education-data/create.jsp" />
+		<put-attribute name="body" value="/views/education-data/edit.jsp" />
 	</definition>
 	
 	<definition name="education-data/hacker/edit" extends="master.page">

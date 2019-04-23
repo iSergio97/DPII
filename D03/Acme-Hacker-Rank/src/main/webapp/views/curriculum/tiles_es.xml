@@ -11,7 +11,7 @@
 
 	<definition name="curriculum/hacker/create" extends="master.page">
 		<put-attribute name="title" value="Crear Currículum" />
-		<put-attribute name="body" value="/views/curriculum/create.jsp" />
+		<put-attribute name="body" value="/views/curriculum/edit.jsp" />
 	</definition>
 
 	<definition name="curriculum/hacker/list" extends="master.page">

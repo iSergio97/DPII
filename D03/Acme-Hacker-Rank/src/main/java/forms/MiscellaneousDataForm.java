@@ -1,9 +1,6 @@
 
 package forms;
 
-import javax.persistence.ElementCollection;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 public class MiscellaneousDataForm {
@@ -23,8 +20,6 @@ public class MiscellaneousDataForm {
 		this.freeText = freeText;
 	}
 
-	@ElementCollection
-	@NotNull
 	public String getAttachments() {
 		return this.attachments;
 	}

@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +13,7 @@ import repositories.EducationDataRepository;
 
 @Service
 @Transactional
-public class EducationDataService extends AbstractService<EducationData>{
+public class EducationDataService extends AbstractService<EducationData> {
 
 	@Autowired
 	private EducationDataRepository educationDataRepository;
@@ -40,35 +38,60 @@ public class EducationDataService extends AbstractService<EducationData>{
 		return this.educationDataRepository.save(pDatas);
 	}
 
-	public EducationDataForm createForm() {
-		final EducationDataForm pdForm = new EducationDataForm();
+	////////////////////////////////////////////////////////////////////////////////
+	// Additional methods
 
-		pdForm.setDegree("");
-		pdForm.setInstitution("");
-		pdForm.setMark(0.);
-		return pdForm;
+	public int findOwner(final int educationDataId) {
+		return this.educationDataRepository.findOwner(educationDataId);
 	}
 
-	public EducationData reconstructForm(final EducationDataForm pdForm, final BindingResult bindingResult) {
+	public int findCurriculum(final int educationDataId) {
+		return this.educationDataRepository.findCurriculum(educationDataId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public EducationDataForm createForm(final EducationData educationData) {
+		final EducationDataForm educationDataForm = new EducationDataForm();
+		educationDataForm.setDegree(educationData.getDegree());
+		educationDataForm.setInstitution(educationData.getInstitution());
+		educationDataForm.setMark(educationData.getMark());
+		educationDataForm.setStartDate(educationData.getStartDate());
+		educationDataForm.setEndDate(educationData.getEndDate());
+		educationDataForm.setId(educationData.getId());
+		return educationDataForm;
+	}
+
+	public EducationDataForm createForm() {
+		final EducationDataForm edForm = new EducationDataForm();
+
+		edForm.setDegree("");
+		edForm.setInstitution("");
+		edForm.setMark(0.);
+		return edForm;
+	}
+
+	public EducationData reconstruct(final EducationDataForm edForm, final BindingResult bindingResult) {
 		EducationData result;
 
-		if (pdForm.getId() == 0)
+		if (edForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.educationDataRepository.findOne(pdForm.getId());
+			result = this.educationDataRepository.findOne(edForm.getId());
 
-		result.setDegree(pdForm.getDegree());
-		result.setEndDate(pdForm.getEndDate());
-		result.setStartDate(pdForm.getStartDate());
-		result.setInstitution(pdForm.getInstitution());
-		result.setMark(pdForm.getMark());
+		result.setDegree(edForm.getDegree());
+		result.setEndDate(edForm.getEndDate());
+		result.setStartDate(edForm.getStartDate());
+		result.setInstitution(edForm.getInstitution());
+		result.setMark(edForm.getMark());
 
 		return result;
 	}
 
 	public EducationDataForm deconstruct(final EducationData pData) {
-		final EducationDataForm pdForm = this.createForm();
+		final EducationDataForm edForm = this.createForm();
 
-		return pdForm;
+		return edForm;
 	}
 }

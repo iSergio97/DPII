@@ -36,26 +36,9 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		return miscellaneousData;
 	}
 
-	public MiscellaneousDataForm createForm(final MiscellaneousData miscellaneousData) {
-		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
-		miscellaneousDataForm.setAttachments(miscellaneousData.getAttachments());
-		miscellaneousDataForm.setFreeText(miscellaneousData.getFreeText());
-		miscellaneousDataForm.setId(miscellaneousData.getId());
-		return miscellaneousDataForm;
-	}
-
 	public Iterable<MiscellaneousData> save(final Iterable<MiscellaneousData> datas) {
 		Assert.isTrue(datas != null);
 		return this.miscellaneousDataRepository.save(datas);
-	}
-
-	public MiscellaneousDataForm createForm() {
-		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
-
-		miscellaneousDataForm.setAttachments("");
-		miscellaneousDataForm.setFreeText("");
-
-		return miscellaneousDataForm;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +54,23 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
+
+	public MiscellaneousDataForm createForm(final MiscellaneousData miscellaneousData) {
+		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
+		miscellaneousDataForm.setAttachments(miscellaneousData.getAttachments());
+		miscellaneousDataForm.setFreeText(miscellaneousData.getFreeText());
+		miscellaneousDataForm.setId(miscellaneousData.getId());
+		return miscellaneousDataForm;
+	}
+
+	public MiscellaneousDataForm createForm() {
+		final MiscellaneousDataForm miscellaneousDataForm = new MiscellaneousDataForm();
+
+		miscellaneousDataForm.setAttachments("");
+		miscellaneousDataForm.setFreeText("");
+
+		return miscellaneousDataForm;
+	}
 
 	public MiscellaneousData reconstruct(final MiscellaneousDataForm miscellaneousDataForm, final BindingResult binding) {
 		final MiscellaneousData result;

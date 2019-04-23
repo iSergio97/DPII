@@ -171,7 +171,7 @@ public class MiscellaneousDataController {
 					this.curriculumService.save(c);
 					// Delete miscellaneousData
 					this.miscellaneousDataService.delete(miscellaneousData);
-					result = new ModelAndView("redirect:/curriculum/hacker/list.do");
+					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "parade.commit.error", "edit");

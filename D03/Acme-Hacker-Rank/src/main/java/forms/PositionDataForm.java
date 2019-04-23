@@ -8,14 +8,12 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class EducationDataForm {
+public class PositionDataForm {
 
-	private String	degree;
-	private String	institution;
-	private double	mark;
+	private String	title;
+	private String	description;
 	private Date	startDate;
 	private Date	endDate;
 	private int		id;
@@ -23,30 +21,21 @@ public class EducationDataForm {
 
 
 	@NotBlank
-	public String getDegree() {
-		return this.degree;
+	public String getTitle() {
+		return this.title;
 	}
 
-	public void setDegree(final String degree) {
-		this.degree = degree;
+	public void setTitle(final String title) {
+		this.title = title;
 	}
 
 	@NotBlank
-	public String getInstitution() {
-		return this.institution;
+	public String getDescription() {
+		return this.description;
 	}
 
-	@Range(min = 0, max = 10)
-	public void setInstitution(final String institution) {
-		this.institution = institution;
-	}
-
-	public double getMark() {
-		return this.mark;
-	}
-
-	public void setMark(final double mark) {
-		this.mark = mark;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	@NotNull
@@ -60,6 +49,7 @@ public class EducationDataForm {
 		this.startDate = startDate;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndDate() {
