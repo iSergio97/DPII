@@ -45,6 +45,8 @@
 						code="master.page.register.hacker" /></a></li>
 			<li><a class="fNiv" href="register/company/create.do"><spring:message
 						code="master.page.register.company" /></a></li>
+			<li><a class="fNiv" href="position/all/list.do"><spring:message
+						code="master.page.list.company" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">

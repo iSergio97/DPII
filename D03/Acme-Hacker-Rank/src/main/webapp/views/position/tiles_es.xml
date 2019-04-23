@@ -35,4 +35,19 @@
 		<put-attribute name="body"
 			value="/views/position/create.jsp" />
 	</definition>
+	
+		<definition name="position/all/show"
+		extends="master.page">
+		<put-attribute name="title" value="Información" />
+		<put-attribute name="body"
+			value="/views/position/showP.jsp" />
+	</definition>
+	
+	<definition name="position/all/list"
+		extends="master.page">
+		<put-attribute name="title" value="Editar datos de posición" />
+		<put-attribute name="body"
+			value="/views/position/listP.jsp" />
+	</definition>
+	
 </tiles-definitions>

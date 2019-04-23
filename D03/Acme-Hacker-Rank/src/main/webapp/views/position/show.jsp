@@ -2,7 +2,7 @@
  * position/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
- * @author Sergio Garrido Domínguez
+ * @author Sergio Garrido DomÃ­nguez
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -17,53 +17,71 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<strong><spring:message code="title"/></strong>: <jstl:out value="${position.title }"/>
+<strong><spring:message code="title" /></strong>
+:
+<jstl:out value="${position.title }" />
 <br>
-<strong><spring:message code="description"/></strong>: <jstl:out value="${position.description }"/>
+<strong><spring:message code="description" /></strong>
+:
+<jstl:out value="${position.description }" />
 <br>
-<strong><spring:message code="deadline"/></strong>: <jstl:out value="${position.deadline }"/>
+<strong><spring:message code="deadline" /></strong>
+:
+<jstl:out value="${position.deadline }" />
 <br>
-<strong><spring:message code="profile"/></strong>: <jstl:out value="${position.profile }"/>
+<strong><spring:message code="profile" /></strong>
+:
+<jstl:out value="${position.profile }" />
 <br>
-<strong><spring:message code="skills"/></strong>: <jstl:out value="${position.skills }"/>
+<strong><spring:message code="skills" /></strong>
+:
+<jstl:out value="${position.skills }" />
 <br>
-<strong><spring:message code="technologies"/></strong>: <jstl:out value="${position.technologies}"/>
+<strong><spring:message code="technologies" /></strong>
+:
+<jstl:out value="${position.technologies}" />
 <br>
-<strong><spring:message code="salary"/></strong>: <jstl:out value="${position.salary }"/>
+<strong><spring:message code="salary" /></strong>
+:
+<jstl:out value="${position.salary }" />
 <br>
-<strong><spring:message code="status"/></strong>: 
-<jstl:if test="${locale eq 'es' }">
-	<jstl:if test="${position.status eq 'SUBMITTED' }">
-		<jstl:out value="ENVIADO" />
-	</jstl:if>
-	<jstl:if test="${position.status eq 'ACCEPTED' }">
-		<jstl:out value="ACEPTADA"/>
-	</jstl:if>
-	<jstl:if test="${position.status eq 'CANCELLED' }">
-		<jstl:out value="CANCELADA"/>
-	</jstl:if>
+<strong><spring:message code="status" /></strong>
+:
+<jstl:if test="${position.status eq 'SUBMITTED' }">
+	<jstl:out value="ENVIADO" />
+	<spring:message code="status.submitted" />
 </jstl:if>
-
-<jstl:if test="${locale eq 'en' }">
-	<jstl:out value="${position.status }"/>
+<jstl:if test="${position.status eq 'ACCEPTED' }">
+	<spring:message code="status.accepted" />
+</jstl:if>
+<jstl:if test="${position.status eq 'CANCELLED' }">
+	<spring:message code="status.cancelled"/>
 </jstl:if>
 <%-- Corregir con Spring message --%>
 <br>
-<strong><spring:message code="problems"/></strong>: 
+<strong><spring:message code="problems" /></strong>
+:
 <jstl:forEach var="i" items="${problems}">
-	<jstl:out value="${i.title}"/>
+	<jstl:out value="${i.title}" />
 	<br>
 </jstl:forEach>
 
-<jstl:out value="Sacar un link por cada problem para una lista más cómoda de información"/>
+<jstl:out
+	value="Sacar un link por cada problem para una lista mï¿½s cï¿½moda de informaciï¿½n" />
 
 <jstl:if test="${position.status eq 'SUBMITTED'}">
-	<a href="position/company/final.do?positionId=${position.id}"> <spring:message code="final" /> </a>
+	<a href="position/company/final.do?positionId=${position.id}"> <spring:message
+			code="final" />
+	</a>
 	<br>
 	<br>
-	<a href="position/company/edit.do?positionId=${position.id}"> <spring:message code="edit" /> </a>
+	<a href="position/company/edit.do?positionId=${position.id}"> <spring:message
+			code="edit" />
+	</a>
 </jstl:if>
 
 <jstl:if test="${position.status eq 'ACCEPTED'}">
-	<a href="position/company/cancel.do?positionId=${position.id}"> <spring:message code="canceled" /> </a>	
+	<a href="position/company/cancel.do?positionId=${position.id}"> <spring:message
+			code="canceled" />
+	</a>
 </jstl:if>

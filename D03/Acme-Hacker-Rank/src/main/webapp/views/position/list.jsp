@@ -19,15 +19,15 @@
 
 <display:table name="positions" id="row">
 
-	<display:column titleKey="title">
+	<display:column property="title">
 		<jstl:out value="${row.title}" />
 	</display:column>
 	
-	<display:column titleKey="description">
+	<display:column property="description">
 		<jstl:out value="${row.description}" />
 	</display:column>
 	
-	<display:column titleKey="info">
+	<display:column property="info">
 		<a href="position/company/show.do?positionId=${row.id}" ><spring:message code="show"/></a>
 	</display:column>
 

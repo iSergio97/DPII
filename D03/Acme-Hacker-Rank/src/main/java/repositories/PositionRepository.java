@@ -6,6 +6,7 @@
 
 package repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,7 @@ public interface PositionRepository extends AbstractRepository<Position> {
 
 	@Query("select p from Position p join p.company c where c.id = ?1")
 	List<Position> findPositionsByCompany(int id);
+
+	@Query("select p from Position p join p.company c where c.id = ?1 and p.status = 'ACCEPTED'")
+	Collection<Position> findPositionForPublicAndCompany(int id);
 }

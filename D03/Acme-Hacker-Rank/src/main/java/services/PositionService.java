@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -150,6 +151,10 @@ public class PositionService extends AbstractService<Position> {
 
 	public List<Position> findPositionsByCompany(final Company company) {
 		return this.positionRepository.findPositionsByCompany(company.getId());
+	}
+
+	public Collection<Position> findPositionsForPublic(final Company company) {
+		return this.positionRepository.findPositionForPublicAndCompany(company.getId());
 	}
 
 	public PositionForm deconstruct(final Position pos) {

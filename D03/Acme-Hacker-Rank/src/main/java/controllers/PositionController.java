@@ -152,6 +152,32 @@ public class PositionController extends AbstractController {
 		return result;
 	}
 
+	// Public list ------------------------------------------------------------
+	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
+	public ModelAndView publicList() {
+		ModelAndView res;
+		final Collection<Company> companies = this.companyService.findAll();
+
+		res = new ModelAndView("position/all/list");
+		res.addObject("companies", companies);
+
+		return res;
+
+	}
+
+	// Public show ------------------------------------------------------------
+
+	@RequestMapping(value = "/all/show", method = RequestMethod.GET)
+	public ModelAndView publicShow(@RequestParam final int companyId) {
+		ModelAndView res;
+		final Company company = this.companyService.findOne(companyId);
+		final Collection<Position> positions = this.positionService.findPositionsForPublic(company);
+
+		res = new ModelAndView("position/all/show");
+		res.addObject("positions", positions);
+		return res;
+	}
+
 	// Ancillary Methods ------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final PositionForm position) {

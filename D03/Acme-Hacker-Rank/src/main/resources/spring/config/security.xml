@@ -37,6 +37,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/welcome/termsAndConditions.do" access="permitAll" />
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />
+		<security:intercept-url pattern="/positon/all/**" access="permitAll" />
 
 
 		<!-- [HACKER] -->
