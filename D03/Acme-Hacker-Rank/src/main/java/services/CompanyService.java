@@ -178,6 +178,7 @@ public class CompanyService extends AbstractService<Company> {
 		companyForm.setNumber(company.getCreditCard().getNumber());
 		companyForm.setExpirationMonth(company.getCreditCard().getExpirationMonth());
 		companyForm.setExpirationYear(company.getCreditCard().getExpirationYear());
+		companyForm.setCVV(company.getCreditCard().getCVV());
 
 		return companyForm;
 	}

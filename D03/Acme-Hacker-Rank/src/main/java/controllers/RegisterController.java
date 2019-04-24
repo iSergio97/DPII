@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -73,17 +74,29 @@ public class RegisterController {
 		return this.createEditModelAndView(rhf);
 	}
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/hacker/edit", method = RequestMethod.POST)
 	public ModelAndView registerHackerPost(@ModelAttribute("hacker") final RegisterHackerForm registerHackerForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Hacker hacker2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
-		final Date date = new Date();
-		//Corregir fecha de validación
-		//Calendar
-		if (registerHackerForm.getExpirationMonth() < date.getMonth() && registerHackerForm.getExpirationYear() < (date.getYear() % 100))
-			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+		final Calendar calendar = Calendar.getInstance();
+		final Date date = calendar.getTime();
+
+		if (registerHackerForm.getExpirationYear() < (date.getYear() % 100) && registerHackerForm.getExpirationMonth() < date.getMonth()) {
+			if (registerHackerForm.getExpirationYear() < date.getYear() % 100) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the actual year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+
+			if (registerHackerForm.getExpirationMonth() < date.getMonth()) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the actual month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
 
 		if (registerHackerForm.getId() == 0) {
 			if (usernames.contains(registerHackerForm.getUsername())) {

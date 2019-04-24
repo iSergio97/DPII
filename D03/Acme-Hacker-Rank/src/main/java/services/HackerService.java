@@ -169,6 +169,7 @@ public class HackerService extends AbstractService<Hacker> {
 		hackerForm.setNumber(hacker.getCreditCard().getNumber());
 		hackerForm.setExpirationMonth(hacker.getCreditCard().getExpirationMonth());
 		hackerForm.setExpirationYear(hacker.getCreditCard().getExpirationYear());
+		hackerForm.setCVV(hacker.getCreditCard().getCVV());
 
 		return hackerForm;
 	}
