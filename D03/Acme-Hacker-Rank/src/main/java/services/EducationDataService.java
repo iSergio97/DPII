@@ -1,56 +1,20 @@
 
 package services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.EducationDataRepository;
 import domain.EducationData;
 import forms.EducationDataForm;
-import repositories.EducationDataRepository;
 
 @Service
 @Transactional
-public class EducationDataService extends AbstractService<EducationData> {
-
-	@Autowired
-	private EducationDataRepository educationDataRepository;
-
-
-	public EducationDataService() {
-		super();
-	}
-
-	public EducationData create() {
-		final EducationData eData = new EducationData();
-
-		eData.setDegree("");
-		eData.setInstitution("");
-		eData.setMark(0.);
-
-		return eData;
-	}
-
-	public Iterable<EducationData> save(final Iterable<EducationData> pDatas) {
-		Assert.isTrue(pDatas != null);
-		return this.educationDataRepository.save(pDatas);
-	}
+public class EducationDataService extends AbstractService<EducationDataRepository, EducationData> {
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Additional methods
-
-	public int findOwner(final int educationDataId) {
-		return this.educationDataRepository.findOwner(educationDataId);
-	}
-
-	public int findCurriculum(final int educationDataId) {
-		return this.educationDataRepository.findCurriculum(educationDataId);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Ancillary methods
+	// Form methods
 
 	public EducationDataForm createForm(final EducationData educationData) {
 		final EducationDataForm educationDataForm = new EducationDataForm();
@@ -78,7 +42,7 @@ public class EducationDataService extends AbstractService<EducationData> {
 		if (edForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.educationDataRepository.findOne(edForm.getId());
+			result = this.repository.findOne(edForm.getId());
 
 		result.setDegree(edForm.getDegree());
 		result.setEndDate(edForm.getEndDate());
@@ -94,4 +58,26 @@ public class EducationDataService extends AbstractService<EducationData> {
 
 		return edForm;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public EducationData copy(final EducationData educationData) {
+		final EducationData copy = this.create();
+		copy.setDegree(educationData.getDegree());
+		copy.setInstitution(educationData.getInstitution());
+		copy.setMark(educationData.getMark());
+		copy.setStartDate(educationData.getStartDate());
+		copy.setEndDate(educationData.getEndDate());
+		return this.save(copy);
+	}
+
+	public int findOwner(final int educationDataId) {
+		return this.repository.findOwner(educationDataId);
+	}
+
+	public int findCurriculum(final int educationDataId) {
+		return this.repository.findCurriculum(educationDataId);
+	}
+
 }

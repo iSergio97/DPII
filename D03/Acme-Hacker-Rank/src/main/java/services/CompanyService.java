@@ -1,6 +1,6 @@
 /*
  * CompanyService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,33 +16,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
-import domain.Company;
-import domain.CreditCard;
-import forms.RegisterCompanyForm;
 import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Company;
+import domain.CreditCard;
+import forms.RegisterCompanyForm;
 
 @Service
 @Transactional
-public class CompanyService extends AbstractService<Company> {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private CompanyRepository	companyRepository;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
+public class CompanyService extends AbstractService<CompanyRepository, Company> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
 
 	@Autowired
-	private Validator			validator;
+	private Validator	validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +133,7 @@ public class CompanyService extends AbstractService<Company> {
 
 		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
-		this.companyRepository.flush();
+		this.repository.flush();
 
 		if (bindingResult.hasErrors())
 			throw new ValidationException();

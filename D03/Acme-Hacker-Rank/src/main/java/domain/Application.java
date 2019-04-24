@@ -1,6 +1,6 @@
 /*
  * Application.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -97,11 +97,8 @@ public class Application extends DomainEntity {
 		this.status = status;
 	}
 
-	@URL
-	@NotBlank
-	public String getCodeLink() {
-		return this.codeLink;
-	}
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -129,18 +126,9 @@ public class Application extends DomainEntity {
 		return this.hacker;
 	}
 
-	@NotBlank
-	@Pattern(regexp = "^ACCEPTED|REJECTED|PENDING|SUBMITTED$")
-	public String getStatus() {
-		return this.status;
+	public void setHacker(final Hacker hacker) {
+		this.hacker = hacker;
 	}
-
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
 
 	@Valid
 	@OneToOne
@@ -150,26 +138,6 @@ public class Application extends DomainEntity {
 
 	public void setCurriculum(final Curriculum curriculum) {
 		this.curriculum = curriculum;
-	}
-
-	@Valid
-	@ManyToOne
-	public Position getPosition() {
-		return this.position;
-	}
-
-	public void setPosition(final Position position) {
-		this.position = position;
-	}
-
-	@Valid
-	@ManyToOne(optional = true)
-	public Hacker getHacker() {
-		return this.hacker;
-	}
-
-	public void setHacker(final Hacker hacker) {
-		this.hacker = hacker;
 	}
 
 }

@@ -85,7 +85,7 @@ public class PersonalDataController {
 	public ModelAndView edit(@RequestParam final int personalDataID) {
 		ModelAndView result;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Curriculum> cl = this.curriculumService.findCurriculumsByHacker(hacker);
+		final Collection<Curriculum> cl = this.curriculumService.findCurriculaByHacker(hacker);
 		final List<Integer> ls = new ArrayList<>();
 		for (final Curriculum c : cl)
 			ls.add(c.getPersonalData().getId());

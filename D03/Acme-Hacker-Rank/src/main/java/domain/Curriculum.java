@@ -1,6 +1,6 @@
 /*
  * Curriculum.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -24,6 +24,7 @@ public class Curriculum extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
+
 	private String							name;
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +38,7 @@ public class Curriculum extends DomainEntity {
 
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
+	// Field access methods
 
 	@NotBlank
 	public String getName() {
@@ -48,7 +49,10 @@ public class Curriculum extends DomainEntity {
 		this.name = name;
 	}
 
-	@OneToOne
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
+
+	@OneToOne(optional = true)
 	@Valid
 	public Hacker getHacker() {
 		return this.hacker;

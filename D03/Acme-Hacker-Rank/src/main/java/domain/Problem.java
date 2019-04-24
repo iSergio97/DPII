@@ -22,11 +22,11 @@ public class Problem extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String				title;
-	private String				statement;
-	private String				hint;
-	private String				attachments;
-	private boolean				isDraft;
+	private String	title;
+	private String	statement;
+	private String	hint;
+	private String	attachments;
+	private boolean	isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -72,11 +72,11 @@ public class Problem extends DomainEntity {
 		this.attachments = attachments;
 	}
 
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return this.isDraft;
 	}
 
-	public void setDraft(final boolean isDraft) {
+	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 

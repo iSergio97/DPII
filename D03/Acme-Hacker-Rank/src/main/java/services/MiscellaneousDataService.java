@@ -4,53 +4,20 @@ package services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.MiscellaneousDataRepository;
 import domain.MiscellaneousData;
 import forms.MiscellaneousDataForm;
-import repositories.MiscellaneousDataRepository;
 
 @Service
 @Transactional
-public class MiscellaneousDataService extends AbstractService<MiscellaneousData> {
+public class MiscellaneousDataService extends AbstractService<MiscellaneousDataRepository, MiscellaneousData> {
 
 	@Autowired
-	private MiscellaneousDataRepository	miscellaneousDataRepository;
+	private Validator	validator;
 
-	@Autowired
-	private Validator					validator;
-
-
-	public MiscellaneousDataService() {
-		super();
-	}
-
-	public MiscellaneousData create() {
-		final MiscellaneousData miscellaneousData = new MiscellaneousData();
-
-		miscellaneousData.setAttachments("");
-		miscellaneousData.setFreeText("");
-
-		return miscellaneousData;
-	}
-
-	public Iterable<MiscellaneousData> save(final Iterable<MiscellaneousData> datas) {
-		Assert.isTrue(datas != null);
-		return this.miscellaneousDataRepository.save(datas);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Additional methods
-
-	public int findOwner(final int miscellaneousDataId) {
-		return this.miscellaneousDataRepository.findOwner(miscellaneousDataId);
-	}
-
-	public int findCurriculum(final int miscellaneousDataId) {
-		return this.miscellaneousDataRepository.findCurriculum(miscellaneousDataId);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
@@ -78,7 +45,7 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		if (miscellaneousDataForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.miscellaneousDataRepository.findOne(miscellaneousDataForm.getId());
+			result = this.repository.findOne(miscellaneousDataForm.getId());
 
 		result.setAttachments(miscellaneousDataForm.getAttachments());
 		result.setFreeText(miscellaneousDataForm.getFreeText());
@@ -96,6 +63,24 @@ public class MiscellaneousDataService extends AbstractService<MiscellaneousData>
 		form.setFreeText(mData.getFreeText());
 
 		return form;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public MiscellaneousData copy(final MiscellaneousData miscellaneousData) {
+		final MiscellaneousData copy = this.create();
+		copy.setFreeText(miscellaneousData.getFreeText());
+		copy.setAttachments(miscellaneousData.getAttachments());
+		return this.save(copy);
+	}
+
+	public int findOwner(final int miscellaneousDataId) {
+		return this.repository.findOwner(miscellaneousDataId);
+	}
+
+	public int findCurriculum(final int miscellaneousDataId) {
+		return this.repository.findCurriculum(miscellaneousDataId);
 	}
 
 }

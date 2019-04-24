@@ -6,49 +6,24 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PersonalDataRepository;
 import domain.Curriculum;
 import domain.PersonalData;
 import forms.PersonalDataForm;
-import repositories.PersonalDataRepository;
 
 @Service
 @Transactional
-public class PersonalDataService extends AbstractService<PersonalData> {
+public class PersonalDataService extends AbstractService<PersonalDataRepository, PersonalData> {
 
 	@Autowired
-	private PersonalDataRepository	personalDataRepository;
+	private Validator			validator;
 
 	@Autowired
-	private Validator				validator;
+	private CurriculumService	curriculumService;
 
-	@Autowired
-	private CurriculumService		curriculumService;
-
-
-	public PersonalDataService() {
-		super();
-	}
-
-	public PersonalData create() {
-		final PersonalData pData = new PersonalData();
-
-		pData.setFullName("");
-		pData.setGitHubProfile("");
-		pData.setLinkedInProfile("");
-		pData.setPhoneNumber("");
-		pData.setStatement("");
-
-		return pData;
-	}
-
-	public Iterable<PersonalData> save(final Iterable<PersonalData> pDatas) {
-		Assert.isTrue(pDatas != null);
-		return this.personalDataRepository.save(pDatas);
-	}
 
 	public PersonalDataForm createForm() {
 		final PersonalDataForm pdForm = new PersonalDataForm();
@@ -69,7 +44,7 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 		if (pdForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.personalDataRepository.findOne(pdForm.getId());
+			result = this.repository.findOne(pdForm.getId());
 
 		result.setFullName(pdForm.getFullName());
 		result.setGitHubProfile(pdForm.getGitHubProfile());
@@ -99,6 +74,19 @@ public class PersonalDataService extends AbstractService<PersonalData> {
 		pdForm.setStatement(pData.getStatement());
 
 		return pdForm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public PersonalData copy(final PersonalData personalData) {
+		final PersonalData copy = this.create();
+		copy.setFullName(personalData.getFullName());
+		copy.setStatement(personalData.getStatement());
+		copy.setPhoneNumber(personalData.getPhoneNumber());
+		copy.setGitHubProfile(personalData.getGitHubProfile());
+		copy.setLinkedInProfile(personalData.getLinkedInProfile());
+		return this.save(copy);
 	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * HackerService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,33 +16,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
-import domain.CreditCard;
-import domain.Hacker;
-import forms.RegisterHackerForm;
 import repositories.HackerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.CreditCard;
+import domain.Hacker;
+import forms.RegisterHackerForm;
 
 @Service
 @Transactional
-public class HackerService extends AbstractService<Hacker> {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private HackerRepository	hackerRepository;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
+public class HackerService extends AbstractService<HackerRepository, Hacker> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
 
 	@Autowired
-	private Validator			validator;
+	private Validator	validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////

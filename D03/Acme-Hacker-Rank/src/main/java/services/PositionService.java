@@ -15,19 +15,16 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PositionRepository;
+import security.LoginService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
-import repositories.PositionRepository;
-import security.LoginService;
 
 @Service
 @Transactional
-public class PositionService extends AbstractService<Position> {
-
-	@Autowired
-	private PositionRepository	positionRepository;
+public class PositionService extends AbstractService<PositionRepository, Position> {
 
 	@Autowired
 	private Validator			validator;
@@ -35,7 +32,7 @@ public class PositionService extends AbstractService<Position> {
 	@Autowired
 	private CompanyService		companyService;
 
-	private static final int	TICKER_LENGTH	= 5;
+	private static final int	TICKER_LENGTH	= 4;
 	private final Random		random			= new Random();
 	private static final String	TICKER_NUMBER	= "0123456789";
 
@@ -44,6 +41,7 @@ public class PositionService extends AbstractService<Position> {
 		super();
 	}
 
+	@Override
 	public Position create() {
 		Position position;
 		position = new Position();
@@ -55,7 +53,7 @@ public class PositionService extends AbstractService<Position> {
 		position.setSkills("");
 		position.setTechnologies("");
 		position.setSalary(0);
-		position.setDraft(true);
+		position.setIsDraft(true);
 		this.generateTicker(position);
 		position.setCompany(this.companyService.findPrincipal());
 		position.setStatus("SUBMITTED");
@@ -82,9 +80,10 @@ public class PositionService extends AbstractService<Position> {
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
-	public Iterable<Position> save(final Iterable<Position> positions) {
+	@Override
+	public List<Position> save(final Iterable<Position> positions) {
 		Assert.isTrue(positions != null);
-		return this.positionRepository.save(positions);
+		return this.repository.save(positions);
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class PositionService extends AbstractService<Position> {
 
 		while (res == null || res.getId() == 0)
 			try {
-				res = this.positionRepository.save(position);
+				res = this.repository.save(position);
 			} catch (final Throwable ops) {
 				this.generateTicker(position);
 			}
@@ -110,7 +109,7 @@ public class PositionService extends AbstractService<Position> {
 		if (position.getId() == 0)
 			res = this.create();
 		else
-			res = this.positionRepository.findOne(position.getId());
+			res = this.repository.findOne(position.getId());
 
 		res.setTitle(position.getTitle());
 		res.setDescription(position.getDescription());
@@ -126,7 +125,7 @@ public class PositionService extends AbstractService<Position> {
 			res.setProblems(position.getProblems());
 
 		this.validator.validate(res, bindingResult);
-		this.positionRepository.flush();
+		this.repository.flush();
 		if (bindingResult.hasErrors())
 			throw new ValidationException();
 
@@ -141,20 +140,20 @@ public class PositionService extends AbstractService<Position> {
 		do
 			for (int i = 0; i < PositionService.TICKER_LENGTH; ++i)
 				ticker += PositionService.TICKER_NUMBER.charAt(this.random.nextInt(PositionService.TICKER_NUMBER.length()));
-		while (this.positionRepository.findByTicker(ticker).size() > 0);
+		while (this.repository.findByTicker(ticker).size() > 0);
 		position.setTicker(ticker);
 	}
 
 	public List<Problem> findProblemsByCompany(final Company company) {
-		return this.positionRepository.findProblemsBycompany(company.getId());
+		return this.repository.findProblemsBycompany(company.getId());
 	}
 
 	public List<Position> findPositionsByCompany(final Company company) {
-		return this.positionRepository.findPositionsByCompany(company.getId());
+		return this.repository.findPositionsByCompany(company.getId());
 	}
 
 	public Collection<Position> findPositionsForPublic(final Company company) {
-		return this.positionRepository.findPositionForPublicAndCompany(company.getId());
+		return this.repository.findPositionForPublicAndCompany(company.getId());
 	}
 
 	public PositionForm deconstruct(final Position pos) {

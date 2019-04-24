@@ -8,8 +8,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
@@ -79,20 +78,10 @@
 			<li><a class="fNiv" href="socialprofile/actor/list.do"><spring:message code="master.page.socialProfile" /></a></li>
 		</security:authorize>
 
-
-		<security:authorize access="hasRole('HACKER')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.curriculum" /></a>
-
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="curriculum/hacker/create.do"><spring:message
-								code="action.create.curriculum" /></a></li>
-					<li><a href="curriculum/hacker/list.do"><spring:message
-								code="action.list.curriculum" /></a></li>
-				</ul></li>
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="administrator/systemconfiguration.do"><spring:message code="master.page.administrator.systemconfiguration" /></a></li>
 					<li><a href="register/administrator/create.do"><spring:message code="master.page.administrator.register" /></a></li>
@@ -101,25 +90,25 @@
 		</security:authorize>
 
 		<security:authorize access="hasRole('COMPANY')">
-			<li><a class="fNiv"><spring:message
-						code="master.page.position" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.company" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="position/company/create.do"><spring:message code="action.create.position" /></a></li>
+					<li><a href="position/company/list.do"><spring:message code="action.list.position" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
 
 		<security:authorize access="hasRole('HACKER')">
 			<li><a class="fNiv"><spring:message	code="master.page.hacker" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="position/company/create.do"><spring:message
-								code="action.create.position" /></a></li>
-					<li><a href="position/company/list.do"><spring:message
-								code="action.list.position" /></a></li>
-				</ul></li>
-					<li><a href="application/hacker/list.do"><spring:message code="master.page.hacker.applications" /></a></li>
+					<li><a href="curriculum/hacker/create.do"><spring:message code="action.create.curriculum" /></a></li>
+					<li><a href="curriculum/hacker/list.do"><spring:message code="action.list.curriculum" /></a></li>
+					<li><a href="application/hacker/list.do"><spring:message code="action.list.application" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
-
-
-
 	</ul>
 </div>
 

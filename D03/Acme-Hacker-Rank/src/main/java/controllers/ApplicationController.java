@@ -117,7 +117,7 @@ public class ApplicationController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		result = new ModelAndView("application/hacker/create");
 
-		final Collection<Curriculum> curricula = this.curriculumService.getCurriculaOfHacker(hacker);
+		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByHacker(hacker);
 		if (curricula.size() == 0)
 			return new ModelAndView("redirect:/welcome/index.do");
 

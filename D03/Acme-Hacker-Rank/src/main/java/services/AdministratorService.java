@@ -1,6 +1,6 @@
 /*
  * AdministratorService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -12,28 +12,21 @@ import java.util.List;
 
 import javax.validation.ValidationException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import domain.Administrator;
-import domain.CreditCard;
-import forms.RegisterAdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Administrator;
+import domain.CreditCard;
+import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
-public class AdministratorService extends AbstractService<Administrator> {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
+public class AdministratorService extends AbstractService<AdministratorRepository, Administrator> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
@@ -127,7 +120,7 @@ public class AdministratorService extends AbstractService<Administrator> {
 
 		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
-		this.administratorRepository.flush();
+		this.repository.flush();
 
 		if (bindingResult.hasErrors())
 			throw new ValidationException();

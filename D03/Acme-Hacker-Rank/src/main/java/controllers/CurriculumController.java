@@ -56,7 +56,7 @@ public class CurriculumController {
 	public ModelAndView list() {
 		final ModelAndView result;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Curriculum> curricula = this.curriculumService.findCurriculumsByHacker(hacker);
+		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByHacker(hacker);
 
 		result = new ModelAndView("curriculum/hacker/list");
 		result.addObject("curricula", curricula);

@@ -17,7 +17,7 @@ import domain.Curriculum;
 public interface CurriculumRepository extends AbstractRepository<Curriculum> {
 
 	@Query("select c from Curriculum c join c.hacker h where h.id = ?1")
-	Collection<Curriculum> findCurriculumsByHacker(int id);
+	Collection<Curriculum> findCurriculaByHacker(int id);
 
 	@Query("select c from Curriculum c join c.personalData p where p.id = ?1")
 	Curriculum findCurriculumByPDId(int id);

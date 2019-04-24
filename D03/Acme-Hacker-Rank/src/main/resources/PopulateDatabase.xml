@@ -362,6 +362,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
+		<property name="commercialName" value="A.R.G.U.S." />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
@@ -471,6 +472,7 @@
 	<!-- Curricula -->
 
 	<bean id="curriculum1" class="domain.Curriculum">
+		<property name="name" value="Sergio Hackerman" />
 		<property name="hacker" ref="hacker1" />
 		<property name="personalData" ref="personalData1" />
 		<property name="positionData">
@@ -515,12 +517,7 @@
 
 	<bean id="miscellaneousData1" class="domain.MiscellaneousData">
 		<property name="freeText" value="Example text" />
-		<property name="attachments">
-			<list>
-				<value>Example attachment 1</value>
-				<value>Example attachment 2</value>
-			</list>
-		</property>
+		<property name="attachments" value="Example attachments" />
 	</bean>
 
 	<!-- Positions -->
@@ -533,7 +530,7 @@
 		<property name="skills" value="Example skills" />
 		<property name="technologies" value="Example technologies" />
 		<property name="salary" value="1000.00" />
-		<property name="ticker" value="AAAAAA-00001" />
+		<property name="ticker" value="AAAA-0001" />
 		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 		<property name="problems">
@@ -550,17 +547,16 @@
 		<property name="statement" value="Example statement" />
 		<property name="hint" value="Example hint" />
 		<property name="attachments" value="Attachments" />
-		<property name="isDraft" value="true" />
+		<property name="isDraft" value="true" /> 
 		<property name="company" ref="company1" />
 	</bean>
 
-		<property name="commercialName" value="A.R.G.U.S." />
 	<bean id="problem2" class="domain.Problem">
 		<property name="title" value="Example title 2" />
 		<property name="statement" value="Example statement 2" />
 		<property name="hint" value="Example hint 2" />
 		<property name="attachments" value="Attachments 2" />
-		<property name="draft" value="false" />
+		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
 
@@ -569,79 +565,71 @@
 		<property name="statement" value="Example statement 3" />
 		<property name="hint" value="Example hint 3" />
 		<property name="attachments" value="Attachments 3" />
-		<property name="draft" value="false" />
+		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem4" class="domain.Problem">
 		<property name="title" value="Example title 4" />
 		<property name="statement" value="Example statement 4" />
 		<property name="hint" value="Example hint 4" />
 		<property name="attachments" value="Attachments 4" />
-		<property name="draft" value="true" />
+		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem5" class="domain.Problem">
 		<property name="title" value="Example title 5" />
 		<property name="statement" value="Example statement 5" />
 		<property name="hint" value="Example hint 5" />
 		<property name="attachments" value="Attachments 5" />
-		<property name="draft" value="true" />
+		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem6" class="domain.Problem">
 		<property name="title" value="Example title 6" />
 		<property name="statement" value="Example statement 6" />
 		<property name="hint" value="Example hint 6" />
 		<property name="attachments" value="Attachments 6" />
-		<property name="draft" value="true" />
+		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem7" class="domain.Problem">
 		<property name="title" value="Example title 7" />
 		<property name="statement" value="Example statement 7" />
 		<property name="hint" value="Example hint 7" />
 		<property name="attachments" value="Attachments 7" />
-		<property name="draft" value="false" />
+		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem8" class="domain.Problem">
 		<property name="title" value="Example title 8" />
 		<property name="statement" value="Example statement 8" />
 		<property name="hint" value="Example hint 8" />
 		<property name="attachments" value="Attachments 8" />
-		<property name="draft" value="true" />
+		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem9" class="domain.Problem">
 		<property name="title" value="Example title 9" />
 		<property name="statement" value="Example statement 9" />
 		<property name="hint" value="Example hint 9" />
 		<property name="attachments" value="Attachments 9" />
-		<property name="draft" value="false" />
+		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 	<bean id="problem10" class="domain.Problem">
 		<property name="title" value="Example title 10" />
 		<property name="statement" value="Example statement 10" />
 		<property name="hint" value="Example hint 10" />
 		<property name="attachments" value="Attachments 10" />
-		<property name="draft" value="false" />
+		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
 	</bean>
-
 
 </beans>

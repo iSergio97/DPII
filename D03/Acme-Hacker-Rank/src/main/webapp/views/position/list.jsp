@@ -29,6 +29,7 @@
 	
 	<display:column>
 		<a href="position/company/show.do?positionId=${row.id}" ><spring:message code="show"/></a>
+		<a href="application/company/list.do?positionId=${row.id}" ><spring:message code="application"/></a>
 	</display:column>
 
 </display:table>

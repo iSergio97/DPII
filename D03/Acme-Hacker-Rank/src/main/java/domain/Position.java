@@ -1,6 +1,6 @@
 /*
  * Position.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -24,7 +24,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -121,7 +120,7 @@ public class Position extends DomainEntity {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^([A-Z]){4}-([\\d]){5}$")
+	@Pattern(regexp = "^([A-Z]){4}-([\\d]){4}$")
 	@Column(unique = true)
 	public String getTicker() {
 		return this.ticker;
@@ -131,11 +130,11 @@ public class Position extends DomainEntity {
 		this.ticker = ticker;
 	}
 
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return this.isDraft;
 	}
 
-	public void setDraft(final boolean isDraft) {
+	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 

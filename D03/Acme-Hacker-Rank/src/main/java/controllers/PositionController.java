@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.CompanyService;
+import services.PositionService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
-import security.LoginService;
-import services.CompanyService;
-import services.PositionService;
 
 @Controller
 @RequestMapping("/position")
@@ -34,9 +34,9 @@ public class PositionController extends AbstractController {
 	@Autowired
 	private CompanyService	companyService;
 
+
 	//@Autowired
 	//private ProblemService	problemService;
-
 
 	public PositionController() {
 		super();
@@ -81,7 +81,7 @@ public class PositionController extends AbstractController {
 			try {
 				pos = this.positionService.reconstruct(positionForm, bindingResult);
 				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-				if (company != null && (pos.getCompany().equals(company) && pos.isDraft()))
+				if (company != null && (pos.getCompany().equals(company) && pos.getIsDraft()))
 					this.positionService.save(pos);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final ValidationException valExp) {
@@ -98,7 +98,7 @@ public class PositionController extends AbstractController {
 	public ModelAndView finalMode(final int positionId) {
 		final Position pos = this.positionService.findOne(positionId);
 		if (pos != null && pos.getCompany() == this.companyService.findPrincipal() && pos.getProblems().size() > 1) {
-			pos.setDraft(false);
+			pos.setIsDraft(false);
 			pos.setStatus("ACCEPTED");
 			this.positionService.save(pos);
 		}
@@ -129,7 +129,7 @@ public class PositionController extends AbstractController {
 		if (position != null && position.getCompany() == company) {
 			result = new ModelAndView("position/company/show");
 			result.addObject("position", position);
-			result.addObject("draft", position.isDraft());
+			result.addObject("draft", position.getIsDraft());
 			result.addObject("problems", position.getProblems());
 			result.addObject("locale", locale);
 		}

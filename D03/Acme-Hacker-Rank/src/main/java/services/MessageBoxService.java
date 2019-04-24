@@ -8,37 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import repositories.MessageBoxRepository;
 import domain.Actor;
 import domain.MessageBox;
-import repositories.MessageBoxRepository;
 
 @Service
 @Transactional
-public class MessageBoxService extends AbstractService<MessageBox> {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private MessageBoxRepository	messageBoxRepository;
-
-	@Autowired
-	private ActorService			actorService;
+public class MessageBoxService extends AbstractService<MessageBoxRepository, MessageBox> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Supporting services
 
+	@Autowired
+	private ActorService	actorService;
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public MessageBoxService() {
-		super();
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public MessageBox create() {
 		final MessageBox messageBox = new MessageBox();
 		messageBox.setActor(this.actorService.findPrincipal());
@@ -80,6 +68,6 @@ public class MessageBoxService extends AbstractService<MessageBox> {
 	}
 
 	public List<MessageBox> messageFromActor(final Actor a) {
-		return this.messageBoxRepository.messageFromActor(a.getId());
+		return this.repository.messageFromActor(a.getId());
 	}
 }

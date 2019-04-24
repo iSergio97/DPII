@@ -7,22 +7,21 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
+import repositories.CurriculumRepository;
+import security.LoginService;
 import domain.Curriculum;
 import domain.EducationData;
 import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PositionData;
-import repositories.CurriculumRepository;
-import security.LoginService;
 
 @Service
 @Transactional
-public class CurriculumService extends AbstractService<Curriculum> {
+public class CurriculumService extends AbstractService<CurriculumRepository, Curriculum> {
 
-	@Autowired
-	private CurriculumRepository		curriculumRepository;
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
 
 	@Autowired
 	private HackerService				hackerService;
@@ -34,13 +33,16 @@ public class CurriculumService extends AbstractService<Curriculum> {
 	private MiscellaneousDataService	miscellaneousDataService;
 
 	@Autowired
+	private PersonalDataService			personalDataService;
+
+	@Autowired
 	private PositionDataService			positionDataService;
 
 
-	public CurriculumService() {
-		super();
-	}
+	////////////////////////////////////////////////////////////////////////////////
+	// CRUD methods
 
+	@Override
 	public Curriculum create() {
 		final Curriculum curriculum = new Curriculum();
 		curriculum.setName("");
@@ -51,19 +53,6 @@ public class CurriculumService extends AbstractService<Curriculum> {
 		curriculum.setPositionData(new ArrayList<PositionData>());
 
 		return curriculum;
-	}
-
-	public Iterable<Curriculum> save(final Iterable<Curriculum> curriculum) {
-		Assert.isTrue(curriculum != null);
-		return this.curriculumRepository.save(curriculum);
-	}
-
-	public Collection<Curriculum> findCurriculumsByHacker(final Hacker hacker) {
-		return this.curriculumRepository.findCurriculumsByHacker(hacker.getId());
-	}
-
-	public Curriculum findCurriculumByPDId(final int id) {
-		return this.curriculumRepository.findCurriculumByPDId(id);
 	}
 
 	public void saveAllCr(final Curriculum cr) {
@@ -77,10 +66,42 @@ public class CurriculumService extends AbstractService<Curriculum> {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Additional methods
+	// Ancillary methods
+
+	public Curriculum copy(final Curriculum curriculum) {
+		final Curriculum copy = this.create();
+		copy.setHacker(curriculum.getHacker());
+		// Copy personal data
+		copy.setPersonalData(this.personalDataService.copy(curriculum.getPersonalData()));
+		// Copy position data
+		final ArrayList<PositionData> copiedPositionData = new ArrayList<>();
+		for (final PositionData positionData : curriculum.getPositionData())
+			copiedPositionData.add(this.positionDataService.copy(positionData));
+		copy.setPositionData(copiedPositionData);
+		// Copy education data
+		final ArrayList<EducationData> copiedEducationData = new ArrayList<>();
+		for (final EducationData educationData : curriculum.getEducationData())
+			copiedEducationData.add(this.educationDataService.copy(educationData));
+		copy.setEducationData(copiedEducationData);
+		// Copy miscellaneous data
+		final ArrayList<MiscellaneousData> copiedMiscellaneousData = new ArrayList<>();
+		for (final MiscellaneousData miscellaneousData : curriculum.getMiscellaneousData())
+			copiedMiscellaneousData.add(this.miscellaneousDataService.copy(miscellaneousData));
+		copy.setMiscellaneousData(copiedMiscellaneousData);
+
+		return this.save(copy);
+	}
+
+	public Collection<Curriculum> findCurriculaByHacker(final Hacker hacker) {
+		return this.repository.findCurriculaByHacker(hacker.getId());
+	}
+
+	public Curriculum findCurriculumByPDId(final int id) {
+		return this.repository.findCurriculumByPDId(id);
+	}
 
 	public int findOwner(final int curriculumId) {
-		return this.curriculumRepository.findOwner(curriculumId);
+		return this.repository.findOwner(curriculumId);
 	}
 
 }

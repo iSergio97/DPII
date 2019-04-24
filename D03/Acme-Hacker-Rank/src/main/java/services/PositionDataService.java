@@ -4,52 +4,20 @@ package services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PositionDataRepository;
 import domain.PositionData;
 import forms.PositionDataForm;
-import repositories.PositionDataRepository;
 
 @Service
 @Transactional
-public class PositionDataService extends AbstractService<PositionData> {
+public class PositionDataService extends AbstractService<PositionDataRepository, PositionData> {
 
 	@Autowired
-	private PositionDataRepository	positionDataRepository;
+	private Validator	validator;
 
-	@Autowired
-	private Validator				validator;
-
-
-	public PositionDataService() {
-		super();
-	}
-
-	public PositionData create() {
-		final PositionData pd = new PositionData();
-		pd.setDescription("");
-		pd.setTitle("");
-
-		return pd;
-	}
-
-	public Iterable<PositionData> save(final Iterable<PositionData> pd) {
-		Assert.isTrue(pd != null);
-		return this.positionDataRepository.save(pd);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Additional methods
-
-	public int findOwner(final int positionDataId) {
-		return this.positionDataRepository.findOwner(positionDataId);
-	}
-
-	public int findCurriculum(final int positionDataId) {
-		return this.positionDataRepository.findCurriculum(positionDataId);
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
@@ -70,7 +38,7 @@ public class PositionDataService extends AbstractService<PositionData> {
 		if (positionDataForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.positionDataRepository.findOne(positionDataForm.getId());
+			result = this.repository.findOne(positionDataForm.getId());
 
 		result.setTitle(positionDataForm.getTitle());
 		result.setDescription(positionDataForm.getDescription());
@@ -81,4 +49,25 @@ public class PositionDataService extends AbstractService<PositionData> {
 
 		return result;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public PositionData copy(final PositionData positionData) {
+		final PositionData copy = this.create();
+		copy.setTitle(positionData.getTitle());
+		copy.setDescription(positionData.getDescription());
+		copy.setStartDate(positionData.getStartDate());
+		copy.setEndDate(positionData.getEndDate());
+		return this.save(copy);
+	}
+
+	public int findOwner(final int positionDataId) {
+		return this.repository.findOwner(positionDataId);
+	}
+
+	public int findCurriculum(final int positionDataId) {
+		return this.repository.findCurriculum(positionDataId);
+	}
+
 }
