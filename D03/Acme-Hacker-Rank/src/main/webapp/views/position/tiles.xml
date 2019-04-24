@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- * misc/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing II -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="position/company/create"
+		extends="master.page">
+		<put-attribute name="title" value="Create a position" />
+		<put-attribute name="body"
+			value="/views/position/create.jsp" />
+	</definition>
+
+	<definition name="position/company/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Position list" />
+		<put-attribute name="body"
+			value="/views/position/list.jsp" />
+	</definition>
+
+	<definition name="position/company/show"
+		extends="master.page">
+		<put-attribute name="title" value="Information" />
+		<put-attribute name="body"
+			value="/views/position/show.jsp" />
+	</definition>
+	
+	<definition name="position/company/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit position" />
+		<put-attribute name="body"
+			value="/views/position/create.jsp" />
+	</definition>
+	
+		<definition name="position/all/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Position list" />
+		<put-attribute name="body"
+			value="/views/position/listP.jsp" />
+	</definition>
+
+	<definition name="position/all/show"
+		extends="master.page">
+		<put-attribute name="title" value="Information" />
+		<put-attribute name="body"
+			value="/views/position/showP.jsp" />
+	</definition>
+
+</tiles-definitions>

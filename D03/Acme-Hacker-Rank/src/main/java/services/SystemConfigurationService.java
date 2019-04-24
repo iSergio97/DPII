@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.SystemConfigurationRepository;
-import utilities.ConversionUtils;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
+import repositories.SystemConfigurationRepository;
+import utilities.ConversionUtils;
 
 @Service
 @Transactional

@@ -1,6 +1,6 @@
 /*
  * Position.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -41,6 +43,7 @@ public class Position extends DomainEntity {
 	private double				salary;
 	private String				ticker;
 	private boolean				isDraft;
+	private String				status;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -73,6 +76,7 @@ public class Position extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Future
 	public Date getDeadline() {
 		return this.deadline;
 	}
@@ -107,6 +111,7 @@ public class Position extends DomainEntity {
 		this.technologies = technologies;
 	}
 
+	@DecimalMin("0.0")
 	public double getSalary() {
 		return this.salary;
 	}
@@ -116,7 +121,7 @@ public class Position extends DomainEntity {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^([A-Z]){6}-([\\d]){5}$")
+	@Pattern(regexp = "^([A-Z]){4}-([\\d]){5}$")
 	@Column(unique = true)
 	public String getTicker() {
 		return this.ticker;
@@ -126,12 +131,21 @@ public class Position extends DomainEntity {
 		this.ticker = ticker;
 	}
 
-	public boolean getIsDraft() {
+	public boolean isDraft() {
 		return this.isDraft;
 	}
 
-	public void setIsDraft(final boolean isDraft) {
+	public void setDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
+	}
+
+	@Pattern(regexp = "^SUBMITTED|ACCEPTED|CANCELLED$")
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(final String status) {
+		this.status = status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +163,6 @@ public class Position extends DomainEntity {
 
 	@ManyToMany
 	@Valid
-	@NotEmpty
 	public Collection<Problem> getProblems() {
 		return this.problems;
 	}

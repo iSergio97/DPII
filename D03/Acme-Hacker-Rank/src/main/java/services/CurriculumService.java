@@ -1,8 +1,3 @@
-/*
- * CurriculumService.java
- * 
- * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
- */
 
 package services;
 
@@ -12,60 +7,80 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import repositories.CurriculumRepository;
 import domain.Curriculum;
 import domain.EducationData;
 import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PositionData;
+import repositories.CurriculumRepository;
+import security.LoginService;
 
 @Service
 @Transactional
-public class CurriculumService extends AbstractService<CurriculumRepository, Curriculum> {
+public class CurriculumService extends AbstractService<Curriculum> {
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
+	@Autowired
+	private CurriculumRepository		curriculumRepository;
+
+	@Autowired
+	private HackerService				hackerService;
 
 	@Autowired
 	private EducationDataService		educationDataService;
+
 	@Autowired
 	private MiscellaneousDataService	miscellaneousDataService;
-	@Autowired
-	private PersonalDataService			personalDataService;
+
 	@Autowired
 	private PositionDataService			positionDataService;
 
 
-	////////////////////////////////////////////////////////////////////////////////
-	// Ancillary methods
-
-	public Curriculum copy(final Curriculum curriculum) {
-		final Curriculum copy = this.create();
-		copy.setHacker(curriculum.getHacker());
-		// Copy personal data
-		copy.setPersonalData(this.personalDataService.copy(curriculum.getPersonalData()));
-		// Copy position data
-		final ArrayList<PositionData> copiedPositionData = new ArrayList<>();
-		for (final PositionData positionData : curriculum.getPositionData())
-			copiedPositionData.add(this.positionDataService.copy(positionData));
-		copy.setPositionData(copiedPositionData);
-		// Copy education data
-		final ArrayList<EducationData> copiedEducationData = new ArrayList<>();
-		for (final EducationData educationData : curriculum.getEducationData())
-			copiedEducationData.add(this.educationDataService.copy(educationData));
-		copy.setEducationData(copiedEducationData);
-		// Copy miscellaneous data
-		final ArrayList<MiscellaneousData> copiedMiscellaneousData = new ArrayList<>();
-		for (final MiscellaneousData miscellaneousData : curriculum.getMiscellaneousData())
-			copiedMiscellaneousData.add(this.miscellaneousDataService.copy(miscellaneousData));
-		copy.setMiscellaneousData(copiedMiscellaneousData);
-
-		return this.save(copy);
+	public CurriculumService() {
+		super();
 	}
 
-	public Collection<Curriculum> getCurriculaOfHacker(final Hacker hacker) {
-		return this.repository.findByHackerId(hacker.getId());
+	public Curriculum create() {
+		final Curriculum curriculum = new Curriculum();
+		curriculum.setName("");
+		curriculum.setEducationData(new ArrayList<EducationData>());
+		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		curriculum.setHacker(principal);
+		curriculum.setMiscellaneousData(new ArrayList<MiscellaneousData>());
+		curriculum.setPositionData(new ArrayList<PositionData>());
+
+		return curriculum;
+	}
+
+	public Iterable<Curriculum> save(final Iterable<Curriculum> curriculum) {
+		Assert.isTrue(curriculum != null);
+		return this.curriculumRepository.save(curriculum);
+	}
+
+	public Collection<Curriculum> findCurriculumsByHacker(final Hacker hacker) {
+		return this.curriculumRepository.findCurriculumsByHacker(hacker.getId());
+	}
+
+	public Curriculum findCurriculumByPDId(final int id) {
+		return this.curriculumRepository.findCurriculumByPDId(id);
+	}
+
+	public void saveAllCr(final Curriculum cr) {
+		final Collection<EducationData> lsEdu = cr.getEducationData();
+		final Collection<MiscellaneousData> lsMis = cr.getMiscellaneousData();
+		final Collection<PositionData> lsPos = cr.getPositionData();
+
+		this.educationDataService.save(lsEdu);
+		this.miscellaneousDataService.save(lsMis);
+		this.positionDataService.save(lsPos);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Additional methods
+
+	public int findOwner(final int curriculumId) {
+		return this.curriculumRepository.findOwner(curriculumId);
 	}
 
 }

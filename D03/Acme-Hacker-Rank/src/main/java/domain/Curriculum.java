@@ -1,6 +1,6 @@
 /*
  * Curriculum.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,12 +16,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class Curriculum extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
+	private String							name;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -36,7 +39,16 @@ public class Curriculum extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToOne(optional = true)
+	@NotBlank
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	@OneToOne
 	@Valid
 	public Hacker getHacker() {
 		return this.hacker;

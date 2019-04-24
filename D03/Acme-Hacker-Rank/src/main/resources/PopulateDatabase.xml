@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-PopulateDatabase.xml
-
-Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
--->
+<!-- PopulateDatabase.xml Copyright (c) 2019 Group 16 of Design and Testing 
+	II, University of Seville -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -365,7 +362,6 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="A.R.G.U.S." />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
@@ -557,5 +553,95 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 	</bean>
+
+		<property name="commercialName" value="A.R.G.U.S." />
+	<bean id="problem2" class="domain.Problem">
+		<property name="title" value="Example title 2" />
+		<property name="statement" value="Example statement 2" />
+		<property name="hint" value="Example hint 2" />
+		<property name="attachments" value="Attachments 2" />
+		<property name="draft" value="false" />
+		<property name="company" ref="company1" />
+	</bean>
+
+	<bean id="problem3" class="domain.Problem">
+		<property name="title" value="Example title 3" />
+		<property name="statement" value="Example statement 3" />
+		<property name="hint" value="Example hint 3" />
+		<property name="attachments" value="Attachments 3" />
+		<property name="draft" value="false" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem4" class="domain.Problem">
+		<property name="title" value="Example title 4" />
+		<property name="statement" value="Example statement 4" />
+		<property name="hint" value="Example hint 4" />
+		<property name="attachments" value="Attachments 4" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem5" class="domain.Problem">
+		<property name="title" value="Example title 5" />
+		<property name="statement" value="Example statement 5" />
+		<property name="hint" value="Example hint 5" />
+		<property name="attachments" value="Attachments 5" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem6" class="domain.Problem">
+		<property name="title" value="Example title 6" />
+		<property name="statement" value="Example statement 6" />
+		<property name="hint" value="Example hint 6" />
+		<property name="attachments" value="Attachments 6" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem7" class="domain.Problem">
+		<property name="title" value="Example title 7" />
+		<property name="statement" value="Example statement 7" />
+		<property name="hint" value="Example hint 7" />
+		<property name="attachments" value="Attachments 7" />
+		<property name="draft" value="false" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem8" class="domain.Problem">
+		<property name="title" value="Example title 8" />
+		<property name="statement" value="Example statement 8" />
+		<property name="hint" value="Example hint 8" />
+		<property name="attachments" value="Attachments 8" />
+		<property name="draft" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem9" class="domain.Problem">
+		<property name="title" value="Example title 9" />
+		<property name="statement" value="Example statement 9" />
+		<property name="hint" value="Example hint 9" />
+		<property name="attachments" value="Attachments 9" />
+		<property name="draft" value="false" />
+		<property name="company" ref="company1" />
+	</bean>
+
+
+	<bean id="problem10" class="domain.Problem">
+		<property name="title" value="Example title 10" />
+		<property name="statement" value="Example statement 10" />
+		<property name="hint" value="Example hint 10" />
+		<property name="attachments" value="Attachments 10" />
+		<property name="draft" value="false" />
+		<property name="company" ref="company1" />
+	</bean>
+
 
 </beans>

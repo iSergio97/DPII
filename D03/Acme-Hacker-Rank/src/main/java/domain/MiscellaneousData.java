@@ -1,18 +1,14 @@
 /*
  * MiscellaneousData.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -23,8 +19,8 @@ public class MiscellaneousData extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String				freeText;
-	private Collection<String>	attachments;
+	private String	freeText;
+	private String	attachments;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -39,13 +35,11 @@ public class MiscellaneousData extends DomainEntity {
 		this.freeText = freeText;
 	}
 
-	@NotNull
-	@ElementCollection
-	public Collection<String> getAttachments() {
+	public String getAttachments() {
 		return this.attachments;
 	}
 
-	public void setAttachments(final Collection<String> attachments) {
+	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
 	}
 

@@ -1,24 +1,20 @@
-/*
- * AdministratorForm.java
- * 
- * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
- */
 
 package forms;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
-public class AdministratorForm {
+public class RegisterForm {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
+	// UserAccount
 	private int		id;
+	// Actor
 	private String	name;
 	private String	surnames;
 	private String	vat;
@@ -28,7 +24,15 @@ public class AdministratorForm {
 	private String	address;
 	private String	username;
 	private String	password;
+	// Register itself
 	private String	confirmPassword;
+	// CreditCard
+	private String	holder;
+	private String	brand;
+	private String	number;
+	private Integer	expirationMonth;
+	private Integer	expirationYear;
+	private Integer	CVV;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +56,7 @@ public class AdministratorForm {
 		this.name = name;
 	}
 
-	@NotNull
-	// Matches a list of strings with "," as an element separator, or an empty string
+	@NotBlank
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getSurnames() {
 		return this.surnames;
@@ -63,7 +66,7 @@ public class AdministratorForm {
 		this.surnames = surnames;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches 2 letters followed by between 5 and 15 alphanumeric characters
 	@Pattern(regexp = "^[\\w]{2}[\\d\\w]{5,15}$")
 	public String getVat() {
@@ -74,7 +77,7 @@ public class AdministratorForm {
 		this.vat = vat;
 	}
 
-	@NotNull
+	@NotBlank
 	// Matches administrator email addresses
 	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
 	public String getEmail() {
@@ -96,7 +99,7 @@ public class AdministratorForm {
 	}
 
 	// Optional
-	@NotNull
+	@NotBlank
 	// Matches a phone number or an empty string
 	@Pattern(regexp = "(^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$)|(^$)")
 	public String getPhoneNumber() {
@@ -108,7 +111,7 @@ public class AdministratorForm {
 	}
 
 	// Optional
-	@NotNull
+	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
@@ -142,6 +145,60 @@ public class AdministratorForm {
 
 	public void setConfirmPassword(final String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	@NotBlank
+	public String getHolder() {
+		return this.holder;
+	}
+
+	public void setHolder(final String holder) {
+		this.holder = holder;
+	}
+
+	@NotBlank
+	public String getBrand() {
+		return this.brand;
+	}
+
+	public void setBrand(final String brand) {
+		this.brand = brand;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^([\\d]){16}$")
+	public String getNumber() {
+		return this.number;
+	}
+
+	public void setNumber(final String number) {
+		this.number = number;
+	}
+
+	@Range(min = 1, max = 12)
+	public Integer getExpirationMonth() {
+		return this.expirationMonth;
+	}
+
+	public void setExpirationMonth(final Integer expirationMonth) {
+		this.expirationMonth = expirationMonth;
+	}
+
+	public Integer getExpirationYear() {
+		return this.expirationYear;
+	}
+
+	public void setExpirationYear(final Integer expirationYear) {
+		this.expirationYear = expirationYear;
+	}
+
+	@Range(min = 100, max = 999)
+	public Integer getCVV() {
+		return this.CVV;
+	}
+
+	public void setCVV(final Integer cVV) {
+		this.CVV = cVV;
 	}
 
 }

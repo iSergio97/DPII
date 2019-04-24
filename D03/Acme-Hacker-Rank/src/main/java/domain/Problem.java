@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -21,11 +22,11 @@ public class Problem extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String	title;
-	private String	statement;
-	private String	hint;
-	private String	attachments;
-	private boolean	isDraft;
+	private String				title;
+	private String				statement;
+	private String				hint;
+	private String				attachments;
+	private boolean				isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -62,7 +63,7 @@ public class Problem extends DomainEntity {
 		this.hint = hint;
 	}
 
-	@NotBlank
+	@NotEmpty
 	public String getAttachments() {
 		return this.attachments;
 	}
@@ -71,11 +72,11 @@ public class Problem extends DomainEntity {
 		this.attachments = attachments;
 	}
 
-	public boolean getIsDraft() {
+	public boolean isDraft() {
 		return this.isDraft;
 	}
 
-	public void setIsDraft(final boolean isDraft) {
+	public void setDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 
