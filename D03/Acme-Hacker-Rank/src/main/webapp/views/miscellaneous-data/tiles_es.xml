@@ -13,11 +13,6 @@
        
 <tiles-definitions>
 
-	<definition name="miscellaneous-data/hacker/list" extends="master.page">
-		<put-attribute name="title" value="Lista de Datos Misceláneos" />
-		<put-attribute name="body" value="/views/miscellaneous-data/list.jsp" />
-	</definition>
-
 	<definition name="miscellaneous-data/hacker/create" extends="master.page">
 		<put-attribute name="title" value="Crear Datos Misceláneos" />
 		<put-attribute name="body" value="/views/miscellaneous-data/edit.jsp" />
@@ -26,11 +21,6 @@
 	<definition name="miscellaneous-data/hacker/edit" extends="master.page">
 		<put-attribute name="title" value="Editar Datos Misceláneos" />
 		<put-attribute name="body" value="/views/miscellaneous-data/edit.jsp" />
-	</definition>
-
-	<definition name="miscellaneous-data/hacker/show" extends="master.page">
-		<put-attribute name="title" value="Mostrar Datos Misceláneos" />
-		<put-attribute name="body" value="/views/miscellaneous-data/show.jsp" />
 	</definition>
 
 </tiles-definitions>

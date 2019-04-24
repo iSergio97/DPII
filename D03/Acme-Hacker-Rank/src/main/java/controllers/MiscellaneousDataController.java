@@ -41,28 +41,6 @@ public class MiscellaneousDataController {
 		super();
 	}
 
-	// List -------------------------------------------------------------------
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int curriculumId) {
-		final ModelAndView result;
-		Collection<MiscellaneousData> miscellaneousDataList;
-		int curriculumOwnerId;
-
-		curriculumOwnerId = this.curriculumService.findOwner(curriculumId);
-		if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
-		else {
-			miscellaneousDataList = this.curriculumService.findOne(curriculumId).getMiscellaneousData();
-
-			result = new ModelAndView("miscellaneous-data/hacker/list");
-			result.addObject("miscellaneousDataList", miscellaneousDataList);
-			result.addObject("requestURI", "miscellaneous-data/hacker/list.do");
-		}
-
-		return result;
-	}
-
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -135,7 +113,7 @@ public class MiscellaneousDataController {
 					curriculum.setMiscellaneousData(curriculumMiscellaneousDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "edit");
@@ -171,7 +149,7 @@ public class MiscellaneousDataController {
 					this.curriculumService.save(c);
 					// Delete miscellaneousData
 					this.miscellaneousDataService.delete(miscellaneousData);
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "parade.commit.error", "edit");

@@ -1,5 +1,5 @@
 <%--
- * personal-data/create.jsp
+ * miscellaneous-data/edit.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author Sergio Garrido Domínguez
@@ -18,10 +18,10 @@
 
 <form:form modelAttribute="miscellaneousData" method="POST" action="miscellaneous-data/hacker/edit.do" id="form">
 
-	<!-- Input fields -->
-	
 	<form:hidden path="id" />
 	<form:hidden path="curriculumId" />
+
+	<!-- Input fields -->
 
 	<acme:register path="freeText" code="miscellaneousData.freeText" />
 	<acme:register path="attachments" code="miscellaneousData.attachments"/>

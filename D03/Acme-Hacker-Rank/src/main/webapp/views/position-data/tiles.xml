@@ -22,10 +22,5 @@
 		<put-attribute name="title" value="Edit Position Data" />
 		<put-attribute name="body" value="/views/position-data/edit.jsp" />
 	</definition>
-	
-	<definition name="position-data/hacker/show" extends="master.page">
-		<put-attribute name="title" value="Show Position Data" />
-		<put-attribute name="body" value="/views/position-data/show.jsp" />
-	</definition>
 
 </tiles-definitions>

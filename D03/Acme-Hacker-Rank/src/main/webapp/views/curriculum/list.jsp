@@ -15,7 +15,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="curriculums" id="row">
+<display:table name="curricula" id="row">
 	
 	<display:column titleKey="curriculum.name" >
 		<jstl:out value="${row.name}" />

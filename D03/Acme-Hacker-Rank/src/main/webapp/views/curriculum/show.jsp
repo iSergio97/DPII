@@ -9,7 +9,7 @@
 
 
 <h2>
-	<jstl:out value="${crName}"/>: <spring:message code="personalData"/>
+	<jstl:out value="${curriculumName}"/>: <spring:message code="personalData"/>
 </h2>
 	<acme:field code="personalData.fullName" value="${personalData.fullName}"/>
 	<acme:field code="personalData.phoneNumber" value="${personalData.phoneNumber}"/>
@@ -20,36 +20,44 @@
 <a href="personal-data/hacker/edit.do?personalDataID=${personalData.id}">
 <spring:message code="editPD"/>
 </a>
-
-<br>
-<br>
+<br><br>
 
 <h2>
-	<spring:message code="miscellaneousData"/>
+	<spring:message code="positionData"/>
 </h2>
-<display:table name="misData" id="row">
+<display:table name="positionDataList" id="row">
 
-	<display:column titleKey="miscellaneousData.freeText">
-		<jstl:out value="${row.freeText}" />
+	<display:column titleKey="positionData.title">
+		<jstl:out value="${row.title}" />
 	</display:column>
 	
-	<display:column titleKey="miscellaneousData.attachments">
-		<jstl:out value="${row.attachments}" />
+	<display:column titleKey="positionData.description">
+		<jstl:out value="${row.description}" />
+	</display:column>
+	
+	<display:column titleKey="positionData.startDate">
+		<jstl:out value="${row.startDate}" />
+	</display:column>
+	
+	<display:column titleKey="positionData.endDate">
+		<jstl:out value="${row.endDate}" />
 	</display:column>
 	
 	<display:column titleKey="blank">
-		<a href="miscellaneous-data/hacker/edit.do?miscellaneousDataId=${row.id}"><spring:message code="action.edit"/></a>
+		<a href="position-data/hacker/edit.do?positionDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
 
-<br>
-<br>
+<a href="position-data/hacker/create.do?curriculumId=${curriculumId}">
+	<spring:message code="action.add"/>
+</a>
+<br><br>
 
 <h2>
 	<spring:message code="educationData"/>
 </h2>
-<display:table name="eDatas" id="row">
+<display:table name="educationDataList" id="row">
 
 	<display:column titleKey="educationData.degree">
 		<jstl:out value="${row.degree}" />
@@ -70,33 +78,38 @@
 	<display:column titleKey="educationData.endDate">
 		<jstl:out value="${row.endDate}" />
 	</display:column>
+	
+	<display:column titleKey="blank">
+		<a href="education-data/hacker/edit.do?educationDataId=${row.id}"><spring:message code="action.edit"/></a>
+	</display:column>
 
 </display:table>
-<br>
-<br>
+
+<a href="education-data/hacker/create.do?curriculumId=${curriculumId}">
+	<spring:message code="action.add"/>
+</a>
+<br><br>
 
 <h2>
-	<spring:message code="positionData"/>
+	<spring:message code="miscellaneousData"/>
 </h2>
-<display:table name="personalDatas" id="row">
+<display:table name="miscellaneousDataList" id="row">
 
-	<display:column titleKey="positionData.title">
-		<jstl:out value="${row.title}" />
+	<display:column titleKey="miscellaneousData.freeText">
+		<jstl:out value="${row.freeText}" />
 	</display:column>
 	
-	<display:column titleKey="positionData.description">
-		<jstl:out value="${row.description}" />
+	<display:column titleKey="miscellaneousData.attachments">
+		<jstl:out value="${row.attachments}" />
 	</display:column>
 	
-	<display:column titleKey="positionData.startDate">
-		<jstl:out value="${row.startDate}" />
-	</display:column>
-	
-	<display:column titleKey="positionData.endDate">
-		<jstl:out value="${row.endDate}" />
+	<display:column titleKey="blank">
+		<a href="miscellaneous-data/hacker/edit.do?miscellaneousDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
 
-<br>
-<br>
+<a href="miscellaneous-data/hacker/create.do?curriculumId=${curriculumId}">
+	<spring:message code="action.add"/>
+</a>
+<br><br>

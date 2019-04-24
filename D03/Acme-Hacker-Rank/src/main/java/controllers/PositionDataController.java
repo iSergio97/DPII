@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,8 @@ import security.LoginService;
 import services.CurriculumService;
 import services.PositionDataService;
 
+@Controller
+@RequestMapping("/position-data/hacker")
 public class PositionDataController {
 	// Services ---------------------------------------------------------------
 
@@ -35,28 +38,6 @@ public class PositionDataController {
 
 	public PositionDataController() {
 		super();
-	}
-
-	// List -------------------------------------------------------------------
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int curriculumId) {
-		final ModelAndView result;
-		Collection<PositionData> positionDataList;
-		int curriculumOwnerId;
-
-		curriculumOwnerId = this.curriculumService.findOwner(curriculumId);
-		if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
-		else {
-			positionDataList = this.curriculumService.findOne(curriculumId).getPositionData();
-
-			result = new ModelAndView("position-data/hacker/list");
-			result.addObject("positionDataList", positionDataList);
-			result.addObject("requestURI", "position-data/hacker/list.do");
-		}
-
-		return result;
 	}
 
 	// Create -----------------------------------------------------------------
@@ -131,7 +112,7 @@ public class PositionDataController {
 					curriculum.setPositionData(curriculumPositionDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(positionDataForm, "edit");
@@ -161,13 +142,13 @@ public class PositionDataController {
 				else {
 					// Remove positionData from Curriculum
 					final Curriculum c = this.curriculumService.findOne(positionDataForm.getCurriculumId());
-					final Collection<PositionData> md = c.getPositionData();
-					md.remove(positionData);
-					c.setPositionData(md);
+					final Collection<PositionData> pd = c.getPositionData();
+					pd.remove(positionData);
+					c.setPositionData(pd);
 					this.curriculumService.save(c);
 					// Delete positionData
 					this.positionDataService.delete(positionData);
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(positionDataForm, "parade.commit.error", "edit");

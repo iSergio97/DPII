@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,8 @@ import security.LoginService;
 import services.CurriculumService;
 import services.EducationDataService;
 
+@Controller
+@RequestMapping("/education-data/hacker")
 public class EducationDataController {
 
 	// Services ---------------------------------------------------------------
@@ -36,28 +39,6 @@ public class EducationDataController {
 
 	public EducationDataController() {
 		super();
-	}
-
-	// List -------------------------------------------------------------------
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int curriculumId) {
-		final ModelAndView result;
-		Collection<EducationData> educationDataList;
-		int curriculumOwnerId;
-
-		curriculumOwnerId = this.curriculumService.findOwner(curriculumId);
-		if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
-		else {
-			educationDataList = this.curriculumService.findOne(curriculumId).getEducationData();
-
-			result = new ModelAndView("education-data/hacker/list");
-			result.addObject("educationDataList", educationDataList);
-			result.addObject("requestURI", "education-data/hacker/list.do");
-		}
-
-		return result;
 	}
 
 	// Create -----------------------------------------------------------------
@@ -132,7 +113,7 @@ public class EducationDataController {
 					curriculum.setEducationData(curriculumEducationDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(educationDataForm, "edit");
@@ -168,7 +149,7 @@ public class EducationDataController {
 					this.curriculumService.save(c);
 					// Delete educationData
 					this.educationDataService.delete(educationData);
-					result = new ModelAndView("redirect:list.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(educationDataForm, "parade.commit.error", "edit");

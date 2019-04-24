@@ -43,10 +43,10 @@ public class CurriculumController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final ModelAndView result;
-		PersonalDataForm pdForm;
-		pdForm = this.personalDataService.createForm();
+		PersonalDataForm personalDataForm;
+		personalDataForm = this.personalDataService.createForm();
 
-		result = this.createEditModelAndView(pdForm);
+		result = this.createEditModelAndView(personalDataForm);
 
 		return result;
 
@@ -54,15 +54,12 @@ public class CurriculumController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		//TODO: Preguntar si un hacker puede tener más de un currículum
-		//TODO: Si puede, corregir método y listar los currículums con un botón para ver
-		//TODO: la información de cada currículum en profundidad
 		final ModelAndView result;
 		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Curriculum> cr = this.curriculumService.findCurriculumsByHacker(hacker);
+		final Collection<Curriculum> curricula = this.curriculumService.findCurriculumsByHacker(hacker);
 
 		result = new ModelAndView("curriculum/hacker/list");
-		result.addObject("curriculums", cr);
+		result.addObject("curricula", curricula);
 
 		return result;
 	}
@@ -70,38 +67,40 @@ public class CurriculumController {
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam final int curriculumId) {
 		ModelAndView result;
-		final Curriculum cr = this.curriculumService.findOne(curriculumId);
-		final Hacker hacker = cr.getHacker();
+		final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
+		final Hacker hacker = curriculum.getHacker();
 		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
 		if (hacker != principal)
 			result = new ModelAndView("redirect:/welcome/index.do");
+		else {
+			result = new ModelAndView("curriculum/hacker/show");
 
-		result = new ModelAndView("curriculum/hacker/show");
+			final PersonalData personalData = curriculum.getPersonalData();
+			final Collection<MiscellaneousData> miscellaneousDataList = curriculum.getMiscellaneousData();
+			final Collection<EducationData> educationDataList = curriculum.getEducationData();
+			final Collection<PositionData> positionDataList = curriculum.getPositionData();
 
-		final PersonalData pData = cr.getPersonalData();
-		final Collection<MiscellaneousData> mDatas = cr.getMiscellaneousData();
-		final Collection<EducationData> eDatas = cr.getEducationData();
-		final Collection<PositionData> pDatas = cr.getPositionData();
-
-		result.addObject("crName", cr.getName());
-		result.addObject("personalData", pData);
-		result.addObject("misData", mDatas);
-		result.addObject("eDatas", eDatas);
-		result.addObject("personalDatas", pDatas);
+			result.addObject("curriculumName", curriculum.getName());
+			result.addObject("curriculumId", curriculumId);
+			result.addObject("personalData", personalData);
+			result.addObject("positionDataList", positionDataList);
+			result.addObject("educationDataList", educationDataList);
+			result.addObject("miscellaneousDataList", miscellaneousDataList);
+		}
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm) {
-		return this.createEditModelAndView(pdForm, null);
+	protected ModelAndView createEditModelAndView(final PersonalDataForm personalDataForm) {
+		return this.createEditModelAndView(personalDataForm, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm, final String message) {
+	protected ModelAndView createEditModelAndView(final PersonalDataForm personalDataForm, final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("curriculum/hacker/create");
 
-		result.addObject("personalData", pdForm);
+		result.addObject("personalData", personalDataForm);
 
 		return result;
 
