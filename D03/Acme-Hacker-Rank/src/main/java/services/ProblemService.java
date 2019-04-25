@@ -9,6 +9,7 @@ import org.springframework.validation.Validator;
 
 import repositories.ProblemRepository;
 import domain.Company;
+import domain.Position;
 import domain.Problem;
 import forms.ProblemForm;
 
@@ -58,6 +59,7 @@ public class ProblemService extends AbstractService<ProblemRepository, Problem> 
 		form.setStatement("");
 		form.setHint("");
 		form.setAttachments("");
+		form.setIsDraft(true);
 
 		return form;
 	}
@@ -74,10 +76,14 @@ public class ProblemService extends AbstractService<ProblemRepository, Problem> 
 		result.setStatement(form.getStatement());
 		result.setHint(form.getHint());
 		result.setAttachments(form.getAttachments());
+		result.setIsDraft(form.getIsDraft());
 
 		this.validator.validate(result, binding);
 
 		return result;
 	}
 
+	public Position findPositionAssociated(final int problemId) {
+		return this.problemRepository.findPositionAssociated(problemId);
+	}
 }

@@ -63,9 +63,9 @@ public class FinderController extends AbstractController {
 			overCache.setHours(finder.getMoment().getHours() + 1);
 
 			positions = this.positionService.findAll();
-			if (now.before(overCache))
+			if (now.before(overCache) && !finder.getPositions().isEmpty())
 				positions.retainAll(finder.getPositions());
-			result = new ModelAndView("finder/list");
+			result = new ModelAndView("/finder/list");
 			result.addObject("positions", positions);
 			result.addObject("requestURI", "finder/list.do");
 		}
@@ -113,8 +113,9 @@ public class FinderController extends AbstractController {
 			result = this.createAndEditModelAndView(finder);
 		else
 			try {
-				Collection<Position> positions = this.finderService.findPositions(finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getDeadline(),
-					finder.getMaximumDeadline(), finder.getMinimumSalary());
+
+				Collection<Position> positions = this.finderService.findPositions(finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), this.dateFormatter(finder.getDeadline()),
+					this.dateFormatter(finder.getMaximumDeadline()), finder.getMinimumSalary());
 				if (positions.isEmpty())
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
@@ -162,4 +163,17 @@ public class FinderController extends AbstractController {
 		return result;
 	}
 
+	private String dateFormatter(final Date date) {
+		String s = "" + date.getYear() + "-";
+		if (date.getMonth() < 10)
+			s = s + "0" + date.getMonth() + "-";
+		else
+			s = s + date.getMonth() + "-";
+		if (date.getDay() < 10)
+			s = s + "0" + date.getDay();
+		else
+			s = s + date.getDay();
+
+		return s;
+	}
 }

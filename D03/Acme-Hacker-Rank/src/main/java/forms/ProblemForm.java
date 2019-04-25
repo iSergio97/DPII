@@ -14,6 +14,7 @@ public class ProblemForm {
 	private String	statement;
 	private String	hint;
 	private String	attachments;
+	private boolean	isDraft;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +57,12 @@ public class ProblemForm {
 	}
 	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
+	}
+	public boolean getIsDraft() {
+		return this.isDraft;
+	}
+	public void setIsDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
 	}
 
 }

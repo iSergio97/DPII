@@ -94,7 +94,7 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToOne(optional = true)
+	@OneToOne
 	@Valid
 	public Hacker getHacker() {
 		return this.hacker;

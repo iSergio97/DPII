@@ -648,6 +648,7 @@
 	<property name="deadline" value="21/11/2019"/>
 	<property name="maximumDeadline" value ="31/12/2019"/>
 	<property name="minimumSalary" value="1000.0"/>
+	<property name="moment" value="25/04/2019"/>
 	<property name="hacker" ref="hacker1"/>
 	</bean>
 

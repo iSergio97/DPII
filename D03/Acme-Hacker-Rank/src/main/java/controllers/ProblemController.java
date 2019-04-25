@@ -55,6 +55,7 @@ public class ProblemController extends AbstractController {
 
 		result = new ModelAndView("problem/list");
 		result.addObject("problems", problems);
+		result.addObject("positionId", positionId);
 		result.addObject("requestURI", "problem/list.do");
 
 		return result;
@@ -98,6 +99,7 @@ public class ProblemController extends AbstractController {
 		Problem problem;
 
 		problem = this.problemService.findOne(problemId);
+
 		Assert.notNull(problem);
 		Assert.isTrue(problem.getIsDraft());
 
@@ -152,7 +154,7 @@ public class ProblemController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final ProblemForm problemForm, final BindingResult binding) {
+	public ModelAndView delete(@ModelAttribute("problem") final ProblemForm problemForm, final BindingResult binding) {
 		ModelAndView result;
 		Problem problem;
 
@@ -161,8 +163,11 @@ public class ProblemController extends AbstractController {
 			result = this.createAndEditModelAndView(problemForm);
 		else
 			try {
+				final Position p = this.problemService.findPositionAssociated(problem.getId());
+				p.getProblems().remove(problem);
+				this.positionService.save(p);
 				this.problemService.delete(problem);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/problem/list.do?positionId=" + p.getId());
 
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problemForm, "parade.commit.error");

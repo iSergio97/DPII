@@ -43,5 +43,5 @@
 </display:table>
 
 <p>
-	<a href="problem/create.do"><spring:message code="create" /></a>
+	<a href="problem/create.do?positionId=${positionId}"><spring:message code="create" /></a>
 </p>

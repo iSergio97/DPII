@@ -106,7 +106,7 @@
 					<li><a href="curriculum/hacker/create.do"><spring:message code="action.create.curriculum" /></a></li>
 					<li><a href="curriculum/hacker/list.do"><spring:message code="action.list.curriculum" /></a></li>
 					<li><a href="application/hacker/list.do"><spring:message code="action.list.application" /></a></li>
-					<li><a href="finder/list.do"><spring:message code="action.list.finder" /></a></li>
+				<!--<li><a href="finder/list.do"><spring:message code="action.list.finder" /></a></li> -->
 				</ul>
 			</li>
 		</security:authorize>
