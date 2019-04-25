@@ -8,6 +8,10 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<p>
+	<a href="finder/create.do"><spring:message code="create" /></a>
+</p>
+
 <display:table name="positions" id="row" requestURI="/finder/list.do" pagesize="5" class="displaytag"> 
 
 <display:column property="title">

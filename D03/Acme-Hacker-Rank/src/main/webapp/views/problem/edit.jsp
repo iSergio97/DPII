@@ -14,6 +14,7 @@
 <!-- Hidden fields -->
 
 <form:hidden path="id" />
+<form:hidden path="isDraft" />
 
 <!-- Input fields -->
 
