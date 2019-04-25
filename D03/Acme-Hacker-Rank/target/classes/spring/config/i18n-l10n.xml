@@ -27,7 +27,9 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/personal-data/messages</value>
 		<value>/views/miscellaneous-data/messages</value>
 		<value>/views/position/messages</value>
+		<value>/views/problem/messages</value>
 		<value>/views/register/messages</value>
+		<value>/views/finder/messages</value>
 	</util:list>
 
 </beans>

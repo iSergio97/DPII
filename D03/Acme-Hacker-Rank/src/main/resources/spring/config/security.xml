@@ -46,9 +46,11 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/education-data/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/miscellaneous-data/hacker/**" access="hasRole('HACKER')" />
 		<security:intercept-url pattern="/personal-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/finder/**" access="hasRole('HACKER')" />
 		
 		<!-- COMPANY -->
 		<security:intercept-url pattern="/position/company/**" access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/problem/**" access="hasRole('COMPANY')" />
 		
 		<!-- ADMIN -->
 		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />

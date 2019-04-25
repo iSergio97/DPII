@@ -59,12 +59,7 @@
 </jstl:if>
 <%-- Corregir con Spring message --%>
 <br>
-<strong><spring:message code="problems" /></strong>
-:
-<jstl:forEach var="i" items="${problems}">
-	<jstl:out value="${i.title}" />
-	<br>
-</jstl:forEach>
+<strong><a href="problem/list.do?positionId=${position.id}"><spring:message code="problems" /></a></strong>
 
 
 <jstl:if test="${position.status eq 'SUBMITTED'}">

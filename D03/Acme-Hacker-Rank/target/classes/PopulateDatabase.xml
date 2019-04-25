@@ -536,6 +536,15 @@
 		<property name="problems">
 			<list>
 				<ref bean="problem1" />
+				<ref bean="problem2" />
+				<ref bean="problem3" />
+				<ref bean="problem4" />
+				<ref bean="problem5" />
+				<ref bean="problem6" />
+				<ref bean="problem7" />
+				<ref bean="problem8" />
+				<ref bean="problem9" />
+				<ref bean="problem10" />
 			</list>
 		</property>
 	</bean>
@@ -630,6 +639,16 @@
 		<property name="attachments" value="Attachments 10" />
 		<property name="isDraft" value="false" />
 		<property name="company" ref="company1" />
+	</bean>
+	
+	<!-- FINDERS -->
+	
+	<bean id="finder1" class="domain.Finder">
+	<property name="keyword" value=""/>
+	<property name="deadline" value="21/11/2019"/>
+	<property name="maximumDeadline" value ="31/12/2019"/>
+	<property name="minimumSalary" value="1000.0"/>
+	<property name="hacker" ref="hacker1"/>
 	</bean>
 
 </beans>

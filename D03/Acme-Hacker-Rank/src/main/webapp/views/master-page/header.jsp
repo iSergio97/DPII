@@ -57,12 +57,12 @@
 					<li class="arrow"></li>
 					<security:authorize access="hasRole('HACKER')">
 						<li><a href="register/hacker/edit.do"><spring:message
-									code="master.page.edit" /> </a></li>
+									code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('COMPANY')">
 						<li><a href="register/hacker/edit.do"><spring:message
-									code="master.page.edit" /> </a></li>
+									code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
@@ -70,7 +70,7 @@
 									code="master.page.create.admin" /> </a></li>
 
 						<li><a href="register/administrator/edit.do"><spring:message
-									code="master.page.edit" /> </a></li>
+									code="action.edit" /> </a></li>
 					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
@@ -106,6 +106,7 @@
 					<li><a href="curriculum/hacker/create.do"><spring:message code="action.create.curriculum" /></a></li>
 					<li><a href="curriculum/hacker/list.do"><spring:message code="action.list.curriculum" /></a></li>
 					<li><a href="application/hacker/list.do"><spring:message code="action.list.application" /></a></li>
+					<li><a href="finder/list.do"><spring:message code="action.list.finder" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

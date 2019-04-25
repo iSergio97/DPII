@@ -111,7 +111,7 @@ public class Application extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	public Position getPosition() {
 		return this.position;
 	}

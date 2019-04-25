@@ -51,5 +51,13 @@
 		<put-attribute name="body"
 			value="/views/position/showP.jsp" />
 	</definition>
+	
+	<definition name="problem/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Problem list" />
+		<put-attribute name="body"
+			value="/views/problem/list.jsp" />
+	</definition>
 
 </tiles-definitions>
