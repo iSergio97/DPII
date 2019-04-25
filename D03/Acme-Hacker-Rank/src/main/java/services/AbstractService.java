@@ -1,6 +1,6 @@
 /*
  * AbstractService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
 
-import repositories.AbstractRepository;
 import domain.DomainEntity;
+import repositories.AbstractRepository;
 
 @Service
 @Transactional

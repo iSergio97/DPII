@@ -84,14 +84,14 @@ public class RegisterController {
 		final Calendar calendar = Calendar.getInstance();
 		final Date date = calendar.getTime();
 
-		if (registerHackerForm.getExpirationYear() < (date.getYear() % 100) && registerHackerForm.getExpirationMonth() < date.getMonth()) {
+		if (registerHackerForm.getExpirationYear() < (date.getYear() % 100) && registerHackerForm.getExpirationMonth() < (date.getMonth() + 1)) {
 			if (registerHackerForm.getExpirationYear() < date.getYear() % 100) {
 				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the actual year");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("expirationYear", "error.oldYear");
 			}
 
-			if (registerHackerForm.getExpirationMonth() < date.getMonth()) {
+			if (registerHackerForm.getExpirationMonth() < (date.getMonth() + 1)) {
 				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the actual month");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("expirationMonth", "error.oldMonth");

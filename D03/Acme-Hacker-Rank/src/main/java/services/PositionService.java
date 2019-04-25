@@ -15,12 +15,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.PositionRepository;
-import security.LoginService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
+import repositories.PositionRepository;
+import security.LoginService;
 
 @Service
 @Transactional
@@ -173,4 +173,23 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return pf;
 	}
 
+	public Double min() {
+		return this.repository.min();
+	}
+
+	public Double max() {
+		return this.repository.max();
+	}
+
+	public Double media() {
+		return this.repository.media();
+	}
+
+	public Double stdDev() {
+		return this.repository.stdDev();
+	}
+
+	public Company companyMax() {
+		return this.repository.companyMax();
+	}
 }

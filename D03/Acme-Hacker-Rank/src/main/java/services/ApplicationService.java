@@ -1,6 +1,6 @@
 /*
  * ApplicationService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import repositories.ApplicationRepository;
 import domain.Application;
 import domain.Hacker;
 import domain.Position;
 import forms.ApplicationForm;
+import repositories.ApplicationRepository;
 
 @Service
 @Transactional
@@ -104,6 +104,26 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 
 	public Collection<Application> getApplicationsOfPosition(final Position position) {
 		return this.repository.findByPositionId(position.getId());
+	}
+
+	public Double min() {
+		return this.repository.min();
+	}
+
+	public Double max() {
+		return this.repository.max();
+	}
+
+	public Double media() {
+		return this.repository.avg();
+	}
+
+	public Double stdDev() {
+		return this.repository.stdDev();
+	}
+
+	public Hacker hackerMax() {
+		return this.repository.hackerMax();
 	}
 
 }
