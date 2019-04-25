@@ -6,11 +6,8 @@
 
 package domain;
 
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -25,16 +22,16 @@ public class Problem extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String				title;
-	private String				statement;
-	private String				hint;
-	private Collection<String>	attachments;
-	private boolean				isDraft;
+	private String	title;
+	private String	statement;
+	private String	hint;
+	private String	attachments;
+	private boolean	isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Company				company;
+	private Company	company;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -66,21 +63,20 @@ public class Problem extends DomainEntity {
 		this.hint = hint;
 	}
 
-	@ElementCollection
 	@NotEmpty
-	public Collection<String> getAttachments() {
+	public String getAttachments() {
 		return this.attachments;
 	}
 
-	public void setAttachments(final Collection<String> attachments) {
+	public void setAttachments(final String attachments) {
 		this.attachments = attachments;
 	}
 
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return this.isDraft;
 	}
 
-	public void setDraft(final boolean isDraft) {
+	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 

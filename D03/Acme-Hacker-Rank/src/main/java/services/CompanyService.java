@@ -7,12 +7,14 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -20,55 +22,39 @@ import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 import domain.Company;
-import forms.CompanyForm;
+import domain.CreditCard;
+import forms.RegisterCompanyForm;
 
 @Service
 @Transactional
-public class CompanyService {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private CompanyRepository		companyRepository;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
+public class CompanyService extends AbstractService<CompanyRepository, Company> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Other fields
 
 	@Autowired
-	private Validator				validator;
+	private Validator	validator;
 
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public CompanyService() {
-		super();
-	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public Company create() {
-		final Company company = new Company();
+		final Company company = super.create();
 
 		// create user account
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.ADMINISTRATOR);
+		authority.setAuthority(Authority.COMPANY);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
+		userAccount.setPassword("");
+		userAccount.setUsername("");
+
 		// set fields
 		company.setCommercialName("");
 		company.setName("");
@@ -87,39 +73,11 @@ public class CompanyService {
 		return company;
 	}
 
-	public Company save(final Company company) {
-		Assert.isTrue(company != null);
-		return this.companyRepository.save(company);
-	}
-
-	public Iterable<Company> save(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		return this.companyRepository.save(companys);
-	}
-
-	public void delete(final Company company) {
-		Assert.isTrue(company != null);
-		this.companyRepository.delete(company);
-	}
-
-	public void delete(final Iterable<Company> companys) {
-		Assert.isTrue(companys != null);
-		this.companyRepository.delete(companys);
-	}
-
-	public Company findOne(final int id) {
-		return this.companyRepository.findOne(id);
-	}
-
-	public List<Company> findAll() {
-		return this.companyRepository.findAll();
-	}
-
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public CompanyForm createForm() {
-		final CompanyForm companyForm = new CompanyForm();
+	public RegisterCompanyForm createForm() {
+		final RegisterCompanyForm companyForm = new RegisterCompanyForm();
 
 		companyForm.setCommercialName("");
 		companyForm.setName("");
@@ -132,47 +90,80 @@ public class CompanyService {
 		companyForm.setUsername("");
 		companyForm.setPassword("");
 		companyForm.setConfirmPassword("");
+		companyForm.setHolder("");
+		companyForm.setNumber("");
+		final Date date = new Date();
+		companyForm.setExpirationMonth(date.getMonth() + 1);
+		companyForm.setExpirationYear(date.getYear() % 100);
+		companyForm.setCVV(100);
 
 		return companyForm;
 	}
 
-	public Company reconstructForm(final CompanyForm companyForm, final BindingResult bindingResult) {
+	public Company reconstructForm(final RegisterCompanyForm companyForm, final BindingResult bindingResult) {
 		final Company result;
 
 		if (companyForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.companyRepository.findOne(companyForm.getId());
+			result = this.repository.findOne(companyForm.getId());
 
 		result.setCommercialName(companyForm.getCommercialName());
 		result.setName(companyForm.getName());
 		result.setVat(companyForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(companyForm.getSurnames(), ","));
+		result.setCommercialName(companyForm.getCommercialName());
 		result.setSurnames(companyForm.getSurnames());
 		result.setPhoto(companyForm.getPhoto());
 		result.setEmail(companyForm.getEmail());
 		result.setPhoneNumber(companyForm.getPhoneNumber());
 		result.setAddress(companyForm.getAddress());
 
+		result.getUserAccount().setUsername(companyForm.getUsername());
+		result.getUserAccount().setPassword(companyForm.getPassword());
+
+		final CreditCard cc = new CreditCard();
+		cc.setHolder(companyForm.getHolder());
+		cc.setBrand(companyForm.getBrand());
+		cc.setNumber(companyForm.getNumber());
+		cc.setExpirationMonth(companyForm.getExpirationMonth());
+		cc.setExpirationYear(companyForm.getExpirationYear());
+		cc.setCVV(companyForm.getCVV());
+
+		result.setCreditCard(cc);
+
+		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
+		this.repository.flush();
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
 
-	public CompanyForm deconstruct(final Company company) {
-		final CompanyForm companyForm = this.createForm();
+	public RegisterCompanyForm deconstruct(final Company company) {
+		final RegisterCompanyForm companyForm = this.createForm();
 
 		companyForm.setId(company.getId());
 		companyForm.setCommercialName(company.getCommercialName());
 		companyForm.setName(company.getName());
-		// companyForm.setSurnames(ConversionUtils.listToString(company.getSurnames(), ","));
+		companyForm.setCommercialName(company.getCommercialName());
 		companyForm.setSurnames(company.getSurnames());
 		companyForm.setVat(company.getVat());
 		companyForm.setPhoto(company.getPhoto());
 		companyForm.setEmail(company.getEmail());
 		companyForm.setPhoneNumber(company.getPhoneNumber());
 		companyForm.setAddress(company.getAddress());
+
 		companyForm.setUsername(company.getUserAccount().getUsername());
+		companyForm.setPassword(company.getUserAccount().getPassword());
+
+		companyForm.setHolder(company.getCreditCard().getHolder());
+		companyForm.setBrand(company.getCreditCard().getBrand());
+		companyForm.setNumber(company.getCreditCard().getNumber());
+		companyForm.setExpirationMonth(company.getCreditCard().getExpirationMonth());
+		companyForm.setExpirationYear(company.getCreditCard().getExpirationYear());
+		companyForm.setCVV(company.getCreditCard().getCVV());
 
 		return companyForm;
 	}
@@ -181,7 +172,7 @@ public class CompanyService {
 	// Ancillary methods
 
 	public Company findByUserAccountId(final int id) {
-		return this.companyRepository.findByUserAccountId(id);
+		return this.repository.findByUserAccountId(id);
 	}
 
 	public Company findPrincipal() {

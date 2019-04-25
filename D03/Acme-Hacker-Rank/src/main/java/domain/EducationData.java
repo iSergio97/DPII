@@ -1,6 +1,6 @@
 /*
  * EducationData.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -53,6 +54,7 @@ public class EducationData extends DomainEntity {
 		this.institution = institution;
 	}
 
+	@Range(min = 0, max = 10)
 	public double getMark() {
 		return this.mark;
 	}

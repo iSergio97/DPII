@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- * position-data/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing 
+	II * @author José Antonio Domínguez Gómez -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="register/hacker/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as hacker" />
+		<put-attribute name="body"
+			value="/views/register/hacker/create.jsp" />
+	</definition>
+
+	<definition name="register/hacker/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/hacker/create.jsp" />
+	</definition>
+
+	<definition name="register/company/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as company" />
+		<put-attribute name="body"
+			value="/views/register/company/create.jsp" />
+	</definition>
+
+	<definition name="register/company/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/company/create.jsp" />
+	</definition>
+
+	<definition name="register/administrator/create"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Register as administrator" />
+		<put-attribute name="body"
+			value="/views/register/administrator/create.jsp" />
+	</definition>
+
+	<definition name="register/administrator/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/administrator/create.jsp" />
+	</definition>
+
+
+</tiles-definitions>

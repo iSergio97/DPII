@@ -16,12 +16,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class Curriculum extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
+
+	private String							name;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -34,9 +38,21 @@ public class Curriculum extends DomainEntity {
 
 
 	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
+
+	@NotBlank
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToOne
+	@OneToOne(optional = true)
 	@Valid
 	public Hacker getHacker() {
 		return this.hacker;

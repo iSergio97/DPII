@@ -37,40 +37,42 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/welcome/termsAndConditions.do" access="permitAll" />
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />
+		<security:intercept-url pattern="/positon/all/**" access="permitAll" />
 
-		<!--  
-		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
-		-->
 
-		<!-- [PUBLIC] -->
-		<security:intercept-url pattern="/brotherhood/public/list.do" access="permitAll" />
-		<security:intercept-url pattern="/brotherhood/public/show.do" access="permitAll" />
-		<security:intercept-url pattern="/float/public/show.do" access="permitAll" />
-		<security:intercept-url pattern="/parade/public/show.do" access="permitAll" />
+		<!-- [HACKER] -->
+		<security:intercept-url pattern="/curriculum/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/position-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/education-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/miscellaneous-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/personal-data/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/finder/**" access="hasRole('HACKER')" />
+		
+		<!-- COMPANY -->
+		<security:intercept-url pattern="/position/company/**" access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/problem**" access="hasRole('COMPANY')" />
+		
+		<!-- ADMIN -->
+		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/register/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
+		<!-- PUBLIC -->
 
-		<!-- [ADMIN] -->
-		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
+		<!-- AUTHENTICATED -->
+		<security:intercept-url pattern="/socialprofile/actor/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 
-		<!-- [BROTHERHOOD] -->
-		<security:intercept-url pattern="/enrolment/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/float/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/parade/brotherhood/**" access="hasRole('BROTHERHOOD')" />
-			<security:intercept-url pattern="/history/**" access="hasRole('BROTHERHOOD')" />
-			<security:intercept-url pattern="/inceptionRecord/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/legalRecord/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/linkRecord/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/miscellaneousRecord/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/periodRecord/**" access="hasRole('BROTHERHOOD')" />
-		<security:intercept-url pattern="/request/brotherhood/**" access="hasRole('BROTHERHOOD')" />
+		<!-- APPLICATION -->
+		<security:intercept-url pattern="/application/hacker/**" access="hasRole('HACKER')" />
+		<security:intercept-url pattern="/application/company/**" access="hasRole('COMPANY')" />
 
-		<!-- [MEMBER] -->
-		<security:intercept-url pattern="/enrolment/member/**" access="hasRole('MEMBER')" />
-		<security:intercept-url pattern="/request/member/**" access="hasRole('MEMBER')" />
+		<!-- ADMIN -->
+		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 
 		<!-- REGISTER -->
-		<security:intercept-url pattern="/register/member/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/register/brotherhood/create.do" access="isAnonymous()" />
-		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/register/company/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/hacker/create.do" access="isAnonymous()" />
 
 		<security:form-login
 			login-page="/security/login.do"
