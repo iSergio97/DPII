@@ -81,12 +81,6 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 	// CRUD methods
 
 	@Override
-	public List<Position> save(final Iterable<Position> positions) {
-		Assert.isTrue(positions != null);
-		return this.repository.save(positions);
-	}
-
-	@Override
 	public Position save(final Position position) {
 		Assert.notNull(position);
 		Position res = this.findOne(position.getId());

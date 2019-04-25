@@ -25,9 +25,9 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Acme-Hacker-Rank" />
-		<property name="user" value="acme-user" />
-		<property name="password" value="ACME-Us3r-P@ssw0rd" />
+		<property name="jdbcUrl" value="jdbc:mysql://bmpyrvevuu6q4mzaefph-mysql.services.clever-cloud.com:3306/bmpyrvevuu6q4mzaefph" />
+		<property name="user" value="uz55quopqnfylr15" />
+		<property name="password" value="nAIC6O1Fj68Ptwb2ZsNM" />
 	</bean>
 
 	<!-- JPA -->

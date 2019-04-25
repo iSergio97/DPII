@@ -122,8 +122,4 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 		return this.repository.stdDev();
 	}
 
-	public Hacker hackerMax() {
-		return this.repository.hackerMax();
-	}
-
 }
