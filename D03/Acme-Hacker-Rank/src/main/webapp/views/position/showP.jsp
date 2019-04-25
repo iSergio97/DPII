@@ -28,6 +28,12 @@
 	<display:column property="skills"> <jstl:out value="${row.skills}" /> </display:column>
 	<display:column property="technologies"> <jstl:out value="${row.technologies}" /> </display:column>
 	<display:column property="salary"> <jstl:out value="${row.salary}" /> </display:column>
+	
+	<security:authorize access="hasRole('HACKER')">
+		<display:column>
+			<a href="application/hacker/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+		</display:column>
+	</security:authorize>
 
 </display:table>
 </jstl:if>

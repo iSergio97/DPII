@@ -65,11 +65,11 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <p>
 	<spring:message code="curriculum" />
 	<br>
-	<spring:message code="curriculum.fullName" /><jstl:out value="${curriculum.personalData.fullName}" /><br>
-	<spring:message code="curriculum.statement" /><jstl:out value="${curriculum.personalData.statement}" /><br>
-	<spring:message code="curriculum.phoneNumber" /><jstl:out value="${curriculum.personalData.phoneNumber}" /><br>
-	<spring:message code="curriculum.gitHubProfile" /><jstl:out value="${curriculum.personalData.gitHubProfile}" /><br>
-	<spring:message code="curriculum.linkedInProfile" /><jstl:out value="${curriculum.personalData.linkedInProfile}" /><br>
+	<spring:message code="curriculum.fullName" /><jstl:out value="${application.curriculum.personalData.fullName}" /><br>
+	<spring:message code="curriculum.statement" /><jstl:out value="${application.curriculum.personalData.statement}" /><br>
+	<spring:message code="curriculum.phoneNumber" /><jstl:out value="${application.curriculum.personalData.phoneNumber}" /><br>
+	<spring:message code="curriculum.gitHubProfile" /><jstl:out value="${application.curriculum.personalData.gitHubProfile}" /><br>
+	<spring:message code="curriculum.linkedInProfile" /><jstl:out value="${application.curriculum.personalData.linkedInProfile}" /><br>
 	<jstl:forEach items="${application.curriculum.positionData}" var="positionDatum">
 		<spring:message code="curriculum.title" /><jstl:out value="${positionDatum.title}" /><br>
 		<spring:message code="curriculum.description" /><jstl:out value="${positionDatum.description}" /><br>

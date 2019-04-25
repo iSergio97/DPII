@@ -70,6 +70,7 @@ public class CurriculumService extends AbstractService<CurriculumRepository, Cur
 
 	public Curriculum copy(final Curriculum curriculum) {
 		final Curriculum copy = this.create();
+		copy.setName(curriculum.getName());
 		copy.setHacker(curriculum.getHacker());
 		// Copy personal data
 		copy.setPersonalData(this.personalDataService.copy(curriculum.getPersonalData()));

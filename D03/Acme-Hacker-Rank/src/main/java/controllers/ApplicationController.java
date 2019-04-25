@@ -115,6 +115,8 @@ public class ApplicationController extends AbstractController {
 		position = this.positionService.findOne(positionId);
 		if (position == null)
 			return new ModelAndView("redirect:/welcome/index.do");
+		if (!position.getStatus().equals("ACCEPTED"))
+			return new ModelAndView("redirect:/welcome/index.do");
 		result = new ModelAndView("application/hacker/create");
 
 		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByHacker(hacker);

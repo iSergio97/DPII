@@ -44,36 +44,28 @@
 						code="master.page.register.hacker" /></a></li>
 			<li><a class="fNiv" href="register/company/create.do"><spring:message
 						code="master.page.register.company" /></a></li>
-			<li><a class="fNiv" href="position/all/list.do"><spring:message
-						code="master.page.list.company" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
-			<li><a class="fNiv"> <spring:message
-						code="master.page.profile" /> (<security:authentication
-						property="principal.username" />)
-			</a>
+			<li><a class="fNiv"> <spring:message code="master.page.profile" /> (<security:authentication property="principal.username" />)</a>
 				<ul>
 					<li class="arrow"></li>
+					
 					<security:authorize access="hasRole('HACKER')">
-						<li><a href="register/hacker/edit.do"><spring:message
-									code="action.edit" /> </a></li>
+						<li><a href="register/hacker/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('COMPANY')">
-						<li><a href="register/hacker/edit.do"><spring:message
-									code="action.edit" /> </a></li>
+						<li><a href="register/hacker/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
-						<li><a href="register/administrator/create.do"><spring:message
-									code="master.page.create.admin" /> </a></li>
-
-						<li><a href="register/administrator/edit.do"><spring:message
-									code="action.edit" /> </a></li>
+						<li><a href="register/administrator/create.do"><spring:message code="master.page.create.admin" /> </a></li>
+						<li><a href="register/administrator/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
-					<li><a href="j_spring_security_logout"><spring:message
-								code="master.page.logout" /> </a></li>
+					
+					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
+					
 				</ul></li>
 			<li><a class="fNiv" href="socialprofile/actor/list.do"><spring:message code="master.page.socialProfile" /></a></li>
 		</security:authorize>
@@ -110,6 +102,9 @@
 				</ul>
 			</li>
 		</security:authorize>
+
+		<li><a class="fNiv" href="position/all/list.do"><spring:message code="master.page.list.company" /></a></li>
+
 	</ul>
 </div>
 
