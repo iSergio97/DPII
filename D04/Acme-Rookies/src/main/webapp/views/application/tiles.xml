@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+application/tiles.xml
+
+Copyright (C) 2019 Group 16 Desing & Testing II
+-->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	
+	<definition name="application/list" extends="master.page">
+		<put-attribute name="title" value="List applications" />
+		<put-attribute name="body" value="/views/application/list.jsp" />
+	</definition>
+	
+	<definition name="application/show" extends="master.page">
+		<put-attribute name="title" value="Show application" />
+		<put-attribute name="body" value="/views/application/show.jsp" />
+	</definition>
+	
+	<definition name="application/hacker/create" extends="master.page">
+		<put-attribute name="title" value="Create application" />
+		<put-attribute name="body" value="/views/application/create.jsp" />
+	</definition>
+	
+	<definition name="application/hacker/submit" extends="master.page">
+		<put-attribute name="title" value="Submit application" />
+		<put-attribute name="body" value="/views/application/submit.jsp" />
+	</definition>
+	
+</tiles-definitions>
