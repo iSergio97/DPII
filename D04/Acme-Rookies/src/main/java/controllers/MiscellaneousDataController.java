@@ -23,7 +23,7 @@ import services.CurriculumService;
 import services.MiscellaneousDataService;
 
 @Controller
-@RequestMapping("/miscellaneous-data/hacker")
+@RequestMapping("/miscellaneous-data/rookie")
 public class MiscellaneousDataController {
 
 	// Services ---------------------------------------------------------------
@@ -113,7 +113,7 @@ public class MiscellaneousDataController {
 					curriculum.setMiscellaneousData(curriculumMiscellaneousDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "edit");
@@ -149,7 +149,7 @@ public class MiscellaneousDataController {
 					this.curriculumService.save(c);
 					// Delete miscellaneousData
 					this.miscellaneousDataService.delete(miscellaneousData);
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "parade.commit.error", "edit");
@@ -167,7 +167,7 @@ public class MiscellaneousDataController {
 	protected ModelAndView createEditModelAndView(final MiscellaneousData miscellaneousData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("miscellaneous-data/hacker/" + method);
+		result = new ModelAndView("miscellaneous-data/rookie/" + method);
 
 		result.addObject("miscellaneousData", miscellaneousData);
 
@@ -182,7 +182,7 @@ public class MiscellaneousDataController {
 	protected ModelAndView createEditModelAndView(final MiscellaneousDataForm miscellaneousDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("miscellaneous-data/hacker/" + method);
+		result = new ModelAndView("miscellaneous-data/rookie/" + method);
 
 		result.addObject("miscellaneousData", miscellaneousDataForm);
 

@@ -23,7 +23,7 @@ import services.CurriculumService;
 import services.EducationDataService;
 
 @Controller
-@RequestMapping("/education-data/hacker")
+@RequestMapping("/education-data/rookie")
 public class EducationDataController {
 
 	// Services ---------------------------------------------------------------
@@ -113,7 +113,7 @@ public class EducationDataController {
 					curriculum.setEducationData(curriculumEducationDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(educationDataForm, "edit");
@@ -149,7 +149,7 @@ public class EducationDataController {
 					this.curriculumService.save(c);
 					// Delete educationData
 					this.educationDataService.delete(educationData);
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(educationDataForm, "parade.commit.error", "edit");
@@ -167,7 +167,7 @@ public class EducationDataController {
 	protected ModelAndView createEditModelAndView(final EducationData educationData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("education-data/hacker/" + method);
+		result = new ModelAndView("education-data/rookie/" + method);
 
 		result.addObject("educationData", educationData);
 
@@ -182,7 +182,7 @@ public class EducationDataController {
 	protected ModelAndView createEditModelAndView(final EducationDataForm educationDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("education-data/hacker/" + method);
+		result = new ModelAndView("education-data/rookie/" + method);
 
 		result.addObject("educationData", educationDataForm);
 

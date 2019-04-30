@@ -16,7 +16,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="defaultCountryCode" value="+34" />
-		<property name="systemName" value="Acme Hacker Rank" />
+		<property name="systemName" value="Acme Rookies" />
 		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
 		<property name="finderDuration" value="3600" />
 		<property name="maximumFinderResults" value="10" />
@@ -35,8 +35,8 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		</property>
 		<property name="welcomeMessages">
 			<map>
-				<entry key="en" value="Welcome to Acme Hacker Rank! We're IT hacker's favourite job marketplace!" />
-				<entry key="es" value="¡Bienvenidos a Acme Hacker Rank! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+				<entry key="en" value="Welcome to Acme Rookies! We're IT rookie's favourite job marketplace!" />
+				<entry key="es" value="¡Bienvenidos a Acme Rookies! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
 			</map>
 		</property>
 	</bean>

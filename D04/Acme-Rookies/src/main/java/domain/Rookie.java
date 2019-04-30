@@ -1,17 +1,23 @@
 /*
- * HackerForm.java
+ * Rookie.java
  *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
-package forms;
+package domain;
 
-public class RegisterHackerForm extends RegisterForm {
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Rookie extends Actor {
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Fields
+	// Relationships
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Field access methods
+	// Relationship access methods
 
 }

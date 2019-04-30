@@ -12,29 +12,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Application;
-import domain.Hacker;
+import domain.Rookie;
 
 @Repository
 public interface ApplicationRepository extends AbstractRepository<Application> {
 
-	@Query("select a from Application a where a.hacker.id = ?1")
-	Collection<Application> findByHackerId(int id);
+	@Query("select a from Application a where a.rookie.id = ?1")
+	Collection<Application> findByRookieId(int id);
 
 	@Query("select a from Application a where a.position.id = ?1")
 	Collection<Application> findByPositionId(int id);
 
-	@Query("select min(1.0*(select count(a.hacker) from Application a where a.hacker.id=h.id)) from Hacker h")
+	@Query("select min(1.0*(select count(a.rookie) from Application a where a.rookie.id=r.id)) from Rookie r")
 	Double min();
 
-	@Query("select max(1.0*(select count(a.hacker) from Application a where a.hacker.id=h.id)) from Hacker h")
+	@Query("select max(1.0*(select count(a.rookie) from Application a where a.rookie.id=r.id)) from Rookie r")
 	Double max();
 
-	@Query("select avg(1.0*(select count(a.hacker) from Application a where a.hacker.id=h.id)) from Hacker h")
+	@Query("select avg(1.0*(select count(a.rookie) from Application a where a.rookie.id=r.id)) from Rookie r")
 	Double avg();
 
-	@Query("select stdDev(1.0*(select count(a.hacker) from Application a where a.hacker.id=h.id)) from Hacker h")
+	@Query("select stdDev(1.0*(select count(a.rookie) from Application a where a.rookie.id=r.id)) from Rookie r")
 	Double stdDev();
 
-	@Query("select a from Application a join a.hacker h group by h order by sum(h) desc")
-	Collection<Hacker> hackerMax();
+	@Query("select a from Application a join a.rookie h group by h order by sum(h) desc")
+	Collection<Rookie> rookieMax();
 }

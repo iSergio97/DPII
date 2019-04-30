@@ -14,6 +14,6 @@ import domain.PersonalData;
 @Repository
 public interface PersonalDataRepository extends AbstractRepository<PersonalData> {
 
-	@Query("select c.hacker.userAccount.id from Curriculum c join c.personalData md where md.id = ?1")
-	Integer findHackerByPDID(int id);
+	@Query("select c.rookie.userAccount.id from Curriculum c join c.personalData md where md.id = ?1")
+	Integer findRookieByPDID(int id);
 }

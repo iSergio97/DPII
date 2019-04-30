@@ -28,19 +28,19 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<jstl:out value="${row.position.title}" />
 	</display:column>
 
-	<security:authorize access="hasRole('HACKER')">
+	<security:authorize access="hasRole('ROOKIE')">
 		<display:column titleKey="show">
-			<a href="application/hacker/show.do?id=${row.id}"><spring:message code="show" /></a>
+			<a href="application/rookie/show.do?id=${row.id}"><spring:message code="show" /></a>
 		</display:column>
 		
 		<display:column titleKey="options">
-			<a href="application/hacker/submit.do?id=${row.id}"><spring:message code="submit" /></a>
+			<a href="application/rookie/submit.do?id=${row.id}"><spring:message code="submit" /></a>
 		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('COMPANY')">
-		<display:column titleKey="hacker">
-			<jstl:out value="${row.hacker.name}" /> <jstl:out value="${row.hacker.surnames}" />
+		<display:column titleKey="rookie">
+			<jstl:out value="${row.rookie.name}" /> <jstl:out value="${row.rookie.surnames}" />
 		</display:column>
 		
 		<display:column titleKey="show">
@@ -64,19 +64,19 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<jstl:out value="${row.position.title}" />
 	</display:column>
 
-	<security:authorize access="hasRole('HACKER')">
+	<security:authorize access="hasRole('ROOKIE')">
 		<display:column titleKey="show">
-			<a href="application/hacker/show.do?id=${row.id}"><spring:message code="show" /></a>
+			<a href="application/rookie/show.do?id=${row.id}"><spring:message code="show" /></a>
 		</display:column>
 	
 		<display:column titleKey="options">
-			<a href="application/hacker/submit.do?id=${row.id}"><spring:message code="submit" /></a>
+			<a href="application/rookie/submit.do?id=${row.id}"><spring:message code="submit" /></a>
 		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('COMPANY')">
-		<display:column titleKey="hacker">
-			<jstl:out value="${row.hacker.name}" /> <jstl:out value="${row.hacker.surnames}" />
+		<display:column titleKey="rookie">
+			<jstl:out value="${row.rookie.name}" /> <jstl:out value="${row.rookie.surnames}" />
 		</display:column>
 		
 		<display:column titleKey="show">
@@ -111,15 +111,15 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<jstl:out value="${row.position.title}" />
 	</display:column>
 
-	<security:authorize access="hasRole('HACKER')">
+	<security:authorize access="hasRole('ROOKIE')">
 		<display:column titleKey="show">
-			<a href="application/hacker/show.do?id=${row.id}"><spring:message code="show" /></a>
+			<a href="application/rookie/show.do?id=${row.id}"><spring:message code="show" /></a>
 		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('COMPANY')">
-		<display:column titleKey="hacker">
-			<jstl:out value="${row.hacker.name}" /> <jstl:out value="${row.hacker.surnames}" />
+		<display:column titleKey="rookie">
+			<jstl:out value="${row.rookie.name}" /> <jstl:out value="${row.rookie.surnames}" />
 		</display:column>
 		
 		<display:column titleKey="show">
@@ -143,15 +143,15 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<jstl:out value="${row.position.title}" />
 	</display:column>
 
-	<security:authorize access="hasRole('HACKER')">
+	<security:authorize access="hasRole('ROOKIE')">
 		<display:column titleKey="show">
-			<a href="application/hacker/show.do?id=${row.id}"><spring:message code="show" /></a>
+			<a href="application/rookie/show.do?id=${row.id}"><spring:message code="show" /></a>
 		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('COMPANY')">
-		<display:column titleKey="hacker">
-			<jstl:out value="${row.hacker.name}" /> <jstl:out value="${row.hacker.surnames}" />
+		<display:column titleKey="rookie">
+			<jstl:out value="${row.rookie.name}" /> <jstl:out value="${row.rookie.surnames}" />
 		</display:column>
 		
 		<display:column titleKey="show">

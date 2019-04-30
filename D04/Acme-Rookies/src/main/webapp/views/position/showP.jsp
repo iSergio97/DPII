@@ -29,9 +29,9 @@
 	<display:column property="technologies"> <jstl:out value="${row.technologies}" /> </display:column>
 	<display:column property="salary"> <jstl:out value="${row.salary}" /> </display:column>
 	
-	<security:authorize access="hasRole('HACKER')">
+	<security:authorize access="hasRole('ROOKIE')">
 		<display:column>
-			<a href="application/hacker/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+			<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
 		</display:column>
 	</security:authorize>
 

@@ -13,8 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import utilities.AbstractTest;
 import domain.Application;
+import utilities.AbstractTest;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -36,11 +36,11 @@ public class ApplicationServiceTest extends AbstractTest {
 
 	private final Object[][]	testingData	= {
 		{
-		"explanations", "https://www.imgur.com", "PENDING", null
+			"explanations", "https://www.imgur.com", "PENDING", null
 		}, {
-		"explanations", "a", "PENDING", IllegalArgumentException.class
+			"explanations", "a", "PENDING", IllegalArgumentException.class
 		}
-											};
+	};
 
 
 	// Test template ----------------------------------------------------------
@@ -57,7 +57,7 @@ public class ApplicationServiceTest extends AbstractTest {
 			application.setPosition(this.positionService.findAll().get(0));
 			application.setProblem(application.getPosition().getProblems().iterator().next());
 			application.setCurriculum(this.curriculumService.findAll().get(0));
-			application.setHacker(application.getCurriculum().getHacker());
+			application.setRookie(application.getCurriculum().getRookie());
 			application = this.applicationService.save(application);
 			Assert.isTrue(Validation.buildDefaultValidatorFactory().getValidator().validate(application).size() == 0);
 		} catch (final Throwable throwable) {

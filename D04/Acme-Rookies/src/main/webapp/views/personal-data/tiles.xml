@@ -12,18 +12,18 @@
        
 <tiles-definitions>
 
-	<definition name="personal-data/hacker/create" extends="master.page">
+	<definition name="personal-data/rookie/create" extends="master.page">
 		<put-attribute name="title" value="Create Personal Data" />
 		<put-attribute name="body" value="/views/curriculum/edit.jsp" />
 	</definition>
 	
-	<definition name="personal-data/hacker/edit" extends="master.page">
+	<definition name="personal-data/rookie/edit" extends="master.page">
 		<put-attribute name="title" value="Edit Personal Data" />
 		<put-attribute name="body" value="/views/curriculum/edit.jsp" />
 	</definition>
 	
 	<!-- Cambiar esto a una vista genérica de los data en curriculum -->
-		<definition name="personal-data/hacker/show" extends="master.page">
+		<definition name="personal-data/rookie/show" extends="master.page">
 		<put-attribute name="title" value="Show Personal Data" />
 		<put-attribute name="body" value="/views/personal-data/show.jsp" />
 	</definition>

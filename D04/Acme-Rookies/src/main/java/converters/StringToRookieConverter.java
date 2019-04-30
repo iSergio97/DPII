@@ -1,6 +1,6 @@
 /*
- * StringToHackerConverter.java
- * 
+ * StringToRookieConverter.java
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -11,27 +11,27 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.HackerRepository;
-import domain.Hacker;
+import domain.Rookie;
+import repositories.RookieRepository;
 
 @Component
 @Transactional
-public class StringToHackerConverter implements Converter<String, Hacker> {
+public class StringToRookieConverter implements Converter<String, Rookie> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Repository
 
 	@Autowired
-	private HackerRepository	hackerRepository;
+	private RookieRepository rookieRepository;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Converter methods
 
 	@Override
-	public Hacker convert(final String text) {
+	public Rookie convert(final String text) {
 		try {
-			return this.hackerRepository.findOne(Integer.parseInt(text));
+			return this.rookieRepository.findOne(Integer.parseInt(text));
 		} catch (final Throwable throwable) {
 			throw new IllegalArgumentException(throwable);
 		}

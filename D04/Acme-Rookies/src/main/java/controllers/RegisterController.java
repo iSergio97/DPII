@@ -19,17 +19,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Administrator;
 import domain.Company;
-import domain.Hacker;
 import domain.MessageBox;
+import domain.Rookie;
 import forms.RegisterAdministratorForm;
 import forms.RegisterCompanyForm;
-import forms.RegisterHackerForm;
+import forms.RegisterRookieForm;
 import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
 import services.CompanyService;
-import services.HackerService;
 import services.MessageBoxService;
+import services.RookieService;
 
 @Controller
 @RequestMapping("/register")
@@ -39,7 +39,7 @@ public class RegisterController {
 	private AdministratorService	administratorService;
 
 	@Autowired
-	private HackerService			hackerService;
+	private RookieService			rookieService;
 
 	@Autowired
 	private CompanyService			companyService;
@@ -55,105 +55,106 @@ public class RegisterController {
 		super();
 	}
 
-	@RequestMapping(value = "/hacker/create", method = RequestMethod.GET)
-	public ModelAndView registerHacker() {
+	@RequestMapping(value = "/rookie/create", method = RequestMethod.GET)
+	public ModelAndView registerRookie() {
 		ModelAndView result;
-		RegisterHackerForm hacker;
+		RegisterRookieForm rookie;
 
-		hacker = this.hackerService.createForm();
-		result = this.createEditModelAndView(hacker);
+		rookie = this.rookieService.createForm();
+		result = this.createEditModelAndView(rookie);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/hacker/edit", method = RequestMethod.GET)
-	public ModelAndView editH() {
-		final Hacker hacker = this.hackerService.findPrincipal();
-		final RegisterHackerForm rhf = this.hackerService.deconstruct(hacker);
+	@RequestMapping(value = "/rookie/edit", method = RequestMethod.GET)
+	public ModelAndView editRookie() {
+		final Rookie rookie = this.rookieService.findPrincipal();
+		final RegisterRookieForm rhf = this.rookieService.deconstruct(rookie);
 
 		return this.createEditModelAndView(rhf);
 	}
 
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "/hacker/edit", method = RequestMethod.POST)
-	public ModelAndView registerHackerPost(@ModelAttribute("hacker") final RegisterHackerForm registerHackerForm, final BindingResult bindingResult) {
+	@RequestMapping(value = "/rookie/edit", method = RequestMethod.POST)
+	public ModelAndView registerRookiePost(@ModelAttribute("rookie") final RegisterRookieForm registerRookieForm, final BindingResult bindingResult) {
 		ModelAndView result;
-		final Hacker hacker2;
+		final Rookie rookie2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Calendar calendar = Calendar.getInstance();
 		final Date date = calendar.getTime();
 
-		if (registerHackerForm.getExpirationYear() < (date.getYear() % 100) && registerHackerForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			if (registerHackerForm.getExpirationYear() < date.getYear() % 100) {
+		if (registerRookieForm.getExpirationYear() < (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerRookieForm.getExpirationYear() < date.getYear() % 100) {
 				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the actual year");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("expirationYear", "error.oldYear");
 			}
 
-			if (registerHackerForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
 				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the actual month");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
 			}
 		}
 
-		if (registerHackerForm.getId() == 0) {
-			if (usernames.contains(registerHackerForm.getUsername())) {
+		if (registerRookieForm.getId() == 0) {
+			if (usernames.contains(registerRookieForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("username", "error.existedUserName");
 			}
 		} else {
-			final Hacker hacker3 = this.hackerService.findPrincipal();
-			usernames.remove(hacker3.getUserAccount().getUsername());
-			if (usernames.contains(registerHackerForm.getUsername())) {
+			final Rookie rookie3 = this.rookieService.findPrincipal();
+			usernames.remove(rookie3.getUserAccount().getUsername());
+			if (usernames.contains(registerRookieForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
 				bindingResult.addError(error);
 				bindingResult.rejectValue("username", "error.existedUsername");
 			}
 		}
 
-		if (registerHackerForm.getUsername().length() < 5 || registerHackerForm.getUsername().length() > 32) {
+		if (registerRookieForm.getUsername().length() < 5 || registerRookieForm.getUsername().length() > 32) {
 			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("username", "error.shortUserName");
 		}
 
-		if (!registerHackerForm.getPassword().equals(registerHackerForm.getConfirmPassword())) {
+		if (!registerRookieForm.getPassword().equals(registerRookieForm.getConfirmPassword())) {
 			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("password", "error.wrongPass");
 		}
-		if (registerHackerForm.getPassword().length() == 0) {
+		if (registerRookieForm.getPassword().length() == 0) {
 			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("password", "error.nullPass");
 		}
 
-		if (registerHackerForm.getPhoneNumber().length() < 3) {
+		if (registerRookieForm.getPhoneNumber().length() < 3) {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
 		}
 
 		try {
-			hacker2 = this.hackerService.reconstructForm(registerHackerForm, bindingResult);
-			final UserAccount ua = hacker2.getUserAccount();
-			ua.setPassword(new Md5PasswordEncoder().encodePassword(hacker2.getUserAccount().getPassword(), null));
+			rookie2 = this.rookieService.reconstructForm(registerRookieForm, bindingResult);
+			final UserAccount ua = rookie2.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(rookie2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
-			hacker2.setUserAccount(uaSaved);
-			final Hacker hackerSaved = this.hackerService.save(hacker2);
-			if (hacker2.getId() == 0)
+			rookie2.setUserAccount(uaSaved);
+			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
+			final Rookie rookieSaved = this.rookieService.save(rookie2);
+			if (rookie2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
-					mb.setActor(hackerSaved);
+					mb.setActor(rookieSaved);
 					this.messageBoxService.save(mb);
 				}
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(registerHackerForm);
+			result = this.createEditModelAndView(registerRookieForm);
 		} catch (final Throwable valExp) {
-			result = this.createEditModelAndView(registerHackerForm, "register.hacker.error");
+			result = this.createEditModelAndView(registerRookieForm, "register.rookie.error");
 			for (final ObjectError e : bindingResult.getAllErrors())
 				System.out.println(e);
 		}
@@ -238,7 +239,7 @@ public class RegisterController {
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerCompanyForm);
 		} catch (final Throwable valExp) {
-			result = this.createEditModelAndView(registerCompanyForm, "register.hacker.error");
+			result = this.createEditModelAndView(registerCompanyForm, "register.rookie.error");
 		}
 
 		return result;
@@ -329,7 +330,7 @@ public class RegisterController {
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerAdministratorForm);
 		} catch (final Throwable valExp) {
-			result = this.createEditModelAndView(registerAdministratorForm, "register.hacker.error");
+			result = this.createEditModelAndView(registerAdministratorForm, "register.rookie.error");
 		}
 
 		return result;
@@ -359,9 +360,9 @@ public class RegisterController {
 		if (t instanceof RegisterAdministratorForm) {
 			result = new ModelAndView("register/administrator/create");
 			result.addObject("administrator", t);
-		} else if (t instanceof RegisterHackerForm) {
-			result = new ModelAndView("register/hacker/create");
-			result.addObject("hacker", t);
+		} else if (t instanceof RegisterRookieForm) {
+			result = new ModelAndView("register/rookie/create");
+			result.addObject("rookie", t);
 		} else if (t instanceof RegisterCompanyForm) {
 			result = new ModelAndView("register/company/create");
 			result.addObject("company", t);

@@ -25,7 +25,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<bean class="converters.CurriculumToStringConverter" />
 		<bean class="converters.EducationDataToStringConverter" />
 		<bean class="converters.FinderToStringConverter" />
-		<bean class="converters.HackerToStringConverter" />
+		<bean class="converters.RookieToStringConverter" />
 		<bean class="converters.MessageToStringConverter" />
 		<bean class="converters.MiscellaneousDataToStringConverter" />
 		<bean class="converters.PersonalDataToStringConverter" />
@@ -46,7 +46,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<bean class="converters.StringToCurriculumConverter" />
 		<bean class="converters.StringToEducationDataConverter" />
 		<bean class="converters.StringToFinderConverter" />
-		<bean class="converters.StringToHackerConverter" />
+		<bean class="converters.StringToRookieConverter" />
 		<bean class="converters.StringToMessageConverter" />
 		<bean class="converters.StringToMiscellaneousDataConverter" />
 		<bean class="converters.StringToPersonalDataConverter" />

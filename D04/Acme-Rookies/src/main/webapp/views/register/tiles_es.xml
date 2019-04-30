@@ -9,19 +9,19 @@
 
 <tiles-definitions>
 
-	<definition name="register/hacker/create"
+	<definition name="register/rookie/create"
 		extends="master.page">
-		<put-attribute name="title" value="Registro como hacker" />
+		<put-attribute name="title" value="Registro como novato" />
 		<put-attribute name="body"
-			value="/views/register/hacker/create.jsp" />
+			value="/views/register/rookie/create.jsp" />
 	</definition>
 
-	<definition name="register/hacker/edit"
+	<definition name="register/rookie/edit"
 		extends="master.page">
 		<put-attribute name="title"
-			value="Editar su perfil de hacker" />
+			value="Editar su perfil de rookie" />
 		<put-attribute name="body"
-			value="/views/register/hacker/create.jsp" />
+			value="/views/register/rookie/create.jsp" />
 	</definition>
 
 	<definition name="register/company/create"

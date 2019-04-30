@@ -1,6 +1,6 @@
 /*
  * Finder.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -38,7 +38,7 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Hacker					hacker;
+	private Rookie					rookie;
 	private Collection<Position>	positions;
 
 
@@ -96,12 +96,12 @@ public class Finder extends DomainEntity {
 
 	@OneToOne
 	@Valid
-	public Hacker getHacker() {
-		return this.hacker;
+	public Rookie getRookie() {
+		return this.rookie;
 	}
 
-	public void setHacker(final Hacker hacker) {
-		this.hacker = hacker;
+	public void setRookie(final Rookie rookie) {
+		this.rookie = rookie;
 	}
 
 	@Valid

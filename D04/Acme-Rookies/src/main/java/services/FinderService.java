@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.FinderRepository;
 import domain.Finder;
 import domain.Position;
 import forms.FinderForm;
+import repositories.FinderRepository;
 
 @Service
 @Transactional
@@ -24,7 +24,7 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	private FinderRepository	finderRepository;
 
 	@Autowired
-	private HackerService		hackerService;
+	private RookieService		rookieService;
 
 	@Autowired
 	private Validator			validator;
@@ -45,7 +45,7 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		finder.setMinimumSalary(0.0);
 		finder.setMaximumDeadline(new Date());
 		finder.setMoment(new Date());
-		finder.setHacker(this.hackerService.findPrincipal());
+		finder.setRookie(this.rookieService.findPrincipal());
 		finder.setPositions(new ArrayList<Position>());
 
 		return finder;
@@ -91,9 +91,9 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		return this.finderRepository.findPositions(kw1, kw2, kw3, kw4, kw5, kw6, deadline, maximumDeadline, minimumSalary);
 	}
 
-	public Finder findPrincipal(final int hackerId) {
+	public Finder findPrincipal(final int rookieId) {
 		Finder f = null;
-		f = this.finderRepository.findPrincipal(hackerId);
+		f = this.finderRepository.findPrincipal(rookieId);
 		return f;
 	}
 

@@ -35,6 +35,8 @@ public class SystemConfiguration extends DomainEntity {
 	private int					maximumFinderResults;
 	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessages;
+	private double				vat;
+	private double				flatRate;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +107,22 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
 		this.welcomeMessages = welcomeMessages;
+	}
+
+	public double getVat() {
+		return this.vat;
+	}
+
+	public void setVat(final double vat) {
+		this.vat = vat;
+	}
+
+	public double getFlatRate() {
+		return this.flatRate;
+	}
+
+	public void setFlatRate(final double flatRate) {
+		this.flatRate = flatRate;
 	}
 
 }

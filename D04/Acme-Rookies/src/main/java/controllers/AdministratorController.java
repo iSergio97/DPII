@@ -86,13 +86,13 @@ public class AdministratorController extends AbstractController {
 		final Double maxApplication = this.applicationService.max();
 		final Double avgApplication = this.applicationService.media();
 		final Double stdDevApplication = this.applicationService.stdDev();
-		//final Hacker hackerMax = this.applicationService.hackerMax();
+		//final Rookie rookieMax = this.applicationService.rookieMax();
 
 		result.addObject("minA", minApplication);
 		result.addObject("maxA", maxApplication);
 		result.addObject("avgA", avgApplication);
 		result.addObject("stdDevA", stdDevApplication);
-		//result.addObject("hackerMax", hackerMax);
+		//result.addObject("rookieMax", rookieMax);
 
 		return result;
 	}

@@ -40,8 +40,8 @@
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
-			<li><a class="fNiv" href="register/hacker/create.do"><spring:message
-						code="master.page.register.hacker" /></a></li>
+			<li><a class="fNiv" href="register/rookie/create.do"><spring:message
+						code="master.page.register.rookie" /></a></li>
 			<li><a class="fNiv" href="register/company/create.do"><spring:message
 						code="master.page.register.company" /></a></li>
 		</security:authorize>
@@ -51,12 +51,12 @@
 				<ul>
 					<li class="arrow"></li>
 					
-					<security:authorize access="hasRole('HACKER')">
-						<li><a href="register/hacker/edit.do"><spring:message code="action.edit" /> </a></li>
+					<security:authorize access="hasRole('ROOKIE')">
+						<li><a href="register/rookie/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('COMPANY')">
-						<li><a href="register/hacker/edit.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="register/rookie/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
@@ -91,13 +91,13 @@
 			</li>
 		</security:authorize>
 
-		<security:authorize access="hasRole('HACKER')">
-			<li><a class="fNiv"><spring:message	code="master.page.hacker" /></a>
+		<security:authorize access="hasRole('ROOKIE')">
+			<li><a class="fNiv"><spring:message	code="master.page.rookie" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="curriculum/hacker/create.do"><spring:message code="action.create.curriculum" /></a></li>
-					<li><a href="curriculum/hacker/list.do"><spring:message code="action.list.curriculum" /></a></li>
-					<li><a href="application/hacker/list.do"><spring:message code="action.list.application" /></a></li>
+					<li><a href="curriculum/rookie/create.do"><spring:message code="action.create.curriculum" /></a></li>
+					<li><a href="curriculum/rookie/list.do"><spring:message code="action.list.curriculum" /></a></li>
+					<li><a href="application/rookie/list.do"><spring:message code="action.list.application" /></a></li>
 				<!--<li><a href="finder/list.do"><spring:message code="action.list.finder" /></a></li> -->
 				</ul>
 			</li>

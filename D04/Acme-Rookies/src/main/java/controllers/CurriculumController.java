@@ -12,25 +12,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Curriculum;
 import domain.EducationData;
-import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PersonalData;
 import domain.PositionData;
+import domain.Rookie;
 import forms.PersonalDataForm;
 import security.LoginService;
 import services.CurriculumService;
-import services.HackerService;
 import services.PersonalDataService;
+import services.RookieService;
 
 @Controller
-@RequestMapping("/curriculum/hacker")
+@RequestMapping("/curriculum/rookie")
 public class CurriculumController {
 
 	@Autowired
 	private CurriculumService	curriculumService;
 
 	@Autowired
-	private HackerService		hackerService;
+	private RookieService		rookieService;
 
 	@Autowired
 	private PersonalDataService	personalDataService;
@@ -55,10 +55,10 @@ public class CurriculumController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
-		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByHacker(hacker);
+		final Rookie rookie = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByRookie(rookie);
 
-		result = new ModelAndView("curriculum/hacker/list");
+		result = new ModelAndView("curriculum/rookie/list");
 		result.addObject("curricula", curricula);
 
 		return result;
@@ -68,12 +68,12 @@ public class CurriculumController {
 	public ModelAndView show(@RequestParam final int curriculumId) {
 		ModelAndView result;
 		final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
-		final Hacker hacker = curriculum.getHacker();
-		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		if (hacker != principal)
+		final Rookie rookie = curriculum.getRookie();
+		final Rookie principal = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
+		if (rookie != principal)
 			result = new ModelAndView("redirect:/welcome/index.do");
 		else {
-			result = new ModelAndView("curriculum/hacker/show");
+			result = new ModelAndView("curriculum/rookie/show");
 
 			final PersonalData personalData = curriculum.getPersonalData();
 			final Collection<MiscellaneousData> miscellaneousDataList = curriculum.getMiscellaneousData();
@@ -98,7 +98,7 @@ public class CurriculumController {
 	protected ModelAndView createEditModelAndView(final PersonalDataForm personalDataForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("curriculum/hacker/create");
+		result = new ModelAndView("curriculum/rookie/create");
 
 		result.addObject("personalData", personalDataForm);
 

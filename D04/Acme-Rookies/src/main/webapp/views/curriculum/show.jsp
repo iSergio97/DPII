@@ -17,7 +17,7 @@
 	<acme:link code="personalData.linkedInProfile" value="${personalData.linkedInProfile}"/>
 	<acme:field code="personalData.statement" value="${personalData.statement}"/>
 
-<a href="personal-data/hacker/edit.do?personalDataID=${personalData.id}">
+<a href="personal-data/rookie/edit.do?personalDataID=${personalData.id}">
 <spring:message code="editPD"/>
 </a>
 <br><br>
@@ -44,12 +44,12 @@
 	</display:column>
 	
 	<display:column titleKey="blank">
-		<a href="position-data/hacker/edit.do?positionDataId=${row.id}"><spring:message code="action.edit"/></a>
+		<a href="position-data/rookie/edit.do?positionDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
 
-<a href="position-data/hacker/create.do?curriculumId=${curriculumId}">
+<a href="position-data/rookie/create.do?curriculumId=${curriculumId}">
 	<spring:message code="action.add"/>
 </a>
 <br><br>
@@ -80,12 +80,12 @@
 	</display:column>
 	
 	<display:column titleKey="blank">
-		<a href="education-data/hacker/edit.do?educationDataId=${row.id}"><spring:message code="action.edit"/></a>
+		<a href="education-data/rookie/edit.do?educationDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
 
-<a href="education-data/hacker/create.do?curriculumId=${curriculumId}">
+<a href="education-data/rookie/create.do?curriculumId=${curriculumId}">
 	<spring:message code="action.add"/>
 </a>
 <br><br>
@@ -104,12 +104,12 @@
 	</display:column>
 	
 	<display:column titleKey="blank">
-		<a href="miscellaneous-data/hacker/edit.do?miscellaneousDataId=${row.id}"><spring:message code="action.edit"/></a>
+		<a href="miscellaneous-data/rookie/edit.do?miscellaneousDataId=${row.id}"><spring:message code="action.edit"/></a>
 	</display:column>
 
 </display:table>
 
-<a href="miscellaneous-data/hacker/create.do?curriculumId=${curriculumId}">
+<a href="miscellaneous-data/rookie/create.do?curriculumId=${curriculumId}">
 	<spring:message code="action.add"/>
 </a>
 <br><br>

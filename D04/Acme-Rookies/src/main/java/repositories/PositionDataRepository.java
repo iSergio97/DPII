@@ -14,7 +14,7 @@ import domain.PositionData;
 @Repository
 public interface PositionDataRepository extends AbstractRepository<PositionData> {
 
-	@Query("select c.hacker.userAccount.id from Curriculum c join c.positionData pd where pd.id = ?1")
+	@Query("select c.rookie.userAccount.id from Curriculum c join c.positionData pd where pd.id = ?1")
 	int findOwner(int positionDataId);
 
 	@Query("select c.id from Curriculum c join c.positionData pd where pd.id = ?1")

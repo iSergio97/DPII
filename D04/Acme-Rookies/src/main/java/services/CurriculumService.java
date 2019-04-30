@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import domain.Curriculum;
 import domain.EducationData;
-import domain.Hacker;
 import domain.MiscellaneousData;
 import domain.PositionData;
+import domain.Rookie;
 import repositories.CurriculumRepository;
 import security.LoginService;
 
@@ -24,7 +24,7 @@ public class CurriculumService extends AbstractService<CurriculumRepository, Cur
 	// Supporting services
 
 	@Autowired
-	private HackerService				hackerService;
+	private RookieService				rookieService;
 
 	@Autowired
 	private EducationDataService		educationDataService;
@@ -47,8 +47,8 @@ public class CurriculumService extends AbstractService<CurriculumRepository, Cur
 		final Curriculum curriculum = new Curriculum();
 		curriculum.setName("");
 		curriculum.setEducationData(new ArrayList<EducationData>());
-		final Hacker principal = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		curriculum.setHacker(principal);
+		final Rookie principal = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
+		curriculum.setRookie(principal);
 		curriculum.setMiscellaneousData(new ArrayList<MiscellaneousData>());
 		curriculum.setPositionData(new ArrayList<PositionData>());
 
@@ -71,7 +71,7 @@ public class CurriculumService extends AbstractService<CurriculumRepository, Cur
 	public Curriculum copy(final Curriculum curriculum) {
 		final Curriculum copy = this.create();
 		copy.setName(curriculum.getName());
-		copy.setHacker(curriculum.getHacker());
+		copy.setRookie(curriculum.getRookie());
 		// Copy personal data
 		copy.setPersonalData(this.personalDataService.copy(curriculum.getPersonalData()));
 		// Copy position data
@@ -93,8 +93,8 @@ public class CurriculumService extends AbstractService<CurriculumRepository, Cur
 		return this.save(copy);
 	}
 
-	public Collection<Curriculum> findCurriculaByHacker(final Hacker hacker) {
-		return this.repository.findCurriculaByHacker(hacker.getId());
+	public Collection<Curriculum> findCurriculaByRookie(final Rookie rookie) {
+		return this.repository.findCurriculaByRookie(rookie.getId());
 	}
 
 	public Curriculum findCurriculumByPDId(final int id) {
