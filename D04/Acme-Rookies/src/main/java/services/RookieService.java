@@ -1,13 +1,13 @@
 /*
  * RookieService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.CreditCard;
-import domain.Rookie;
-import forms.RegisterRookieForm;
 import repositories.RookieRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.CreditCard;
+import domain.Rookie;
+import forms.RegisterRookieForm;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 	// Other fields
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -91,9 +91,8 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 		rookieForm.setHolder("");
 		rookieForm.setBrand("");
 		rookieForm.setNumber("");
-		final Date date = new Date();
-		rookieForm.setExpirationMonth(date.getMonth() + 1);
-		rookieForm.setExpirationYear(date.getYear() % 100);
+		rookieForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
+		rookieForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 		rookieForm.setCVV(100);
 		return rookieForm;
 	}

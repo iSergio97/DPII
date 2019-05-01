@@ -1,6 +1,6 @@
 /*
  * AbstractService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -15,13 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
 
-import domain.DomainEntity;
 import repositories.AbstractRepository;
+import domain.DomainEntity;
 
 @Service
 @Transactional
@@ -148,9 +149,9 @@ public abstract class AbstractService<R extends AbstractRepository<E>, E extends
 		return this.repository.save(entity);
 	}
 
-	public List<E> save(final Iterable<E> entities) {
+	public Iterable<E> save(final Iterable<E> entities) {
 		Assert.notNull(entities);
-		return this.repository.save(entities);
+		return ((CrudRepository<E, Integer>) this.repository).save(entities);
 	}
 
 	public void delete(final E entity) {
