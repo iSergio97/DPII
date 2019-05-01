@@ -6,12 +6,16 @@
 
 package repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Position;
 import domain.Problem;
 
 @Repository
-public interface ProblemRepository extends JpaRepository<Problem, Integer> {
+public interface ProblemRepository extends AbstractRepository<Problem> {
+
+	@Query("select p from Position p join p.problems pr where pr.id = ?1")
+	Position findPositionAssociated(int problemId);
 
 }

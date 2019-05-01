@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationForm.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -21,16 +21,13 @@ public class SystemConfigurationForm {
 	// Fields
 
 	private int		id;
-	private String	defaultCC;
 	private String	systemName;
 	private String	banner;
+	private String	defaultCountryCode;
 	private int		finderCacheTime;
 	private int		maximumFinderResults;
 	private String	spamWords;
-	private String	welcomeMessage;
-	private String	welcomeMessageES;
-	private String	warningMessage;
-	private String	warningMessageES;
+	private String	welcomeMessages;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -43,15 +40,6 @@ public class SystemConfigurationForm {
 
 	public void setId(final int id) {
 		this.id = id;
-	}
-
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCC() {
-		return this.defaultCC;
-	}
-
-	public void setDefaultCC(final String defaultCountryCode) {
-		this.defaultCC = defaultCountryCode;
 	}
 
 	@NotBlank
@@ -72,14 +60,23 @@ public class SystemConfigurationForm {
 		this.banner = banner;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
+	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
+	public String getDefaultCountryCode() {
+		return this.defaultCountryCode;
+	}
+
+	public void setDefaultCountryCode(final String defaultCountryCode) {
+		this.defaultCountryCode = defaultCountryCode;
+	}
+
+	@Min(value = 3600)
+	@Max(value = 86400)
 	public int getFinderCacheTime() {
 		return this.finderCacheTime;
 	}
 
-	public void setFinderCacheTime(final int finderDuration) {
-		this.finderCacheTime = finderDuration;
+	public void setFinderCacheTime(final int finderCacheTime) {
+		this.finderCacheTime = finderCacheTime;
 	}
 
 	@Min(value = 1)
@@ -103,42 +100,15 @@ public class SystemConfigurationForm {
 		this.spamWords = spamWords;
 	}
 
-	@NotBlank
+	@NotNull
 	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
-	// @Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
-	public String getWelcomeMessage() {
-		return this.welcomeMessage;
+	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
+	public String getWelcomeMessages() {
+		return this.welcomeMessages;
 	}
 
-	public void setWelcomeMessage(final String welcomeMessage) {
-		this.welcomeMessage = welcomeMessage;
-	}
-
-	@NotBlank
-	public String getWelcomeMessageES() {
-		return this.welcomeMessageES;
-	}
-
-	public void setWelcomeMessageES(final String welcomeMessageES) {
-		this.welcomeMessageES = welcomeMessageES;
-	}
-
-	@NotBlank
-	public String getWarningMessage() {
-		return this.warningMessage;
-	}
-
-	public void setWarningMessage(final String warningMessage) {
-		this.warningMessage = warningMessage;
-	}
-
-	@NotBlank
-	public String getWarningMessageES() {
-		return this.warningMessageES;
-	}
-
-	public void setWarningMessageES(final String warningMessageES) {
-		this.warningMessageES = warningMessageES;
+	public void setWelcomeMessages(final String welcomeMessages) {
+		this.welcomeMessages = welcomeMessages;
 	}
 
 }

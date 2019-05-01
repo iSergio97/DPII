@@ -1,17 +1,18 @@
 /*
  * Finder.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,17 +29,17 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String		keyword;
-	private Date		deadline;
-	private double		minimumSalary;
-	private Date		maximumDeadline;
-	private Date		moment;
+	private String					keyword;
+	private Date					deadline;
+	private double					minimumSalary;
+	private Date					maximumDeadline;
+	private Date					moment;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Hacker		hacker;
-	private Position	position;
+	private Hacker					hacker;
+	private Collection<Position>	positions;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -103,14 +104,14 @@ public class Finder extends DomainEntity {
 		this.hacker = hacker;
 	}
 
-	@ManyToOne
 	@Valid
-	public Position getPosition() {
-		return this.position;
+	@OneToMany
+	public Collection<Position> getPositions() {
+		return this.positions;
 	}
 
-	public void setPosition(final Position position) {
-		this.position = position;
+	public void setPositions(final Collection<Position> positions) {
+		this.positions = positions;
 	}
 
 }

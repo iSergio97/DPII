@@ -18,11 +18,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -74,6 +75,7 @@ public class Position extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Future
 	public Date getDeadline() {
 		return this.deadline;
 	}
@@ -108,6 +110,7 @@ public class Position extends DomainEntity {
 		this.technologies = technologies;
 	}
 
+	@DecimalMin("0.0")
 	public double getSalary() {
 		return this.salary;
 	}
@@ -117,7 +120,7 @@ public class Position extends DomainEntity {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^([A-Z]){6}-([\\d]){5}$")
+	@Pattern(regexp = "^([A-Z]){4}-([\\d]){4}$")
 	@Column(unique = true)
 	public String getTicker() {
 		return this.ticker;
@@ -127,16 +130,15 @@ public class Position extends DomainEntity {
 		this.ticker = ticker;
 	}
 
-	public boolean isDraft() {
+	public boolean getIsDraft() {
 		return this.isDraft;
 	}
 
-	public void setDraft(final boolean isDraft) {
+	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
 	}
 
-	@NotBlank
-	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	@Pattern(regexp = "^SUBMITTED|ACCEPTED|CANCELLED$")
 	public String getStatus() {
 		return this.status;
 	}
@@ -160,7 +162,6 @@ public class Position extends DomainEntity {
 
 	@ManyToMany
 	@Valid
-	@NotEmpty
 	public Collection<Problem> getProblems() {
 		return this.problems;
 	}

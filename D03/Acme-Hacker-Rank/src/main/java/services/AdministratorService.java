@@ -7,68 +7,45 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.ValidationException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import security.UserAccountRepository;
 import domain.Administrator;
-import forms.AdministratorForm;
+import domain.CreditCard;
+import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
-public class AdministratorService {
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Managed repository
-
-	@Autowired
-	private AdministratorRepository	administratorRepository;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Supporting services
-
-	@Autowired
-	private UserAccountRepository	userAccountRepository;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Other fields
-
-	@Autowired
-	private Validator				validator;
-
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public AdministratorService() {
-		super();
-	}
+public class AdministratorService extends AbstractService<AdministratorRepository, Administrator> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
+	@Override
 	public Administrator create() {
-		final Administrator administrator = new Administrator();
+		final Administrator administrator = super.create();
 
 		// create user account
-		UserAccount userAccount = new UserAccount();
+		final UserAccount userAccount = new UserAccount();
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
 		authority.setAuthority(Authority.ADMINISTRATOR);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
-		userAccount = this.userAccountRepository.save(userAccount);
+		userAccount.setUsername("");
+		userAccount.setPassword("");
+		administrator.setUserAccount(userAccount);
 		// set fields
 		administrator.setName("");
 		administrator.setSurnames("");
@@ -80,44 +57,16 @@ public class AdministratorService {
 		administrator.setAddress("");
 		administrator.setIsFlagged(false);
 		administrator.setIsBanned(false);
+
 		// set relationships
-		administrator.setUserAccount(userAccount);
 		return administrator;
-	}
-
-	public Administrator save(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		return this.administratorRepository.save(administrator);
-	}
-
-	public Iterable<Administrator> save(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		return this.administratorRepository.save(administrators);
-	}
-
-	public void delete(final Administrator administrator) {
-		Assert.isTrue(administrator != null);
-		this.administratorRepository.delete(administrator);
-	}
-
-	public void delete(final Iterable<Administrator> administrators) {
-		Assert.isTrue(administrators != null);
-		this.administratorRepository.delete(administrators);
-	}
-
-	public Administrator findOne(final int id) {
-		return this.administratorRepository.findOne(id);
-	}
-
-	public List<Administrator> findAll() {
-		return this.administratorRepository.findAll();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public AdministratorForm createForm() {
-		final AdministratorForm administratorForm = new AdministratorForm();
+	public RegisterAdministratorForm createForm() {
+		final RegisterAdministratorForm administratorForm = new RegisterAdministratorForm();
 
 		administratorForm.setName("");
 		administratorForm.setSurnames("");
@@ -129,44 +78,76 @@ public class AdministratorService {
 		administratorForm.setUsername("");
 		administratorForm.setPassword("");
 		administratorForm.setConfirmPassword("");
+		administratorForm.setCVV(100);
+		administratorForm.setBrand("");
+		administratorForm.setHolder("");
+		final Date date = new Date();
+		administratorForm.setExpirationMonth(date.getMonth() + 1);
+		administratorForm.setExpirationYear(date.getYear() % 100);
 
 		return administratorForm;
 	}
 
-	public Administrator reconstructForm(final AdministratorForm administratorForm, final BindingResult bindingResult) {
+	public Administrator reconstructForm(final RegisterAdministratorForm administratorForm, final BindingResult bindingResult) {
 		final Administrator result;
 
 		if (administratorForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.administratorRepository.findOne(administratorForm.getId());
+			result = this.repository.findOne(administratorForm.getId());
 
 		result.setName(administratorForm.getName());
+		result.setSurnames(administratorForm.getSurnames());
 		result.setVat(administratorForm.getVat());
-		// result.setSurnames(ConversionUtils.stringToList(administratorForm.getSurnames(), ","));
 		result.setSurnames(administratorForm.getSurnames());
 		result.setPhoto(administratorForm.getPhoto());
 		result.setEmail(administratorForm.getEmail());
 		result.setPhoneNumber(administratorForm.getPhoneNumber());
 		result.setAddress(administratorForm.getAddress());
 
+		result.getUserAccount().setUsername(administratorForm.getUsername());
+		result.getUserAccount().setPassword(administratorForm.getPassword());
+
+		final CreditCard cc = new CreditCard();
+		cc.setHolder(administratorForm.getHolder());
+		cc.setBrand(administratorForm.getBrand());
+		cc.setNumber(administratorForm.getNumber());
+		cc.setExpirationMonth(administratorForm.getExpirationMonth());
+		cc.setExpirationYear(administratorForm.getExpirationYear());
+		cc.setCVV(administratorForm.getCVV());
+
+		result.setCreditCard(cc);
+
+		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
+		this.repository.flush();
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
-	public AdministratorForm deconstruct(final Administrator administrator) {
-		final AdministratorForm administratorForm = this.createForm();
+	public RegisterAdministratorForm deconstruct(final Administrator administrator) {
+		final RegisterAdministratorForm administratorForm = this.createForm();
 
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
-		// administratorForm.setSurnames(ConversionUtils.listToString(administrator.getSurnames(), ","));
-		administratorForm.setSurnames(administratorForm.getSurnames());
+		administratorForm.setSurnames(administrator.getSurnames());
 		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());
 		administratorForm.setPhoneNumber(administrator.getPhoneNumber());
 		administratorForm.setAddress(administrator.getAddress());
+
 		administratorForm.setUsername(administrator.getUserAccount().getUsername());
+		administratorForm.setPassword(administrator.getUserAccount().getPassword());
+
+		administratorForm.setHolder(administrator.getCreditCard().getHolder());
+		administratorForm.setBrand(administrator.getCreditCard().getBrand());
+		administratorForm.setNumber(administrator.getCreditCard().getNumber());
+		administratorForm.setExpirationMonth(administrator.getCreditCard().getExpirationMonth());
+		administratorForm.setExpirationYear(administrator.getCreditCard().getExpirationYear());
+		administratorForm.setCVV(administrator.getCreditCard().getCVV());
 
 		return administratorForm;
 	}
@@ -175,7 +156,7 @@ public class AdministratorService {
 	// Ancillary methods
 
 	public Administrator findByUserAccountId(final int id) {
-		return this.administratorRepository.findByUserAccountId(id);
+		return this.repository.findByUserAccountId(id);
 	}
 
 	public Administrator findPrincipal() {
