@@ -28,19 +28,19 @@
 <br>
 <br>
 <br>
-<strong><spring:message code="minHacker" /></strong>
+<strong><spring:message code="minRookie" /></strong>
 :
 <jstl:out value="${minA}" />
 <br>
-<strong><spring:message code="maxHacker" /></strong>
+<strong><spring:message code="maxRookie" /></strong>
 :
 <jstl:out value="${maxA}" />
 <br>
-<strong><spring:message code="avgHacker" /></strong>
+<strong><spring:message code="avgRookie" /></strong>
 :
 <jstl:out value="${avgA}" />
 <br>
-<strong><spring:message code="stdDevHacker" /></strong>
+<strong><spring:message code="stdDevRookie" /></strong>
 :
 <jstl:out value="${stdDevA}" />
 <br>

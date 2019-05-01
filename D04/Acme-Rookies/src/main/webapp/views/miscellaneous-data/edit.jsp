@@ -16,7 +16,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form modelAttribute="miscellaneousData" method="POST" action="miscellaneous-data/hacker/edit.do" id="form">
+<form:form modelAttribute="miscellaneousData" method="POST" action="miscellaneous-data/rookie/edit.do" id="form">
 
 	<form:hidden path="id" />
 	<form:hidden path="curriculumId" />

@@ -7,7 +7,7 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -92,9 +92,8 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		companyForm.setConfirmPassword("");
 		companyForm.setHolder("");
 		companyForm.setNumber("");
-		final Date date = new Date();
-		companyForm.setExpirationMonth(date.getMonth() + 1);
-		companyForm.setExpirationYear(date.getYear() % 100);
+		companyForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
+		companyForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 		companyForm.setCVV(100);
 
 		return companyForm;

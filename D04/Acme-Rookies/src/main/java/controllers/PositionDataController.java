@@ -23,7 +23,7 @@ import services.CurriculumService;
 import services.PositionDataService;
 
 @Controller
-@RequestMapping("/position-data/hacker")
+@RequestMapping("/position-data/rookie")
 public class PositionDataController {
 	// Services ---------------------------------------------------------------
 
@@ -112,7 +112,7 @@ public class PositionDataController {
 					curriculum.setPositionData(curriculumPositionDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(positionDataForm, "edit");
@@ -148,7 +148,7 @@ public class PositionDataController {
 					this.curriculumService.save(c);
 					// Delete positionData
 					this.positionDataService.delete(positionData);
-					result = new ModelAndView("redirect:/curriculum/hacker/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(positionDataForm, "parade.commit.error", "edit");
@@ -166,7 +166,7 @@ public class PositionDataController {
 	protected ModelAndView createEditModelAndView(final PositionData positionData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("position-data/hacker/" + method);
+		result = new ModelAndView("position-data/rookie/" + method);
 
 		result.addObject("positionData", positionData);
 
@@ -181,7 +181,7 @@ public class PositionDataController {
 	protected ModelAndView createEditModelAndView(final PositionDataForm positionDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("position-data/hacker/" + method);
+		result = new ModelAndView("position-data/rookie/" + method);
 
 		result.addObject("positionData", positionDataForm);
 

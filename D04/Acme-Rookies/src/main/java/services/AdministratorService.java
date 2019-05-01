@@ -7,7 +7,7 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -81,9 +81,8 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		administratorForm.setCVV(100);
 		administratorForm.setBrand("");
 		administratorForm.setHolder("");
-		final Date date = new Date();
-		administratorForm.setExpirationMonth(date.getMonth() + 1);
-		administratorForm.setExpirationYear(date.getYear() % 100);
+		administratorForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
+		administratorForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 
 		return administratorForm;
 	}

@@ -15,7 +15,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form modelAttribute="educationData" method="POST" action="education-data/hacker/edit.do" id="form">
+<form:form modelAttribute="educationData" method="POST" action="education-data/rookie/edit.do" id="form">
 
 	<form:hidden path="id" />
 	<form:hidden path="curriculumId" />

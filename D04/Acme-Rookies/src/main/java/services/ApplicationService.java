@@ -19,8 +19,8 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import domain.Application;
-import domain.Hacker;
 import domain.Position;
+import domain.Rookie;
 import forms.ApplicationForm;
 import repositories.ApplicationRepository;
 
@@ -98,8 +98,8 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 		return groupedApplications;
 	}
 
-	public Collection<Application> getApplicationsOfHacker(final Hacker hacker) {
-		return this.repository.findByHackerId(hacker.getId());
+	public Collection<Application> getApplicationsOfRookie(final Rookie rookie) {
+		return this.repository.findByRookieId(rookie.getId());
 	}
 
 	public Collection<Application> getApplicationsOfPosition(final Position position) {

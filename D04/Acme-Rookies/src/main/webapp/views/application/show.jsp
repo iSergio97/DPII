@@ -58,9 +58,9 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	<jstl:out value="${application.position.title}" />
 </p>
 <p>
-	<spring:message code="hacker" />
+	<spring:message code="rookie" />
 	<br>
-	<jstl:out value="${application.hacker.name}" /> <jstl:out value="${application.hacker.surnames}" />
+	<jstl:out value="${application.rookie.name}" /> <jstl:out value="${application.rookie.surnames}" />
 </p>
 <p>
 	<spring:message code="curriculum" />

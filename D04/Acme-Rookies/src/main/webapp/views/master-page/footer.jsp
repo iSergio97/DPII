@@ -17,7 +17,7 @@
 
 <hr />
 
-<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Hacker Rank Co., Inc.</b>
+<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Rookies Co., Inc.</b>
 <p>
 <b>
 <spring:message code="master.page.tac.pre" /><a href="welcome/termsandconditions.do" target="_blank"><spring:message code="master.page.tac.link" /></a><spring:message code="master.page.tac.post" />

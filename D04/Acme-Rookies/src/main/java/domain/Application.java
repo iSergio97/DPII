@@ -1,6 +1,6 @@
 /*
  * Application.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -42,7 +42,7 @@ public class Application extends DomainEntity {
 	private Problem		problem;
 	private Position	position;
 	private Curriculum	curriculum;
-	private Hacker		hacker;
+	private Rookie		rookie;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -122,12 +122,12 @@ public class Application extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = true)
-	public Hacker getHacker() {
-		return this.hacker;
+	public Rookie getRookie() {
+		return this.rookie;
 	}
 
-	public void setHacker(final Hacker hacker) {
-		this.hacker = hacker;
+	public void setRookie(final Rookie rookie) {
+		this.rookie = rookie;
 	}
 
 	@Valid

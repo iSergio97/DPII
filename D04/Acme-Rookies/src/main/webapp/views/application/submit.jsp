@@ -14,7 +14,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="applicationForm" method="POST" action="application/hacker/submit.do">
+<form:form modelAttribute="applicationForm" method="POST" action="application/rookie/submit.do">
 
 	<!-- Hidden fields -->
 

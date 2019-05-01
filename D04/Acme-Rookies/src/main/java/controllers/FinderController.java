@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.FinderService;
-import services.HackerService;
-import services.PositionService;
 import domain.Finder;
-import domain.Hacker;
 import domain.Position;
+import domain.Rookie;
 import forms.FinderForm;
+import services.FinderService;
+import services.PositionService;
+import services.RookieService;
 
 @Controller
 @RequestMapping("/finder")
@@ -32,7 +32,7 @@ public class FinderController extends AbstractController {
 	private FinderService	finderService;
 
 	@Autowired
-	private HackerService	hackerService;
+	private RookieService	rookieService;
 
 	@Autowired
 	private PositionService	positionService;
@@ -49,12 +49,12 @@ public class FinderController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
-		Hacker hacker;
+		Rookie rookie;
 		Finder finder;
 		Collection<Position> positions;
 
-		hacker = this.hackerService.findPrincipal();
-		finder = this.finderService.findPrincipal(hacker.getId());
+		rookie = this.rookieService.findPrincipal();
+		finder = this.finderService.findPrincipal(rookie.getId());
 		if (finder == null)
 			result = this.create();
 		else {

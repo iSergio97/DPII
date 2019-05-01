@@ -1,5 +1,5 @@
 <%--
- * register/hacker/create.jsp
+ * register/rookie/create.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez

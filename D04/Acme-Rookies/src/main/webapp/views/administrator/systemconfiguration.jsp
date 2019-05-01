@@ -89,6 +89,22 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:input path="welcomeMessages" />
 		<form:errors path="welcomeMessages" />
 	</div>
+	
+	<div id="vat" class="vat">
+		<form:label path="vat">
+			<spring:message code="systemConfiguration.vat" />
+		</form:label>
+		<form:input path="vat" />
+		<form:errors path="vat" />
+	</div>
+	
+	<div id="flatRate" class="flatRate">
+		<form:label path="flatRate">
+			<spring:message code="systemConfiguration.flatRate" />
+		</form:label>
+		<form:input path="flatRate" />
+		<form:errors path="flatRate" />
+	</div>
 
 	<!-- Form options -->
 

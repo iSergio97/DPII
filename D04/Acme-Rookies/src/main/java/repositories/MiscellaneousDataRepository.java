@@ -14,7 +14,7 @@ import domain.MiscellaneousData;
 @Repository
 public interface MiscellaneousDataRepository extends AbstractRepository<MiscellaneousData> {
 
-	@Query("select c.hacker.userAccount.id from Curriculum c join c.miscellaneousData md where md.id = ?1")
+	@Query("select c.rookie.userAccount.id from Curriculum c join c.miscellaneousData md where md.id = ?1")
 	int findOwner(int miscellaneousDataId);
 
 	@Query("select c.id from Curriculum c join c.miscellaneousData md where md.id = ?1")

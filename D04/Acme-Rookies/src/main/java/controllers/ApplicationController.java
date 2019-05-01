@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ApplicationService;
-import services.CompanyService;
-import services.CurriculumService;
-import services.HackerService;
-import services.PositionService;
 import domain.Application;
 import domain.Company;
 import domain.Curriculum;
-import domain.Hacker;
 import domain.Position;
 import domain.Problem;
+import domain.Rookie;
 import forms.ApplicationForm;
+import services.ApplicationService;
+import services.CompanyService;
+import services.CurriculumService;
+import services.PositionService;
+import services.RookieService;
 
 @Controller
 @RequestMapping("/application")
@@ -44,7 +44,7 @@ public class ApplicationController extends AbstractController {
 	@Autowired
 	private CurriculumService	curriculumService;
 	@Autowired
-	private HackerService		hackerService;
+	private RookieService		rookieService;
 	@Autowired
 	private PositionService		positionService;
 
@@ -55,18 +55,18 @@ public class ApplicationController extends AbstractController {
 		super();
 	}
 
-	// Hacker list ------------------------------------------------------------
+	// Rookie list ------------------------------------------------------------
 
-	@RequestMapping(value = "/hacker/list", method = RequestMethod.GET)
-	public ModelAndView hackerList() {
+	@RequestMapping(value = "/rookie/list", method = RequestMethod.GET)
+	public ModelAndView rookieList() {
 		final ModelAndView result;
-		final Hacker hacker;
+		final Rookie rookie;
 		final Map<String, List<Application>> applications;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfHacker(hacker));
+		applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfRookie(rookie));
 
 		result = new ModelAndView("application/list");
 		result.addObject("pendingApplications", applications.get("PENDING"));
@@ -77,21 +77,21 @@ public class ApplicationController extends AbstractController {
 		return result;
 	}
 
-	// Hacker show ------------------------------------------------------------
+	// Rookie show ------------------------------------------------------------
 
-	@RequestMapping(value = "/hacker/show", method = RequestMethod.GET)
-	public ModelAndView hackerShow(@RequestParam(value = "id") final int id) {
+	@RequestMapping(value = "/rookie/show", method = RequestMethod.GET)
+	public ModelAndView rookieShow(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
-		final Hacker hacker;
+		final Rookie rookie;
 		final Application application;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!application.getHacker().equals(hacker))
+		if (!application.getRookie().equals(rookie))
 			return new ModelAndView("redirect:/welcome/index.do");
 
 		result = new ModelAndView("application/show");
@@ -103,23 +103,23 @@ public class ApplicationController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/hacker/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/rookie/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
-		final Hacker hacker;
+		final Rookie rookie;
 		final Position position;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		position = this.positionService.findOne(positionId);
 		if (position == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
 			return new ModelAndView("redirect:/welcome/index.do");
-		result = new ModelAndView("application/hacker/create");
+		result = new ModelAndView("application/rookie/create");
 
-		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByHacker(hacker);
+		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByRookie(rookie);
 		if (curricula.size() == 0)
 			return new ModelAndView("redirect:/welcome/index.do");
 
@@ -132,16 +132,16 @@ public class ApplicationController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/hacker/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/rookie/create", method = RequestMethod.POST)
 	public ModelAndView create(@RequestParam(value = "positionId") final int positionId, @RequestParam(value = "curriculumId") final int curriculumId) {
 		Application application;
 		Curriculum curriculum;
-		final Hacker hacker;
+		final Rookie rookie;
 		Position position;
 		Problem problem;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		position = this.positionService.findOne(positionId);
 		if (position == null)
@@ -149,12 +149,12 @@ public class ApplicationController extends AbstractController {
 		curriculum = this.curriculumService.findOne(curriculumId);
 		if (curriculum == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!curriculum.getHacker().equals(hacker))
+		if (!curriculum.getRookie().equals(rookie))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		// Copy curriculum and set hacker to null so it doesn't show up in the hacker's curriculums
+		// Copy curriculum and set rookie to null so it doesn't show up in the rookie's curriculums
 		curriculum = this.curriculumService.copy(curriculum);
-		curriculum.setHacker(null);
+		curriculum.setRookie(null);
 		curriculum = this.curriculumService.save(curriculum);
 
 		problem = null;
@@ -173,51 +173,51 @@ public class ApplicationController extends AbstractController {
 		application.setCurriculum(curriculum);
 		application.setProblem(problem);
 		application.setPosition(position);
-		application.setHacker(hacker);
+		application.setRookie(rookie);
 		application = this.applicationService.save(application);
 
-		return this.hackerShow(application.getId());
+		return this.rookieShow(application.getId());
 	}
 
 	// Submit -----------------------------------------------------------------
 
-	@RequestMapping(value = "/hacker/submit", method = RequestMethod.GET)
+	@RequestMapping(value = "/rookie/submit", method = RequestMethod.GET)
 	public ModelAndView submit(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
-		final Hacker hacker;
+		final Rookie rookie;
 		final Application application;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!application.getHacker().equals(hacker))
+		if (!application.getRookie().equals(rookie))
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!application.getStatus().equals("PENDING"))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("application/hacker/submit");
+		result = new ModelAndView("application/rookie/submit");
 
 		result.addObject("applicationForm", this.applicationService.deconstruct(application));
 
 		return result;
 	}
 
-	@RequestMapping(value = "/hacker/submit", method = RequestMethod.POST)
+	@RequestMapping(value = "/rookie/submit", method = RequestMethod.POST)
 	public ModelAndView submit(@Valid @ModelAttribute("applicationForm") final ApplicationForm applicationForm, final BindingResult bindingResult) {
 		final ModelAndView result;
-		final Hacker hacker;
+		final Rookie rookie;
 		Application application;
 
-		hacker = this.hackerService.findPrincipal();
-		if (hacker == null)
+		rookie = this.rookieService.findPrincipal();
+		if (rookie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(applicationForm.getId());
 		if (application == null)
 			return new ModelAndView("redirect:/welcome/index.do");
-		if (!application.getHacker().equals(hacker))
+		if (!application.getRookie().equals(rookie))
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!application.getStatus().equals("PENDING"))
 			return new ModelAndView("redirect:/welcome/index.do");
@@ -225,9 +225,9 @@ public class ApplicationController extends AbstractController {
 			application = this.applicationService.reconstructForm(applicationForm, bindingResult);
 			application.setStatus("SUBMITTED");
 			application = this.applicationService.save(application);
-			result = this.hackerShow(application.getId());
+			result = this.rookieShow(application.getId());
 		} else {
-			result = new ModelAndView("application/hacker/submit");
+			result = new ModelAndView("application/rookie/submit");
 			result.addObject("applicationForm", applicationForm);
 		}
 

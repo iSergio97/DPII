@@ -1,5 +1,5 @@
 <%--
- * register/hacker/create.jsp
+ * register/rookie/create.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez
@@ -14,7 +14,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="hacker" action="register/hacker/edit.do">
+<form:form modelAttribute="rookie" action="register/rookie/edit.do">
 
 	<form:hidden path="id"/>
 	

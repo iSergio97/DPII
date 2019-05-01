@@ -22,7 +22,7 @@
 	</display:column>
 	
 	<display:column>
-		<a href="curriculum/hacker/show.do?curriculumId=${row.id}"> <spring:message code="action.show"/></a>
+		<a href="curriculum/rookie/show.do?curriculumId=${row.id}"> <spring:message code="action.show"/></a>
 	</display:column>
 
 </display:table>

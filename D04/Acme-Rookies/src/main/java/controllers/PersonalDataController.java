@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Curriculum;
-import domain.Hacker;
 import domain.PersonalData;
+import domain.Rookie;
 import forms.PersonalDataForm;
 import security.LoginService;
 import services.CurriculumService;
-import services.HackerService;
 import services.PersonalDataService;
+import services.RookieService;
 
 @Controller
-@RequestMapping("/personal-data/hacker")
+@RequestMapping("/personal-data/rookie")
 public class PersonalDataController {
 
 	@Autowired
 	private PersonalDataService	personalDataService;
 
 	@Autowired
-	private HackerService		hackerService;
+	private RookieService		rookieService;
 
 	@Autowired
 	private CurriculumService	curriculumService;
@@ -48,7 +48,7 @@ public class PersonalDataController {
 	public ModelAndView save(@ModelAttribute("personalData") final PersonalDataForm personalData, final BindingResult bindingResult) {
 		ModelAndView result;
 		final PersonalData pData;
-		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Rookie rookie = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
 		Curriculum cr;
 		if (personalData.getId() == 0)
 			cr = this.curriculumService.create();
@@ -64,7 +64,7 @@ public class PersonalDataController {
 			if (!bindingResult.hasErrors()) {
 				final PersonalData data = this.personalDataService.save(pData);
 				cr.setPersonalData(data);
-				cr.setHacker(hacker);
+				cr.setRookie(rookie);
 				cr.setPersonalData(data);
 				this.curriculumService.saveAllCr(cr);
 				cr.setName(personalData.getCurriculumName());
@@ -84,8 +84,8 @@ public class PersonalDataController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int personalDataID) {
 		ModelAndView result;
-		final Hacker hacker = this.hackerService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Curriculum> cl = this.curriculumService.findCurriculaByHacker(hacker);
+		final Rookie rookie = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Collection<Curriculum> cl = this.curriculumService.findCurriculaByRookie(rookie);
 		final List<Integer> ls = new ArrayList<>();
 		for (final Curriculum c : cl)
 			ls.add(c.getPersonalData().getId());
@@ -108,7 +108,7 @@ public class PersonalDataController {
 	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("personal-data/hacker/edit");
+		result = new ModelAndView("personal-data/rookie/edit");
 
 		result.addObject("personalData", pdForm);
 

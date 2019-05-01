@@ -18,7 +18,7 @@
 
 
 <form:form modelAttribute="personalData"
-	action="personal-data/hacker/edit.do">
+	action="personal-data/rookie/edit.do">
 
 	<form:hidden path="id" />
 

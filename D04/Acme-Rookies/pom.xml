@@ -13,7 +13,7 @@
 	<!-- Artifact identification and properties -->
 
 	<groupId>Acme.com</groupId>
-	<artifactId>Acme-Hacker-Rank</artifactId>
+	<artifactId>Acme-Rookies</artifactId>
 	<version>0.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -23,8 +23,8 @@
 
 	<!-- Indexing information -->
 
-	<name>Acme Hacker Rank</name>
-	<url>http://www.acme-hacker-rank.com</url>
+	<name>Acme Rookies</name>
+	<url>http://www.acme-rookies.com</url>
 
 	<!-- Build commands -->
 
@@ -305,5 +305,5 @@
 
 	</dependencies>
 
-	<description>A system for helping information technology companies recruit talented hackers across the world.</description>
+	<description>A system for helping information technology companies recruit talented rookies across the world.</description>
 </project> 
