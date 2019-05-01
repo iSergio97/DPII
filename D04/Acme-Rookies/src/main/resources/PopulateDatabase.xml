@@ -166,7 +166,7 @@
 	<bean id="outBoxRookie1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
 		<property name="system" value="1" />
-		<property name="actor" ref="rookie2" />
+		<property name="actor" ref="rookie1" />
 	</bean>
 
 	<bean id="spamBoxRookie1" class="domain.MessageBox">

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageBoxRepository;
 import domain.Actor;
 import domain.MessageBox;
+import repositories.MessageBoxRepository;
 
 @Service
 @Transactional
@@ -20,7 +20,7 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 	// Supporting services
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService actorService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -69,5 +69,30 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 
 	public List<MessageBox> messageFromActor(final Actor a) {
 		return this.repository.messageFromActor(a.getId());
+	}
+
+	public MessageBox getInbox(final Actor a) {
+		return this.repository.getInBox(a.getId());
+
+	}
+
+	public MessageBox getOutbox(final Actor a) {
+		return this.repository.getOutBox(a.getId());
+
+	}
+
+	public MessageBox getSpamBox(final Actor a) {
+		return this.repository.getSpamBox(a.getId());
+
+	}
+
+	public MessageBox getTrashBox(final Actor a) {
+		return this.repository.getTrashBox(a.getId());
+
+	}
+
+	public MessageBox getNotificationBox(final Actor a) {
+		return this.repository.getNotifications(a.getId());
+
 	}
 }
