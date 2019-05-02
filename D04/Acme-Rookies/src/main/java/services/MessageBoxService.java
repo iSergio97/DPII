@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,27 +73,39 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 	}
 
 	public MessageBox getInbox(final Actor a) {
-		return this.repository.getInBox(a.getId());
+		return this.repository.findInBox(a.getId());
 
 	}
 
 	public MessageBox getOutbox(final Actor a) {
-		return this.repository.getOutBox(a.getId());
+		return this.repository.findOutBox(a.getId());
 
 	}
 
 	public MessageBox getSpamBox(final Actor a) {
-		return this.repository.getSpamBox(a.getId());
+		return this.repository.findSpamBox(a.getId());
 
 	}
 
 	public MessageBox getTrashBox(final Actor a) {
-		return this.repository.getTrashBox(a.getId());
+		return this.repository.findTrashBox(a.getId());
 
 	}
 
 	public MessageBox getNotificationBox(final Actor a) {
-		return this.repository.getNotifications(a.getId());
+		return this.repository.findNotificationBox(a.getId());
 
+	}
+
+	public MessageBox findByPrincipalAndName(final int actorId, final String name) {
+		return this.repository.findByPrincipalAndName(actorId, name);
+	}
+
+	public Collection<MessageBox> findSystemBoxes(final int actorId) {
+		return this.repository.findSystemBoxes(actorId);
+	}
+
+	public Collection<MessageBox> findMessageBoxes(final int actorId) {
+		return this.repository.findMessageBoxes(actorId);
 	}
 }

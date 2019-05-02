@@ -46,7 +46,7 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		m.setRecipients(new ArrayList<Actor>());
 		m.setSubject("");
 		final MessageBox outBox = this.messageBoxService.getOutbox(actual);
-		Collection<MessageBox> mbs = new ArrayList<>();
+		final Collection<MessageBox> mbs = new ArrayList<>();
 		mbs.add(outBox);
 		m.setMessageBoxes(mbs);
 		return m;
@@ -72,16 +72,19 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		m.setTags(mf.getTags());
 		m.setRecipients(mf.getRecipients());
 		m.setDate(new Date());
-		List<String> sw = this.systemConfigurationservice.getSystemConfiguration().getSpamWords();
+		final List<String> sw = this.systemConfigurationservice.getSystemConfiguration().getSpamWords();
 		if (sw.contains(m.getBody()) || sw.contains(m.getSubject()) || sw.contains(m.getTags()))
 			m.setIsSpam(true);
 
 		this.validator.validate(m, bindingResult);
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors())
 			throw new ValidationException();
-		}
 
 		return m;
+	}
+
+	public Collection<Message> findMessages(final int messageBoxId) {
+		return this.repository.findMessages(messageBoxId);
 	}
 
 }
