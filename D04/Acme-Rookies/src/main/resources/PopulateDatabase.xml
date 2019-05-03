@@ -135,169 +135,211 @@
 
 	<bean id="inBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="admin1" />
 	</bean>
 
 	<bean id="outBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="admin1" />
 	</bean>
 
 	<bean id="spamBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="admin1" />
 	</bean>
 
 	<bean id="trashBoxAdmin1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="notificationBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="admin1" />
 	</bean>
 
 	<bean id="inBoxRookie1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie1" />
 	</bean>
 
 	<bean id="outBoxRookie1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie1" />
 	</bean>
 
 	<bean id="spamBoxRookie1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie1" />
 	</bean>
 
 	<bean id="trashBoxRookie1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="rookie1" />
+	</bean>
+
+	<bean id="notificationBoxRookie1" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie1" />
 	</bean>
 
 	<bean id="inBoxRookie2" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie2" />
 	</bean>
 
 	<bean id="outBoxRookie2" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie2" />
 	</bean>
 
 	<bean id="spamBoxRookie2" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie2" />
 	</bean>
 
 	<bean id="trashBoxRookie2" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="rookie2" />
+	</bean>
+
+	<bean id="notificationBoxRookie2" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie2" />
 	</bean>
 
 	<bean id="inBoxRookie3" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie3" />
 	</bean>
 
 	<bean id="outBoxRookie3" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie3" />
 	</bean>
 
 	<bean id="spamBoxRookie3" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie3" />
 	</bean>
 
 	<bean id="trashBoxRookie3" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="rookie3" />
+	</bean>
+	
+	<bean id="notificationBoxRookie3" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="rookie3" />
 	</bean>
 
 	<bean id="inBoxCompany1" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company1" />
 	</bean>
 
 	<bean id="outBoxCompany1" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company1" />
 	</bean>
 
 	<bean id="spamBoxCompany1" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company1" />
 	</bean>
 
 	<bean id="trashBoxCompany1" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="company1" />
+	</bean>
+
+	<bean id="notificationBoxCompany1" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company1" />
 	</bean>
 
 	<bean id="inBoxCompany2" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company2" />
 	</bean>
 
 	<bean id="outBoxCompany2" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company2" />
 	</bean>
 
 	<bean id="spamBoxCompany2" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company2" />
 	</bean>
 
 	<bean id="trashBoxCompany2" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="company2" />
+	</bean>
+
+	<bean id="notificationBoxCompany2" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company2" />
 	</bean>
 
 	<bean id="inBoxCompany3" class="domain.MessageBox">
 		<property name="name" value="InBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company3" />
 	</bean>
 
 	<bean id="outBoxCompany3" class="domain.MessageBox">
 		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company3" />
 	</bean>
 
 	<bean id="spamBoxCompany3" class="domain.MessageBox">
 		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company3" />
 	</bean>
 
 	<bean id="trashBoxCompany3" class="domain.MessageBox">
 		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="company3" />
+	</bean>
+
+	<bean id="notificationBoxCompany3" class="domain.MessageBox">
+		<property name="name" value="NotificationBox" />
+		<property name="isSystem" value="1" />
 		<property name="actor" ref="company3" />
 	</bean>
 

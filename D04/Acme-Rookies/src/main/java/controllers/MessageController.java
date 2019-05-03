@@ -45,29 +45,28 @@ public class MessageController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(@ModelAttribute("message") MessageForm mf, BindingResult bindingResult) {
+	public ModelAndView edit(@ModelAttribute("message") final MessageForm mf, final BindingResult bindingResult) {
 		ModelAndView result;
 		Message m;
 		try {
 			m = this.messageService.reconstruct(mf, bindingResult);
-			for (Actor a : m.getRecipients()) {
+			for (final Actor a : m.getRecipients())
 				if (!m.getIsSpam()) {
-					Collection<MessageBox> mbs = m.getMessageBoxes();
-					MessageBox inbox = this.messageBoxService.save(this.messageBoxService.getInbox(a));
+					final Collection<MessageBox> mbs = m.getMessageBoxes();
+					final MessageBox inbox = this.messageBoxService.save(this.messageBoxService.findInbox(a.getId()));
 					mbs.add(inbox);
 				} else {
-					Collection<MessageBox> mbs = m.getMessageBoxes();
-					MessageBox spambox = this.messageBoxService.save(this.messageBoxService.getSpamBox(a));
+					final Collection<MessageBox> mbs = m.getMessageBoxes();
+					final MessageBox spambox = this.messageBoxService.save(this.messageBoxService.findSpamBox(a.getId()));
 					mbs.add(spambox);
 
 				}
-			}
 			//this.messageBoxService.save(m.getMessageBoxes());
 			this.messageService.save(m);
 			result = new ModelAndView("redirect:../welcome/index.do");
-		} catch (ValidationException valExp) {
+		} catch (final ValidationException valExp) {
 			result = this.createEditModelAndView(mf);
-		} catch (Throwable oops) {
+		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(mf, "message.error");
 		}
 
@@ -75,15 +74,15 @@ public class MessageController {
 	}
 
 	//PROTECTED METHODS -------------------------------------------------------
-	protected ModelAndView createEditModelAndView(MessageForm mf) {
+	protected ModelAndView createEditModelAndView(final MessageForm mf) {
 
 		return this.createEditModelAndView(mf, null);
 	}
 
-	protected ModelAndView createEditModelAndView(MessageForm mf, String message) {
-		ModelAndView result = new ModelAndView("message/actor/create");
+	protected ModelAndView createEditModelAndView(final MessageForm mf, final String message) {
+		final ModelAndView result = new ModelAndView("message/actor/create");
 		result.addObject("message", mf);
-		result.addObject("recipients", actorService.findAll());
+		result.addObject("recipients", this.actorService.findAll());
 
 		return result;
 	}

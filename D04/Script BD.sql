@@ -17,9 +17,9 @@ create user 'acme-manager'@'%'
 		identified by password '*FDB8CD304EB2317D10C95D797A4BD7492560F55F';
 
 grant select, insert, update, delete
-on `Acme-Hacker-Rank`.* to 'acme-user'@'%';
+on `Acme-Rookies`.* to 'acme-user'@'%';
 
 grant select, insert, update, delete, create, drop, references, index, alter,
 create temporary tables, lock tables, create view, create routine,
 alter routine, execute, trigger, show view
-on `Acme-Hacker-Rank`.* to 'acme-manager'@'%';
+on `Acme-Rookies`.* to 'acme-manager'@'%';

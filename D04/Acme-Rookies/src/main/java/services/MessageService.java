@@ -45,7 +45,7 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		m.setTags("");
 		m.setRecipients(new ArrayList<Actor>());
 		m.setSubject("");
-		final MessageBox outBox = this.messageBoxService.getOutbox(actual);
+		final MessageBox outBox = this.messageBoxService.findOutbox(actual.getId());
 		final Collection<MessageBox> mbs = new ArrayList<>();
 		mbs.add(outBox);
 		m.setMessageBoxes(mbs);

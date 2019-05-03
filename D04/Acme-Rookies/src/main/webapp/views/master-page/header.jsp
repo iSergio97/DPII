@@ -22,13 +22,13 @@
 				</jstl:when>
 				<jstl:otherwise>
 					<a href="#"><img src="images/logo.png"
-						alt="Acme Madruga Co., Inc." /></a>
+						alt="Acme Rookies Co., Inc." /></a>
 				</jstl:otherwise>
 			</jstl:choose>
 		</jstl:when>
 		<jstl:otherwise>
 			<a href="#"><img src="images/logo.png"
-				alt="Acme Madruga Co., Inc." /></a>
+				alt="Acme Rookies Co., Inc." /></a>
 		</jstl:otherwise>
 	</jstl:choose>
 </div>
