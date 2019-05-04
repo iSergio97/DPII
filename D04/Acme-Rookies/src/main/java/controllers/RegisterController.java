@@ -1,7 +1,6 @@
 
 package controllers;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,9 +88,7 @@ public class RegisterController {
 		final Rookie rookie2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
-		final Calendar calendar = Calendar.getInstance();
-		final Date date = calendar.getTime();
-
+		final Date date = new Date();
 		if (registerRookieForm.getExpirationYear() < (date.getYear() % 100)) {
 			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
 			bindingResult.addError(error);
@@ -187,8 +184,16 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
-		if (registerCompanyForm.getExpirationMonth() < date.getMonth() && registerCompanyForm.getExpirationYear() < (date.getYear() % 100))
-			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+		if (registerCompanyForm.getExpirationYear() < (date.getYear() % 100)) {
+			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationYear", "error.oldYear");
+		}
+		if (registerCompanyForm.getExpirationYear() == (date.getYear() % 100) && registerCompanyForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+		}
 
 		if (registerCompanyForm.getId() == 0) {
 			if (usernames.contains(registerCompanyForm.getUsername())) {
@@ -278,8 +283,16 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
-		if (registerAuditorForm.getExpirationMonth() < date.getMonth() && registerAuditorForm.getExpirationYear() < (date.getYear() % 100))
-			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+		if (registerAuditorForm.getExpirationYear() < (date.getYear() % 100)) {
+			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationYear", "error.oldYear");
+		}
+		if (registerAuditorForm.getExpirationYear() == (date.getYear() % 100) && registerAuditorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+		}
 
 		if (registerAuditorForm.getId() == 0) {
 			if (usernames.contains(registerAuditorForm.getUsername())) {
@@ -369,8 +382,16 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
-		if (registerAdministratorForm.getExpirationMonth() < date.getMonth() && registerAdministratorForm.getExpirationYear() < (date.getYear() % 100))
-			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+		if (registerAdministratorForm.getExpirationYear() < (date.getYear() % 100)) {
+			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationYear", "error.oldYear");
+		}
+		if (registerAdministratorForm.getExpirationYear() == (date.getYear() % 100) && registerAdministratorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+		}
 
 		if (registerAdministratorForm.getId() == 0) {
 			if (usernames.contains(registerAdministratorForm.getUsername())) {
