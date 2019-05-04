@@ -38,7 +38,7 @@
 		</property>
 	</bean>
 
-	<!-- USERACCOUNTS -->
+	<!-- USER ACCOUNTS -->
 
 	<bean id="userAccountAdmin1" class="security.UserAccount">
 		<property name="username" value="admin1" />
@@ -56,7 +56,7 @@
 	<bean id="userAccountRookie1" class="security.UserAccount">
 		<property name="username" value="rookie1" />
 		<property name="password"
-			value="2ba2a8ac968a7a2b0a7baa7f2fef18d2" />
+			value="9701eb1802a4c63f51e1501512fbdd30" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -69,7 +69,7 @@
 	<bean id="userAccountRookie2" class="security.UserAccount">
 		<property name="username" value="rookie2" />
 		<property name="password"
-			value="91af68b69a50a98dbc0800942540342c" />
+			value="124be4fa2a59341a1d7e965ac49b2923" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -82,7 +82,7 @@
 	<bean id="userAccountRookie3" class="security.UserAccount">
 		<property name="username" value="rookie3" />
 		<property name="password"
-			value="c6ae6edca1ad45f42e619ec91a32b636" />
+			value="b723fa2fd1c2dc65d166df3e7f83e329" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -126,6 +126,19 @@
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="COMPANY" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountAuditor1" class="security.UserAccount">
+		<property name="username" value="auditor1" />
+		<property name="password"
+			value="175d2e7a63f386554a4dd66e865c3e14" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="AUDITOR" />
 				</bean>
 			</list>
 		</property>
@@ -301,6 +314,30 @@
 		<property name="actor" ref="company3" />
 	</bean>
 
+	<bean id="inBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="company3" />
+	</bean>
+
+	<bean id="outBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="company3" />
+	</bean>
+
+	<bean id="spamBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="company3" />
+	</bean>
+
+	<bean id="trashBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="system" value="1" />
+		<property name="actor" ref="company3" />
+	</bean>
+
 	<!-- ADMINISTRATOR ACCOUNT -->
 
 	<bean id="admin1" class="domain.Administrator">
@@ -404,6 +441,20 @@
 		<property name="userAccount" ref="userAccountCompany3" />
 	</bean>
 
+	<bean id="auditor1" class="domain.Auditor">
+		<property name="name" value="Mr" />
+		<property name="surnames" value="Auditor" />
+		<property name="vat" value="123" />
+		<property name="creditCard" ref="creditCardAuditor1" />
+		<property name="photo" value="" />
+		<property name="email" value="auditorr@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 4206969" />
+		<property name="address" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountAuditor1" />
+	</bean>
+
 	<!-- Credit cards -->
 
 	<bean id="creditCard1" class="domain.CreditCard">
@@ -414,7 +465,7 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardRookie1" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -423,7 +474,7 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardRookie2" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -432,7 +483,7 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardRookie3" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -441,7 +492,7 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardCompany1" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -450,7 +501,7 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardCompany2" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
@@ -459,8 +510,17 @@
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
 	</bean>
-	
+
 	<bean id="creditCardCompany3" class="domain.CreditCard">
+		<property name="holder" value="Holder" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="0000111122223333" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2023" />
+		<property name="CVV" value="123" />
+	</bean>
+
+	<bean id="creditCardAuditor1" class="domain.CreditCard">
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
 		<property name="number" value="0000111122223333" />
@@ -532,6 +592,7 @@
 		<property name="salary" value="1000.00" />
 		<property name="ticker" value="AAAA-0001" />
 		<property name="isDraft" value="true" />
+		<property name="status" value="ACCEPTED" />
 		<property name="company" ref="company1" />
 		<property name="problems">
 			<list>

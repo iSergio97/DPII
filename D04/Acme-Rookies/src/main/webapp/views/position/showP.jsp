@@ -28,7 +28,17 @@
 	<display:column property="skills"> <jstl:out value="${row.skills}" /> </display:column>
 	<display:column property="technologies"> <jstl:out value="${row.technologies}" /> </display:column>
 	<display:column property="salary"> <jstl:out value="${row.salary}" /> </display:column>
-	
+
+	<display:column>
+		<a href="audit/actor/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
+	</display:column>
+
+	<security:authorize access="hasRole('AUDITOR')">
+		<display:column>
+			<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
+		</display:column>
+	</security:authorize>
+
 	<security:authorize access="hasRole('ROOKIE')">
 		<display:column>
 			<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>

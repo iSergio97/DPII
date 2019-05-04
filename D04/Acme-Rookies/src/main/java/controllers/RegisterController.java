@@ -17,19 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.AuditorService;
+import services.CompanyService;
+import services.MessageBoxService;
+import services.RookieService;
 import domain.Administrator;
+import domain.Auditor;
 import domain.Company;
 import domain.MessageBox;
 import domain.Rookie;
 import forms.RegisterAdministratorForm;
+import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
 import forms.RegisterRookieForm;
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.CompanyService;
-import services.MessageBoxService;
-import services.RookieService;
 
 @Controller
 @RequestMapping("/register")
@@ -37,6 +40,9 @@ public class RegisterController {
 
 	@Autowired
 	private AdministratorService	administratorService;
+
+	@Autowired
+	private AuditorService			auditorService;
 
 	@Autowired
 	private RookieService			rookieService;
@@ -54,6 +60,8 @@ public class RegisterController {
 	public RegisterController() {
 		super();
 	}
+
+	// Rookie -------------------------------------------------------------------------
 
 	@RequestMapping(value = "/rookie/create", method = RequestMethod.GET)
 	public ModelAndView registerRookie() {
@@ -84,18 +92,15 @@ public class RegisterController {
 		final Calendar calendar = Calendar.getInstance();
 		final Date date = calendar.getTime();
 
-		if (registerRookieForm.getExpirationYear() < (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			if (registerRookieForm.getExpirationYear() < date.getYear() % 100) {
-				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the actual year");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationYear", "error.oldYear");
-			}
-
-			if (registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
-				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the actual month");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-			}
+		if (registerRookieForm.getExpirationYear() < (date.getYear() % 100)) {
+			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationYear", "error.oldYear");
+		}
+		if (registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
 		}
 
 		if (registerRookieForm.getId() == 0) {
@@ -162,7 +167,8 @@ public class RegisterController {
 		return result;
 	}
 
-	//COMPANY -----------------------------------------------------------------
+	// Company ------------------------------------------------------------------------
+
 	@RequestMapping(value = "/company/create", method = RequestMethod.GET)
 	public ModelAndView registerCompany() {
 		ModelAndView result;
@@ -253,7 +259,98 @@ public class RegisterController {
 		return this.createEditModelAndView(rhf);
 	}
 
-	//ADMINISTRATOR -----------------------------------------------------------------
+	// Auditor ------------------------------------------------------------------------
+
+	@RequestMapping(value = "/auditor/create", method = RequestMethod.GET)
+	public ModelAndView registerAuditor() {
+		ModelAndView result;
+		RegisterAuditorForm auditor;
+		auditor = this.auditorService.createForm();
+		result = this.createEditModelAndView(auditor);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/auditor/edit", method = RequestMethod.POST)
+	public ModelAndView registerAuditorPost(@ModelAttribute("auditor") final RegisterAuditorForm registerAuditorForm, final BindingResult bindingResult) {
+		ModelAndView result;
+		final Auditor auditor2;
+		final List<String> usernames = this.userAccountRepository.getUserNames();
+
+		final Date date = new Date();
+		if (registerAuditorForm.getExpirationMonth() < date.getMonth() && registerAuditorForm.getExpirationYear() < (date.getYear() % 100))
+			bindingResult.reject("creditCard", "This credit card is expired. Please introduce other");
+
+		if (registerAuditorForm.getId() == 0) {
+			if (usernames.contains(registerAuditorForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Auditor auditor3 = this.auditorService.findPrincipal();
+			usernames.remove(auditor3.getUserAccount().getUsername());
+			if (usernames.contains(registerAuditorForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUsername");
+			}
+		}
+
+		if (registerAuditorForm.getUsername().length() < 5 || registerAuditorForm.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+
+		if (!registerAuditorForm.getPassword().equals(registerAuditorForm.getConfirmPassword())) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (registerAuditorForm.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (registerAuditorForm.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		try {
+			auditor2 = this.auditorService.reconstructForm(registerAuditorForm, bindingResult);
+			final UserAccount ua = auditor2.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(auditor2.getUserAccount().getPassword(), null));
+			final UserAccount uaSaved = this.userAccountRepository.save(ua);
+			auditor2.setUserAccount(uaSaved);
+			final Auditor auditorSaved = this.auditorService.save(auditor2);
+			if (auditor2.getId() == 0)
+				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
+					mb.setActor(auditorSaved);
+					this.messageBoxService.save(mb);
+				}
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(registerAuditorForm);
+		} catch (final Throwable valExp) {
+			result = this.createEditModelAndView(registerAuditorForm, "register.rookie.error");
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/auditor/edit", method = RequestMethod.GET)
+	public ModelAndView editAuditor() {
+		final Auditor auditor = this.auditorService.findPrincipal();
+		final RegisterAuditorForm raf = this.auditorService.deconstruct(auditor);
+
+		return this.createEditModelAndView(raf);
+	}
+
+	// Administrator ------------------------------------------------------------------
 
 	@RequestMapping(value = "/administrator/create", method = RequestMethod.GET)
 	public ModelAndView registerAdministrator() {
@@ -344,7 +441,7 @@ public class RegisterController {
 		return this.createEditModelAndView(raf);
 	}
 
-	//PROTECTED METHODS -------------------------------------------------------
+	// Model and view methods ---------------------------------------------------------
 
 	protected <T> ModelAndView createEditModelAndView(final T t) {
 		final ModelAndView result;
@@ -360,6 +457,9 @@ public class RegisterController {
 		if (t instanceof RegisterAdministratorForm) {
 			result = new ModelAndView("register/administrator/create");
 			result.addObject("administrator", t);
+		} else if (t instanceof RegisterAuditorForm) {
+			result = new ModelAndView("register/auditor/create");
+			result.addObject("auditor", t);
 		} else if (t instanceof RegisterRookieForm) {
 			result = new ModelAndView("register/rookie/create");
 			result.addObject("rookie", t);

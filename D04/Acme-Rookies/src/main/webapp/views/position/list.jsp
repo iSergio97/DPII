@@ -26,6 +26,10 @@
 	<display:column property="description">
 		<jstl:out value="${row.description}" />
 	</display:column>
+
+	<display:column>
+		<a href="audit/actor/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
+	</display:column>
 	
 	<display:column>
 		<a href="position/company/show.do?positionId=${row.id}" ><spring:message code="show"/></a>

@@ -78,3 +78,5 @@
 			code="canceled" />
 	</a>
 </jstl:if>
+
+<a href="audit/actor/list.do?positionId=${row.id}"><spring:message code="audits" /></a>

@@ -45,4 +45,77 @@
 <jstl:out value="${stdDevA}" />
 <br>
 <br>
+<br>
+<strong><spring:message code="minPositionAuditScore" /></strong>
+:
+<jstl:out value="${minPositionAuditScore}" />
+<br>
+<strong><spring:message code="maxPositionAuditScore" /></strong>
+:
+<jstl:out value="${maxPositionAuditScore}" />
+<br>
+<strong><spring:message code="avgPositionAuditScore" /></strong>
+:
+<jstl:out value="${avgPositionAuditScore}" />
+<br>
+<strong><spring:message code="stdDevPositionAuditScore" /></strong>
+:
+<jstl:out value="${stdDevPositionAuditScore}" />
+<br>
+<br>
+<br>
+<strong><spring:message code="minCompanyAuditScore" /></strong>
+:
+<jstl:out value="${minCompanyAuditScore}" />
+<br>
+<strong><spring:message code="maxCompanyAuditScore" /></strong>
+:
+<jstl:out value="${maxCompanyAuditScore}" />
+<br>
+<strong><spring:message code="avgCompanyAuditScore" /></strong>
+:
+<jstl:out value="${avgCompanyAuditScore}" />
+<br>
+<strong><spring:message code="stdDevCompanyAuditScore" /></strong>
+:
+<jstl:out value="${stdDevCompanyAuditScore}" />
+<br>
+<br>
+<br>
+<display:table name="companiesWithTheHighestAuditScore" id="row" class="displaytag">
 
+	<display:column titleKey="company">
+		<jstl:out value="${row.commercialName}" />
+	</display:column>
+
+	<display:column titleKey="averageSalary">
+		<jstl:if test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] eq null}">
+			<spring:message code="noResults" />
+		</jstl:if>
+		<jstl:if test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] ne null}">
+			<jstl:out value="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row]}" />
+		</jstl:if>
+	</display:column>
+
+</display:table>
+<br>
+<br>
+<br>
+<display:table name="companies" id="row" class="displaytag">
+
+	<display:column titleKey="company">
+		<jstl:out value="${row.commercialName}" />
+	</display:column>
+
+	<display:column titleKey="auditScore">
+		<jstl:if test="${companiesAndTheirScore[row] eq null}">
+			<spring:message code="noResults" />
+		</jstl:if>
+		<jstl:if test="${companiesAndTheirScore[row] ne null}">
+			<jstl:out value="${companiesAndTheirScore[row]}" />
+		</jstl:if>
+	</display:column>
+
+</display:table>
+<br>
+<br>

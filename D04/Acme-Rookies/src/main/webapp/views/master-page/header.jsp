@@ -59,9 +59,14 @@
 						<li><a href="register/rookie/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
+					<security:authorize access="hasRole('AUDITOR')">
+						<li><a href="register/auditor/edit.do"><spring:message code="action.edit" /> </a></li>
+					</security:authorize>
+
 					<security:authorize access="hasRole('ADMINISTRATOR')">
-						<li><a href="register/administrator/create.do"><spring:message code="master.page.create.admin" /> </a></li>
 						<li><a href="register/administrator/edit.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="register/administrator/create.do"><spring:message code="master.page.create.admin" /> </a></li>
+						<li><a href="register/auditor/create.do"><spring:message code="master.page.create.auditor" /> </a></li>
 					</security:authorize>
 					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
@@ -77,6 +82,16 @@
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 					<li><a href="administrator/systemconfiguration.do"><spring:message code="master.page.administrator.systemconfiguration" /></a></li>
 					<li><a href="register/administrator/create.do"><spring:message code="master.page.administrator.register" /></a></li>
+					<li><a href="register/auditor/create.do"><spring:message code="master.page.auditor.register" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('AUDITOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.auditor" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="audit/auditor/list.do"><spring:message code="master.page.auditor.audits" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

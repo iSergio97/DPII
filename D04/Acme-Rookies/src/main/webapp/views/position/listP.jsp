@@ -30,6 +30,15 @@
 			<jstl:out value="${row.commercialName}" />
 		</display:column>
 
+		<display:column titleKey="auditScore">
+			<jstl:if test="${scoresByCompany[row] eq null}">
+				<spring:message code="noResults" />
+			</jstl:if>
+			<jstl:if test="${scoresByCompany[row] ne null}">
+				<jstl:out value="${scoresByCompany[row]}" />
+			</jstl:if>
+		</display:column>
+
 		<display:column>
 			<a href="position/all/show.do?companyId=${row.id}"><spring:message code="show" /></a>
 		</display:column>

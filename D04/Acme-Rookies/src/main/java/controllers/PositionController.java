@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
 import domain.Company;
@@ -27,16 +28,17 @@ import forms.PositionForm;
 @RequestMapping("/position")
 public class PositionController extends AbstractController {
 
-	// Services
+	// Services ---------------------------------------------------------------
+
+	@Autowired
+	private AuditService	auditService;
+	@Autowired
+	private CompanyService	companyService;
 	@Autowired
 	private PositionService	positionService;
 
-	@Autowired
-	private CompanyService	companyService;
 
-
-	//@Autowired
-	//private ProblemService	problemService;
+	// Constructor ------------------------------------------------------------
 
 	public PositionController() {
 		super();
@@ -160,6 +162,7 @@ public class PositionController extends AbstractController {
 
 		res = new ModelAndView("position/all/list");
 		res.addObject("companies", companies);
+		res.addObject("scoresByCompany", this.auditService.getScoresByCompany());
 
 		return res;
 
