@@ -65,9 +65,22 @@
 					</security:authorize>
 					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-					
-				</ul></li>
-			<li><a class="fNiv" href="socialprofile/actor/list.do"><spring:message code="master.page.socialProfile" /></a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="fNiv" href="social-profile/all/list.do"><spring:message code="master.page.socialProfile" /></a>
+			</li>
+			<li>
+				<a class="fNiv"><spring:message code="master.page.messages" /></a>
+				<ul>
+					<li><a href="message/all/create.do"><spring:message code="master.page.message.create" /></a></li>
+					<li><a href="message-box/all/show.do?name=inBox"><spring:message code="master.page.messageBox.inBox" /></a></li>
+					<li><a href="message-box/all/show.do?name=outBox"><spring:message code="master.page.messageBox.outBox" /></a></li>
+					<li><a href="message-box/all/show.do?name=trashBox"><spring:message code="master.page.messageBox.trashBox" /></a></li>
+					<li><a href="message-box/all/show.do?name=spamBox"><spring:message code="master.page.messageBox.spamBox" /></a></li>
+					<li><a href="message-box/all/show.do?name=notificationBox"><spring:message code="master.page.messageBox.notificationBox" /></a></li>
+				</ul>
+			</li>
 		</security:authorize>
 
 		<security:authorize access="hasRole('ADMINISTRATOR')">

@@ -22,7 +22,7 @@ import services.MessageBoxService;
 import services.MessageService;
 
 @Controller
-@RequestMapping("/message/actor")
+@RequestMapping("/message/all")
 public class MessageController {
 
 	@Autowired
@@ -80,7 +80,7 @@ public class MessageController {
 	}
 
 	protected ModelAndView createEditModelAndView(final MessageForm mf, final String message) {
-		final ModelAndView result = new ModelAndView("message/actor/create");
+		final ModelAndView result = new ModelAndView("message/all/create");
 		result.addObject("message", mf);
 		result.addObject("recipients", this.actorService.findAll());
 

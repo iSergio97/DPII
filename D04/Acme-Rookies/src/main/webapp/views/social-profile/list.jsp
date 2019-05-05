@@ -29,22 +29,22 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	</display:column>
 
 	<display:column titleKey="show">
-		<a href="socialprofile/actor/show.do?id=${row.id}"><spring:message code="show" /></a>
+		<a href="social-profile/all/show.do?id=${row.id}"><spring:message code="action.show" /></a>
 	</display:column>
 
 	<display:column titleKey="edit">
-		<a href="socialprofile/actor/edit.do?id=${row.id}"><spring:message code="edit" /></a>
+		<a href="social-profile/all/edit.do?id=${row.id}"><spring:message code="action.edit" /></a>
 	</display:column>
 
 	<display:column titleKey="delete">
-		<form action="socialprofile/actor/delete.do" method="POST">
+		<form action="social-profile/all/delete.do" method="POST">
 			<input type="hidden" name="id" value="<jstl:out value='${row.id}' />" />
-			<input type="submit" name="delete" value="<spring:message code='delete' />" />
+			<input type="submit" name="delete" value="<spring:message code="action.delete" />" />
 		</form>
 	</display:column>
 
 </display:table>
 
 <p>
-	<a href="socialprofile/actor/create.do"><spring:message code="create" /></a>
+	<a href="social-profile/all/create.do"><spring:message code="action.create.socialProfile" /></a>
 </p>

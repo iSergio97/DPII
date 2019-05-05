@@ -8,11 +8,9 @@
 
 <tiles-definitions>
 
-	<definition name="message/actor/create"
-		extends="master.page">
-		<put-attribute name="title" value="Send a message" />
-		<put-attribute name="body"
-			value="/views/message/create.jsp" />
+	<definition name="message/all/create" extends="master.page">
+		<put-attribute name="title" value="Send Message" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
 	</definition>
 
 </tiles-definitions>

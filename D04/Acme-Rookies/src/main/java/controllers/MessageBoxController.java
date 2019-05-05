@@ -24,7 +24,7 @@ import services.MessageBoxService;
 import services.MessageService;
 
 @Controller
-@RequestMapping("/message-box")
+@RequestMapping("/message-box/all")
 public class MessageBoxController {
 
 	// Services ---------------------------------------------------------------
@@ -59,7 +59,7 @@ public class MessageBoxController {
 			final Collection<MessageBox> systemBoxes = this.messageBoxService.findSystemBoxes(actor.getId());
 			messageBoxes.removeAll(systemBoxes);
 
-			result = new ModelAndView("message-box/list");
+			result = new ModelAndView("message-box/all/list");
 			result.addObject("messageBoxes", messageBoxes);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:../j_spring_security_logout");
@@ -76,7 +76,7 @@ public class MessageBoxController {
 		final MessageBox messageBox;
 
 		messageBox = this.messageBoxService.create();
-		result = this.createEditModelAndView(messageBox, "message-box/create");
+		result = this.createEditModelAndView(messageBox, "message-box/all/create");
 
 		return result;
 	}
@@ -103,7 +103,7 @@ public class MessageBoxController {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(messageBox, "message-box/edit");
+			result = this.createEditModelAndView(messageBox, "message-box/all/edit");
 		else
 			try {
 				this.messageBoxService.save(messageBox);
@@ -144,7 +144,7 @@ public class MessageBoxController {
 			messageBox = this.messageBoxService.findByPrincipalAndName(actor.getId(), name);
 			Assert.notNull(messageBox);
 
-			result = this.createEditModelAndView(messageBox, "message-box/show");
+			result = this.createEditModelAndView(messageBox, "message-box/all/show");
 
 			result.addObject("messageCode", null);
 		} catch (final Throwable oops) {
