@@ -15,28 +15,28 @@ public interface MessageBoxRepository extends AbstractRepository<MessageBox> {
 	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1")
 	List<MessageBox> messageFromActor(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = 'InBox'")
+	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 1 and mb.name = 'InBox'")
 	MessageBox findInBox(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = 'OutBox'")
+	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 1 and mb.name = 'OutBox'")
 	MessageBox findOutBox(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = 'TrashBox'")
+	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 1 and mb.name = 'TrashBox'")
 	MessageBox findTrashBox(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = 'SpamBox'")
+	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 1 and mb.name = 'SpamBox'")
 	MessageBox findSpamBox(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = 'NotificationBox'")
+	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 1 and mb.name = 'NotificationBox'")
 	MessageBox findNotificationBox(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true' and mb.name = ?2")
+	@Query("select mb from MessageBox mb join mb.actor a where a.userAccount.id = ?1 and mb.isSystem = 1 and mb.name = ?2")
 	MessageBox findByPrincipalAndName(int id, String name);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'true'")
-	Collection<MessageBox> findSystemBoxes(int actorId);
+	@Query("select mb from MessageBox mb join mb.actor a where a.userAccount.id = ?1 and mb.isSystem = 1")
+	Collection<MessageBox> findSystemBoxes(int id);
 
-	@Query("select mb from MessageBox mb join mb.actor a where a.id = ?1 and mb.isSystem = 'false'")
-	Collection<MessageBox> findMessageBoxes(int actorId);
+	@Query("select mb from MessageBox mb join mb.actor a where a.userAccount.id = ?1 and mb.isSystem = 0")
+	Collection<MessageBox> findMessageBoxes(int id);
 
 }

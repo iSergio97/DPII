@@ -51,18 +51,12 @@ public class MessageBoxController {
 	public ModelAndView list() {
 		ModelAndView result;
 		try {
-			final int id = LoginService.getPrincipal().getId();
-			Actor actor;
-			actor = this.actorService.findByUserAccountId(id);
-
-			final Collection<MessageBox> messageBoxes = this.messageBoxService.findMessageBoxes(actor.getId());
-			final Collection<MessageBox> systemBoxes = this.messageBoxService.findSystemBoxes(actor.getId());
-			messageBoxes.removeAll(systemBoxes);
+			final Collection<MessageBox> messageBoxes = this.messageBoxService.findMessageBoxes(LoginService.getPrincipal().getId());
 
 			result = new ModelAndView("message-box/all/list");
 			result.addObject("messageBoxes", messageBoxes);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../j_spring_security_logout");
+			result = new ModelAndView("redirect::/welcome");
 		}
 
 		return result;
@@ -76,7 +70,7 @@ public class MessageBoxController {
 		final MessageBox messageBox;
 
 		messageBox = this.messageBoxService.create();
-		result = this.createEditModelAndView(messageBox, "message-box/all/create");
+		result = this.createEditModelAndView(messageBox, "create");
 
 		return result;
 	}
@@ -91,7 +85,7 @@ public class MessageBoxController {
 		messageBox = this.messageBoxService.findOne(id);
 		Assert.notNull(messageBox);
 
-		result = this.createEditModelAndView(messageBox, "message-box/edit");
+		result = this.createEditModelAndView(messageBox, "edit");
 
 		return result;
 	}
@@ -103,13 +97,13 @@ public class MessageBoxController {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(messageBox, "message-box/all/edit");
+			result = this.createEditModelAndView(messageBox, "edit");
 		else
 			try {
 				this.messageBoxService.save(messageBox);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "message-box/edit");
+				result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 			}
 
 		return result;
@@ -125,7 +119,7 @@ public class MessageBoxController {
 			this.messageBoxService.delete(messageBox);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "message-box/edit");
+			result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 		}
 
 		return result;
@@ -136,19 +130,20 @@ public class MessageBoxController {
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam(value = "name") final String name) {
 		ModelAndView result;
-		Actor actor;
 		MessageBox messageBox;
+		Collection<Message> messages;
 
 		try {
-			actor = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-			messageBox = this.messageBoxService.findByPrincipalAndName(actor.getId(), name);
+			messageBox = this.messageBoxService.findByPrincipalAndName(LoginService.getPrincipal().getId(), name);
 			Assert.notNull(messageBox);
+			messages = this.messageService.findMessages(messageBox.getId());
+			Assert.notNull(messages);
 
-			result = this.createEditModelAndView(messageBox, "message-box/all/show");
+			result = this.createEditModelAndView(messageBox, "show");
 
 			result.addObject("messageCode", null);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:../j_spring_security_logout");
+			result = new ModelAndView("redirect::/welcome");
 		}
 
 		return result;
@@ -175,7 +170,7 @@ public class MessageBoxController {
 		messages = this.messageService.findMessages(messageBox.getId());
 
 		// Ligera modificación por motivos de tiles.xml (<h1>)
-		result = new ModelAndView(viewName);
+		result = new ModelAndView("message-box/all/" + viewName);
 		result.addObject("messageBox", messageBox);
 		result.addObject("name", name);
 		result.addObject("actor", actor);

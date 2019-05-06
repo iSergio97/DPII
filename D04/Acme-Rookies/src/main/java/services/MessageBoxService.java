@@ -91,8 +91,8 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 		return this.repository.findNotificationBox(actorId);
 	}
 
-	public MessageBox findByPrincipalAndName(final int actorId, final String name) {
-		return this.repository.findByPrincipalAndName(actorId, name);
+	public MessageBox findByPrincipalAndName(final int userAccountId, final String name) {
+		return this.repository.findByPrincipalAndName(userAccountId, name);
 	}
 
 	public Collection<MessageBox> findSystemBoxes(final int actorId) {

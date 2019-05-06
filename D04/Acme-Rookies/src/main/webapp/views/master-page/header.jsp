@@ -79,6 +79,7 @@
 					<li><a href="message-box/all/show.do?name=trashBox"><spring:message code="master.page.messageBox.trashBox" /></a></li>
 					<li><a href="message-box/all/show.do?name=spamBox"><spring:message code="master.page.messageBox.spamBox" /></a></li>
 					<li><a href="message-box/all/show.do?name=notificationBox"><spring:message code="master.page.messageBox.notificationBox" /></a></li>
+					<li><a href="message-box/all/list.do"><spring:message code="action.list.messageBox" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

@@ -30,7 +30,7 @@
 
 	<definition name="message-box/all/show" extends="master.page">
 		<put-attribute name="title" value="Show Box" />
-		<put-attribute name="body" value="/views/message-box/edit.jsp" />
+		<put-attribute name="body" value="/views/message-box/show.jsp" />
 	</definition>
 
 </tiles-definitions>

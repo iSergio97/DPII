@@ -53,14 +53,13 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/message/all/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message-box/all/**" access="isAuthenticated()" />
 
-		<!-- PUBLIC -->
+		<!-- [PUBLIC] -->
 		
-		<!-- COMPANY -->
+		<!-- [COMPANY] -->
 		<security:intercept-url pattern="/position/company/**" access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/problem/**" access="hasRole('COMPANY')" />
 		
-		<!-- ADMIN -->
-		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<!-- [ADMIN] -->
 		<security:intercept-url pattern="/register/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 
@@ -68,9 +67,6 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<!-- APPLICATION -->
 		<security:intercept-url pattern="/application/rookie/**" access="hasRole('ROOKIE')" />
 		<security:intercept-url pattern="/application/company/**" access="hasRole('COMPANY')" />
-
-		<!-- ADMIN -->
-		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 
 		<!-- REGISTER -->
 		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />

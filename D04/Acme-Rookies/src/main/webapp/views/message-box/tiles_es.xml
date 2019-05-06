@@ -28,9 +28,9 @@
 		<put-attribute name="body" value="/views/message-box/edit.jsp" />
 	</definition>
 
-	<definition name="message-box/show" extends="master.page">
+	<definition name="message-box/all/show" extends="master.page">
 		<put-attribute name="title" value="Mostrar Bandeja" />
-		<put-attribute name="body" value="/views/message-box/edit.jsp" />
+		<put-attribute name="body" value="/views/message-box/show.jsp" />
 	</definition>
 
 </tiles-definitions>

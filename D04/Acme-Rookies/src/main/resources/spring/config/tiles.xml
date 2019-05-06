@@ -28,5 +28,6 @@
 		<value>/views/social-profile/tiles.xml</value>
 		<value>/views/finder/tiles.xml</value>
 		<value>/views/message/tiles.xml</value>
+		<value>/views/message-box/tiles.xml</value>
 	</util:list>
 </beans>

@@ -1,11 +1,8 @@
 <%--
- * box.jsp
+ * message-box/list.jsp
  *
- * Copyright (C) 2018 Nozotro
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ * @author José Antonio Domínguez Gómez
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -21,13 +18,13 @@
 	<display:column titleKey="messageBox.name">
 		<jstl:out value="${messageBox.name}" />
 	</display:column>
-	<display:column titleKey="options.blank">
+	<display:column titleKey="blank">
 		<a href="message-box/edit.do?id=<jstl:out value="${messageBox.id}" />">
-			<spring:message code="options.edit"/>
+			<spring:message code="action.edit"/>
 		</a>
 	</display:column>
 </display:table>
 
 <a href="message-box/create.do">
-	<spring:message code="options.create"/>
+	<spring:message code="action.create.messageBox"/>
 </a>
