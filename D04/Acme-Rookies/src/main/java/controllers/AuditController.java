@@ -51,12 +51,13 @@ public class AuditController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 
 		result = new ModelAndView("audit/list");
+
 		result.addObject("audits", this.auditService.getAuditsOfAuditor(auditor));
 
 		return result;
 	}
 
-	@RequestMapping(value = "/actor/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
 

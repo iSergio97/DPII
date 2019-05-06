@@ -28,7 +28,7 @@
 	</display:column>
 
 	<display:column>
-		<a href="audit/actor/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
+		<a href="audit/all/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
 	</display:column>
 	
 	<display:column>

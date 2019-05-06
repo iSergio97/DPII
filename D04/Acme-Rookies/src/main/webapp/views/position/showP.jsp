@@ -30,7 +30,7 @@
 	<display:column property="salary"> <jstl:out value="${row.salary}" /> </display:column>
 
 	<display:column>
-		<a href="audit/actor/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
+		<a href="audit/all/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
 	</display:column>
 
 	<security:authorize access="hasRole('AUDITOR')">
