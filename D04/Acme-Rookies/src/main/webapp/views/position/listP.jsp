@@ -18,20 +18,41 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
-<jstl:if test="${fn:length(companies) eq 0 }">
-	<spring:message code="companies.empty.list" />
+<jstl:if test="${fn:length(positions) eq 0 }">
+	<spring:message code="position.empty.list" />
 </jstl:if>
 
-<jstl:if test="${fn:length(companies) gt 0 }">
-	<display:table name="companies" id="row">
+<jstl:if test="${fn:length(positions) gt 0 }">
+	<display:table name="positions" id="row" pagesize="5" sort="list" defaultsort="1" requestURI="position/all/list.do">
 
-		<display:column property="commercialName">
-			<jstl:out value="${row.commercialName}" />
+		<display:column property="title" sortable="true" sortName="title">
+			<jstl:out value="${row.title}" />
+		</display:column>
+		<display:column property="description" sortable="true"
+			sortName="description">
+			<jstl:out value="${row.description}" />
+		</display:column>
+		<display:column property="deadline" sortable="true"
+			sortName="deadline">
+			<jstl:out value="${row.deadline }" />
+		</display:column>
+		<display:column property="profile" sortable="true" sortName="profile">
+			<jstl:out value="${row.profile}" />
+		</display:column>
+		<display:column property="skills" sortable="true" sortName="skills">
+			<jstl:out value="${row.skills}" />
+		</display:column>
+		<display:column property="technologies" sortable="true"
+			sortName="technologies">
+			<jstl:out value="${row.technologies}" />
+		</display:column>
+		<display:column property="salary" sortable="true" sortName="salary">
+			<jstl:out value="${row.salary}" />
 		</display:column>
 
 		<display:column>
-			<a href="position/all/show.do?companyId=${row.id}"><spring:message code="show" /></a>
+			<a href="position/all/show.do?positionId=${row.id}"><spring:message
+					code="show" /></a>
 		</display:column>
 
 	</display:table>

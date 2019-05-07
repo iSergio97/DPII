@@ -117,7 +117,8 @@
 			</li>
 		</security:authorize>
 
-		<li><a class="fNiv" href="position/all/list.do"><spring:message code="master.page.list.company" /></a></li>
+		<li><a class="fNiv" href="company/all/list.do"><spring:message code="master.page.list.company" /></a></li>
+		<li><a class="fNiv" href="position/all/list.do"><spring:message code="master.page.list.position" /></a></li>
 
 	</ul>
 </div>

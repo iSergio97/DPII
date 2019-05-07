@@ -144,6 +144,9 @@ public class RegisterController {
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			rookie2.setUserAccount(uaSaved);
 			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
+			if (!rookie2.getPhoneNumber().startsWith("(+")) {
+				rookie2.setPhoneNumber("(+34)" + rookie2.getPhoneNumber());
+			}
 			final Rookie rookieSaved = this.rookieService.save(rookie2);
 			if (rookie2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -229,6 +232,9 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(company2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			company2.setUserAccount(uaSaved);
+			if (!company2.getPhoneNumber().startsWith("(+")) {
+				company2.setPhoneNumber("(+34)" + company2.getPhoneNumber());
+			}
 			final Company companySaved = this.companyService.save(company2);
 			if (company2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -320,6 +326,9 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(administrator2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			administrator2.setUserAccount(uaSaved);
+			if (!administrator2.getPhoneNumber().startsWith("(+")) {
+				administrator2.setPhoneNumber("(+34)" + administrator2.getPhoneNumber());
+			}
 			final Administrator administratorSaved = this.administratorService.save(administrator2);
 			if (administrator2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {

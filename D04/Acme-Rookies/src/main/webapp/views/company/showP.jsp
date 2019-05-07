@@ -17,18 +17,17 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
 <jstl:if test="${fn:length(positions) gt 0 }">
 	<spring:message code="position.hidden.problem" />
-<display:table name="positions" id="row" requestURI="position/all/show.do?companyId=${company.id}]">
+<display:table name="positions" id="row" pagesize="5" sort="external">
 
-	<display:column property="title"> <jstl:out value="${row.title}" /> </display:column>
-	<display:column property="description"> <jstl:out value="${row.description}" /> </display:column>
-	<display:column property="deadline"> <jstl:out value="${row.deadline }" /> </display:column>
-	<display:column property="profile"> <jstl:out value="${row.profile}" /> </display:column>
-	<display:column property="skills"> <jstl:out value="${row.skills}" /> </display:column>
-	<display:column property="technologies"> <jstl:out value="${row.technologies}" /> </display:column>
-	<display:column property="salary"> <jstl:out value="${row.salary}" /> </display:column>
+	<display:column property="title" sortable="true"> <jstl:out value="${row.title}" /> </display:column>
+	<display:column property="description" sortable="true"> <jstl:out value="${row.description}" /> </display:column>
+	<display:column property="deadline" sortable="true"> <jstl:out value="${row.deadline }" /> </display:column>
+	<display:column property="profile" sortable="true"> <jstl:out value="${row.profile}" /> </display:column>
+	<display:column property="skills" sortable="true"> <jstl:out value="${row.skills}" /> </display:column>
+	<display:column property="technologies" sortable="true"> <jstl:out value="${row.technologies}" /> </display:column>
+	<display:column property="salary" sortable="true"> <jstl:out value="${row.salary}" /> </display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 		<display:column>
@@ -40,5 +39,5 @@
 </jstl:if>
 
 <jstl:if test="${fn:length(positions) eq 0 }">
-	<spring:message code="positions.emtpy.list" />
+	<spring:message code="positions.empty.list" />
 </jstl:if>
