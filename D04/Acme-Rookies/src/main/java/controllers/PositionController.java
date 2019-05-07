@@ -174,8 +174,6 @@ public class PositionController extends AbstractController {
 		Company company = p.getCompany();
 		res = new ModelAndView("position/all/show");
 		res.addObject("company", company);
-		String requestURI = "/position/all/show.do?companyId=" + company.getId();
-		res.addObject("requestURI", requestURI);
 		return res;
 	}
 

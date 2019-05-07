@@ -20,7 +20,7 @@
 
 <jstl:if test="${fn:length(positions) gt 0 }">
 	<spring:message code="position.hidden.problem" />
-<display:table name="positions" id="row" requestURI="position/all/show.do?companyId=${company.id}]">
+<display:table name="positions" id="row" requestURI="company/all/show.do?companyId=${id}]">
 
 	<display:column property="title"> <jstl:out value="${row.title}" /> </display:column>
 	<display:column property="description"> <jstl:out value="${row.description}" /> </display:column>
