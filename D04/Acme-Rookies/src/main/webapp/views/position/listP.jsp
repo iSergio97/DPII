@@ -18,12 +18,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+
 <jstl:if test="${fn:length(positions) eq 0 }">
 	<spring:message code="position.empty.list" />
 </jstl:if>
 
+
+<form name="testing" action="position/all/list.do" method="post" >
+
+	<spring:message code="keyword" />
+	: <input type="text" value="" id="keyword" name="keyword"/>
+	<button type="submit">
+		<spring:message code="save" />
+	</button>
+</form>
+
 <jstl:if test="${fn:length(positions) gt 0 }">
-	<display:table name="positions" id="row" pagesize="5" sort="list" defaultsort="1" requestURI="position/all/list.do">
+	<display:table name="positions" id="row" pagesize="5" sort="list"
+		defaultsort="1" requestURI="position/all/list.do">
 
 		<display:column property="title" sortable="true" sortName="title">
 			<jstl:out value="${row.title}" />

@@ -156,8 +156,24 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
-		final Collection<Position> positions = this.positionService.findAll();
+		final Collection<Position> positions;
+		positions = this.positionService.findAll();
+		res = new ModelAndView("position/all/list");
+		res.addObject("positions", positions);
 
+		return res;
+
+	}
+
+	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
+	public ModelAndView publicList(@RequestParam String keyword) {
+		ModelAndView res;
+		final Collection<Position> positions;
+		if (keyword == "") {
+			positions = this.positionService.findAll();
+		} else {
+			positions = this.positionService.searchQuery(keyword);
+		}
 		res = new ModelAndView("position/all/list");
 		res.addObject("positions", positions);
 
@@ -176,6 +192,8 @@ public class PositionController extends AbstractController {
 		res.addObject("company", company);
 		return res;
 	}
+
+	// Public query for  public positions list
 
 	// Ancillary Methods ------------------------------------------------------
 
