@@ -33,6 +33,8 @@
 	<form:hidden path="actor"/>
 
 	<acme:submit name="save" code="action.save"/>
-	<acme:submit name="delete" code="action.delete"/>
+	<jstl:if test="${messageBox.id ne 0}">
+		<acme:submit name="delete" code="action.delete"/>
+	</jstl:if>
 	<acme:cancel url="message-box/all/list.do" code="action.cancel"/>
 </form:form>

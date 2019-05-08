@@ -14,17 +14,17 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="messageBoxes" id="messageBox" pagesize="5" requestURI="message-box/edit.do" class="displaytag">
+<display:table name="messageBoxes" id="messageBox" pagesize="5" requestURI="message-box/all/edit.do" class="displaytag">
 	<display:column titleKey="messageBox.name">
 		<jstl:out value="${messageBox.name}" />
 	</display:column>
 	<display:column titleKey="blank">
-		<a href="message-box/edit.do?id=<jstl:out value="${messageBox.id}" />">
+		<a href="message-box/all/edit.do?id=<jstl:out value="${messageBox.id}" />">
 			<spring:message code="action.edit"/>
 		</a>
 	</display:column>
 </display:table>
 
-<a href="message-box/create.do">
+<a href="message-box/all/create.do">
 	<spring:message code="action.create.messageBox"/>
 </a>

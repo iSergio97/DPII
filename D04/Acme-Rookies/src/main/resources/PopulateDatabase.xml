@@ -342,6 +342,110 @@
 		<property name="isSystem" value="1" />
 		<property name="actor" ref="company3" />
 	</bean>
+	
+	<!-- MESSAGE BOXES -->
+	
+	<bean id="message1" class="domain.Message">
+		<property name="date" value="2019/03/03" />
+		<property name="subject" value="Advertencia" />
+		<property name="body" value="Dese usted por muerto" />
+		<property name="priority" value="HIGH" />
+		<property name="tags" value="#EstoNoEsUnaAmenaza" />
+		<property name="isSpam" value="0" />
+		<property name="sender">
+				<ref bean="rookie2"/>
+		</property>
+		<property name="recipients">
+			<list>
+				<ref bean="rookie1"/>
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxRookie2"/>
+				<ref bean="inBoxRookie1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="message2" class="domain.Message">
+		<property name="date" value="2019/03/05" />
+		<property name="subject" value="RE:Advertencia" />
+		<property name="body" value="Nos vemos en los tribunales" />
+		<property name="priority" value="HIGH" />
+		<property name="tags" value="#EstoSíEsUnaAmenaza" />
+		<property name="isSpam" value="0" />
+		<property name="sender">
+				<ref bean="rookie1"/>
+		</property>
+		<property name="recipients">
+			<list>
+				<ref bean="rookie2"/>
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxRookie1"/>
+				<ref bean="inBoxRookie2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="message3" class="domain.Message">
+		<property name="date" value="2019/03/02" />
+		<property name="subject" value="Pole" />
+		<property name="body" value="Pole Rookie, chavales" />
+		<property name="priority" value="NEUTRAL" />
+		<property name="isSpam" value="0" />
+		<property name="sender">
+				<ref bean="admin1"/>
+		</property>
+		<property name="recipients">
+			<list>
+				<ref bean="admin1"/>
+				<ref bean="company1"/>
+				<ref bean="company2"/>
+				<ref bean="company3"/>
+				<ref bean="rookie1"/>
+				<ref bean="rookie2"/>
+				<ref bean="rookie3"/>
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxAdmin1"/>
+				<ref bean="notificationBoxAdmin1"/>
+				<ref bean="notificationBoxCompany1"/>
+				<ref bean="notificationBoxCompany2"/>
+				<ref bean="notificationBoxCompany3"/>
+				<ref bean="notificationBoxRookie1"/>
+				<ref bean="notificationBoxRookie2"/>
+				<ref bean="notificationBoxRookie3"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="message4" class="domain.Message">
+		<property name="date" value="2019/03/04" />
+		<property name="subject" value="Vendo Opel Corsa" />
+		<property name="body" value="Opel Corsa 1. 3 CDTI, Color Azul, IDEAL PARA EL PETTING" />
+		<property name="priority" value="NEUTRAL" />
+		<property name="isSpam" value="0" />
+		<property name="sender">
+				<ref bean="rookie3"/>
+		</property>
+		<property name="recipients">
+			<list>
+				<ref bean="rookie1"/>
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxRookie3"/>
+				<ref bean="inBoxRookie1"/>
+			</list>
+		</property>
+	</bean>
 
 	<!-- ADMINISTRATOR ACCOUNT -->
 
@@ -686,12 +790,12 @@
 	<!-- FINDERS -->
 	
 	<bean id="finder1" class="domain.Finder">
-	<property name="keyword" value=""/>
-	<property name="deadline" value="21/11/2019"/>
-	<property name="maximumDeadline" value ="31/12/2019"/>
-	<property name="minimumSalary" value="1000.0"/>
-	<property name="moment" value="25/04/2019"/>
-	<property name="rookie" ref="rookie1"/>
+		<property name="keyword" value=""/>
+		<property name="deadline" value="21/11/2019"/>
+		<property name="maximumDeadline" value ="31/12/2019"/>
+		<property name="minimumSalary" value="1000.0"/>
+		<property name="moment" value="25/04/2019"/>
+		<property name="rookie" ref="rookie1"/>
 	</bean>
 
 </beans>

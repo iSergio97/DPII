@@ -29,10 +29,10 @@
 	</display:column>
 	<display:column titleKey="message.sender">
 		<jstl:out value="${message.sender.name}" />
+			<jstl:forEach items="${message.sender.surnames}" var="surname">
 				<jstl:out value=" " />
-				<jstl:out value="${message.sender.middleName}" />
-				<jstl:out value=" " />
-				<jstl:out value="${message.sender.surname}" />
+				<jstl:out value="${surname}" />
+			</jstl:forEach>
 	</display:column>
 	<display:column titleKey="message.priority">
 		<jstl:choose>
