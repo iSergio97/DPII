@@ -34,15 +34,19 @@
 	</display:column>
 
 	<security:authorize access="hasRole('AUDITOR')">
-		<display:column>
-			<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
-		</display:column>
+		<jstl:if test="${row.status eq 'ACCEPTED'}">
+			<display:column>
+				<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 
 	<security:authorize access="hasRole('ROOKIE')">
-		<display:column>
-			<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
-		</display:column>
+		<jstl:if test="${row.status eq 'ACCEPTED'}">
+			<display:column>
+				<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 
 </display:table>

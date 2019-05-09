@@ -63,20 +63,21 @@
 
 
 <jstl:if test="${position.status eq 'SUBMITTED'}">
-	<a href="position/company/final.do?positionId=${position.id}"> <spring:message
-			code="final" />
+	<a href="position/company/final.do?positionId=${position.id}">ç
+		<spring:message code="final" />
 	</a>
 	<br>
-	<br>
-	<a href="position/company/edit.do?positionId=${position.id}"> <spring:message
-			code="edit" />
+	<a href="position/company/edit.do?positionId=${position.id}">
+		<spring:message code="edit" />
 	</a>
 </jstl:if>
 
 <jstl:if test="${position.status eq 'ACCEPTED'}">
-	<a href="position/company/cancel.do?positionId=${position.id}"> <spring:message
-			code="canceled" />
+	<a href="position/company/cancel.do?positionId=${position.id}">
+		<spring:message code="canceled" />
+	</a>
+	<br>
+	<a href="audit/all/list.do?positionId=${row.id}">
+		<spring:message code="audits" />
 	</a>
 </jstl:if>
-
-<a href="audit/all/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
