@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -51,7 +52,24 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		Rookie rookie;
 		Finder finder;
-		Collection<Position> positions;
+		Collection<Position> positions = new ArrayList<Position>();
+		//		rookie = this.rookieService.findPrincipal();
+		//		finder = this.finderService.findPrincipal(rookie.getId());
+		//		Date now = Calendar.getInstance().getTime();
+		//		Date finderDate = finder.getMoment();
+		//
+		//		if (finder.getId() == 0 || finder == null || now.compareTo(finderDate) > 0) {
+		//			result = this.create();
+		//			positions = this.finderService.findPositions(kw1, kw2, kw3, kw4, kw5, kw6, deadline, maximumDeadline, minimumSalary);
+		//		} else {
+		//			positions.retainAll(finder.getPositions());
+		//		}
+		//
+		//		result = new ModelAndView("finder/list");
+		//		result.addObject("positions", positions);
+		//		result.addObject("requestURI", "finder/list.do");
+		//
+		//		return result;
 
 		rookie = this.rookieService.findPrincipal();
 		finder = this.finderService.findPrincipal(rookie.getId());
@@ -120,7 +138,7 @@ public class FinderController extends AbstractController {
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
 				finder2.setPositions(positions);
-				final Finder p = this.finderService.save(finder2);
+				this.finderService.save(finder2);
 				result = this.list();
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(finder, "problem.commit.error");
@@ -164,7 +182,7 @@ public class FinderController extends AbstractController {
 	}
 
 	private String dateFormatter(final Date date) {
-		String s = "" + date.getYear() + "-";
+		String s = "'" + (date.getYear() % 100 + 2000) + "-";
 		if (date.getMonth() < 10)
 			s = s + "0" + date.getMonth() + "-";
 		else
@@ -174,6 +192,6 @@ public class FinderController extends AbstractController {
 		else
 			s = s + date.getDay();
 
-		return s;
+		return s += "'";
 	}
 }

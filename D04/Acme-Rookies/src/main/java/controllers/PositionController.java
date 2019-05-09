@@ -183,12 +183,12 @@ public class PositionController extends AbstractController {
 
 	// Public show ------------------------------------------------------------
 
-	@RequestMapping(value = "/all/show", method = RequestMethod.GET)
+	@RequestMapping(value = "/all/show-company", method = RequestMethod.GET)
 	public ModelAndView publicShow(@RequestParam final int positionId) {
 		ModelAndView res;
 		Position p = this.positionService.findOne(positionId);
 		Company company = p.getCompany();
-		res = new ModelAndView("position/all/show");
+		res = new ModelAndView("position/all/show-company");
 		res.addObject("company", company);
 		return res;
 	}

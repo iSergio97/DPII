@@ -63,8 +63,8 @@
 		</display:column>
 
 		<display:column>
-			<a href="position/all/show.do?positionId=${row.id}"><spring:message
-					code="show" /></a>
+			<a href="position/all/show-company.do?positionId=${row.id}"><spring:message
+					code="showCompany" /></a>
 		</display:column>
 
 	</display:table>
