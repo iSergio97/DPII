@@ -68,10 +68,6 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<display:column titleKey="show">
 			<a href="application/rookie/show.do?id=${row.id}"><spring:message code="show" /></a>
 		</display:column>
-	
-		<display:column titleKey="options">
-			<a href="application/rookie/submit.do?id=${row.id}"><spring:message code="submit" /></a>
-		</display:column>
 	</security:authorize>
 
 	<security:authorize access="hasRole('COMPANY')">
