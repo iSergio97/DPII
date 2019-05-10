@@ -186,4 +186,9 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 	public Company companyMax() {
 		return this.repository.companyMax();
 	}
+
+	public Collection<Position> searchQuery(String text) {
+		String query = "%" + text + "%";
+		return this.repository.searchQuery(query);
+	}
 }

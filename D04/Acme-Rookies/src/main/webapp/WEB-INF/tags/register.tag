@@ -24,7 +24,7 @@
 
 <%-- Definition --%>
 
-<div>
+<div class="form-group">
 	<form:label path="${path}">
 		<strong><spring:message code="${code}" />:</strong>
 	</form:label>
