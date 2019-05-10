@@ -87,13 +87,23 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 
 	//Ancillary Methods--------------------------------------------
 
-	public Collection<Position> findPositions(final String kw1, final String kw2, final String kw3, final String kw4, final String kw5, final String kw6, final String deadline, final String maximumDeadline, final double minimumSalary) {
+	public Collection<Position> findPositions(final String kw1, final String kw2, final String kw3, final String kw4, final String kw5, final String kw6, final Date deadline, final Date maximumDeadline, final double minimumSalary) {
 		return this.finderRepository.findPositions(kw1, kw2, kw3, kw4, kw5, kw6, deadline, maximumDeadline, minimumSalary);
 	}
 
 	public Finder findPrincipal(final int rookieId) {
 		Finder f = null;
 		f = this.finderRepository.findPrincipal(rookieId);
+		return f;
+	}
+
+	public FinderForm deconstruct(Finder finder) {
+		FinderForm f = this.createForm();
+		f.setKeyword(finder.getKeyword());
+		f.setId(finder.getId());
+		f.setDeadline(finder.getDeadline());
+		f.setMinimumSalary(finder.getMinimumSalary());
+		f.setMoment(new Date());
 		return f;
 	}
 

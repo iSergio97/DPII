@@ -2,7 +2,7 @@
  * position/showP.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
- * @author Sergio Garrido Domínguez
+ * @author Sergio Garrido Domï¿½nguez
  --%>
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -17,9 +17,6 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<jstl:if test="${fn:length(positions) gt 0 }">
-	<spring:message code="position.hidden.problem" />
-<display:table name="positions" id="row">
 
 	<display:column property="title"> <jstl:out value="${row.title}" /> </display:column>
 	<display:column property="description"> <jstl:out value="${row.description}" /> </display:column>
@@ -49,9 +46,4 @@
 		</jstl:if>
 	</security:authorize>
 
-</display:table>
-</jstl:if>
-
-<jstl:if test="${fn:length(positions) eq 0 }">
-	<spring:message code="positions.emtpy.list" />
-</jstl:if>
+<p> <img alt="companyImage" src="${company.photo }">

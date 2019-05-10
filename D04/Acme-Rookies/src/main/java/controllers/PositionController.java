@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.AuditService;
-import services.CompanyService;
-import services.PositionService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
+import security.LoginService;
+import services.CompanyService;
+import services.PositionService;
 
 @Controller
 @RequestMapping("/position")
@@ -158,11 +157,26 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
-		final Collection<Company> companies = this.companyService.findAll();
-
+		final Collection<Position> positions;
+		positions = this.positionService.findAll();
 		res = new ModelAndView("position/all/list");
-		res.addObject("companies", companies);
-		res.addObject("scoresByCompany", this.auditService.getScoresByCompany());
+		res.addObject("positions", positions);
+
+		return res;
+
+	}
+
+	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
+	public ModelAndView publicList(@RequestParam String keyword) {
+		ModelAndView res;
+		final Collection<Position> positions;
+		if (keyword == "") {
+			positions = this.positionService.findAll();
+		} else {
+			positions = this.positionService.searchQuery(keyword);
+		}
+		res = new ModelAndView("position/all/list");
+		res.addObject("positions", positions);
 
 		return res;
 
@@ -170,16 +184,17 @@ public class PositionController extends AbstractController {
 
 	// Public show ------------------------------------------------------------
 
-	@RequestMapping(value = "/all/show", method = RequestMethod.GET)
-	public ModelAndView publicShow(@RequestParam final int companyId) {
+	@RequestMapping(value = "/all/show-company", method = RequestMethod.GET)
+	public ModelAndView publicShow(@RequestParam final int positionId) {
 		ModelAndView res;
-		final Company company = this.companyService.findOne(companyId);
-		final Collection<Position> positions = this.positionService.findPositionsForPublic(company);
-
-		res = new ModelAndView("position/all/show");
-		res.addObject("positions", positions);
+		Position p = this.positionService.findOne(positionId);
+		Company company = p.getCompany();
+		res = new ModelAndView("position/all/show-company");
+		res.addObject("company", company);
 		return res;
 	}
+
+	// Public query for  public positions list
 
 	// Ancillary Methods ------------------------------------------------------
 
