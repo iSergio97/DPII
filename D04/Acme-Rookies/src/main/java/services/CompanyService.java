@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Company;
-import domain.CreditCard;
-import forms.RegisterCompanyForm;
 import repositories.CompanyRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Company;
+import domain.CreditCard;
+import forms.RegisterCompanyForm;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 	// Other fields
 
 	@Autowired
-	private Validator validator;
+	private Validator	validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////

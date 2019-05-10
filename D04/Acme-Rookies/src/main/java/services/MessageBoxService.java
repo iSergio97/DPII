@@ -2,15 +2,15 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.MessageBox;
 import repositories.MessageBoxRepository;
+import domain.Actor;
+import domain.MessageBox;
 
 @Service
 @Transactional
@@ -20,7 +20,7 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 	// Supporting services
 
 	@Autowired
-	private ActorService actorService;
+	private ActorService	actorService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -41,65 +41,33 @@ public class MessageBoxService extends AbstractService<MessageBoxRepository, Mes
 		final List<MessageBox> messageBoxes = new ArrayList<>();
 		final MessageBox inBox = new MessageBox();
 		inBox.setName("InBox");
-		inBox.setIsSystem(true);
+		inBox.setSystem(true);
 		messageBoxes.add(inBox);
 
 		final MessageBox outBox = new MessageBox();
 		outBox.setName("OutBox");
-		outBox.setIsSystem(true);
+		outBox.setSystem(true);
 		messageBoxes.add(outBox);
 
 		final MessageBox trashBox = new MessageBox();
 		trashBox.setName("TrashBox");
-		trashBox.setIsSystem(true);
+		trashBox.setSystem(true);
 		messageBoxes.add(trashBox);
 
 		final MessageBox spamBox = new MessageBox();
 		spamBox.setName("SpamBox");
-		spamBox.setIsSystem(true);
+		spamBox.setSystem(true);
 		messageBoxes.add(spamBox);
 
-		final MessageBox notificationBox = new MessageBox();
-		notificationBox.setName("NotificationBox");
-		notificationBox.setIsSystem(true);
-		messageBoxes.add(notificationBox);
+		final MessageBox notifications = new MessageBox();
+		notifications.setName("Notifications");
+		notifications.setSystem(true);
+		messageBoxes.add(notifications);
 
 		return messageBoxes;
 	}
 
-	public List<MessageBox> messageFromActor(final int actorId) {
-		return this.repository.messageFromActor(actorId);
-	}
-
-	public MessageBox findInbox(final int actorId) {
-		return this.repository.findInBox(actorId);
-	}
-
-	public MessageBox findOutbox(final int actorId) {
-		return this.repository.findOutBox(actorId);
-	}
-
-	public MessageBox findSpamBox(final int actorId) {
-		return this.repository.findSpamBox(actorId);
-	}
-
-	public MessageBox findTrashBox(final int actorId) {
-		return this.repository.findTrashBox(actorId);
-	}
-
-	public MessageBox findNotificationBox(final int actorId) {
-		return this.repository.findNotificationBox(actorId);
-	}
-
-	public MessageBox findByPrincipalAndName(final int userAccountId, final String name) {
-		return this.repository.findByPrincipalAndName(userAccountId, name);
-	}
-
-	public Collection<MessageBox> findSystemBoxes(final int actorId) {
-		return this.repository.findSystemBoxes(actorId);
-	}
-
-	public Collection<MessageBox> findMessageBoxes(final int actorId) {
-		return this.repository.findMessageBoxes(actorId);
+	public List<MessageBox> messageFromActor(final Actor a) {
+		return this.repository.messageFromActor(a.getId());
 	}
 }
