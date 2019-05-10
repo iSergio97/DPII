@@ -9,7 +9,12 @@
 <tiles-definitions>
 
 	<definition name="message/all/create" extends="master.page">
-		<put-attribute name="title" value="Send Message" />
+		<put-attribute name="title" value="Send message" />
+		<put-attribute name="body" value="/views/message/create.jsp" />
+	</definition>
+	
+		<definition name="message/all/broadcast" extends="master.page">
+		<put-attribute name="title" value="Send a broadcast message" />
 		<put-attribute name="body" value="/views/message/create.jsp" />
 	</definition>
 

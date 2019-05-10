@@ -22,6 +22,7 @@ import forms.FinderForm;
 import services.FinderService;
 import services.PositionService;
 import services.RookieService;
+import services.SystemConfigurationService;
 
 @Controller
 @RequestMapping("/finder")
@@ -30,13 +31,16 @@ public class FinderController extends AbstractController {
 	// Services ---------------------------------------------------
 
 	@Autowired
-	private FinderService	finderService;
+	private FinderService				finderService;
 
 	@Autowired
-	private RookieService	rookieService;
+	private RookieService				rookieService;
 
 	@Autowired
-	private PositionService	positionService;
+	private PositionService				positionService;
+
+	@Autowired
+	private SystemConfigurationService	scs;
 
 
 	// Constructors -----------------------------------------------
@@ -92,13 +96,25 @@ public class FinderController extends AbstractController {
 
 	// Create --------------------------------------------------
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
 		FinderForm finder;
-
-		finder = this.finderService.createForm();
-		result = this.createAndEditModelAndView(finder);
+		Rookie rookie = this.rookieService.findPrincipal();
+		System.out.println(rookie.getId());
+		Finder finder2 = finderService.findPrincipal(rookie.getId());
+		Date date = new Date();
+		date.setHours(date.getHours() + scs.getSystemConfiguration().getFinderCacheTime());
+		if (finder2 == null) {
+			finder = this.finderService.createForm();
+			result = this.createAndEditModelAndView(finder);
+		} else if (finder2.getMoment().compareTo(date) < 0) {
+			finder = this.finderService.deconstruct(finder2);
+			result = this.createAndEditModelAndView(finder);
+		} else {
+			result = this.list();
+		}
 
 		return result;
 	}
@@ -132,11 +148,14 @@ public class FinderController extends AbstractController {
 		else
 			try {
 
-				Collection<Position> positions = this.finderService.findPositions(finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), finder.getKeyword(), this.dateFormatter(finder.getDeadline()),
-					this.dateFormatter(finder.getMaximumDeadline()), finder.getMinimumSalary());
+				Collection<Position> positions = this.finderService.findPositions("%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%",
+					"%'" + finder.getKeyword() + "'%", finder.getDeadline(), finder.getMaximumDeadline(), finder.getMinimumSalary());
 				if (positions.isEmpty())
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
+				finder2.setPositions(positions);
+				Rookie rookie = this.rookieService.findPrincipal();
+				finder2.setRookie(rookie);
 				finder2.setPositions(positions);
 				this.finderService.save(finder2);
 				result = this.list();

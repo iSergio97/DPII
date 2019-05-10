@@ -41,31 +41,49 @@ public class MessageController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
-		return this.createEditModelAndView(this.messageService.createForm());
+		return this.createEditModelAndView(this.messageService.createForm(), "create");
+	}
+
+	@RequestMapping(value = "/broadcast", method = RequestMethod.GET)
+	public ModelAndView broadcast() {
+		return this.createEditModelAndView(this.messageService.createBroadcast(), "broadcast");
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public ModelAndView edit(@ModelAttribute("message") final MessageForm mf, final BindingResult bindingResult) {
 		ModelAndView result;
 		Message m;
+		Collection<Actor> ls = this.actorService.findAll();
 		try {
+			if (mf.getBroadcast()) {
+				mf.setRecipients(this.actorService.findAll());
+			}
 			m = this.messageService.reconstruct(mf, bindingResult);
 			for (final Actor a : m.getRecipients())
 				if (!m.getIsSpam()) {
+					//					if (!mf.getBroadcast()) {
+					//						final Collection<MessageBox> mbs = m.getMessageBoxes();
+					//						final MessageBox inbox = this.messageBoxService.save(this.messageBoxService.findInbox(a.getId()));
+					//						mbs.add(inbox);
+					//					} else {
 					final Collection<MessageBox> mbs = m.getMessageBoxes();
 					final MessageBox inbox = this.messageBoxService.save(this.messageBoxService.findInbox(a.getId()));
 					mbs.add(inbox);
+					//					}
 				} else {
 					final Collection<MessageBox> mbs = m.getMessageBoxes();
 					final MessageBox spambox = this.messageBoxService.save(this.messageBoxService.findSpamBox(a.getId()));
 					mbs.add(spambox);
 
 				}
-			//this.messageBoxService.save(m.getMessageBoxes());
 			this.messageService.save(m);
 			result = new ModelAndView("redirect:../welcome/index.do");
 		} catch (final ValidationException valExp) {
-			result = this.createEditModelAndView(mf);
+			if (mf.getBroadcast()) {
+				result = this.createEditModelAndView(mf, "broadcast");
+			} else {
+				result = this.createEditModelAndView(mf, "create");
+			}
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(mf, "message.error");
 		}
@@ -80,8 +98,9 @@ public class MessageController {
 	}
 
 	protected ModelAndView createEditModelAndView(final MessageForm mf, final String message) {
-		final ModelAndView result = new ModelAndView("message/all/create");
+		final ModelAndView result = new ModelAndView("message/all/" + message);
 		result.addObject("message", mf);
+		result.addObject("messageb", message);
 		result.addObject("recipients", this.actorService.findAll());
 
 		return result;

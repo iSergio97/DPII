@@ -17,6 +17,7 @@ public class MessageForm {
 	private String				priority;
 	private String				tags;
 	private Collection<Actor>	recipients;
+	private boolean				broadcast;
 
 
 	@NotBlank
@@ -61,6 +62,14 @@ public class MessageForm {
 
 	public void setRecipients(final Collection<Actor> recipients) {
 		this.recipients = recipients;
+	}
+
+	public boolean getBroadcast() {
+		return broadcast;
+	}
+
+	public void setBroadcast(boolean broadcast) {
+		this.broadcast = broadcast;
 	}
 
 }

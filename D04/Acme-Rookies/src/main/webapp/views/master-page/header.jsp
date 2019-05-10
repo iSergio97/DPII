@@ -74,6 +74,7 @@
 				<a class="fNiv"><spring:message code="master.page.messages" /></a>
 				<ul>
 					<li><a href="message/all/create.do"><spring:message code="master.page.message.create" /></a></li>
+					<li><a href="message/all/broadcast.do"><spring:message code="master.page.message.broadcast" /></a></li>
 					<li><a href="message-box/all/show.do?name=inBox"><spring:message code="master.page.messageBox.inBox" /></a></li>
 					<li><a href="message-box/all/show.do?name=outBox"><spring:message code="master.page.messageBox.outBox" /></a></li>
 					<li><a href="message-box/all/show.do?name=trashBox"><spring:message code="master.page.messageBox.trashBox" /></a></li>

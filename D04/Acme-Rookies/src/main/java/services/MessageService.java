@@ -59,6 +59,20 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		mf.setBody("");
 		mf.setTags("");
 		mf.setRecipients(new ArrayList<Actor>());
+		mf.setBroadcast(false);
+
+		return mf;
+	}
+
+	public MessageForm createBroadcast() {
+		final MessageForm mf = new MessageForm();
+
+		mf.setSubject("");
+		mf.setBody("");
+		mf.setTags("");
+		mf.setPriority("HIGH");
+		mf.setRecipients(new ArrayList<Actor>());
+		mf.setBroadcast(true);
 
 		return mf;
 	}
