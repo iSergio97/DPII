@@ -14,7 +14,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="socialProfileForm" method="POST" action="social-profile/all/save.do">
+<form:form modelAttribute="socialProfileForm" method="POST" action="socialprofile/actor/save.do">
 
 	<!-- Hidden fields -->
 
@@ -50,13 +50,13 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 	<input type="submit" name="edit" value="<spring:message code='send'/>" />
 	<input type="button" name="cancel"
-		value="<spring:message code="action.cancel" />"
+		value="<spring:message code='cancel' />"
 		onclick="javascript: relativeRedir('welcome/index.do');" />
 
 </form:form>
 
 <jstl:if test="${socialProfileForm.id != 0}">
-	<form action="social-profile/all/delete.do" method="POST">
+	<form action="socialprofile/actor/delete.do" method="POST">
 		<input type="hidden" name="id" value="<jstl:out value='${socialProfileForm.id}' />" />
 		<input type="submit" name="delete" value="<spring:message code='delete' />" />
 	</form>

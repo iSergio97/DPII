@@ -46,7 +46,4 @@ public interface PositionRepository extends AbstractRepository<Position> {
 	@Query("select p from Position p join p.company c group by c order by sum(c) desc")
 	Company companyMax();
 
-	@Query("select p from Position p where p.title like ?1 or p.description like ?1 or p.profile like ?1 or p.skills like ?1 or p.technologies like ?1 or p.ticker like ?1")
-	Collection<Position> searchQuery(String text);
-
 }
