@@ -102,7 +102,6 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		FinderForm finder;
 		Rookie rookie = this.rookieService.findPrincipal();
-		System.out.println(rookie.getId());
 		Finder finder2 = finderService.findPrincipal(rookie.getId());
 		Date date = new Date();
 		date.setHours(date.getHours() + scs.getSystemConfiguration().getFinderCacheTime());

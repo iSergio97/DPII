@@ -53,7 +53,6 @@ public class MessageController {
 	public ModelAndView edit(@ModelAttribute("message") final MessageForm mf, final BindingResult bindingResult) {
 		ModelAndView result;
 		Message m;
-		Collection<Actor> ls = this.actorService.findAll();
 		try {
 			if (mf.getBroadcast()) {
 				mf.setRecipients(this.actorService.findAll());
