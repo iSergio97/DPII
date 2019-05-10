@@ -11,11 +11,11 @@
 <h2>
 	<jstl:out value="${curriculumName}"/>: <spring:message code="personalData"/>
 </h2>
-	<acme:field value="${personalData.fullName}" code="personalData.fullName"/>
-	<acme:field value="${personalData.phoneNumber}" code="personalData.phoneNumber"/>
-	<acme:link value="${personalData.gitHubProfile}" code="personalData.gitHubProfile"/>
-	<acme:link value="${personalData.linkedInProfile}" code="personalData.linkedInProfile"/>
-	<acme:field value="${personalData.statement}" code="personalData.statement"/>
+	<acme:field code="personalData.fullName" value="${personalData.fullName}"/>
+	<acme:field code="personalData.phoneNumber" value="${personalData.phoneNumber}"/>
+	<acme:link code="personalData.gitHubProfile" value="${personalData.gitHubProfile}"/>
+	<acme:link code="personalData.linkedInProfile" value="${personalData.linkedInProfile}"/>
+	<acme:field code="personalData.statement" value="${personalData.statement}"/>
 
 <a href="personal-data/rookie/edit.do?personalDataID=${personalData.id}">
 <spring:message code="editPD"/>
