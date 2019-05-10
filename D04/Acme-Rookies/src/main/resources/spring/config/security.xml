@@ -48,26 +48,25 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/personal-data/rookie/**" access="hasRole('ROOKIE')" />
 		<security:intercept-url pattern="/finder/**" access="hasRole('ROOKIE')" />
 		
-		<!-- COMPANY -->
+		<!-- [ALL] -->
+		<security:intercept-url pattern="/social-profile/all/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/message/all/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/message-box/all/**" access="isAuthenticated()" />
+
+		<!-- [PUBLIC] -->
+		
+		<!-- [COMPANY] -->
 		<security:intercept-url pattern="/position/company/**" access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/problem/**" access="hasRole('COMPANY')" />
 		
-		<!-- ADMIN -->
-		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<!-- [ADMIN] -->
 		<security:intercept-url pattern="/register/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
-		<!-- PUBLIC -->
 
-		<!-- AUTHENTICATED -->
-		<security:intercept-url pattern="/socialprofile/actor/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 
 		<!-- APPLICATION -->
 		<security:intercept-url pattern="/application/rookie/**" access="hasRole('ROOKIE')" />
 		<security:intercept-url pattern="/application/company/**" access="hasRole('COMPANY')" />
-
-		<!-- ADMIN -->
-		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 
 		<!-- REGISTER -->
 		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />

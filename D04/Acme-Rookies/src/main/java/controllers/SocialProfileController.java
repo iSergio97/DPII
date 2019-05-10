@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.SocialProfileService;
 import domain.Actor;
 import domain.SocialProfile;
 import forms.SocialProfileForm;
+import services.ActorService;
+import services.SocialProfileService;
 
 @Controller
-@RequestMapping("/socialprofile")
+@RequestMapping("/social-profile/all")
 public class SocialProfileController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -40,7 +40,7 @@ public class SocialProfileController extends AbstractController {
 
 	// List -------------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 		final Actor actor;
@@ -51,7 +51,7 @@ public class SocialProfileController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		socialProfiles = this.socialProfileService.findByActor(actor);
 
-		result = new ModelAndView("socialprofile/actor/list");
+		result = new ModelAndView("social-profile/all/list");
 		result.addObject("socialProfiles", socialProfiles);
 
 		return result;
@@ -59,7 +59,7 @@ public class SocialProfileController extends AbstractController {
 
 	// Show -------------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/show", method = RequestMethod.GET)
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final Actor actor;
@@ -74,7 +74,7 @@ public class SocialProfileController extends AbstractController {
 		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("socialprofile/actor/show");
+		result = new ModelAndView("social-profile/all/show");
 
 		result.addObject("socialProfile", socialProfile);
 
@@ -83,7 +83,7 @@ public class SocialProfileController extends AbstractController {
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final ModelAndView result;
 		final Actor actor;
@@ -94,7 +94,7 @@ public class SocialProfileController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		socialProfileForm = this.socialProfileService.createForm();
 
-		result = new ModelAndView("socialprofile/actor/edit");
+		result = new ModelAndView("social-profile/all/edit");
 		result.addObject("socialProfileForm", socialProfileForm);
 
 		return result;
@@ -102,7 +102,7 @@ public class SocialProfileController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
 		final Actor actor;
@@ -117,7 +117,7 @@ public class SocialProfileController extends AbstractController {
 		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = new ModelAndView("socialprofile/actor/edit");
+		result = new ModelAndView("social-profile/all/edit");
 
 		result.addObject("socialProfileForm", this.socialProfileService.deconstruct(socialProfile));
 
@@ -126,7 +126,7 @@ public class SocialProfileController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView edit(@Valid @ModelAttribute("socialProfileForm") final SocialProfileForm socialProfileForm, final BindingResult bindingResult) {
 		final ModelAndView result;
 		final Actor actor;
@@ -148,7 +148,7 @@ public class SocialProfileController extends AbstractController {
 			socialProfile = this.socialProfileService.save(socialProfile);
 			result = this.show(socialProfile.getId());
 		} else {
-			result = new ModelAndView("socialprofile/actor/edit");
+			result = new ModelAndView("social-profile/all/edit");
 			result.addObject("socialProfileForm", socialProfileForm);
 		}
 
@@ -157,7 +157,7 @@ public class SocialProfileController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/actor/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "id") final int id) {
 		final Actor actor;
 		SocialProfile socialProfile;

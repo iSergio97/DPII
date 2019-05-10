@@ -11,7 +11,6 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -36,7 +35,8 @@ public class Message extends DomainEntity {
 	private String					subject;
 	private String					body;
 	private String					priority;
-	private Collection<String>		tags;
+	private String					tags;
+	private Boolean					isSpam;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
@@ -78,7 +78,6 @@ public class Message extends DomainEntity {
 		this.body = body;
 	}
 
-	@NotBlank
 	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
 	public String getPriority() {
 		return this.priority;
@@ -88,14 +87,20 @@ public class Message extends DomainEntity {
 		this.priority = priority;
 	}
 
-	@NotNull
-	@ElementCollection
-	public Collection<String> getTags() {
+	public String getTags() {
 		return this.tags;
 	}
 
-	public void setTags(final Collection<String> tags) {
+	public void setTags(final String tags) {
 		this.tags = tags;
+	}
+
+	public Boolean getIsSpam() {
+		return this.isSpam;
+	}
+
+	public void setIsSpam(final Boolean isSpam) {
+		this.isSpam = isSpam;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
