@@ -84,18 +84,13 @@ public class FinderController extends AbstractController {
 		FinderForm finder;
 		Rookie rookie = this.rookieService.findPrincipal();
 		Finder finder2 = finderService.findPrincipal(rookie.getId());
-		Date date = new Date();
-		date.setHours(date.getHours() + scs.getSystemConfiguration().getFinderCacheTime());
 		if (finder2 == null) {
 			finder = this.finderService.createForm();
 			result = this.createAndEditModelAndView(finder);
-		} else if (finder2.getMoment().compareTo(date) < 0) {
+		} else {
 			finder = this.finderService.deconstruct(finder2);
 			result = this.createAndEditModelAndView(finder);
-		} else {
-			result = this.list();
 		}
-
 		return result;
 	}
 

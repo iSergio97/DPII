@@ -22,12 +22,25 @@
 		<jstl:out value="${row.description}" />
 	</display:column>
 	
-	<display:column>
-		<a href="position/company/show.do?positionId=${row.id}" ><spring:message code="show"/></a>
-		</display:column>
-		
-		<display:column>
-		<a href="application/company/list.do?positionId=${row.id}" ><spring:message code="application"/></a>
+	<display:column property="deadline">
+		<jstl:out value="${row.deadline}" />
+	</display:column>
+
+	
+	<display:column property="profile">
+		<jstl:out value="${row.profile }" />
+	</display:column>
+	
+	<display:column property="skills">
+		<jstl:out value="${row.skills }" />
+	</display:column>
+	
+	<display:column property="technologies">
+		<jstl:out value="${row.technologies }" />
+	</display:column>
+	
+	<display:column property="salary">
+		<jstl:out value="${row.salary }" />
 	</display:column>
 
 </display:table>
