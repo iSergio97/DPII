@@ -143,6 +143,46 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="userAccountProvider1" class="security.UserAccount">
+		<property name="username" value="provider1" />
+		<property name="password"
+			value="cdb82d56473901641525fbbd1d5dab56" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="PROVIDER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccountProvider2" class="security.UserAccount">
+		<property name="username" value="provider2" />
+		<property name="password"
+			value="ebfc815ee2cc6a16225105bb7b3e1e53" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="PROVIDER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="userAccountProvider3" class="security.UserAccount">
+		<property name="username" value="provider3" />
+		<property name="password"
+			value="a575bf1b9ca7d068cef7bbc8fa7f43e1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="PROVIDER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<!-- MESSAGE BOXES -->
 
@@ -356,6 +396,102 @@
 		<property name="actor" ref="company3" />
 	</bean>
 	
+	<bean id="inBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="auditor1" />
+	</bean>
+
+	<bean id="outBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="auditor1" />
+	</bean>
+
+	<bean id="spamBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="auditor1" />
+	</bean>
+
+	<bean id="trashBoxAuditor1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="auditor1" />
+	</bean>
+	
+	<bean id="inBoxProvider1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider1" />
+	</bean>
+
+	<bean id="outBoxProvider1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider1" />
+	</bean>
+
+	<bean id="spamBoxProvider1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider1" />
+	</bean>
+
+	<bean id="trashBoxProvider1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider1" />
+	</bean>
+	
+	<bean id="inBoxProvider2" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider2" />
+	</bean>
+
+	<bean id="outBoxProvider2" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider2" />
+	</bean>
+
+	<bean id="spamBoxProvider2" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider2" />
+	</bean>
+
+	<bean id="trashBoxProvider2" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider2" />
+	</bean>
+	
+	<bean id="inBoxProvider3" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider3" />
+	</bean>
+
+	<bean id="outBoxProvider3" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider3" />
+	</bean>
+
+	<bean id="spamBoxProvider3" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider3" />
+	</bean>
+
+	<bean id="trashBoxProvider3" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="1" />
+		<property name="actor" ref="provider3" />
+	</bean>
+	
 	<!-- MESSAGE BOXES -->
 	
 	<bean id="message1" class="domain.Message">
@@ -458,30 +594,6 @@
 				<ref bean="inBoxRookie1"/>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="inBoxAuditor1" class="domain.MessageBox">
-		<property name="name" value="InBox" />
-		<property name="system" value="1" />
-		<property name="actor" ref="company3" />
-	</bean>
-
-	<bean id="outBoxAuditor1" class="domain.MessageBox">
-		<property name="name" value="OutBox" />
-		<property name="system" value="1" />
-		<property name="actor" ref="company3" />
-	</bean>
-
-	<bean id="spamBoxAuditor1" class="domain.MessageBox">
-		<property name="name" value="SpamBox" />
-		<property name="system" value="1" />
-		<property name="actor" ref="company3" />
-	</bean>
-
-	<bean id="trashBoxAuditor1" class="domain.MessageBox">
-		<property name="name" value="TrashBox" />
-		<property name="system" value="1" />
-		<property name="actor" ref="company3" />
 	</bean>
 
 	<!-- ADMINISTRATOR ACCOUNT -->
@@ -600,6 +712,51 @@
 		<property name="isBanned" value="false" />
 		<property name="userAccount" ref="userAccountAuditor1" />
 	</bean>
+	
+	<bean id="provider1" class="domain.Provider">
+		<property name="name" value="Mr" />
+		<property name="surnames" value="Provider" />
+		<property name="vat" value="341" />
+		<property name="creditCard" ref="creditCardProvider1" />
+		<property name="photo" value="" />
+		<property name="email" value="provider@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 3606969" />
+		<property name="address" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountProvider1" />
+		<property name="make" value = "Mr. Provider 1"/>
+	</bean>
+	
+	<bean id="provider2" class="domain.Provider">
+		<property name="name" value="Mr" />
+		<property name="surnames" value="Provider2" />
+		<property name="vat" value="341" />
+		<property name="creditCard" ref="creditCardProvider2" />
+		<property name="photo" value="" />
+		<property name="email" value="provider2@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 5546969" />
+		<property name="address" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountProvider2" />
+		<property name="make" value = "Mr. Provider 2"/>
+	</bean>
+	
+	<bean id="provider3" class="domain.Provider">
+		<property name="name" value="Mr" />
+		<property name="surnames" value="Provider3" />
+		<property name="vat" value="341" />
+		<property name="creditCard" ref="creditCardProvider3" />
+		<property name="photo" value="" />
+		<property name="email" value="provider3@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 3765969" />
+		<property name="address" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountProvider3" />
+		<property name="make" value = "Mr. Provider 3"/>
+	</bean>
 
 	<!-- Credit cards -->
 
@@ -670,6 +827,33 @@
 		<property name="holder" value="Holder" />
 		<property name="brand" value="VISA" />
 		<property name="number" value="0000111122223333" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2023" />
+		<property name="CVV" value="123" />
+	</bean>
+	
+	<bean id="creditCardProvider1" class="domain.CreditCard">
+		<property name="holder" value="Holder" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="8888111122223333" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2023" />
+		<property name="CVV" value="123" />
+	</bean>
+	
+	<bean id="creditCardProvider2" class="domain.CreditCard">
+		<property name="holder" value="Holder" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="8888111144443333" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="2023" />
+		<property name="CVV" value="123" />
+	</bean>
+	
+	<bean id="creditCardProvider3" class="domain.CreditCard">
+		<property name="holder" value="Holder" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="8888111133333333" />
 		<property name="expirationMonth" value="11" />
 		<property name="expirationYear" value="2023" />
 		<property name="CVV" value="123" />
@@ -878,5 +1062,106 @@
 		<property name="moment" value="25/04/2019"/>
 		<property name="rookie" ref="rookie1"/>
 	</bean>
+	
+	<!-- ITEMS -->
+	
+	<bean id="item1" class="domain.Item">
+	<property name="name" value="Item1"/>
+	<property name="description" value="description for item 1"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider1"/>
+	</bean>
+	
+	<bean id="item2" class="domain.Item">
+	<property name="name" value="Item2"/>
+	<property name="description" value="description for item 2"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider1"/>
+	</bean>
+	
+	<bean id="item3" class="domain.Item">
+	<property name="name" value="Item3"/>
+	<property name="description" value="description for item 3"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider1"/>
+	</bean>
+	
+	<bean id="item4" class="domain.Item">
+	<property name="name" value="Item4"/>
+	<property name="description" value="description for item 4"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider2"/>
+	</bean>
+	
+	<bean id="item5" class="domain.Item">
+	<property name="name" value="Item5"/>
+	<property name="description" value="description for item 5"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider2"/>
+	</bean>
+	
+	<bean id="item6" class="domain.Item">
+	<property name="name" value="Item6"/>
+	<property name="description" value="description for item 6"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider2"/>
+	</bean>
+	
+	<bean id="item7" class="domain.Item">
+	<property name="name" value="Item7"/>
+	<property name="description" value="description for item 7"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider3"/>
+	</bean>
+	
+	<bean id="item8" class="domain.Item">
+	<property name="name" value="Item8"/>
+	<property name="description" value="description for item 8"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider3"/>
+	</bean>
+	
+	<bean id="item9" class="domain.Item">
+	<property name="name" value="Item9"/>
+	<property name="description" value="description for item 9"/>
+	<property name="link" value="http://www.EstoEsUnLinkFalso.com"/>
+	<property name="pictures" value=""/>
+	<property name="provider" ref="provider3"/>
+	</bean>
+	
+	<!-- SPONSORSHIPS -->
+	
+	<bean id="sponsorship1" class = "domain.Sponsorship">
+	<property name="banner" value="https://everglowforrest.files.wordpress.com/2010/03/nvidiabanner1.jpg"/>
+	<property name="targetPage" value="http://www.EstoEsUnaPaginaFalsa.com"/>
+	<property name="creditCard" ref="creditCardProvider1"/>
+	<property name="provider" ref="provider1"/>
+	<property name="position" ref="position1"/>
+	</bean>
+	
+	<bean id="sponsorship2" class = "domain.Sponsorship">
+	<property name="banner" value="https://www.antevenio.com/usa/wp-content/uploads/2018/05/20-ejemplos-de-banners-creativos.jpg"/>
+	<property name="targetPage" value="http://www.EstoEsUnaPaginaFalsa2.com"/>
+	<property name="creditCard" ref="creditCardProvider2"/>
+	<property name="provider" ref="provider2"/>
+	<property name="position" ref="position1"/>
+	</bean>
+	
+	<bean id="sponsorship3" class = "domain.Sponsorship">
+	<property name="banner" value="http://www.clientdemopanel.in/real-estate1/images/ads4.jpg"/>
+	<property name="targetPage" value="http://www.EstoEsUnaPaginaFalsa3.com"/>
+	<property name="creditCard" ref="creditCardProvider3"/>
+	<property name="provider" ref="provider3"/>
+	<property name="position" ref="position1"/>
+	</bean>
+	
 
 </beans>

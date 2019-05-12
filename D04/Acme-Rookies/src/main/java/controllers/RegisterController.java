@@ -22,15 +22,18 @@ import services.AdministratorService;
 import services.AuditorService;
 import services.CompanyService;
 import services.MessageBoxService;
+import services.ProviderService;
 import services.RookieService;
 import domain.Administrator;
 import domain.Auditor;
 import domain.Company;
 import domain.MessageBox;
+import domain.Provider;
 import domain.Rookie;
 import forms.RegisterAdministratorForm;
 import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
+import forms.RegisterProviderForm;
 import forms.RegisterRookieForm;
 
 @Controller
@@ -48,6 +51,9 @@ public class RegisterController {
 
 	@Autowired
 	private CompanyService			companyService;
+
+	@Autowired
+	private ProviderService			providerService;
 
 	@Autowired
 	private UserAccountRepository	userAccountRepository;
@@ -146,9 +152,8 @@ public class RegisterController {
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			rookie2.setUserAccount(uaSaved);
 			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
-			if (!rookie2.getPhoneNumber().startsWith("(+")) {
+			if (!rookie2.getPhoneNumber().startsWith("(+"))
 				rookie2.setPhoneNumber("(+34)" + rookie2.getPhoneNumber());
-			}
 			final Rookie rookieSaved = this.rookieService.save(rookie2);
 			if (rookie2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -243,9 +248,8 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(company2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			company2.setUserAccount(uaSaved);
-			if (!company2.getPhoneNumber().startsWith("(+")) {
+			if (!company2.getPhoneNumber().startsWith("(+"))
 				company2.setPhoneNumber("(+34)" + company2.getPhoneNumber());
-			}
 			final Company companySaved = this.companyService.save(company2);
 			if (company2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -369,6 +373,105 @@ public class RegisterController {
 		return this.createEditModelAndView(raf);
 	}
 
+	// Provider ------------------------------------------------------------------------
+
+	@RequestMapping(value = "/provider/create", method = RequestMethod.GET)
+	public ModelAndView registerProvider() {
+		ModelAndView result;
+		RegisterProviderForm provider;
+		provider = this.providerService.createForm();
+		result = this.createEditModelAndView(provider);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/provider/edit", method = RequestMethod.POST)
+	public ModelAndView registerProviderPost(@ModelAttribute("provider") final RegisterProviderForm registerProviderForm, final BindingResult bindingResult) {
+		ModelAndView result;
+		final Provider provider2;
+		final List<String> usernames = this.userAccountRepository.getUserNames();
+
+		final Date date = new Date();
+		if (registerProviderForm.getExpirationYear() < (date.getYear() % 100)) {
+			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationYear", "error.oldYear");
+		}
+		if (registerProviderForm.getExpirationYear() == (date.getYear() % 100) && registerProviderForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+		}
+
+		if (registerProviderForm.getId() == 0) {
+			if (usernames.contains(registerProviderForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Auditor auditor3 = this.auditorService.findPrincipal();
+			usernames.remove(auditor3.getUserAccount().getUsername());
+			if (usernames.contains(registerProviderForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUsername");
+			}
+		}
+
+		if (registerProviderForm.getUsername().length() < 5 || registerProviderForm.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+
+		if (!registerProviderForm.getPassword().equals(registerProviderForm.getConfirmPassword())) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (registerProviderForm.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (registerProviderForm.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		try {
+			provider2 = this.providerService.reconstructForm(registerProviderForm, bindingResult);
+			final UserAccount ua = provider2.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(provider2.getUserAccount().getPassword(), null));
+			final UserAccount uaSaved = this.userAccountRepository.save(ua);
+			provider2.setUserAccount(uaSaved);
+			final Provider providerSaved = this.providerService.save(provider2);
+			if (provider2.getId() == 0)
+				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
+					mb.setActor(providerSaved);
+					this.messageBoxService.save(mb);
+				}
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(registerProviderForm);
+		} catch (final Throwable valExp) {
+			result = this.createEditModelAndView(registerProviderForm, "register.provider.error");
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/provider/edit", method = RequestMethod.GET)
+	public ModelAndView editProvider() {
+		final Provider provider = this.providerService.findPrincipal();
+		final RegisterProviderForm rpf = this.providerService.deconstruct(provider);
+
+		return this.createEditModelAndView(rpf);
+	}
+
 	// Administrator ------------------------------------------------------------------
 
 	@RequestMapping(value = "/administrator/create", method = RequestMethod.GET)
@@ -444,9 +547,8 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(administrator2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			administrator2.setUserAccount(uaSaved);
-			if (!administrator2.getPhoneNumber().startsWith("(+")) {
+			if (!administrator2.getPhoneNumber().startsWith("(+"))
 				administrator2.setPhoneNumber("(+34)" + administrator2.getPhoneNumber());
-			}
 			final Administrator administratorSaved = this.administratorService.save(administrator2);
 			if (administrator2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -496,6 +598,9 @@ public class RegisterController {
 		} else if (t instanceof RegisterCompanyForm) {
 			result = new ModelAndView("register/company/create");
 			result.addObject("company", t);
+		} else if (t instanceof RegisterProviderForm) {
+			result = new ModelAndView("register/provider/create");
+			result.addObject("provider", t);
 		}
 
 		return result;

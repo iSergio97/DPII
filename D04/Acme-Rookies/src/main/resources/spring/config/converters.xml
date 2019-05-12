@@ -35,6 +35,9 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<bean class="converters.SocialProfileToStringConverter" />
 		<bean class="converters.SystemConfigurationToStringConverter" />
 		<bean class="converters.UserAccountToStringConverter" />
+		<bean class="converters.ProviderToStringConverter" />
+		<bean class="converters.ItemToStringConverter" />
+		<bean class="converters.SponsorshipToStringConverter" />
 		
 		<!-- From string converters -->
 		
@@ -56,6 +59,9 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<bean class="converters.StringToSocialProfileConverter" />
 		<bean class="converters.StringToSystemConfigurationConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
+		<bean class="converters.StringToProviderConverter" />
+		<bean class="converters.StringToItemConverter" />
+		<bean class="converters.StringToSponsorshipConverter" />
 		
 	</util:list>
 	

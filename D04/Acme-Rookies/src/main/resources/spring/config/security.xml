@@ -42,6 +42,8 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />
 		<security:intercept-url pattern="/positon/all/**" access="permitAll" />
 		<security:intercept-url pattern="/audit/all/**" access="permitAll" />
+		<security:intercept-url pattern="/item/public/**" access="permitAll" />
+		<security:intercept-url pattern="/provider/public/**" access="permitAll" />
 
 		<!-- AUTHENTICATED -->
 
@@ -77,6 +79,11 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<!-- AUDITOR -->
 
 		<security:intercept-url pattern="/audit/auditor/**" access="hasRole('AUDITOR')" />
+		
+		<!-- PROVIDER -->
+		
+		<security:intercept-url pattern="/item/provider/**" access="hasRole('PROVIDER')" />
+		<security:intercept-url pattern="/sponsorship/provider/**" access="hasRole('PROVIDER')" />
 
 		<!-- ADMIN -->
 

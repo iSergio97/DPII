@@ -81,11 +81,14 @@ public class ProblemController extends AbstractController {
 	// Create --------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int positionId) {
 		ModelAndView result;
 		ProblemForm problem;
+		Problem p;
 
-		problem = this.problemService.createForm();
+		p = this.problemService.create();
+		problem = this.problemService.createForm(p);
+		problem.setPositionId(positionId);
 		result = this.createAndEditModelAndView(problem);
 
 		return result;
@@ -97,14 +100,17 @@ public class ProblemController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int problemId) {
 		ModelAndView result;
 		Problem problem;
+		ProblemForm form;
+		final Position p = this.problemService.findPositionAssociated(problemId);
 
 		problem = this.problemService.findOne(problemId);
+		form = this.problemService.createForm(problem);
+		form.setPositionId(p.getId());
 
-		Assert.notNull(problem);
 		Assert.isTrue(problem.getIsDraft());
 
 		result = new ModelAndView("/problem/edit");
-		result.addObject("problem", problem);
+		result.addObject("problem", form);
 
 		return result;
 	}
@@ -115,6 +121,7 @@ public class ProblemController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("problem") final ProblemForm problem, final BindingResult binding) {
 		ModelAndView result;
 		Problem problem2;
+		final Position pos = this.positionService.findOne(problem.getPositionId());
 
 		problem2 = this.problemService.reconstruct(problem, binding);
 		if (binding.hasErrors())
@@ -123,7 +130,9 @@ public class ProblemController extends AbstractController {
 			try {
 				problem2.setIsDraft(true);
 				final Problem p = this.problemService.save(problem2);
-				result = this.show(p.getId());
+				pos.getProblems().add(p);
+				final Position newPos = this.positionService.save(pos);
+				result = this.list(newPos.getId());
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problem, "problem.commit.error");
 			}
@@ -137,6 +146,7 @@ public class ProblemController extends AbstractController {
 	public ModelAndView saveFinal(@ModelAttribute("problem") final ProblemForm problem, final BindingResult binding) {
 		ModelAndView result;
 		Problem problem2;
+		final Position pos = this.positionService.findOne(problem.getPositionId());
 
 		problem2 = this.problemService.reconstruct(problem, binding);
 		if (binding.hasErrors())
@@ -145,7 +155,9 @@ public class ProblemController extends AbstractController {
 			try {
 				problem2.setIsDraft(false);
 				final Problem p = this.problemService.save(problem2);
-				result = new ModelAndView("redirect:/problem/show.do?problemId=" + p.getId());
+				pos.getProblems().add(p);
+				final Position newPos = this.positionService.save(pos);
+				result = this.list(newPos.getId());
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problem, "problem.commit.error");
 			}

@@ -24,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ApplicationService;
 import services.AuditService;
+import services.ItemService;
 import services.PositionService;
+import services.SponsorshipService;
 import services.SystemConfigurationService;
 import domain.Company;
 import domain.SystemConfiguration;
@@ -40,6 +42,10 @@ public class AdministratorController extends AbstractController {
 	private ApplicationService			applicationService;
 	@Autowired
 	private AuditService				auditService;
+	@Autowired
+	private ItemService					itemService;
+	@Autowired
+	private SponsorshipService			sponsorshipService;
 	@Autowired
 	private PositionService				positionService;
 	@Autowired
@@ -102,6 +108,16 @@ public class AdministratorController extends AbstractController {
 		result.addObject("maxA", this.applicationService.max());
 		result.addObject("avgA", this.applicationService.media());
 		result.addObject("stdDevA", this.applicationService.stdDev());
+
+		result.addObject("minI", this.itemService.min());
+		result.addObject("maxI", this.itemService.max());
+		result.addObject("avgI", this.itemService.media());
+		result.addObject("stdDevI", this.itemService.stdDev());
+
+		result.addObject("minSPro", this.sponsorshipService.minPro());
+		result.addObject("maxSPro", this.sponsorshipService.maxPro());
+		result.addObject("avgSPro", this.sponsorshipService.mediaPro());
+		result.addObject("stdDevSPro", this.sponsorshipService.stdDevPro());
 
 		result.addObject("minPositionAuditScore", this.auditService.getMinimumScorePosition());
 		result.addObject("maxPositionAuditScore", this.auditService.getMaximumScorePosition());

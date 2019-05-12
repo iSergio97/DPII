@@ -44,6 +44,12 @@
 						code="master.page.register.rookie" /></a></li>
 			<li><a class="fNiv" href="register/company/create.do"><spring:message
 						code="master.page.register.company" /></a></li>
+			<li><a class="fNiv" href="register/provider/create.do"><spring:message
+						code="master.page.register.provider" /></a></li>
+			<li><a class="fNiv" href="item/public/list.do"><spring:message
+						code="master.page.item.list" /></a></li>
+			<li><a class="fNiv" href="provider/public/list.do"><spring:message
+						code="master.page.provider.list" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -61,6 +67,10 @@
 
 					<security:authorize access="hasRole('AUDITOR')">
 						<li><a href="register/auditor/edit.do"><spring:message code="action.edit" /> </a></li>
+					</security:authorize>
+					
+					<security:authorize access="hasRole('PROVIDER')">
+						<li><a href="register/provider/edit.do"><spring:message code="action.edit" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
@@ -107,6 +117,16 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="audit/auditor/list.do"><spring:message code="master.page.auditor.audits" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('PROVIDER')">
+			<li><a class="fNiv"><spring:message	code="master.page.provider" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="item/provider/list.do"><spring:message code="master.page.item.list" /> </a></li>
+					<li><a href="sponsorship/provider/list.do"><spring:message code="master.page.sponsorship.list" /> </a></li>
 				</ul>
 			</li>
 		</security:authorize>

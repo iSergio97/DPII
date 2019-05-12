@@ -15,6 +15,7 @@ public class ProblemForm {
 	private String	hint;
 	private String	attachments;
 	private boolean	isDraft;
+	private int		positionId;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +64,12 @@ public class ProblemForm {
 	}
 	public void setIsDraft(final boolean isDraft) {
 		this.isDraft = isDraft;
+	}
+	public int getPositionId() {
+		return this.positionId;
+	}
+	public void setPositionId(final int positionId) {
+		this.positionId = positionId;
 	}
 
 }

@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.AuditorService;
+import services.CompanyService;
+import services.PositionService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.PositionForm;
-import security.LoginService;
-import services.CompanyService;
-import services.PositionService;
 
 @Controller
 @RequestMapping("/position")
@@ -30,7 +31,7 @@ public class PositionController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AuditService	auditService;
+	private AuditorService	auditService;
 	@Autowired
 	private CompanyService	companyService;
 	@Autowired
@@ -167,14 +168,13 @@ public class PositionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
-	public ModelAndView publicList(@RequestParam String keyword) {
+	public ModelAndView publicList(@RequestParam final String keyword) {
 		ModelAndView res;
 		final Collection<Position> positions;
-		if (keyword == "") {
+		if (keyword == "")
 			positions = this.positionService.findAll();
-		} else {
+		else
 			positions = this.positionService.searchQuery(keyword);
-		}
 		res = new ModelAndView("position/all/list");
 		res.addObject("positions", positions);
 
@@ -187,8 +187,8 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/show-company", method = RequestMethod.GET)
 	public ModelAndView publicShow(@RequestParam final int positionId) {
 		ModelAndView res;
-		Position p = this.positionService.findOne(positionId);
-		Company company = p.getCompany();
+		final Position p = this.positionService.findOne(positionId);
+		final Company company = p.getCompany();
 		res = new ModelAndView("position/all/show-company");
 		res.addObject("company", company);
 		return res;

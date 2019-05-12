@@ -52,14 +52,15 @@ public class ProblemService extends AbstractService<ProblemRepository, Problem> 
 	////////////////////////////////////////////////////////////////////////////////
 	// Form methods
 
-	public ProblemForm createForm() {
+	public ProblemForm createForm(final Problem problem) {
 		final ProblemForm form = new ProblemForm();
 
-		form.setTitle("");
-		form.setStatement("");
-		form.setHint("");
-		form.setAttachments("");
+		form.setTitle(problem.getTitle());
+		form.setStatement(problem.getStatement());
+		form.setHint(problem.getHint());
+		form.setAttachments(problem.getAttachments());
 		form.setIsDraft(true);
+		form.setId(problem.getId());
 
 		return form;
 	}
