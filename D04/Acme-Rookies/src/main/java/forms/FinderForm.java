@@ -21,7 +21,6 @@ public class FinderForm {
 	private Date	deadline;
 	private double	minimumSalary;
 	private Date	maximumDeadline;
-	private Date	moment;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +33,7 @@ public class FinderForm {
 	public void setId(final int id) {
 		this.id = id;
 	}
+
 	@NotBlank
 	public String getKeyword() {
 		return this.keyword;
@@ -65,15 +65,6 @@ public class FinderForm {
 	}
 	public void setMaximumDeadline(final Date maximumDeadline) {
 		this.maximumDeadline = maximumDeadline;
-	}
-
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getMoment() {
-		return this.moment;
-	}
-	public void setMoment(final Date moment) {
-		this.moment = moment;
 	}
 
 }

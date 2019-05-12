@@ -13,8 +13,7 @@
 
 <!-- Hidden fields -->
 
-<form:hidden path="id" />
-<form:hidden path="moment"/>
+	<form:hidden path="id" />
 
 <!-- Input fields -->
 

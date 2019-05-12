@@ -11,15 +11,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.MessageBoxService;
-import services.MessageService;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 import forms.MessageForm;
+import services.ActorService;
+import services.MessageBoxService;
+import services.MessageService;
 
 @Controller
 @RequestMapping("/message/all")
@@ -90,6 +91,23 @@ public class MessageController {
 		}
 
 		return result;
+	}
+
+	// PROTECTED SHOW -----------------------------------------------------------
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam int id) {
+		Message m = this.messageService.findOne(id);
+		ModelAndView result;
+		Actor principal = actorService.findPrincipal();
+		if (m.getSender().equals(principal) || m.getRecipients().contains(principal)) {
+			result = new ModelAndView("message/all/show");
+			result.addObject(m);
+		} else {
+			result = new ModelAndView("/welcome/index.do");
+		}
+
+		return result;
+
 	}
 
 	// PROTECTED METHODS -----------------------------------------------------------
