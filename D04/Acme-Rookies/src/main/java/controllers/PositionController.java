@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
-import services.AuditorService;
+import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
 import domain.Company;
@@ -31,7 +31,7 @@ public class PositionController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AuditorService	auditService;
+	private AuditService	auditService;
 	@Autowired
 	private CompanyService	companyService;
 	@Autowired
@@ -155,6 +155,7 @@ public class PositionController extends AbstractController {
 	}
 
 	// Public list ------------------------------------------------------------
+
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
@@ -164,7 +165,6 @@ public class PositionController extends AbstractController {
 		res.addObject("positions", positions);
 
 		return res;
-
 	}
 
 	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
@@ -179,7 +179,6 @@ public class PositionController extends AbstractController {
 		res.addObject("positions", positions);
 
 		return res;
-
 	}
 
 	// Public show ------------------------------------------------------------
@@ -194,7 +193,7 @@ public class PositionController extends AbstractController {
 		return res;
 	}
 
-	// Public query for  public positions list
+	// Public query for public positions list
 
 	// Ancillary Methods ------------------------------------------------------
 

@@ -13,31 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.MessageBoxService;
+import services.MessageService;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 import forms.MessageForm;
-import services.ActorService;
-import services.MessageBoxService;
-import services.MessageService;
 
 @Controller
 @RequestMapping("/message/all")
 public class MessageController {
 
+	// Services --------------------------------------------------------------------
+
 	@Autowired
 	private ActorService		actorService;
-
 	@Autowired
 	private MessageBoxService	messageBoxService;
-
 	@Autowired
 	private MessageService		messageService;
 
 
+	// Constructors ----------------------------------------------------------------
+
 	public MessageController() {
 		super();
 	}
+
+	// Methods ---------------------------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -54,9 +58,8 @@ public class MessageController {
 		ModelAndView result;
 		Message m;
 		try {
-			if (mf.getBroadcast()) {
+			if (mf.getBroadcast())
 				mf.setRecipients(this.actorService.findAll());
-			}
 			m = this.messageService.reconstruct(mf, bindingResult);
 			for (final Actor a : m.getRecipients())
 				if (!m.getIsSpam()) {
@@ -76,13 +79,12 @@ public class MessageController {
 
 				}
 			this.messageService.save(m);
-			result = new ModelAndView("redirect:../welcome/index.do");
+			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final ValidationException valExp) {
-			if (mf.getBroadcast()) {
+			if (mf.getBroadcast())
 				result = this.createEditModelAndView(mf, "broadcast");
-			} else {
+			else
 				result = this.createEditModelAndView(mf, "create");
-			}
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(mf, "message.error");
 		}
@@ -90,7 +92,8 @@ public class MessageController {
 		return result;
 	}
 
-	//PROTECTED METHODS -------------------------------------------------------
+	// PROTECTED METHODS -----------------------------------------------------------
+
 	protected ModelAndView createEditModelAndView(final MessageForm mf) {
 
 		return this.createEditModelAndView(mf, null);
@@ -104,4 +107,5 @@ public class MessageController {
 
 		return result;
 	}
+
 }

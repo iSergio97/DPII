@@ -61,15 +61,22 @@
 		<display:column property="salary" sortable="true" sortName="salary">
 			<jstl:out value="${row.salary}" />
 		</display:column>
-
-		<display:column titleKey="auditScore">
-			<jstl:if test="${scoresByCompany[row] eq null}">
-				<spring:message code="noResults" />
+	
+		<security:authorize access="hasRole('AUDITOR')">
+			<jstl:if test="${row.status eq 'ACCEPTED'}">
+				<display:column>
+					<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
+				</display:column>
 			</jstl:if>
-			<jstl:if test="${scoresByCompany[row] ne null}">
-				<jstl:out value="${scoresByCompany[row]}" />
+		</security:authorize>
+	
+		<security:authorize access="hasRole('ROOKIE')">
+			<jstl:if test="${row.status eq 'ACCEPTED'}">
+				<display:column>
+					<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+				</display:column>
 			</jstl:if>
-		</display:column>
+		</security:authorize>
 
 		<display:column>
 			<a href="position/all/show-company.do?positionId=${row.id}"><spring:message

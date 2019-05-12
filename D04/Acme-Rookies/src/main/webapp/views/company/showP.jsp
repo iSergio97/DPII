@@ -28,11 +28,21 @@
 	<display:column property="skills" sortable="true"> <jstl:out value="${row.skills}" /> </display:column>
 	<display:column property="technologies" sortable="true"> <jstl:out value="${row.technologies}" /> </display:column>
 	<display:column property="salary" sortable="true"> <jstl:out value="${row.salary}" /> </display:column>
-	
+
+	<security:authorize access="hasRole('AUDITOR')">
+		<jstl:if test="${row.status eq 'ACCEPTED'}">
+			<display:column>
+				<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
+
 	<security:authorize access="hasRole('ROOKIE')">
-		<display:column>
-			<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
-		</display:column>
+		<jstl:if test="${row.status eq 'ACCEPTED'}">
+			<display:column>
+				<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 
 </display:table>

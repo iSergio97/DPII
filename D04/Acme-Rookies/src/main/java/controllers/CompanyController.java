@@ -10,27 +10,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Company;
-import domain.Position;
+import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
+import domain.Company;
+import domain.Position;
 
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
 
+	// Services ---------------------------------------------------------------
+
+	@Autowired
+	private AuditService	auditService;
+	@Autowired
+	private CompanyService	companyService;
 	@Autowired
 	private PositionService	positionService;
 
-	@Autowired
-	private CompanyService	companyService;
 
+	// Constructor ------------------------------------------------------------
 
 	public CompanyController() {
 		super();
 	}
 
 	// Public list ------------------------------------------------------------
+
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
@@ -38,6 +45,7 @@ public class CompanyController {
 
 		res = new ModelAndView("company/all/list");
 		res.addObject("companies", companies);
+		res.addObject("scoresByCompany", this.auditService.getScoresByCompany());
 
 		return res;
 
