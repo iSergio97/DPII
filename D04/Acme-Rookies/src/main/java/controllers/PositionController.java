@@ -1,8 +1,11 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.validation.ValidationException;
 
@@ -19,9 +22,11 @@ import security.LoginService;
 import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
+import services.SponsorshipService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
+import domain.Sponsorship;
 import forms.PositionForm;
 
 @Controller
@@ -31,11 +36,13 @@ public class PositionController extends AbstractController {
 	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private AuditService	auditService;
+	private AuditService		auditService;
 	@Autowired
-	private CompanyService	companyService;
+	private CompanyService		companyService;
 	@Autowired
-	private PositionService	positionService;
+	private PositionService		positionService;
+	@Autowired
+	private SponsorshipService	sponsorshipService;
 
 
 	// Constructor ------------------------------------------------------------
@@ -125,6 +132,13 @@ public class PositionController extends AbstractController {
 	public ModelAndView show(@RequestParam final int positionId) {
 		ModelAndView result = new ModelAndView("redirect:list.do");
 		Position position;
+		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByPositionId(positionId);
+
+		final List<Sponsorship> list = new ArrayList<>(sponsorships);
+		final Random rand = new Random();
+		final int random = rand.nextInt(list.size());
+		final String banner = list.get(random).getBanner();
+
 		final String locale = Locale.getDefault().getLanguage();
 		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
@@ -134,6 +148,7 @@ public class PositionController extends AbstractController {
 			result.addObject("draft", position.getIsDraft());
 			result.addObject("problems", position.getProblems());
 			result.addObject("locale", locale);
+			result.addObject("banner", banner);
 		}
 
 		return result;

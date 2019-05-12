@@ -16,6 +16,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<div>
+<img src="${banner}" />
+</div>
 
 <strong><spring:message code="title" /></strong>
 :
