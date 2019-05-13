@@ -15,7 +15,7 @@
 		<property name="systemName" value="Acme Rookies" />
 		<property name="banner" value="https://i.imgur.com/7b8lu4b.png" />
 		<property name="defaultCountryCode" value="+34" />
-		<property name="finderCacheTime" value="3600" />
+		<property name="finderCacheTime" value="1" />
 		<property name="maximumFinderResults" value="10" />
 		<property name="spamWords">
 			<list>

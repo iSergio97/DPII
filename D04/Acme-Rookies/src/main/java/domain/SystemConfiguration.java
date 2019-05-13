@@ -68,8 +68,8 @@ public class SystemConfiguration extends DomainEntity {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 3600)
-	@Max(value = 86400)
+	@Min(value = 1)
+	@Max(value = 24)
 	public int getFinderCacheTime() {
 		return this.finderCacheTime;
 	}
