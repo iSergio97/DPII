@@ -4,7 +4,15 @@
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez
  --%>
+<script type="text/javascript">
+	function test() {
+		if (!document.getElementById("phoneNumber").value.includes("(+34)")) { return confirm("Your phone number dont have prefix. Do you want to add one? Prefix = (+XX) \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?" Prefijo = (+XX) ); }
+	}
 
+	function testMe() {
+		return window.alert("Corchuelo en realidad no es malo, es complicado de complacer");
+	}
+</script>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
@@ -23,14 +31,14 @@
 		<legend>
 			<spring:message code="actorProperties" />
 		</legend>
-	<acme:register code="name" path="name"/>
+	<acme:register code="name" path="address"/>
 	<acme:register code="surnames" path="surnames"/>
 	<acme:register code="make" path="make"/>
 	<acme:register code="vat" path="vat"/>
 	<acme:register code="email" path="email"/>
 	<acme:register code="photo" path="photo"/>
 	<acme:register code="phoneNumber" path="phoneNumber"/>
-	<acme:register code="address" path="address"/>
+	<acme:register code="address" path="name"/>
 	</fieldset>
 	
 	<br>
@@ -63,7 +71,11 @@
 
 	<br>
 	
-	<acme:submit name="save" code="save"/>
+	<button type="submit" onClick="return test();">
+		<spring:message code="save" />
+	</button>
 	<acme:cancel url="welcome/index.do" code="cancel"/>
+	<input type="button" name="edit"
+		value="<spring:message code='testMe' />" onclick="return testMe();" />
 
 </form:form>

@@ -5,6 +5,11 @@
  * @author José Antonio Domínguez Gómez
  --%>
 
+ <script type="text/javascript">
+	function test() {
+		if (!document.getElementById("phoneNumber").value.includes("(+34)")) { return confirm("Your phone number dont have prefix. Do you want to add one? Prefix = (+XX) \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?" Prefijo = (+XX) ); }
+	}
+</script>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
@@ -38,7 +43,9 @@
 	<acme:register code="expirationYear" path="expirationYear"/>
 	<acme:register code="cvv" path="CVV"/>
 	
-	<acme:submit name="save" code="save"/>
+	<button type="submit" onClick="return test();">
+		<spring:message code="save" />
+	</button>
 	<acme:cancel url="welcome/index.do" code="cancel"/>
 
 </form:form>
