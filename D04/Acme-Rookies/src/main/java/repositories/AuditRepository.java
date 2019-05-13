@@ -26,36 +26,36 @@ public interface AuditRepository extends AbstractRepository<Audit> {
 	long countByPositionId(int id);
 
 	@Query("select avg(a.score) from Audit a where a.position.id = ?1")
-	double averageScoreByPositionId(int id);
+	Double averageScoreByPositionId(int id);
 
 	@Query("select count(a) from Audit a where a.position.company.id = ?1")
 	long countByCompanyId(int id);
 
 	@Query("select avg(a.score) from Audit a where a.position.company.id = ?1")
-	double averageScoreByCompanyId(int id);
+	Double averageScoreByCompanyId(int id);
 
 	@Query("select min(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id)) from Position p")
-	double getMinimumScorePosition();
+	Double getMinimumScorePosition();
 
 	@Query("select max(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id)) from Position p")
-	double getMaximumScorePosition();
+	Double getMaximumScorePosition();
 
 	@Query("select avg(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id)) from Position p")
-	double getAverageScorePosition();
+	Double getAverageScorePosition();
 
 	@Query("select stddev(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id)) from Position p")
-	double getStandardDeviationScorePosition();
+	Double getStandardDeviationScorePosition();
 
 	@Query("select min(1.0 * (select avg(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id and a.position.company.id = c.id)) from Position p)) from Company c")
-	double getMinimumScoreCompany();
+	Double getMinimumScoreCompany();
 
 	@Query("select max(1.0 * (select avg(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id and a.position.company.id = c.id)) from Position p)) from Company c")
-	double getMaximumScoreCompany();
+	Double getMaximumScoreCompany();
 
 	@Query("select avg(1.0 * (select avg(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id and a.position.company.id = c.id)) from Position p)) from Company c")
-	double getAverageScoreCompany();
+	Double getAverageScoreCompany();
 
 	@Query("select stddev(1.0 * (select avg(0.1 * (select avg(a.score) from Audit a where a.position.id = p.id and a.position.company.id = c.id)) from Position p)) from Company c")
-	double getStandardDeviationScoreCompany();
+	Double getStandardDeviationScoreCompany();
 
 }
