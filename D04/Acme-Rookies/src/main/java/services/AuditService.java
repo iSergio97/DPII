@@ -139,35 +139,35 @@ public class AuditService extends AbstractService<AuditRepository, Audit> {
 		return scores;
 	}
 
-	public double getMinimumScorePosition() {
+	public Double getMinimumScorePosition() {
 		return this.repository.getMinimumScorePosition();
 	}
 
-	public double getMaximumScorePosition() {
+	public Double getMaximumScorePosition() {
 		return this.repository.getMaximumScorePosition();
 	}
 
-	public double getAverageScorePosition() {
+	public Double getAverageScorePosition() {
 		return this.repository.getAverageScorePosition();
 	}
 
-	public double getStandardDeviationScorePosition() {
+	public Double getStandardDeviationScorePosition() {
 		return this.repository.getStandardDeviationScorePosition();
 	}
 
-	public double getMinimumScoreCompany() {
+	public Double getMinimumScoreCompany() {
 		return this.repository.getMinimumScoreCompany();
 	}
 
-	public double getMaximumScoreCompany() {
+	public Double getMaximumScoreCompany() {
 		return this.repository.getMaximumScoreCompany();
 	}
 
-	public double getAverageScoreCompany() {
+	public Double getAverageScoreCompany() {
 		return this.repository.getAverageScoreCompany();
 	}
 
-	public double getStandardDeviationScoreCompany() {
+	public Double getStandardDeviationScoreCompany() {
 		return this.repository.getStandardDeviationScoreCompany();
 	}
 

@@ -109,6 +109,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.welcomeMessages = welcomeMessages;
 	}
 
+	@Min(value = 0)
 	public double getVat() {
 		return this.vat;
 	}
@@ -117,6 +118,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.vat = vat;
 	}
 
+	@Min(value = 0)
 	public double getFlatRate() {
 		return this.flatRate;
 	}
