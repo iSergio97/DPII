@@ -183,7 +183,7 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return this.repository.stdDev();
 	}
 
-	public Company companyMax() {
+	public List<Company> companyMax() {
 		return this.repository.companyMax();
 	}
 

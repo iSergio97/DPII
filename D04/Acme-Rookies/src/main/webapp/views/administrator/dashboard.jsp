@@ -47,6 +47,14 @@
 	</jstl:if>
 </p>
 <p>
+	<strong><spring:message code="top3Company" /></strong><br>
+	<display:table name="top3C" id="row">
+		<display:column property="commercialName" >
+			<jstl:out value="${row.commercialName}" />
+		</display:column>
+	</display:table>
+</p>
+<p>
 	<strong><spring:message code="minRookie" /></strong>:
 	<jstl:if test="${minA eq null}">
 		<spring:message code="noResults" />
@@ -155,18 +163,22 @@
 	</jstl:if>
 </p>
 <p>
-	<display:table name="companiesWithTheHighestAuditScore" id="row" class="displaytag">
+	<display:table name="companiesWithTheHighestAuditScore" id="row"
+		class="displaytag">
 
 		<display:column titleKey="company">
 			<jstl:out value="${row.commercialName}" />
 		</display:column>
 
 		<display:column titleKey="averageSalary">
-			<jstl:if test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] eq null}">
+			<jstl:if
+				test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] eq null}">
 				<spring:message code="noResults" />
 			</jstl:if>
-			<jstl:if test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] ne null}">
-				<jstl:out value="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row]}" />
+			<jstl:if
+				test="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row] ne null}">
+				<jstl:out
+					value="${companiesWithTheHighestAuditScoreAndTheirAverageSalary[row]}" />
 			</jstl:if>
 		</display:column>
 

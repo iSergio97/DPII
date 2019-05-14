@@ -4,11 +4,11 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -106,27 +106,27 @@ public class FinderController extends AbstractController {
 			finder2 = this.finderService.reconstruct(finder, binding);
 			//finder2.setMoment(finder2.getMoment().getSeconds() + scs);
 			//Revisar esta parte para el finder
-
+			finder2.getMoment().setHours(finder2.getMoment().getHours() + scs.getSystemConfiguration().getFinderCacheTime());
 			if (finder2.getMoment().compareTo(date) < 0 || finder2.getId() == 0) {
 				positions = this.finderService.findPositions("%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%",
 					"%'" + finder.getKeyword() + "'%", finder.getDeadline(), finder.getMaximumDeadline(), finder.getMinimumSalary());
 				if (positions.isEmpty())
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
-				finder2.setPositions(positions);
-				Rookie rookie = this.rookieService.findPrincipal();
-				finder2.setRookie(rookie);
-				finder2.setPositions(positions);
+				List<Position> subList = new ArrayList<>(positions);
+				if (positions.size() > scs.getSystemConfiguration().getMaximumFinderResults()) {
+					finder2.setPositions(subList.subList(0, scs.getSystemConfiguration().getMaximumFinderResults()));
+				} else {
+					finder2.setPositions(positions);
+				}
 				this.finderService.save(finder2);
 			} else {
 				positions = finder2.getPositions();
 			}
+
 			result = this.list();
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(finder, "problem.commit.error");
-		}
-		for (ObjectError e : binding.getAllErrors()) {
-			System.err.println(e);
 		}
 		return result;
 	}

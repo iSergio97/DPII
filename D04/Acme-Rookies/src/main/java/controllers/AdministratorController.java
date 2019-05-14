@@ -112,6 +112,11 @@ public class AdministratorController extends AbstractController {
 		result.addObject("maxC", this.positionService.max());
 		result.addObject("avgC", this.positionService.media());
 		result.addObject("stdDevC", this.positionService.stdDev());
+		List<Company> top3 = this.positionService.companyMax();
+		if (top3.size() > 3) {
+			top3.subList(0, 3);
+		}
+		result.addObject("top3C", top3);
 
 		result.addObject("minA", this.applicationService.min());
 		result.addObject("maxA", this.applicationService.max());
