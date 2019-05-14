@@ -36,8 +36,8 @@
 	<acme:register code="make" path="make"/>
 	<acme:register code="vat" path="vat"/>
 	<acme:register code="email" path="email"/>
-	<acme:register code="photo" path="photo"/>
-	<acme:register code="phoneNumber" path="phoneNumber"/>
+	<acme:registerWithPlaceholder code="photo" path="photo" placeholder="https://imgur.com/r/panda/vhGv9Z0"/>
+		<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber" placeholder="+XX (YYY) ZZZZZZ"/>
 	<acme:register code="address" path="name"/>
 	</fieldset>
 	

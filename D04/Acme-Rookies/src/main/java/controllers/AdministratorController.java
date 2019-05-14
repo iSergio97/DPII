@@ -10,6 +10,7 @@
 
 package controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -20,17 +21,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ApplicationService;
-import services.AuditService;
-import services.ItemService;
-import services.PositionService;
-import services.SponsorshipService;
-import services.SystemConfigurationService;
+import domain.Actor;
 import domain.Company;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
+import services.ActorService;
+import services.ApplicationService;
+import services.AuditService;
+import services.ItemService;
+import services.MessageService;
+import services.PositionService;
+import services.SponsorshipService;
+import services.SystemConfigurationService;
 
 @Controller
 @RequestMapping("/administrator")
@@ -50,6 +55,10 @@ public class AdministratorController extends AbstractController {
 	private PositionService				positionService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
+	@Autowired
+	private ActorService				actorService;
+	@Autowired
+	private MessageService				messageService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -138,6 +147,44 @@ public class AdministratorController extends AbstractController {
 		result.addObject("companies", companiesAndTheirScore.keySet());
 
 		return result;
+	}
+
+	@RequestMapping(value = "/actor/list", method = RequestMethod.GET)
+	public ModelAndView actorList() {
+		ModelAndView result;
+		List<Actor> listActors = this.actorService.findAll();
+		double media;
+		for (Actor a : listActors) {
+			if (this.messageService.countMails(a.getId()) != 0) {
+				media = this.messageService.countSpam(a.getId()) / this.messageService.countMails(a.getId());
+			} else {
+				media = 0.;
+			}
+			if (media > 0.2) {
+				a.setIsFlagged(true);
+			}
+		}
+		result = new ModelAndView("administrator/actor/list");
+		result.addObject("listActors", listActors);
+
+		return result;
+
+	}
+
+	@RequestMapping(value = "/actor/ban", method = RequestMethod.GET)
+	public ModelAndView ban(@RequestParam int actorId) {
+		Actor a = this.actorService.findOne(actorId);
+		a.setIsBanned(true);
+
+		return this.actorList();
+	}
+
+	@RequestMapping(value = "/actor/unban", method = RequestMethod.GET)
+	public ModelAndView unban(@RequestParam int actorId) {
+		Actor a = this.actorService.findOne(actorId);
+		a.setIsBanned(false);
+
+		return this.actorList();
 	}
 
 }

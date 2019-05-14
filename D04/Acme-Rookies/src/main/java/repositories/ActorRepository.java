@@ -17,4 +17,6 @@ public interface ActorRepository extends AbstractRepository<Actor> {
 	@Query("select a from Actor a where a.userAccount.id = ?1")
 	Actor findByUserAccountId(int id);
 
+	@Query("select a from Actor a join a.userAccount ua where ua.username = ?1")
+	Actor findByUsername(String username);
 }

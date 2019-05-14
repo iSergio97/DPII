@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import domain.Auditor;
+import domain.CreditCard;
+import forms.RegisterAuditorForm;
 import repositories.AuditorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Auditor;
-import domain.CreditCard;
-import forms.RegisterAuditorForm;
 
 @Service
 @Transactional
@@ -78,7 +78,7 @@ public class AuditorService extends AbstractService<AuditorRepository, Auditor> 
 		auditorForm.setUsername("");
 		auditorForm.setPassword("");
 		auditorForm.setConfirmPassword("");
-		auditorForm.setCVV(100);
+		auditorForm.setCVV("");
 		auditorForm.setBrand("");
 		auditorForm.setHolder("");
 		auditorForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
@@ -113,7 +113,7 @@ public class AuditorService extends AbstractService<AuditorRepository, Auditor> 
 		cc.setNumber(auditorForm.getNumber());
 		cc.setExpirationMonth(auditorForm.getExpirationMonth());
 		cc.setExpirationYear(auditorForm.getExpirationYear());
-		cc.setCVV(auditorForm.getCVV());
+		cc.setCVV(Integer.valueOf(auditorForm.getCVV()));
 
 		result.setCreditCard(cc);
 
@@ -146,7 +146,7 @@ public class AuditorService extends AbstractService<AuditorRepository, Auditor> 
 		auditorForm.setNumber(auditor.getCreditCard().getNumber());
 		auditorForm.setExpirationMonth(auditor.getCreditCard().getExpirationMonth());
 		auditorForm.setExpirationYear(auditor.getCreditCard().getExpirationYear());
-		auditorForm.setCVV(auditor.getCreditCard().getCVV());
+		auditorForm.setCVV(String.valueOf(auditor.getCreditCard().getCVV()));
 
 		return auditorForm;
 	}

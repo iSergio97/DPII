@@ -16,14 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.AuditorService;
-import services.CompanyService;
-import services.MessageBoxService;
-import services.ProviderService;
-import services.RookieService;
 import domain.Administrator;
 import domain.Auditor;
 import domain.Company;
@@ -35,6 +27,14 @@ import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
 import forms.RegisterProviderForm;
 import forms.RegisterRookieForm;
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.AuditorService;
+import services.CompanyService;
+import services.MessageBoxService;
+import services.ProviderService;
+import services.RookieService;
 
 @Controller
 @RequestMapping("/register")
@@ -93,19 +93,32 @@ public class RegisterController {
 		ModelAndView result;
 		final Rookie rookie2;
 		final List<String> usernames = this.userAccountRepository.getUserNames();
-
 		final Date date = new Date();
-		if (registerRookieForm.getExpirationYear() < (date.getYear() % 100)) {
-			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationYear", "error.oldYear");
-		}
-		if (registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-		}
 
+		if (registerRookieForm.getExpirationMonth() == null || registerRookieForm.getExpirationYear() == null) {
+			if (registerRookieForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (registerRookieForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (registerRookieForm.getExpirationYear() < (date.getYear() % 100) || registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerRookieForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
 		if (registerRookieForm.getId() == 0) {
 			if (usernames.contains(registerRookieForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
@@ -145,15 +158,25 @@ public class RegisterController {
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
 		}
 
+		if (registerRookieForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(registerRookieForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
+		}
+
 		try {
 			rookie2 = this.rookieService.reconstructForm(registerRookieForm, bindingResult);
 			final UserAccount ua = rookie2.getUserAccount();
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(rookie2.getUserAccount().getPassword(), null));
+			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
+			if (!rookie2.getPhoneNumber().startsWith("+"))
+				rookie2.setPhoneNumber("+34 " + rookie2.getPhoneNumber());
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			rookie2.setUserAccount(uaSaved);
-			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
-			if (!rookie2.getPhoneNumber().startsWith("(+"))
-				rookie2.setPhoneNumber("(+34)" + rookie2.getPhoneNumber());
 			final Rookie rookieSaved = this.rookieService.save(rookie2);
 			if (rookie2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -192,6 +215,31 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
+
+		if (registerCompanyForm.getExpirationMonth() == null || registerCompanyForm.getExpirationYear() == null) {
+			if (registerCompanyForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (registerCompanyForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (registerCompanyForm.getExpirationYear() < (date.getYear() % 100) || registerCompanyForm.getExpirationYear() == (date.getYear() % 100) && registerCompanyForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerCompanyForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (registerCompanyForm.getExpirationYear() == (date.getYear() % 100) && registerCompanyForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
 		if (registerCompanyForm.getExpirationYear() < (date.getYear() % 100)) {
 			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
 			bindingResult.addError(error);
@@ -293,6 +341,32 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
+
+		if (registerAuditorForm.getExpirationMonth() == null || registerAuditorForm.getExpirationYear() == null) {
+			if (registerAuditorForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (registerAuditorForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (registerAuditorForm.getExpirationYear() < (date.getYear() % 100) || registerAuditorForm.getExpirationYear() == (date.getYear() % 100) && registerAuditorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerAuditorForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (registerAuditorForm.getExpirationYear() == (date.getYear() % 100) && registerAuditorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
+
 		if (registerAuditorForm.getExpirationYear() < (date.getYear() % 100)) {
 			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
 			bindingResult.addError(error);
@@ -392,6 +466,32 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
+
+		if (registerProviderForm.getExpirationMonth() == null || registerProviderForm.getExpirationYear() == null) {
+			if (registerProviderForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (registerProviderForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (registerProviderForm.getExpirationYear() < (date.getYear() % 100) || registerProviderForm.getExpirationYear() == (date.getYear() % 100) && registerProviderForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerProviderForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (registerProviderForm.getExpirationYear() == (date.getYear() % 100) && registerProviderForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
+
 		if (registerProviderForm.getExpirationYear() < (date.getYear() % 100)) {
 			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
 			bindingResult.addError(error);
@@ -491,6 +591,32 @@ public class RegisterController {
 		final List<String> usernames = this.userAccountRepository.getUserNames();
 
 		final Date date = new Date();
+
+		if (registerAdministratorForm.getExpirationMonth() == null || registerAdministratorForm.getExpirationYear() == null) {
+			if (registerAdministratorForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (registerAdministratorForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (registerAdministratorForm.getExpirationYear() < (date.getYear() % 100) || registerAdministratorForm.getExpirationYear() == (date.getYear() % 100) && registerAdministratorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (registerAdministratorForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (registerAdministratorForm.getExpirationYear() == (date.getYear() % 100) && registerAdministratorForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
+
 		if (registerAdministratorForm.getExpirationYear() < (date.getYear() % 100)) {
 			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
 			bindingResult.addError(error);

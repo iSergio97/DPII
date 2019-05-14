@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import domain.CreditCard;
+import domain.Provider;
+import forms.RegisterProviderForm;
 import repositories.ProviderRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.CreditCard;
-import domain.Provider;
-import forms.RegisterProviderForm;
 
 @Service
 @Transactional
@@ -75,7 +75,7 @@ public class ProviderService extends AbstractService<ProviderRepository, Provide
 		providerForm.setUsername("");
 		providerForm.setPassword("");
 		providerForm.setConfirmPassword("");
-		providerForm.setCVV(100);
+		providerForm.setCVV("");
 		providerForm.setBrand("");
 		providerForm.setHolder("");
 		providerForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
@@ -111,7 +111,7 @@ public class ProviderService extends AbstractService<ProviderRepository, Provide
 		cc.setNumber(providerForm.getNumber());
 		cc.setExpirationMonth(providerForm.getExpirationMonth());
 		cc.setExpirationYear(providerForm.getExpirationYear());
-		cc.setCVV(providerForm.getCVV());
+		cc.setCVV(Integer.valueOf(providerForm.getCVV()));
 
 		result.setCreditCard(cc);
 
@@ -145,7 +145,7 @@ public class ProviderService extends AbstractService<ProviderRepository, Provide
 		providerForm.setNumber(provider.getCreditCard().getNumber());
 		providerForm.setExpirationMonth(provider.getCreditCard().getExpirationMonth());
 		providerForm.setExpirationYear(provider.getCreditCard().getExpirationYear());
-		providerForm.setCVV(provider.getCreditCard().getCVV());
+		providerForm.setCVV(String.valueOf(provider.getCreditCard().getCVV()));
 
 		return providerForm;
 	}

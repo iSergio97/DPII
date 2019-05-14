@@ -55,7 +55,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <p>
 	<spring:message code="position" />
 	<br>
-	<jstl:out value="${application.position.title}" />
+	<jstl:out value="${application.position.description}" />
 </p>
 <p>
 	<spring:message code="rookie" />

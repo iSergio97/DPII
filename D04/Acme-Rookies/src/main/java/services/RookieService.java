@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.CreditCard;
+import domain.Rookie;
+import forms.RegisterRookieForm;
 import repositories.RookieRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.CreditCard;
-import domain.Rookie;
-import forms.RegisterRookieForm;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 	// Other fields
 
 	@Autowired
-	private Validator	validator;
+	private Validator validator;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 		rookieForm.setNumber("");
 		rookieForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
 		rookieForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
-		rookieForm.setCVV(100);
+		rookieForm.setCVV("");
 		return rookieForm;
 	}
 
@@ -122,7 +122,7 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 		cc.setNumber(rookieForm.getNumber());
 		cc.setExpirationMonth(rookieForm.getExpirationMonth());
 		cc.setExpirationYear(rookieForm.getExpirationYear());
-		cc.setCVV(rookieForm.getCVV());
+		cc.setCVV(Integer.valueOf(rookieForm.getCVV()));
 
 		result.setCreditCard(cc);
 
@@ -153,7 +153,7 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 		rookieForm.setNumber(rookie.getCreditCard().getNumber());
 		rookieForm.setExpirationMonth(rookie.getCreditCard().getExpirationMonth());
 		rookieForm.setExpirationYear(rookie.getCreditCard().getExpirationYear());
-		rookieForm.setCVV(rookie.getCreditCard().getCVV());
+		rookieForm.setCVV(String.valueOf(rookie.getCreditCard().getCVV()));
 
 		return rookieForm;
 	}

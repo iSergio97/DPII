@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import services.ActorService;
 
 @Controller
 @RequestMapping("/security")
@@ -29,7 +30,10 @@ public class LoginController extends AbstractController {
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	LoginService	service;
+	LoginService			service;
+
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -41,19 +45,29 @@ public class LoginController extends AbstractController {
 	// Login ------------------------------------------------------------------
 
 	@RequestMapping("/login")
-	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) final boolean showError) {
+	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) boolean showError) {
 		Assert.notNull(credentials);
 		Assert.notNull(bindingResult);
 
 		ModelAndView result;
-
 		result = new ModelAndView("security/login");
 		result.addObject("credentials", credentials);
 		result.addObject("showError", showError);
 
 		return result;
 	}
-
+	/*
+	 * @RequestMapping("login/test")
+	 * public ModelAndView loginTest(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required=false) boolean showError) {
+	 * ModelAndView result;
+	 * 
+	 * if(a == b) {
+	 * 
+	 * } else {
+	 * result = new ModelAndView("j_spring_security_check");
+	 * }
+	 * }
+	 */
 	// LoginFailure -----------------------------------------------------------
 
 	@RequestMapping("/loginFailure")

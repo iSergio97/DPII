@@ -64,11 +64,6 @@ public class MessageController {
 			m = this.messageService.reconstruct(mf, bindingResult);
 			for (final Actor a : m.getRecipients())
 				if (!m.getIsSpam()) {
-					//					if (!mf.getBroadcast()) {
-					//						final Collection<MessageBox> mbs = m.getMessageBoxes();
-					//						final MessageBox inbox = this.messageBoxService.save(this.messageBoxService.findInbox(a.getId()));
-					//						mbs.add(inbox);
-					//					} else {
 					final Collection<MessageBox> mbs = m.getMessageBoxes();
 					final MessageBox inbox = this.messageBoxService.save(this.messageBoxService.findInbox(a.getId()));
 					mbs.add(inbox);

@@ -32,7 +32,7 @@ public class RegisterForm {
 	private String	number;
 	private Integer	expirationMonth;
 	private Integer	expirationYear;
-	private Integer	CVV;
+	private String	CVV;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -192,12 +192,11 @@ public class RegisterForm {
 		this.expirationYear = expirationYear;
 	}
 
-	@Range(min = 100, max = 999)
-	public Integer getCVV() {
+	public String getCVV() {
 		return this.CVV;
 	}
 
-	public void setCVV(final Integer cVV) {
+	public void setCVV(final String cVV) {
 		this.CVV = cVV;
 	}
 

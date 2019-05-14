@@ -94,7 +94,7 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		companyForm.setNumber("");
 		companyForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
 		companyForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
-		companyForm.setCVV(100);
+		companyForm.setCVV("");
 
 		return companyForm;
 	}
@@ -126,7 +126,7 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		cc.setNumber(companyForm.getNumber());
 		cc.setExpirationMonth(companyForm.getExpirationMonth());
 		cc.setExpirationYear(companyForm.getExpirationYear());
-		cc.setCVV(companyForm.getCVV());
+		cc.setCVV(Integer.valueOf(companyForm.getCVV()));
 
 		result.setCreditCard(cc);
 
@@ -162,7 +162,7 @@ public class CompanyService extends AbstractService<CompanyRepository, Company> 
 		companyForm.setNumber(company.getCreditCard().getNumber());
 		companyForm.setExpirationMonth(company.getCreditCard().getExpirationMonth());
 		companyForm.setExpirationYear(company.getCreditCard().getExpirationYear());
-		companyForm.setCVV(company.getCreditCard().getCVV());
+		companyForm.setCVV(String.valueOf(company.getCreditCard().getCVV()));
 
 		return companyForm;
 	}

@@ -157,16 +157,9 @@ public class ApplicationController extends AbstractController {
 		curriculum.setRookie(null);
 		curriculum = this.curriculumService.save(curriculum);
 
-		problem = null;
-		final Collection<Problem> problems = position.getProblems();
+		final List<Problem> problems = (List<Problem>) position.getProblems();
 		int chosenProblemIndex = ThreadLocalRandom.current().nextInt(problems.size());
-		for (final Problem chosenProblem : problems) {
-			if (chosenProblemIndex == 0) {
-				problem = chosenProblem;
-				break;
-			}
-			--chosenProblemIndex;
-		}
+		problem = problems.get(chosenProblemIndex);
 
 		// Create application
 		application = this.applicationService.create();

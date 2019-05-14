@@ -21,6 +21,7 @@
  
 <%@ attribute name="path" required="true" rtexprvalue="true" %>
 <%@ attribute name="code" required="true" rtexprvalue="true" %>
+<%@ attribute name="placeholder" required="true" rtexprvalue="true" %>
 
 <%-- Definition --%>
 
@@ -28,6 +29,6 @@
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>
-	<form:input path="${path}" placeholder="https://imgur.com/a/16yVQam"/>
+	<form:input path="${path}" placeholder="${placeholder}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>

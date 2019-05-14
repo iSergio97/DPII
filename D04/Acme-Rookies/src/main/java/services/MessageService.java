@@ -87,7 +87,14 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		m.setRecipients(mf.getRecipients());
 		m.setDate(new Date());
 		final List<String> sw = this.systemConfigurationservice.getSystemConfiguration().getSpamWords();
-		if (sw.contains(m.getBody()) || sw.contains(m.getSubject()) || sw.contains(m.getTags()))
+		List<String> swUpper = new ArrayList<>();
+		for (String s : sw) {
+			swUpper.add(s.toUpperCase());
+		}
+		String body = m.getBody().toUpperCase();
+		String subject = m.getSubject().toUpperCase();
+		String tags = m.getTags().toUpperCase();
+		if (m.getSender().getIsFlagged() || swUpper.contains(body) || swUpper.contains(subject) || swUpper.contains(tags))
 			m.setIsSpam(true);
 
 		this.validator.validate(m, bindingResult);
@@ -99,6 +106,14 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 
 	public Collection<Message> findMessages(final int messageBoxId) {
 		return this.repository.findMessages(messageBoxId);
+	}
+
+	public int countSpam(int id) {
+		return this.repository.countSpam(id);
+	}
+
+	public int countMails(int id) {
+		return this.repository.countMails(id);
 	}
 
 }

@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function test() {
 		//let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
-		if (!document.getElementById("phoneNumber").value.includes("(+34)")) { return confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?"); }
+		if (!document.getElementById("phoneNumber").value.startsWith("+")) { return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?"); }
 	}
 </script>
 
@@ -36,8 +36,10 @@
 		<acme:register code="surnames" path="surnames" />
 		<acme:register code="vat" path="vat" />
 		<acme:register code="email" path="email" />
-		<acme:register code="photo" path="photo" />
-		<acme:register code="phoneNumber" path="phoneNumber" />
+		<acme:registerWithPlaceholder code="photo" path="photo"
+			placeholder="https://imgur.com/r/panda/vhGv9Z0" />
+		<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber"
+			placeholder="+XX (YYY) ZZZZZZ" />
 		<acme:register code="address" path="address" />
 	</fieldset>
 	<br>

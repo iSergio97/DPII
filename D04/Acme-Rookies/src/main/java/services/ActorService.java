@@ -9,10 +9,10 @@ package services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Actor;
 import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.Actor;
 
 @Service
 @Transactional
@@ -28,6 +28,10 @@ public class ActorService extends AbstractService<ActorRepository, Actor> {
 	public Actor findPrincipal() {
 		final UserAccount userAccount = LoginService.getPrincipal();
 		return this.findByUserAccountId(userAccount.getId());
+	}
+
+	public Actor findActorUA(String un) {
+		return this.repository.findByUsername(un);
 	}
 
 }
