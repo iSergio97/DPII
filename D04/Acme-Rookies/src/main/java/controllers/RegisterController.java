@@ -87,86 +87,10 @@ public class RegisterController {
 		return this.createEditModelAndView(rhf);
 	}
 
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/rookie/edit", method = RequestMethod.POST)
 	public ModelAndView registerRookiePost(@ModelAttribute("rookie") final RegisterRookieForm registerRookieForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Rookie rookie2;
-		final List<String> usernames = this.userAccountRepository.getUserNames();
-		final Date date = new Date();
-
-		if (registerRookieForm.getExpirationMonth() == null || registerRookieForm.getExpirationYear() == null) {
-			if (registerRookieForm.getExpirationMonth() == null) {
-				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationMonth", "error.monthNull");
-			}
-
-			if (registerRookieForm.getExpirationYear() == null) {
-				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationYear", "error.yearNull");
-			}
-		} else if (registerRookieForm.getExpirationYear() < (date.getYear() % 100) || registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			if (registerRookieForm.getExpirationYear() < (date.getYear() % 100)) {
-				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationYear", "error.oldYear");
-			}
-			if (registerRookieForm.getExpirationYear() == (date.getYear() % 100) && registerRookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
-				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-			}
-		}
-		if (registerRookieForm.getId() == 0) {
-			if (usernames.contains(registerRookieForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUserName");
-			}
-		} else {
-			final Rookie rookie3 = this.rookieService.findPrincipal();
-			usernames.remove(rookie3.getUserAccount().getUsername());
-			if (usernames.contains(registerRookieForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUsername");
-			}
-		}
-
-		if (registerRookieForm.getUsername().length() < 5 || registerRookieForm.getUsername().length() > 32) {
-			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.shortUserName");
-		}
-
-		if (!registerRookieForm.getPassword().equals(registerRookieForm.getConfirmPassword())) {
-			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.wrongPass");
-		}
-		if (registerRookieForm.getPassword().length() == 0) {
-			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.nullPass");
-		}
-
-		if (registerRookieForm.getPhoneNumber().length() < 3) {
-			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
-		}
-
-		if (registerRookieForm.getCVV() == "") {
-			final ObjectError error = new ObjectError("CVV", "nullCvv");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("CVV", "error.nullCvv");
-		} else if (Integer.valueOf(registerRookieForm.getCVV()) < 100) {
-			final ObjectError error = new ObjectError("CVV", "shortCvv");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("CVV", "error.shortCvv");
-		}
 
 		try {
 			rookie2 = this.rookieService.reconstructForm(registerRookieForm, bindingResult);
@@ -240,16 +164,6 @@ public class RegisterController {
 				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
 			}
 		}
-		if (registerCompanyForm.getExpirationYear() < (date.getYear() % 100)) {
-			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationYear", "error.oldYear");
-		}
-		if (registerCompanyForm.getExpirationYear() == (date.getYear() % 100) && registerCompanyForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-		}
 
 		if (registerCompanyForm.getId() == 0) {
 			if (usernames.contains(registerCompanyForm.getUsername())) {
@@ -288,6 +202,16 @@ public class RegisterController {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		if (registerCompanyForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(registerCompanyForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
 		}
 
 		try {
@@ -367,17 +291,6 @@ public class RegisterController {
 			}
 		}
 
-		if (registerAuditorForm.getExpirationYear() < (date.getYear() % 100)) {
-			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationYear", "error.oldYear");
-		}
-		if (registerAuditorForm.getExpirationYear() == (date.getYear() % 100) && registerAuditorForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-		}
-
 		if (registerAuditorForm.getId() == 0) {
 			if (usernames.contains(registerAuditorForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
@@ -415,6 +328,16 @@ public class RegisterController {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		if (registerAuditorForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(registerAuditorForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
 		}
 
 		try {
@@ -492,17 +415,6 @@ public class RegisterController {
 			}
 		}
 
-		if (registerProviderForm.getExpirationYear() < (date.getYear() % 100)) {
-			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationYear", "error.oldYear");
-		}
-		if (registerProviderForm.getExpirationYear() == (date.getYear() % 100) && registerProviderForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-		}
-
 		if (registerProviderForm.getId() == 0) {
 			if (usernames.contains(registerProviderForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
@@ -540,6 +452,16 @@ public class RegisterController {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		if (registerProviderForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(registerProviderForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
 		}
 
 		try {
@@ -617,17 +539,6 @@ public class RegisterController {
 			}
 		}
 
-		if (registerAdministratorForm.getExpirationYear() < (date.getYear() % 100)) {
-			final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationYear", "error.oldYear");
-		}
-		if (registerAdministratorForm.getExpirationYear() == (date.getYear() % 100) && registerAdministratorForm.getExpirationMonth() < (date.getMonth() + 1)) {
-			final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("expirationMonth", "error.oldMonth");
-		}
-
 		if (registerAdministratorForm.getId() == 0) {
 			if (usernames.contains(registerAdministratorForm.getUsername())) {
 				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
@@ -665,6 +576,16 @@ public class RegisterController {
 			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
 			bindingResult.addError(error);
 			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		if (registerAdministratorForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(registerAdministratorForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
 		}
 
 		try {

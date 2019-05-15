@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -78,8 +77,6 @@ public class ProviderService extends AbstractService<ProviderRepository, Provide
 		providerForm.setCVV("");
 		providerForm.setBrand("");
 		providerForm.setHolder("");
-		providerForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
-		providerForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 
 		return providerForm;
 	}

@@ -52,7 +52,5 @@
 	<!-- Form options -->
 	
 	<input type="submit" name="save" value="<spring:message code="send" />" />
-	
-<input type="button" name="edit" value="<spring:message code='delete' />" onclick="javascript: relativeRedir('finder/edit.do?finderId=${finder.id}');" />
 
 </form:form>

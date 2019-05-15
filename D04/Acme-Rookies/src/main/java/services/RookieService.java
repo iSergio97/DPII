@@ -7,7 +7,7 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 
 import domain.CreditCard;
@@ -25,6 +26,7 @@ import repositories.RookieRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountRepository;
 
 @Service
 @Transactional
@@ -34,7 +36,10 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 	// Other fields
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
+
+	@Autowired
+	private UserAccountRepository	userAccountRepository;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -91,14 +96,88 @@ public class RookieService extends AbstractService<RookieRepository, Rookie> {
 		rookieForm.setHolder("");
 		rookieForm.setBrand("");
 		rookieForm.setNumber("");
-		rookieForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
-		rookieForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 		rookieForm.setCVV("");
 		return rookieForm;
 	}
 
 	public Rookie reconstructForm(final RegisterRookieForm rookieForm, final BindingResult bindingResult) {
 		final Rookie result;
+
+		final List<String> usernames = this.userAccountRepository.getUserNames();
+		final Date date = new Date();
+
+		if (rookieForm.getExpirationMonth() == null || rookieForm.getExpirationYear() == null) {
+			if (rookieForm.getExpirationMonth() == null) {
+				final ObjectError error = new ObjectError("expirationMonthNull", "The month of the credit card is null");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.monthNull");
+			}
+
+			if (rookieForm.getExpirationYear() == null) {
+				final ObjectError error = new ObjectError("expirationYearNull", "The year of the credit card is nuññ");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.yearNull");
+			}
+		} else if (rookieForm.getExpirationYear() < (date.getYear() % 100) || rookieForm.getExpirationYear() == (date.getYear() % 100) && rookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+			if (rookieForm.getExpirationYear() < (date.getYear() % 100)) {
+				final ObjectError error = new ObjectError("expirationYear", "The year of the credit card is older than the current year");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationYear", "error.oldYear");
+			}
+			if (rookieForm.getExpirationYear() == (date.getYear() % 100) && rookieForm.getExpirationMonth() < (date.getMonth() + 1)) {
+				final ObjectError error = new ObjectError("expirationMonth", "The month of the credit card is older than the current month");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("expirationMonth", "error.oldMonth");
+			}
+		}
+		if (rookieForm.getId() == 0) {
+			if (usernames.contains(rookieForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Rookie rookie3 = this.findPrincipal();
+			usernames.remove(rookie3.getUserAccount().getUsername());
+			if (usernames.contains(rookieForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUsername");
+			}
+		}
+
+		if (rookieForm.getUsername().length() < 5 || rookieForm.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+
+		if (!rookieForm.getPassword().equals(rookieForm.getConfirmPassword())) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (rookieForm.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (rookieForm.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
+
+		if (rookieForm.getCVV() == "") {
+			final ObjectError error = new ObjectError("CVV", "nullCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.nullCvv");
+		} else if (Integer.valueOf(rookieForm.getCVV()) < 100) {
+			final ObjectError error = new ObjectError("CVV", "shortCvv");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("CVV", "error.shortCvv");
+		}
 
 		if (rookieForm.getId() == 0)
 			result = this.create();

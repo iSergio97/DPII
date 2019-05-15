@@ -7,7 +7,8 @@
 
 <script type="text/javascript">
 	function test() {
-		if (!document.getElementById("phoneNumber").value.includes("+")) { return confirm("Your phone number dont have prefix. Do you want to add one? Prefix = (+XX) \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno? Prefijo = (+XX)" ); }
+		if (!document.getElementById("phoneNumber").value.includes("+")) { 
+			return confirm("Your phone number dont have prefix. Do you want to add one? Prefix = (+XX) \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno? Prefijo = (+XX)" ); }
 	}
 </script>
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
