@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- tiles.xml Copyright (c) 2019 Group 16 of Design and Testing II, University 
+	of Seville -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<util:list id="tiles">
+		<value>/views/master-page/tiles.xml</value>
+		<value>/views/misc/tiles.xml</value>
+		<value>/views/security/tiles.xml</value>
+		<value>/views/welcome/tiles.xml</value>
+		<value>/views/curriculum/tiles.xml</value>
+		<value>/views/position-data/tiles.xml</value>
+		<value>/views/education-data/tiles.xml</value>
+		<value>/views/personal-data/tiles.xml</value>
+		<value>/views/miscellaneous-data/tiles.xml</value>
+		<value>/views/position/tiles.xml</value>
+		<value>/views/problem/tiles.xml</value>
+		<value>/views/register/tiles.xml</value>
+		<value>/views/administrator/tiles.xml</value>
+		<value>/views/application/tiles.xml</value>
+		<value>/views/social-profile/tiles.xml</value>
+		<value>/views/finder/tiles.xml</value>
+		<value>/views/audit/tiles.xml</value>
+		<value>/views/message/tiles.xml</value>
+		<value>/views/message-box/tiles.xml</value>
+		<value>/views/company/tiles.xml</value>
+		<value>/views/item/tiles.xml</value>
+		<value>/views/provider/tiles.xml</value>
+		<value>/views/sponsorship/tiles.xml</value>
+	</util:list>
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+application/tiles.xml
+
+Copyright (C) 2019 Group 16 Desing & Testing II
+-->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="audit/list" extends="master.page">
+		<put-attribute name="title" value="List audits" />
+		<put-attribute name="body" value="/views/audit/list.jsp" />
+	</definition>
+
+	<definition name="audit/show" extends="master.page">
+		<put-attribute name="title" value="Show audit" />
+		<put-attribute name="body" value="/views/audit/show.jsp" />
+	</definition>
+
+	<definition name="audit/edit" extends="master.page">
+		<put-attribute name="title" value="Edit audit" />
+		<put-attribute name="body" value="/views/audit/edit.jsp" />
+	</definition>
+
+</tiles-definitions>
