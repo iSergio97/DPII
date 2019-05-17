@@ -11,7 +11,7 @@
 
 	<!-- Artifact identification and properties -->
 
-	<groupId>Acme-Series.com</groupId>
+	<groupId>Acme-Series</groupId>
 	<artifactId>Acme-Series</artifactId>
 	<version>0.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -24,7 +24,8 @@
 
 	<name>Acme Series</name>
 	<url>http://www.acme-series.com</url>
-	<description>A new webpage to show, comment and public some series!</description>
+	<description>Come here to share some comments, look for a good serie or to public some awesome series!</description>
+
 	<!-- Build commands -->
 
 	<build>
@@ -223,7 +224,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.26</version>
+			<version>5.1.45</version>
 		</dependency>
 
 		<!-- Hibernate -->
@@ -314,4 +315,5 @@
 		</dependency>
 
 	</dependencies>
+
 </project> 
