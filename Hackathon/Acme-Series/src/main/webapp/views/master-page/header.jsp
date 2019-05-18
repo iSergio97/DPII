@@ -90,5 +90,5 @@
 </div>
 
 <div>
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
+	<a href="?language=en"> <img alt="en" src="../images/en.png"> </a> | <a href="?language=es"><img alt="es" src="../images/es.png"></a>
 </div>
