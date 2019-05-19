@@ -1,6 +1,6 @@
 /*
  * ApplicationService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -18,11 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import domain.Application;
-import domain.Position;
-import domain.Rookie;
-import forms.ApplicationForm;
 import repositories.ApplicationRepository;
+import domain.Application;
+import forms.ApplicationForm;
 
 @Service
 @Transactional
@@ -44,12 +42,7 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 	// Form methods
 
 	public ApplicationForm createForm() {
-		final ApplicationForm applicationForm = new ApplicationForm();
-
-		applicationForm.setExplanations("");
-		applicationForm.setCodeLink("");
-
-		return applicationForm;
+		return this.instanceClass(ApplicationForm.class);
 	}
 
 	public Application reconstructForm(final ApplicationForm applicationForm, final BindingResult bindingResult) {
@@ -62,9 +55,8 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 
 		Assert.isTrue(application.getStatus().equals("PENDING"));
 
-		application.setSubmitMoment(new Date());
-		application.setExplanations(applicationForm.getExplanations());
-		application.setCodeLink(applicationForm.getCodeLink());
+		application.setMoment(new Date());
+		application.setDescription(applicationForm.getDescription());
 
 		this.validator.validate(application, bindingResult);
 
@@ -77,8 +69,7 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 		Assert.isTrue(application.getStatus().equals("PENDING"));
 
 		applicationForm.setId(application.getId());
-		applicationForm.setExplanations(application.getExplanations());
-		applicationForm.setCodeLink(application.getCodeLink());
+		applicationForm.setDescription(application.getDescription());
 
 		return applicationForm;
 	}
@@ -96,30 +87,6 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 			groupedApplications.put(application.getStatus(), listedApplications);
 		}
 		return groupedApplications;
-	}
-
-	public Collection<Application> getApplicationsOfRookie(final Rookie rookie) {
-		return this.repository.findByRookieId(rookie.getId());
-	}
-
-	public Collection<Application> getApplicationsOfPosition(final Position position) {
-		return this.repository.findByPositionId(position.getId());
-	}
-
-	public Double min() {
-		return this.repository.min();
-	}
-
-	public Double max() {
-		return this.repository.max();
-	}
-
-	public Double media() {
-		return this.repository.avg();
-	}
-
-	public Double stdDev() {
-		return this.repository.stdDev();
 	}
 
 }

@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Application;
-import domain.Company;
+import domain.Publisher;
 import domain.Curriculum;
-import domain.Position;
+import domain.Serie;
 import domain.Problem;
 import domain.Rookie;
 import forms.ApplicationForm;
@@ -107,7 +107,7 @@ public class ApplicationController extends AbstractController {
 	public ModelAndView create(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
 		final Rookie rookie;
-		final Position position;
+		final Serie position;
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
@@ -137,7 +137,7 @@ public class ApplicationController extends AbstractController {
 		Application application;
 		Curriculum curriculum;
 		final Rookie rookie;
-		Position position;
+		Serie position;
 		Problem problem;
 
 		rookie = this.rookieService.findPrincipal();
@@ -232,8 +232,8 @@ public class ApplicationController extends AbstractController {
 	@RequestMapping(value = "/company/list", method = RequestMethod.GET)
 	public ModelAndView companyList(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
-		final Company company;
-		final Position position;
+		final Publisher company;
+		final Serie position;
 		final Map<String, List<Application>> applications;
 
 		company = this.companyService.findPrincipal();
@@ -258,7 +258,7 @@ public class ApplicationController extends AbstractController {
 	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView companyShow(@RequestParam(value = "id") final int id) {
 		final ModelAndView result;
-		final Company company;
+		final Publisher company;
 		final Application application;
 
 		company = this.companyService.findPrincipal();
@@ -281,7 +281,7 @@ public class ApplicationController extends AbstractController {
 
 	@RequestMapping(value = "/company/accept", method = RequestMethod.POST)
 	public ModelAndView accept(@RequestParam(value = "id") final int id) {
-		final Company company;
+		final Publisher company;
 		final Application application;
 
 		company = this.companyService.findPrincipal();
@@ -303,7 +303,7 @@ public class ApplicationController extends AbstractController {
 
 	@RequestMapping(value = "/company/reject", method = RequestMethod.POST)
 	public ModelAndView reject(@RequestParam(value = "id") final int id) {
-		final Company company;
+		final Publisher company;
 		final Application application;
 
 		company = this.companyService.findPrincipal();

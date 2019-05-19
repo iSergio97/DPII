@@ -1,3 +1,8 @@
+/*
+ * RegisterForm.java
+ * 
+ * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+ */
 
 package forms;
 
@@ -17,7 +22,6 @@ public class RegisterForm {
 	// Actor
 	private String	name;
 	private String	surnames;
-	private String	vat;
 	private String	email;
 	private String	photo;
 	private String	phoneNumber;
@@ -26,13 +30,6 @@ public class RegisterForm {
 	private String	password;
 	// Register itself
 	private String	confirmPassword;
-	// CreditCard
-	private String	holder;
-	private String	brand;
-	private String	number;
-	private Integer	expirationMonth;
-	private Integer	expirationYear;
-	private String	CVV;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -64,17 +61,6 @@ public class RegisterForm {
 
 	public void setSurnames(final String surnames) {
 		this.surnames = surnames;
-	}
-
-	@NotBlank
-	// Matches 2 letters followed by between 5 and 15 alphanumeric characters
-	@Pattern(regexp = "^[\\w]{2}[\\d\\w]{5,15}$")
-	public String getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final String vat) {
-		this.vat = vat;
 	}
 
 	@NotBlank
@@ -145,59 +131,6 @@ public class RegisterForm {
 
 	public void setConfirmPassword(final String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-
-	@NotBlank
-	public String getHolder() {
-		return this.holder;
-	}
-
-	public void setHolder(final String holder) {
-		this.holder = holder;
-	}
-
-	@NotBlank
-	public String getBrand() {
-		return this.brand;
-	}
-
-	public void setBrand(final String brand) {
-		this.brand = brand;
-	}
-
-	@NotBlank
-	@Pattern(regexp = "^([\\d]){16}$")
-	public String getNumber() {
-		return this.number;
-	}
-
-	public void setNumber(final String number) {
-		this.number = number;
-	}
-
-	@Range(min = 1, max = 12)
-	public Integer getExpirationMonth() {
-		return this.expirationMonth;
-	}
-
-	public void setExpirationMonth(final Integer expirationMonth) {
-		this.expirationMonth = expirationMonth;
-	}
-
-	public Integer getExpirationYear() {
-		return this.expirationYear;
-	}
-
-	public void setExpirationYear(final Integer expirationYear) {
-		this.expirationYear = expirationYear;
-	}
-
-	public String getCVV() {
-		return this.CVV;
-	}
-
-	public void setCVV(final String cVV) {
-		this.CVV = cVV;
 	}
 
 }

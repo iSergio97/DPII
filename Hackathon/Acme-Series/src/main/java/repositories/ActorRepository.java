@@ -1,6 +1,6 @@
 /*
  * ActorRepository.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -19,4 +19,5 @@ public interface ActorRepository extends AbstractRepository<Actor> {
 
 	@Query("select a from Actor a join a.userAccount ua where ua.username = ?1")
 	Actor findByUsername(String username);
+
 }

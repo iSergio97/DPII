@@ -1,6 +1,6 @@
 /*
  * Message.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -118,6 +118,7 @@ public class Message extends DomainEntity {
 	}
 
 	@NotNull
+	@NotEmpty
 	@Valid
 	@ManyToMany
 	public Collection<Actor> getRecipients() {

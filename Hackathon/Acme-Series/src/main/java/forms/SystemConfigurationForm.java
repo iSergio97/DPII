@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationForm.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -27,7 +27,7 @@ public class SystemConfigurationForm {
 	private int		finderCacheTime;
 	private int		maximumFinderResults;
 	private String	spamWords;
-	private String	welcomeMessages;
+	private String	welcomeMessage;
 	private double	vat;
 	private double	flatRate;
 
@@ -105,12 +105,12 @@ public class SystemConfigurationForm {
 	@NotNull
 	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
 	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
-	public String getWelcomeMessages() {
-		return this.welcomeMessages;
+	public String getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setWelcomeMessages(final String welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
+	public void setWelcomeMessage(final String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
 	}
 
 	@Min(value = 0)

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import domain.Actor;
 
@@ -56,6 +57,7 @@ public class MessageForm {
 	}
 
 	@NotNull
+	@NotEmpty
 	public Collection<Actor> getRecipients() {
 		return this.recipients;
 	}
@@ -65,10 +67,10 @@ public class MessageForm {
 	}
 
 	public boolean getBroadcast() {
-		return broadcast;
+		return this.broadcast;
 	}
 
-	public void setBroadcast(boolean broadcast) {
+	public void setBroadcast(final boolean broadcast) {
 		this.broadcast = broadcast;
 	}
 

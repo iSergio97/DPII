@@ -23,11 +23,11 @@ import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
 import services.SponsorshipService;
-import domain.Company;
-import domain.Position;
+import domain.Publisher;
+import domain.Serie;
 import domain.Problem;
 import domain.Sponsorship;
-import forms.PositionForm;
+import forms.SerieForm;
 
 @Controller
 @RequestMapping("/position")
@@ -56,7 +56,7 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/company/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		PositionForm positionForm;
+		SerieForm positionForm;
 		positionForm = this.positionService.createForm();
 
 		result = this.createEditModelAndView(positionForm);
@@ -69,9 +69,9 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/company/edit", method = RequestMethod.GET)
 	public ModelAndView edit(final int positionId) {
 		final ModelAndView res;
-		final Position pos = this.positionService.findOne(positionId);
+		final Serie pos = this.positionService.findOne(positionId);
 		if (!(this.companyService.findPrincipal() == null) || !(pos.getCompany() != this.companyService.findPrincipal())) {
-			final PositionForm posForm = this.positionService.deconstruct(pos);
+			final SerieForm posForm = this.positionService.deconstruct(pos);
 			res = this.createEditModelAndView(posForm);
 		} else
 			res = new ModelAndView("redirect:../welcome/index.do");
@@ -80,16 +80,16 @@ public class PositionController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/company/edit", method = RequestMethod.POST)
-	public ModelAndView edit(@ModelAttribute("position") final PositionForm positionForm, final BindingResult bindingResult) {
+	public ModelAndView edit(@ModelAttribute("position") final SerieForm positionForm, final BindingResult bindingResult) {
 		ModelAndView result;
-		Position pos;
+		Serie pos;
 
 		if (bindingResult.hasErrors())
 			result = this.createEditModelAndView(positionForm);
 		else
 			try {
 				pos = this.positionService.reconstruct(positionForm, bindingResult);
-				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+				final Publisher company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 				if (company != null && (pos.getCompany().equals(company) && pos.getIsDraft()))
 					this.positionService.save(pos);
 				result = new ModelAndView("redirect:list.do");
@@ -105,7 +105,7 @@ public class PositionController extends AbstractController {
 
 	@RequestMapping(value = "/company/final", method = RequestMethod.GET)
 	public ModelAndView finalMode(final int positionId) {
-		final Position pos = this.positionService.findOne(positionId);
+		final Serie pos = this.positionService.findOne(positionId);
 		if (pos != null && pos.getCompany() == this.companyService.findPrincipal() && pos.getProblems().size() > 1) {
 			pos.setIsDraft(false);
 			pos.setStatus("ACCEPTED");
@@ -118,7 +118,7 @@ public class PositionController extends AbstractController {
 
 	@RequestMapping(value = "/company/cancel", method = RequestMethod.GET)
 	public ModelAndView cancelStatus(final int positionId) {
-		final Position pos = this.positionService.findOne(positionId);
+		final Serie pos = this.positionService.findOne(positionId);
 		if (pos != null && pos.getStatus().equals("ACCEPTED") && pos.getCompany() == this.companyService.findPrincipal()) {
 			pos.setStatus("CANCELLED");
 			this.positionService.save(pos);
@@ -131,7 +131,7 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam final int positionId) {
 		ModelAndView result = new ModelAndView("redirect:list.do");
-		Position position;
+		Serie position;
 		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByPositionId(positionId);
 
 		final List<Sponsorship> list = new ArrayList<>(sponsorships);
@@ -140,7 +140,7 @@ public class PositionController extends AbstractController {
 		final String banner = list.get(random).getBanner();
 
 		final String locale = Locale.getDefault().getLanguage();
-		final Company company = this.companyService.findPrincipal();
+		final Publisher company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
 		if (position != null && position.getCompany() == company) {
 			result = new ModelAndView("position/company/show");
@@ -159,8 +159,8 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/company/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
-		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Collection<Position> pos = this.positionService.findPositionsByCompany(company);
+		final Publisher company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Collection<Serie> pos = this.positionService.findPositionsByCompany(company);
 
 		result = new ModelAndView("position/company/list");
 
@@ -174,7 +174,7 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
-		final Collection<Position> positions;
+		final Collection<Serie> positions;
 		positions = this.positionService.findAll();
 		res = new ModelAndView("position/all/list");
 		res.addObject("positions", positions);
@@ -185,7 +185,7 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
 	public ModelAndView publicList(@RequestParam final String keyword) {
 		ModelAndView res;
-		final Collection<Position> positions;
+		final Collection<Serie> positions;
 		if (keyword == "")
 			positions = this.positionService.findAll();
 		else
@@ -201,8 +201,8 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/show-company", method = RequestMethod.GET)
 	public ModelAndView publicShow(@RequestParam final int positionId) {
 		ModelAndView res;
-		final Position p = this.positionService.findOne(positionId);
-		final Company company = p.getCompany();
+		final Serie p = this.positionService.findOne(positionId);
+		final Publisher company = p.getCompany();
 		res = new ModelAndView("position/all/show-company");
 		res.addObject("company", company);
 		return res;
@@ -212,16 +212,16 @@ public class PositionController extends AbstractController {
 
 	// Ancillary Methods ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final PositionForm position) {
+	protected ModelAndView createEditModelAndView(final SerieForm position) {
 
 		return this.createEditModelAndView(position, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final PositionForm position, final String message) {
+	protected ModelAndView createEditModelAndView(final SerieForm position, final String message) {
 		ModelAndView result;
 		final Collection<Problem> problems;
 
-		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Publisher company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 		problems = this.positionService.findProblemsByCompany(company);
 
 		result = new ModelAndView("position/company/create");

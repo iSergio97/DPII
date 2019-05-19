@@ -16,19 +16,21 @@
 		<jstl:when test="${systemConfiguration != null}">
 			<jstl:choose>
 				<jstl:when test="${empty systemConfiguration.banner}">
-					<a href="#"><img
-						src="<jstl:out value="${systemConfiguration.banner}" />"
-						alt="Acme Parade Co., Inc." /></a>
+					<a href="#">
+						<img src="<jstl:out value="${systemConfiguration.banner}" />" alt="Acme Series Co., Inc." />
+					</a>
 				</jstl:when>
 				<jstl:otherwise>
-					<a href="#"><img src="images/logo.png"
-						alt="Acme Series Co., Inc." /></a>
+					<a href="#">
+						<img src="images/logo.png" alt="Acme Series Co., Inc." />
+					</a>
 				</jstl:otherwise>
 			</jstl:choose>
 		</jstl:when>
 		<jstl:otherwise>
-			<a href="#"><img src="images/logo.png"
-				alt="Acme Series Co., Inc." /></a>
+			<a href="#">
+				<img src="images/logo.png" alt="Acme Series Co., Inc." />
+			</a>
 		</jstl:otherwise>
 	</jstl:choose>
 </div>
@@ -90,5 +92,6 @@
 </div>
 
 <div>
-	<a href="?language=en"> <img alt="en" src="../images/en.png"> </a> | <a href="?language=es"><img alt="es" src="../images/es.png"></a>
+	<a href="?language=en"><img alt="en" src="images/en.png" height="32"></a>
+	<a href="?language=es"><img alt="es" src="images/es.png" height="32"></a>
 </div>

@@ -15,10 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AuditService;
 import services.AuditorService;
 import services.PositionService;
-import domain.Audit;
-import domain.Auditor;
-import domain.Position;
-import forms.AuditForm;
+import domain.Critique;
+import domain.Critic;
+import domain.Serie;
+import forms.CritiqueForm;
 
 @Controller
 @RequestMapping("/audit")
@@ -46,7 +46,7 @@ public class AuditController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result;
 
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
@@ -61,7 +61,7 @@ public class AuditController extends AbstractController {
 	public ModelAndView list(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
 
-		final Position position = this.positionService.findOne(positionId);
+		final Serie position = this.positionService.findOne(positionId);
 		if (position == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
@@ -80,11 +80,11 @@ public class AuditController extends AbstractController {
 	public ModelAndView show(@RequestParam(value = "auditId") final int auditId) {
 		final ModelAndView result;
 
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Audit audit = this.auditService.findOne(auditId);
+		final Critique audit = this.auditService.findOne(auditId);
 		if (audit == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!audit.getAuditor().equals(auditor))
@@ -103,11 +103,11 @@ public class AuditController extends AbstractController {
 	public ModelAndView create(@RequestParam(value = "positionId") final int positionId) {
 		final ModelAndView result;
 
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Position position = this.positionService.findOne(positionId);
+		final Serie position = this.positionService.findOne(positionId);
 		if (position == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
@@ -115,7 +115,7 @@ public class AuditController extends AbstractController {
 
 		result = new ModelAndView("audit/edit");
 
-		final AuditForm auditForm = this.auditService.createForm();
+		final CritiqueForm auditForm = this.auditService.createForm();
 		auditForm.setPositionId(positionId);
 
 		result.addObject("auditForm", auditForm);
@@ -129,11 +129,11 @@ public class AuditController extends AbstractController {
 	public ModelAndView edit(@RequestParam(value = "auditId") final int auditId) {
 		final ModelAndView result;
 
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Audit audit = this.auditService.findOne(auditId);
+		final Critique audit = this.auditService.findOne(auditId);
 		if (audit == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())
@@ -151,21 +151,21 @@ public class AuditController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/auditor/save", method = RequestMethod.POST)
-	public ModelAndView save(@Valid @ModelAttribute("auditForm") final AuditForm auditForm, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid @ModelAttribute("auditForm") final CritiqueForm auditForm, final BindingResult bindingResult) {
 		ModelAndView result;
 
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Position position = this.positionService.findOne(auditForm.getPositionId());
+		final Serie position = this.positionService.findOne(auditForm.getPositionId());
 		if (position == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
 			return new ModelAndView("redirect:/welcome/index.do");
 
 		if (auditForm.getId() != 0) {
-			final Audit audit = this.auditService.findOne(auditForm.getId());
+			final Critique audit = this.auditService.findOne(auditForm.getId());
 			if (audit == null)
 				return new ModelAndView("redirect:/welcome/index.do");
 			if (!audit.getIsDraft())
@@ -175,7 +175,7 @@ public class AuditController extends AbstractController {
 		}
 
 		if (!bindingResult.hasErrors()) {
-			Audit audit = this.auditService.reconstructForm(auditForm, bindingResult);
+			Critique audit = this.auditService.reconstructForm(auditForm, bindingResult);
 			audit.setAuditor(auditor);
 			audit = this.auditService.save(audit);
 			result = this.show(audit.getId());
@@ -191,11 +191,11 @@ public class AuditController extends AbstractController {
 
 	@RequestMapping(value = "/auditor/saveAsFinal", method = RequestMethod.POST)
 	public ModelAndView saveAsFinal(@RequestParam(value = "auditId") final int auditId) {
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Audit audit = this.auditService.findOne(auditId);
+		final Critique audit = this.auditService.findOne(auditId);
 		if (audit == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())
@@ -213,11 +213,11 @@ public class AuditController extends AbstractController {
 
 	@RequestMapping(value = "/auditor/delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "auditId") final int auditId) {
-		final Auditor auditor = this.auditorService.findPrincipal();
+		final Critic auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		final Audit audit = this.auditService.findOne(auditId);
+		final Critique audit = this.auditService.findOne(auditId);
 		if (audit == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())

@@ -25,13 +25,7 @@ public class SocialProfileService extends AbstractService<SocialProfileRepositor
 	// Form methods
 
 	public SocialProfileForm createForm() {
-		final SocialProfileForm socialProfileForm = new SocialProfileForm();
-
-		socialProfileForm.setNick("");
-		socialProfileForm.setSocialNetworkName("");
-		socialProfileForm.setProfileLink("");
-
-		return socialProfileForm;
+		return this.instanceClass(SocialProfileForm.class);
 	}
 
 	public SocialProfile reconstructForm(final SocialProfileForm socialProfileForm, final BindingResult bindingResult) {

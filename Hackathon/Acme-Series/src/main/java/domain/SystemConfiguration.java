@@ -1,6 +1,6 @@
 /*
  * SystemConfiguration.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -34,7 +34,7 @@ public class SystemConfiguration extends DomainEntity {
 	private int					finderCacheTime;
 	private int					maximumFinderResults;
 	private List<String>		spamWords;
-	private Map<String, String>	welcomeMessages;
+	private Map<String, String>	welcomeMessage;
 	private double				vat;
 	private double				flatRate;
 
@@ -101,12 +101,12 @@ public class SystemConfiguration extends DomainEntity {
 	@NotNull
 	@ElementCollection(targetClass = String.class)
 	@MapKeyClass(String.class)
-	public Map<String, String> getWelcomeMessages() {
-		return this.welcomeMessages;
+	public Map<String, String> getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
+	public void setWelcomeMessage(final Map<String, String> welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
 	}
 
 	@Min(value = 0)

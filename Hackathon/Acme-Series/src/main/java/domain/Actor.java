@@ -1,6 +1,6 @@
 /*
  * Actor.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -31,8 +31,6 @@ public class Actor extends DomainEntity {
 
 	private String		name;
 	private String		surnames;
-	private String		vat;
-	private CreditCard	creditCard;
 	private String		photo;
 	private String		email;
 	private String		phoneNumber;
@@ -67,14 +65,6 @@ public class Actor extends DomainEntity {
 		this.surnames = surnames;
 	}
 
-	public String getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final String vat) {
-		this.vat = vat;
-	}
-
 	@NotBlank
 	// Matches administrator email addresses
 	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
@@ -84,15 +74,6 @@ public class Actor extends DomainEntity {
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	@Valid
-	public CreditCard getCreditCard() {
-		return this.creditCard;
-	}
-
-	public void setCreditCard(final CreditCard creditCard) {
-		this.creditCard = creditCard;
 	}
 
 	@URL

@@ -15,13 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import domain.Administrator;
-import domain.CreditCard;
-import forms.RegisterAdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Administrator;
+import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
@@ -45,19 +44,7 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		userAccount.setUsername("");
 		userAccount.setPassword("");
 		administrator.setUserAccount(userAccount);
-		// set fields
-		administrator.setName("");
-		administrator.setSurnames("");
-		administrator.setVat("");
-		administrator.setEmail("");
-		administrator.setCreditCard(null);
-		administrator.setPhoto("");
-		administrator.setPhoneNumber("");
-		administrator.setAddress("");
-		administrator.setIsFlagged(false);
-		administrator.setIsBanned(false);
 
-		// set relationships
 		return administrator;
 	}
 
@@ -65,56 +52,27 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 	// Form methods
 
 	public RegisterAdministratorForm createForm() {
-		final RegisterAdministratorForm administratorForm = new RegisterAdministratorForm();
-
-		administratorForm.setName("");
-		administratorForm.setSurnames("");
-		administratorForm.setVat("");
-		administratorForm.setPhoto("");
-		administratorForm.setEmail("");
-		administratorForm.setPhoneNumber("");
-		administratorForm.setAddress("");
-		administratorForm.setUsername("");
-		administratorForm.setPassword("");
-		administratorForm.setConfirmPassword("");
-		administratorForm.setCVV("");
-		administratorForm.setBrand("");
-		administratorForm.setHolder("");
-
-		return administratorForm;
+		return this.instanceClass(RegisterAdministratorForm.class);
 	}
 
-	public Administrator reconstructForm(final RegisterAdministratorForm administratorForm, final BindingResult bindingResult) {
+	public Administrator reconstructForm(final RegisterAdministratorForm form, final BindingResult bindingResult) {
 		final Administrator result;
 
-		if (administratorForm.getId() == 0)
+		if (form.getId() == 0)
 			result = this.create();
 		else
-			result = this.repository.findOne(administratorForm.getId());
+			result = this.repository.findOne(form.getId());
 
-		result.setName(administratorForm.getName());
-		result.setSurnames(administratorForm.getSurnames());
-		result.setVat(administratorForm.getVat());
-		result.setSurnames(administratorForm.getSurnames());
-		result.setPhoto(administratorForm.getPhoto());
-		result.setEmail(administratorForm.getEmail());
-		result.setPhoneNumber(administratorForm.getPhoneNumber());
-		result.setAddress(administratorForm.getAddress());
+		result.setName(form.getName());
+		result.setSurnames(form.getSurnames());
+		result.setPhoto(form.getPhoto());
+		result.setEmail(form.getEmail());
+		result.setPhoneNumber(form.getPhoneNumber());
+		result.setAddress(form.getAddress());
 
-		result.getUserAccount().setUsername(administratorForm.getUsername());
-		result.getUserAccount().setPassword(administratorForm.getPassword());
+		result.getUserAccount().setUsername(form.getUsername());
+		result.getUserAccount().setPassword(form.getPassword());
 
-		final CreditCard cc = new CreditCard();
-		cc.setHolder(administratorForm.getHolder());
-		cc.setBrand(administratorForm.getBrand());
-		cc.setNumber(administratorForm.getNumber());
-		cc.setExpirationMonth(administratorForm.getExpirationMonth());
-		cc.setExpirationYear(administratorForm.getExpirationYear());
-		cc.setCVV(Integer.valueOf(administratorForm.getCVV()));
-
-		result.setCreditCard(cc);
-
-		this.validator.validate(cc, bindingResult);
 		this.validator.validate(result, bindingResult);
 		this.repository.flush();
 
@@ -129,7 +87,6 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		administratorForm.setId(administrator.getId());
 		administratorForm.setName(administrator.getName());
 		administratorForm.setSurnames(administrator.getSurnames());
-		administratorForm.setVat(administrator.getVat());
 		administratorForm.setPhoto(administrator.getPhoto());
 		administratorForm.setEmail(administrator.getEmail());
 		administratorForm.setPhoneNumber(administrator.getPhoneNumber());
@@ -137,13 +94,6 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 
 		administratorForm.setUsername(administrator.getUserAccount().getUsername());
 		administratorForm.setPassword(administrator.getUserAccount().getPassword());
-
-		administratorForm.setHolder(administrator.getCreditCard().getHolder());
-		administratorForm.setBrand(administrator.getCreditCard().getBrand());
-		administratorForm.setNumber(administrator.getCreditCard().getNumber());
-		administratorForm.setExpirationMonth(administrator.getCreditCard().getExpirationMonth());
-		administratorForm.setExpirationYear(administrator.getCreditCard().getExpirationYear());
-		administratorForm.setCVV(String.valueOf(administrator.getCreditCard().getCVV()));
 
 		return administratorForm;
 	}

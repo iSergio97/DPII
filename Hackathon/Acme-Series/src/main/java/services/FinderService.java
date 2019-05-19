@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,25 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
-import domain.Finder;
-import domain.Position;
-import forms.FinderForm;
 import repositories.FinderRepository;
+import domain.Finder;
+import domain.Serie;
+import forms.FinderForm;
 
 @Service
 @Transactional
 public class FinderService extends AbstractService<FinderRepository, Finder> {
 
-	@Autowired
-	private FinderRepository	finderRepository;
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
 
 	@Autowired
-	private RookieService		rookieService;
-
-	@Autowired
-	private Validator			validator;
+	private UserService	userService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -39,16 +34,14 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		super();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
+	// CRUD methods
+
 	@Override
 	public Finder create() {
-		final Finder finder = new Finder();
-		finder.setKeyword("");
-		finder.setDeadline(new Date());
-		finder.setMinimumSalary(0.0);
-		finder.setMaximumDeadline(new Date());
-		finder.setMoment(new Date());
-		finder.setRookie(this.rookieService.findPrincipal());
-		finder.setPositions(new ArrayList<Position>());
+		final Finder finder = super.create();
+
+		finder.setUser(this.userService.findPrincipal());
 
 		return finder;
 	}
@@ -57,57 +50,55 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	// Form methods
 
 	public FinderForm createForm() {
-		final FinderForm form = new FinderForm();
-
-		form.setKeyword("");
-		form.setDeadline(new Date());
-		form.setMinimumSalary(0.0);
-		form.setMaximumDeadline(new Date());
-
-		return form;
+		return this.instanceClass(FinderForm.class);
 	}
 
-	public Finder reconstruct(final FinderForm form, final BindingResult binding) {
+	public Finder reconstruct(final FinderForm finderForm, final BindingResult binding) {
 		Finder result;
 
-		if (form.getId() == 0)
+		if (finderForm.getId() == 0)
 			result = this.create();
 		else
-			result = this.finderRepository.findOne(form.getId());
+			result = this.repository.findOne(finderForm.getId());
 
-		result.setKeyword(form.getKeyword());
-		result.setDeadline(form.getDeadline());
-		result.setMinimumSalary(form.getMinimumSalary());
-		result.setMaximumDeadline(form.getMaximumDeadline());
+		result.setKeyword(finderForm.getKeyword());
+		result.setMinDate(finderForm.getMinDate());
+		result.setMaxDate(finderForm.getMaxDate());
+		result.setGenre(finderForm.getGenre());
 
 		this.validator.validate(result, binding);
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			throw new ValidationException();
-		}
 
 		return result;
 	}
 
-	//Ancillary Methods--------------------------------------------
+	public FinderForm deconstruct(final Finder finder) {
+		final FinderForm finderForm = this.createForm();
 
-	public Collection<Position> findPositions(final String kw1, final String kw2, final String kw3, final String kw4, final String kw5, final String kw6, final Date deadline, final Date maximumDeadline, final double minimumSalary) {
-		return this.finderRepository.findPositions(kw1, kw2, kw3, kw4, kw5, kw6, deadline, maximumDeadline, minimumSalary);
+		finderForm.setId(finder.getId());
+		finderForm.setKeyword(finder.getKeyword());
+		finderForm.setMinDate(finder.getMinDate());
+		finderForm.setMaxDate(finder.getMaxDate());
+		finderForm.setGenre(finder.getGenre());
+
+		return finderForm;
 	}
 
-	public Finder findPrincipal(final int rookieId) {
-		Finder f = null;
-		f = this.finderRepository.findPrincipal(rookieId);
-		return f;
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public Collection<Serie> findPositions(final String keyword, final Date minDate, final Date maxDate, final int genreId) {
+		return this.repository.findPositions(keyword, minDate, maxDate, genreId);
 	}
 
-	public FinderForm deconstruct(Finder finder) {
-		FinderForm f = this.createForm();
-		f.setKeyword(finder.getKeyword());
-		f.setId(finder.getId());
-		f.setDeadline(finder.getDeadline());
-		f.setMinimumSalary(finder.getMinimumSalary());
-		return f;
+	public Finder findByUser(final int userId) {
+		return this.repository.findByUser(userId);
+	}
+
+	public Finder findByPrincipal() {
+		return this.findByUser(this.userService.findPrincipal().getId());
 	}
 
 }

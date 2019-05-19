@@ -24,18 +24,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Actor;
-import domain.Company;
-import domain.SystemConfiguration;
-import forms.SystemConfigurationForm;
 import services.ActorService;
 import services.ApplicationService;
-import services.AuditService;
-import services.ItemService;
 import services.MessageService;
 import services.PositionService;
-import services.SponsorshipService;
 import services.SystemConfigurationService;
+import domain.Actor;
+import domain.Publisher;
+import domain.SystemConfiguration;
+import forms.SystemConfigurationForm;
 
 @Controller
 @RequestMapping("/administrator")
@@ -44,21 +41,15 @@ public class AdministratorController extends AbstractController {
 	// Services --------------------------------------------------------------------
 
 	@Autowired
+	private ActorService				actorService;
+	@Autowired
 	private ApplicationService			applicationService;
 	@Autowired
-	private AuditService				auditService;
-	@Autowired
-	private ItemService					itemService;
-	@Autowired
-	private SponsorshipService			sponsorshipService;
+	private MessageService				messageService;
 	@Autowired
 	private PositionService				positionService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
-	@Autowired
-	private ActorService				actorService;
-	@Autowired
-	private MessageService				messageService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -112,10 +103,9 @@ public class AdministratorController extends AbstractController {
 		result.addObject("maxC", this.positionService.max());
 		result.addObject("avgC", this.positionService.media());
 		result.addObject("stdDevC", this.positionService.stdDev());
-		List<Company> top3 = this.positionService.companyMax();
-		if (top3.size() > 3) {
+		final List<Publisher> top3 = this.positionService.companyMax();
+		if (top3.size() > 3)
 			top3.subList(0, 3);
-		}
 		result.addObject("top3C", top3);
 
 		result.addObject("minA", this.applicationService.min());
@@ -143,11 +133,11 @@ public class AdministratorController extends AbstractController {
 		result.addObject("avgCompanyAuditScore", this.auditService.getAverageScorePosition());
 		result.addObject("stdDevCompanyAuditScore", this.auditService.getStandardDeviationScorePosition());
 
-		final Map<Company, Double> companiesWithTheHighestAuditScoreAndTheirAverageSalary = this.auditService.getCompaniesWithTheHighestAuditScoreAndTheirAverageSalary(3);
+		final Map<Publisher, Double> companiesWithTheHighestAuditScoreAndTheirAverageSalary = this.auditService.getCompaniesWithTheHighestAuditScoreAndTheirAverageSalary(3);
 		result.addObject("companiesWithTheHighestAuditScoreAndTheirAverageSalary", companiesWithTheHighestAuditScoreAndTheirAverageSalary);
 		result.addObject("companiesWithTheHighestAuditScore", companiesWithTheHighestAuditScoreAndTheirAverageSalary.keySet());
 
-		final Map<Company, Double> companiesAndTheirScore = this.auditService.getScoresByCompany();
+		final Map<Publisher, Double> companiesAndTheirScore = this.auditService.getScoresByCompany();
 		result.addObject("companiesAndTheirScore", companiesAndTheirScore);
 		result.addObject("companies", companiesAndTheirScore.keySet());
 
@@ -157,17 +147,15 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/actor/list", method = RequestMethod.GET)
 	public ModelAndView actorList() {
 		ModelAndView result;
-		List<Actor> listActors = this.actorService.findAll();
+		final List<Actor> listActors = this.actorService.findAll();
 		double media;
-		for (Actor a : listActors) {
-			if (this.messageService.countMails(a.getId()) != 0) {
+		for (final Actor a : listActors) {
+			if (this.messageService.countMails(a.getId()) != 0)
 				media = this.messageService.countSpam(a.getId()) / this.messageService.countMails(a.getId());
-			} else {
+			else
 				media = 0.;
-			}
-			if (media > 0.2) {
+			if (media > 0.2)
 				a.setIsFlagged(true);
-			}
 		}
 		result = new ModelAndView("administrator/actor/list");
 		result.addObject("listActors", listActors);
@@ -177,16 +165,16 @@ public class AdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/actor/ban", method = RequestMethod.GET)
-	public ModelAndView ban(@RequestParam int actorId) {
-		Actor a = this.actorService.findOne(actorId);
+	public ModelAndView ban(@RequestParam final int actorId) {
+		final Actor a = this.actorService.findOne(actorId);
 		a.setIsBanned(true);
 
 		return this.actorList();
 	}
 
 	@RequestMapping(value = "/actor/unban", method = RequestMethod.GET)
-	public ModelAndView unban(@RequestParam int actorId) {
-		Actor a = this.actorService.findOne(actorId);
+	public ModelAndView unban(@RequestParam final int actorId) {
+		final Actor a = this.actorService.findOne(actorId);
 		a.setIsBanned(false);
 
 		return this.actorList();

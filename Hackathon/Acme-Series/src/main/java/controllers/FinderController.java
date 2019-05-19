@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Finder;
-import domain.Position;
+import domain.Serie;
 import domain.Rookie;
 import forms.FinderForm;
 import services.FinderService;
@@ -55,7 +55,7 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		Rookie rookie;
 		Finder finder;
-		Collection<Position> positions = new ArrayList<Position>();
+		Collection<Serie> positions = new ArrayList<Serie>();
 
 		rookie = this.rookieService.findPrincipal();
 		finder = this.finderService.findPrincipal(rookie.getId());
@@ -101,7 +101,7 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		Finder finder2;
 		Date date = new Date();
-		Collection<Position> positions;
+		Collection<Serie> positions;
 		try {
 			finder2 = this.finderService.reconstruct(finder, binding);
 			//finder2.setMoment(finder2.getMoment().getSeconds() + scs);
@@ -113,7 +113,7 @@ public class FinderController extends AbstractController {
 				if (positions.isEmpty())
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
-				List<Position> subList = new ArrayList<>(positions);
+				List<Serie> subList = new ArrayList<>(positions);
 				if (positions.size() > scs.getSystemConfiguration().getMaximumFinderResults()) {
 					finder2.setPositions(subList.subList(0, scs.getSystemConfiguration().getMaximumFinderResults()));
 				} else {

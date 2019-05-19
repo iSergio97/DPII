@@ -30,10 +30,10 @@
 				<value>ha sido seleccionado</value>
 			</list>
 		</property>
-		<property name="welcomeMessages">
+		<property name="welcomeMessage">
 			<map>
-				<entry key="en" value="Welcome to Acme Rookies! We’re IT rookie’s favourite job marketplace!" />
-				<entry key="es" value="¡Bienvenidos a Acme Rookies! ¡Somos el mercado de trabajo favorito de los profesionales de las TICs!" />
+				<entry key="en" value="Welcome to Acme Series!" />
+				<entry key="es" value="¡Bienvenidos a Acme Series!" />
 			</map>
 		</property>
 	</bean>

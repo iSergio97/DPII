@@ -13,8 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AuditService;
 import services.CompanyService;
 import services.PositionService;
-import domain.Company;
-import domain.Position;
+import domain.Publisher;
+import domain.Serie;
 
 @Controller
 @RequestMapping("/company")
@@ -41,7 +41,7 @@ public class CompanyController {
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
-		final Collection<Company> companies = this.companyService.findAll();
+		final Collection<Publisher> companies = this.companyService.findAll();
 
 		res = new ModelAndView("company/all/list");
 		res.addObject("companies", companies);
@@ -56,8 +56,8 @@ public class CompanyController {
 	@RequestMapping(value = "/all/show", method = RequestMethod.GET)
 	public ModelAndView publicShow(@RequestParam final int companyId) {
 		ModelAndView res;
-		final Company company = this.companyService.findOne(companyId);
-		final Collection<Position> positions = this.positionService.findPositionsForPublic(company);
+		final Publisher company = this.companyService.findOne(companyId);
+		final Collection<Serie> positions = this.positionService.findPositionsForPublic(company);
 
 		res = new ModelAndView("company/all/show");
 		res.addObject("positions", positions);

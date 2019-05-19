@@ -82,12 +82,12 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="spamWords" />
 	</div>
 
-	<div id="welcomeMessages" class="welcomeMessages">
-		<form:label path="welcomeMessages">
-			<spring:message code="welcomeMessages" />
+	<div id="welcomeMessage" class="welcomeMessage">
+		<form:label path="welcomeMessage">
+			<spring:message code="welcomeMessage" />
 		</form:label>
-		<form:input path="welcomeMessages" />
-		<form:errors path="welcomeMessages" />
+		<form:input path="welcomeMessage" />
+		<form:errors path="welcomeMessage" />
 	</div>
 	
 	<div id="vat" class="vat">

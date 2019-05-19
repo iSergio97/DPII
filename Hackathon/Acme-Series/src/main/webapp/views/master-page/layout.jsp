@@ -68,9 +68,9 @@
 		<jstl:if test="${systemConfiguration != null}" >
 			<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
 			<br />
-			<jstl:out value="${systemConfiguration.welcomeMessages[localeCode]}" />
+			<jstl:out value="${systemConfiguration.welcomeMessage[localeCode]}" />
 			<br />
-			<jstl:out value="${systemConfiguration.warningMessages[localeCode]}" />
+			<jstl:out value="${systemConfiguration.warningMessage[localeCode]}" />
 		</jstl:if>
 	</div>
 	<div>

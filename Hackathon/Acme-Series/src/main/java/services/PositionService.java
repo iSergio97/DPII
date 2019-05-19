@@ -15,16 +15,16 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Company;
-import domain.Position;
+import domain.Publisher;
+import domain.Serie;
 import domain.Problem;
-import forms.PositionForm;
+import forms.SerieForm;
 import repositories.PositionRepository;
 import security.LoginService;
 
 @Service
 @Transactional
-public class PositionService extends AbstractService<PositionRepository, Position> {
+public class PositionService extends AbstractService<PositionRepository, Serie> {
 
 	@Autowired
 	private Validator			validator;
@@ -42,9 +42,9 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 	}
 
 	@Override
-	public Position create() {
-		Position position;
-		position = new Position();
+	public Serie create() {
+		Serie position;
+		position = new Serie();
 
 		position.setTitle("");
 		position.setDescription("");
@@ -61,9 +61,9 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return position;
 	}
 
-	public PositionForm createForm() {
-		PositionForm posForm;
-		posForm = new PositionForm();
+	public SerieForm createForm() {
+		SerieForm posForm;
+		posForm = new SerieForm();
 
 		posForm.setDescription("");
 		posForm.setTitle("");
@@ -81,9 +81,9 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 	// CRUD methods
 
 	@Override
-	public Position save(final Position position) {
+	public Serie save(final Serie position) {
 		Assert.notNull(position);
-		Position res = this.findOne(position.getId());
+		Serie res = this.findOne(position.getId());
 
 		while (res == null || res.getId() == 0)
 			try {
@@ -97,8 +97,8 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
-	public Position reconstruct(final PositionForm position, final BindingResult bindingResult) {
-		final Position res;
+	public Serie reconstruct(final SerieForm position, final BindingResult bindingResult) {
+		final Serie res;
 
 		if (position.getId() == 0)
 			res = this.create();
@@ -126,9 +126,9 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return res;
 	}
 
-	private void generateTicker(final Position position) {
+	private void generateTicker(final Serie position) {
 		String ticker = "";
-		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Publisher company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 		ticker += company.getCommercialName().substring(0, 4);
 		ticker += "-";
 		do
@@ -138,20 +138,20 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		position.setTicker(ticker);
 	}
 
-	public List<Problem> findProblemsByCompany(final Company company) {
+	public List<Problem> findProblemsByCompany(final Publisher company) {
 		return this.repository.findProblemsBycompany(company.getId());
 	}
 
-	public List<Position> findPositionsByCompany(final Company company) {
+	public List<Serie> findPositionsByCompany(final Publisher company) {
 		return this.repository.findPositionsByCompany(company.getId());
 	}
 
-	public Collection<Position> findPositionsForPublic(final Company company) {
+	public Collection<Serie> findPositionsForPublic(final Publisher company) {
 		return this.repository.findPositionForPublicAndCompany(company.getId());
 	}
 
-	public PositionForm deconstruct(final Position pos) {
-		final PositionForm pf = this.createForm();
+	public SerieForm deconstruct(final Serie pos) {
+		final SerieForm pf = this.createForm();
 		pf.setTitle(pos.getTitle());
 		pf.setId(pos.getId());
 		pf.setTechnologies(pos.getTitle());
@@ -183,11 +183,11 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return this.repository.stdDev();
 	}
 
-	public List<Company> companyMax() {
+	public List<Publisher> companyMax() {
 		return this.repository.companyMax();
 	}
 
-	public Collection<Position> searchQuery(String text) {
+	public Collection<Serie> searchQuery(String text) {
 		String query = "%" + text + "%";
 		return this.repository.searchQuery(query);
 	}
