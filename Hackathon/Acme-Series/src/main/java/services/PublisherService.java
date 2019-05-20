@@ -110,4 +110,8 @@ public class PublisherService extends AbstractService<PublisherRepository, Publi
 		return this.findByUserAccountId(userAccount.getId());
 	}
 
+	public Double[] getSeriesPerPublisherStatistics() {
+		return this.repository.getSeriesPerPublisherStatistics();
+	}
+
 }

@@ -6,11 +6,15 @@
 
 package repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Season;
 
 @Repository
 public interface SeasonRepository extends AbstractRepository<Season> {
+
+	@Query("select min(s.chapters.size) * 1.0, max(s.chapters.size) * 1.0, avg(s.chapters.size), stddev(s.chapters.size) from Season s")
+	Double[] getChaptersPerSeasonStatistics();
 
 }

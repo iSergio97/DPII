@@ -48,4 +48,11 @@ public class CommentService extends AbstractService<CommentRepository, Comment> 
 		return comment;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public Double[] getCommentsPerSerieStatistics() {
+		return this.repository.getCommentsPerSerieStatistics();
+	}
+
 }

@@ -29,13 +29,6 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 
 	////////////////////////////////////////////////////////////////////////////////
-	// Constructors
-
-	public SerieService() {
-		super();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
 
 	@Override
@@ -92,6 +85,13 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		serieForm.setGenre(serie.getGenre());
 
 		return serieForm;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
+	public Double[] getSeasonsPerSerieStatistics() {
+		return this.repository.getSeasonsPerSerieStatistics();
 	}
 
 }

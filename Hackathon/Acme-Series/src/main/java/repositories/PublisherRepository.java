@@ -17,4 +17,7 @@ public interface PublisherRepository extends AbstractRepository<Publisher> {
 	@Query("select p from Publisher p where p.userAccount.id = ?1")
 	Publisher findByUserAccountId(int id);
 
+	@Query("select min(1.0 * (select count(s.publisher) from Serie s where s.publisher.id = p.id)), max(1.0 * (select count(s.publisher) from Serie s where s.publisher.id = p.id)), avg(1.0 * (select count(s.publisher) from Serie s where s.publisher.id = p.id)), stddev(1.0 * (select count(s.publisher) from Serie s where s.publisher.id = p.id)) from Publisher p")
+	Double[] getSeriesPerPublisherStatistics();
+
 }

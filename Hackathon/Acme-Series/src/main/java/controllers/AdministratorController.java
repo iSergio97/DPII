@@ -11,7 +11,6 @@
 package controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -25,12 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
-import services.ApplicationService;
+import services.CommentService;
 import services.MessageService;
-import services.PositionService;
+import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
 import services.SystemConfigurationService;
 import domain.Actor;
-import domain.Publisher;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
 
@@ -43,11 +43,15 @@ public class AdministratorController extends AbstractController {
 	@Autowired
 	private ActorService				actorService;
 	@Autowired
-	private ApplicationService			applicationService;
+	private CommentService				commentService;
 	@Autowired
 	private MessageService				messageService;
 	@Autowired
-	private PositionService				positionService;
+	private PublisherService			publisherService;
+	@Autowired
+	private SeasonService				seasonService;
+	@Autowired
+	private SerieService				serieService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
 
@@ -99,47 +103,23 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView dashboard() {
 		final ModelAndView result = new ModelAndView("administrator/dashboard");
 
-		result.addObject("minC", this.positionService.min());
-		result.addObject("maxC", this.positionService.max());
-		result.addObject("avgC", this.positionService.media());
-		result.addObject("stdDevC", this.positionService.stdDev());
-		final List<Publisher> top3 = this.positionService.companyMax();
-		if (top3.size() > 3)
-			top3.subList(0, 3);
-		result.addObject("top3C", top3);
+		// Mínimo, máximo, media y desviación típica del número de series por publicador.
+		result.addObject("seriesPerPublisherStatistics", this.publisherService.getSeriesPerPublisherStatistics());
 
-		result.addObject("minA", this.applicationService.min());
-		result.addObject("maxA", this.applicationService.max());
-		result.addObject("avgA", this.applicationService.media());
-		result.addObject("stdDevA", this.applicationService.stdDev());
+		// Mínimo, máximo, media y desviación típica del número de temporadas por serie.
+		result.addObject("seasonsPerSerieStatistics", this.serieService.getSeasonsPerSerieStatistics());
 
-		result.addObject("minI", this.itemService.min());
-		result.addObject("maxI", this.itemService.max());
-		result.addObject("avgI", this.itemService.media());
-		result.addObject("stdDevI", this.itemService.stdDev());
+		// Mínimo, máximo, media y desviación típica del número de capítulos por temporada.
+		result.addObject("chaptersPerSeasonStatistics", this.seasonService.getChaptersPerSeasonStatistics());
 
-		result.addObject("minSPro", this.sponsorshipService.minPro());
-		result.addObject("maxSPro", this.sponsorshipService.maxPro());
-		result.addObject("avgSPro", this.sponsorshipService.mediaPro());
-		result.addObject("stdDevSPro", this.sponsorshipService.stdDevPro());
+		// Mínimo, máximo, media y desviación típica del número de comentarios por serie.
+		result.addObject("commentsPerSerieStatistics", this.commentService.getCommentsPerSerieStatistics());
 
-		result.addObject("minPositionAuditScore", this.auditService.getMinimumScorePosition());
-		result.addObject("maxPositionAuditScore", this.auditService.getMaximumScorePosition());
-		result.addObject("avgPositionAuditScore", this.auditService.getAverageScorePosition());
-		result.addObject("stdDevPositionAuditScore", this.auditService.getStandardDeviationScorePosition());
+		// Top 5 series más comentadas.
 
-		result.addObject("minCompanyAuditScore", this.auditService.getMinimumScorePosition());
-		result.addObject("maxCompanyAuditScore", this.auditService.getMaximumScorePosition());
-		result.addObject("avgCompanyAuditScore", this.auditService.getAverageScorePosition());
-		result.addObject("stdDevCompanyAuditScore", this.auditService.getStandardDeviationScorePosition());
+		// Top 5 series mejor valoradas.
 
-		final Map<Publisher, Double> companiesWithTheHighestAuditScoreAndTheirAverageSalary = this.auditService.getCompaniesWithTheHighestAuditScoreAndTheirAverageSalary(3);
-		result.addObject("companiesWithTheHighestAuditScoreAndTheirAverageSalary", companiesWithTheHighestAuditScoreAndTheirAverageSalary);
-		result.addObject("companiesWithTheHighestAuditScore", companiesWithTheHighestAuditScoreAndTheirAverageSalary.keySet());
-
-		final Map<Publisher, Double> companiesAndTheirScore = this.auditService.getScoresByCompany();
-		result.addObject("companiesAndTheirScore", companiesAndTheirScore);
-		result.addObject("companies", companiesAndTheirScore.keySet());
+		// Mínimo, máximo, media y desviación típica de las valoraciones de los críticos por serie.
 
 		return result;
 	}
