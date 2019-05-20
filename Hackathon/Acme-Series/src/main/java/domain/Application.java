@@ -28,15 +28,16 @@ public class Application extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private Date		moment;
-	private String		description;
-	private String		status;
+	private Date			moment;
+	private String			description;
+	private String			status;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Publisher	publisher;
-	private Serie		serie;
+	private Administrator	administrator;
+	private Publisher		publisher;
+	private Serie			serie;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,17 @@ public class Application extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@ManyToOne
+	@ManyToOne(optional = true)
+	@Valid
+	public Administrator getAdministrator() {
+		return this.administrator;
+	}
+
+	public void setAdministrator(final Administrator administrator) {
+		this.administrator = administrator;
+	}
+
+	@ManyToOne(optional = false)
 	@Valid
 	public Publisher getPublisher() {
 		return this.publisher;
@@ -85,8 +96,8 @@ public class Application extends DomainEntity {
 		this.publisher = publisher;
 	}
 
-	@Valid
 	@ManyToOne(optional = false)
+	@Valid
 	public Serie getSerie() {
 		return this.serie;
 	}
