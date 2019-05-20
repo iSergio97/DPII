@@ -28,8 +28,6 @@ public class SystemConfigurationForm {
 	private int		maximumFinderResults;
 	private String	spamWords;
 	private String	welcomeMessage;
-	private double	vat;
-	private double	flatRate;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -111,24 +109,6 @@ public class SystemConfigurationForm {
 
 	public void setWelcomeMessage(final String welcomeMessage) {
 		this.welcomeMessage = welcomeMessage;
-	}
-
-	@Min(value = 0)
-	public double getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final double vat) {
-		this.vat = vat;
-	}
-
-	@Min(value = 0)
-	public double getFlatRate() {
-		return this.flatRate;
-	}
-
-	public void setFlatRate(final double flatRate) {
-		this.flatRate = flatRate;
 	}
 
 }

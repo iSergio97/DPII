@@ -72,8 +72,6 @@ public class SystemConfigurationService {
 		systemConfigurationForm.setMaximumFinderResults(systemConfiguration.getMaximumFinderResults());
 		systemConfigurationForm.setSpamWords(ConversionUtils.listToString(systemConfiguration.getSpamWords(), ","));
 		systemConfigurationForm.setWelcomeMessage(ConversionUtils.mapToString(systemConfiguration.getWelcomeMessage(), ":", ";"));
-		systemConfigurationForm.setVat(systemConfiguration.getVat());
-		systemConfigurationForm.setFlatRate(systemConfiguration.getFlatRate());
 		return systemConfigurationForm;
 	}
 
@@ -86,8 +84,6 @@ public class SystemConfigurationService {
 		systemConfiguration.setMaximumFinderResults(systemConfigurationForm.getMaximumFinderResults());
 		systemConfiguration.setSpamWords(ConversionUtils.stringToList(systemConfigurationForm.getSpamWords(), ","));
 		systemConfiguration.setWelcomeMessage(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessage(), ":", ";"));
-		systemConfiguration.setVat(systemConfigurationForm.getVat());
-		systemConfiguration.setFlatRate(systemConfigurationForm.getFlatRate());
 		this.validator.validate(systemConfiguration, bindingResult);
 		this.systemConfigurationRepository.flush();
 		return systemConfiguration;
