@@ -7,16 +7,19 @@
 package domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,14 +30,14 @@ public class Season extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private int		number;
-	private Date	startDate;
-	private Date	endDate;
+	private int				number;
+	private Date			startDate;
+	private Date			endDate;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Serie	serie;
+	private List<Chapter>	chapters;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -73,15 +76,16 @@ public class Season extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@ManyToOne
+	@OneToMany
 	@Valid
 	@NotNull
-	public Serie getSerie() {
-		return this.serie;
+	@Cascade(CascadeType.ALL)
+	public List<Chapter> getChapters() {
+		return this.chapters;
 	}
 
-	public void setSerie(final Serie serie) {
-		this.serie = serie;
+	public void setChapters(final List<Chapter> chapters) {
+		this.chapters = chapters;
 	}
 
 }

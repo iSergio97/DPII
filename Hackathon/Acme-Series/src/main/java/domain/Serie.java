@@ -7,17 +7,21 @@
 package domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
@@ -30,19 +34,20 @@ public class Serie extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String		title;
-	private String		description;
-	private String		banner;
-	private Date		startDate;
-	private Date		endDate;
-	private double		score;
-	private String		status;
+	private String			title;
+	private String			description;
+	private String			banner;
+	private Date			startDate;
+	private Date			endDate;
+	private double			score;
+	private String			status;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Publisher	publisher;
-	private Genre		genre;
+	private Publisher		publisher;
+	private Genre			genre;
+	private List<Season>	seasons;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +142,18 @@ public class Serie extends DomainEntity {
 
 	public void setGenre(final Genre genre) {
 		this.genre = genre;
+	}
+
+	@OneToMany
+	@Valid
+	@NotNull
+	@Cascade(CascadeType.ALL)
+	public List<Season> getSeasons() {
+		return this.seasons;
+	}
+
+	public void setSeasons(final List<Season> seasons) {
+		this.seasons = seasons;
 	}
 
 }

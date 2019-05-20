@@ -9,9 +9,6 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
@@ -28,11 +25,9 @@ public class Chapter extends DomainEntity {
 	private String	description;
 	private int		duration;
 
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
-
-	private Season	season;
-
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
@@ -75,16 +70,5 @@ public class Chapter extends DomainEntity {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
-
-	@ManyToOne
-	@Valid
-	@NotNull
-	public Season getSeason() {
-		return this.season;
-	}
-
-	public void setSeason(final Season season) {
-		this.season = season;
-	}
 
 }
