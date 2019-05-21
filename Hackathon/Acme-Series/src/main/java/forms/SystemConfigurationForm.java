@@ -89,6 +89,26 @@ public class SystemConfigurationForm {
 		this.maximumFinderResults = maximumFinderResults;
 	}
 
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
+	public String getPositiveWords() {
+		return this.positiveWords;
+	}
+
+	public void setPositiveWords(final String positiveWords) {
+		this.positiveWords = positiveWords;
+	}
+
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
+	public String getNegativeWords() {
+		return this.negativeWords;
+	}
+
+	public void setNegativeWords(final String negativeWords) {
+		this.negativeWords = negativeWords;
+	}
+
 	@NotNull
 	// Matches a list of strings with "," as an element separator, or an empty string
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")

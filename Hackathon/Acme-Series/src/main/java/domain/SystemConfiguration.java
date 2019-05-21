@@ -33,6 +33,8 @@ public class SystemConfiguration extends DomainEntity {
 	private String				defaultCountryCode;
 	private int					finderCacheTime;
 	private int					maximumFinderResults;
+	private List<String>		positiveWords;
+	private List<String>		negativeWords;
 	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessage;
 
@@ -84,6 +86,26 @@ public class SystemConfiguration extends DomainEntity {
 
 	public void setMaximumFinderResults(final int maximumFinderResults) {
 		this.maximumFinderResults = maximumFinderResults;
+	}
+
+	@NotNull
+	@ElementCollection
+	public List<String> getPositiveWords() {
+		return this.positiveWords;
+	}
+
+	public void setPositiveWords(final List<String> positiveWords) {
+		this.positiveWords = positiveWords;
+	}
+
+	@NotNull
+	@ElementCollection
+	public List<String> getNegativeWords() {
+		return this.negativeWords;
+	}
+
+	public void setNegativeWords(final List<String> negativeWords) {
+		this.negativeWords = negativeWords;
 	}
 
 	@NotNull

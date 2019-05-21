@@ -74,6 +74,22 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="maximumFinderResults" />
 	</div>
 
+	<div id="positiveWords" class="positiveWords">
+		<form:label path="positiveWords">
+			<spring:message code="systemConfiguration.positiveWords" />
+		</form:label>
+		<form:input path="positiveWords" />
+		<form:errors path="positiveWords" />
+	</div>
+
+	<div id="negativeWords" class="negativeWords">
+		<form:label path="negativeWords">
+			<spring:message code="systemConfiguration.negativeWords" />
+		</form:label>
+		<form:input path="negativeWords" />
+		<form:errors path="negativeWords" />
+	</div>
+
 	<div id="spamWords" class="spamWords">
 		<form:label path="spamWords">
 			<spring:message code="spamWords" />
