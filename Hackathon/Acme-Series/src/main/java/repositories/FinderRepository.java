@@ -18,8 +18,8 @@ import domain.Serie;
 @Repository
 public interface FinderRepository extends AbstractRepository<Finder> {
 
-	@Query("select s from Serie s where s.title like ?1 or s.description like ?1 or (s.startDate >= ?2 AND s.endDate <= ?3) or s.genre.id = ?4")
-	Collection<Serie> findPositions(String keyword, Date minDate, Date maxDate, int genreId);
+	@Query("select s from Serie s where s.title like ?1 or s.description like ?1 or (s.startDate >= ?2 and s.endDate <= ?3)")
+	Collection<Serie> findSeries(String keyword, Date minDate, Date maxDate);
 
 	@Query("select f from Finder f where f.user.id = ?1")
 	Finder findByUser(int userId);

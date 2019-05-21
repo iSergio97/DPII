@@ -6,7 +6,6 @@
 
 package forms;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
 public class ApplicationForm {
@@ -30,7 +29,6 @@ public class ApplicationForm {
 		this.id = id;
 	}
 
-	@NotBlank
 	public String getDescription() {
 		return this.description;
 	}

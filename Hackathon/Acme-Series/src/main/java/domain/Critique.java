@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -52,6 +53,7 @@ public class Critique extends DomainEntity {
 		this.moment = moment;
 	}
 
+	@NotBlank
 	public String getText() {
 		return this.text;
 	}

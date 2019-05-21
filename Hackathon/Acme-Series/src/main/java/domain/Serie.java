@@ -23,7 +23,6 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,14 +38,15 @@ public class Serie extends DomainEntity {
 	private String			banner;
 	private Date			startDate;
 	private Date			endDate;
-	private double			score;
 	private String			status;
+	private String			director;
+	private String			cast;
+	private boolean			draft;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
 	private Publisher		publisher;
-	private Genre			genre;
 	private List<Season>	seasons;
 
 
@@ -101,15 +101,6 @@ public class Serie extends DomainEntity {
 		this.endDate = endDate;
 	}
 
-	@Range(min = 0, max = 10)
-	public double getScore() {
-		return this.score;
-	}
-
-	public void setScore(final double score) {
-		this.score = score;
-	}
-
 	@Pattern(regexp = "^ON EMISSION|FINALIZED")
 	public String getStatus() {
 		return this.status;
@@ -117,6 +108,30 @@ public class Serie extends DomainEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	public String getDirector() {
+		return this.director;
+	}
+
+	public void setDirector(final String director) {
+		this.director = director;
+	}
+
+	public String getCast() {
+		return this.cast;
+	}
+
+	public void setCast(final String cast) {
+		this.cast = cast;
+	}
+
+	public boolean getDraft() {
+		return this.draft;
+	}
+
+	public void setDraft(final boolean draft) {
+		this.draft = draft;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -131,17 +146,6 @@ public class Serie extends DomainEntity {
 
 	public void setPublisher(final Publisher publisher) {
 		this.publisher = publisher;
-	}
-
-	@ManyToOne
-	@Valid
-	@NotNull
-	public Genre getGenre() {
-		return this.genre;
-	}
-
-	public void setGenre(final Genre genre) {
-		this.genre = genre;
 	}
 
 	@OneToMany

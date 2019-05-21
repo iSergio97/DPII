@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -13,8 +12,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import domain.Genre;
 
 public class SerieForm {
 
@@ -28,11 +25,6 @@ public class SerieForm {
 	private Date	startDate;
 	private Date	endDate;
 	private String	status;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationships
-
-	private Genre	genre;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -102,19 +94,6 @@ public class SerieForm {
 
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
-
-	@Valid
-	@NotNull
-	public Genre getGenre() {
-		return this.genre;
-	}
-
-	public void setGenre(final Genre genre) {
-		this.genre = genre;
 	}
 
 }
