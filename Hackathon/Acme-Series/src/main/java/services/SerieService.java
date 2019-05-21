@@ -6,6 +6,8 @@
 
 package services;
 
+import java.util.List;
+
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +92,18 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 	public Double[] getSeasonsPerSerieStatistics() {
 		return this.repository.getSeasonsPerSerieStatistics();
+	}
+
+	public Double[] getSerieCritiqueScoreStatistics(final Serie serie) {
+		return this.repository.getSerieCritiqueScoreStatistics(serie.getId());
+	}
+
+	public List<Object[]> getTop5SeriesWithMostComments() {
+		return this.repository.getSeriesSortedByNumberOfCommentsDescending().subList(0, 5);
+	}
+
+	public List<Object[]> getTop5SeriesWithBestAverageCritiqueScore() {
+		return this.repository.getSeriesSortedByCritiqueScoreDescending().subList(0, 5);
 	}
 
 }
