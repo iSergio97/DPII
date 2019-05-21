@@ -70,7 +70,6 @@
 			<br />
 			<jstl:out value="${systemConfiguration.welcomeMessage[localeCode]}" />
 			<br />
-			<jstl:out value="${systemConfiguration.warningMessage[localeCode]}" />
 		</jstl:if>
 	</div>
 	<div>
