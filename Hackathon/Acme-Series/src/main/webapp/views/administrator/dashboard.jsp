@@ -97,3 +97,44 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	<br>
 	<jstl:out value="${commentsPerSerieStatistics[3]}" />
 </p>
+<p>
+	<spring:message code="top5SeriesWithMostComments" />
+	<br>
+	<jstl:forEach items="${top5SeriesWithMostComments}" var="row">
+		<jstl:out value="${row[0].title}" /> (<jstl:out value="${row[1]}" />)
+	</jstl:forEach>
+</p>
+<p>
+	<spring:message code="top5SeriesWithBestAverageCritiqueScore" />
+	<br>
+	<jstl:forEach items="${top5SeriesWithBestAverageCritiqueScore}" var="row">
+		<jstl:out value="${row[0].title}" /> (<jstl:out value="${row[1]}" />)
+	</jstl:forEach>
+</p>
+<p>
+	<spring:message code="serieCritiqueScoreStatistics" />
+	<br>
+	<display:table name="allSeries" id="serie">
+	
+		<display:column property="title">
+			<jstl:out value="${serie.title}" />
+		</display:column>
+		
+		<display:column property="minimumScore">
+			<jstl:out value="${serieCritiqueScoreStatistics[serie][0]}" />
+		</display:column>
+		
+		<display:column property="maximumScore">
+			<jstl:out value="${serieCritiqueScoreStatistics[serie][1]}" />
+		</display:column>
+		
+		<display:column property="averageScore">
+			<jstl:out value="${serieCritiqueScoreStatistics[serie][2]}" />
+		</display:column>
+		
+		<display:column property="standardDeviationScore">
+			<jstl:out value="${serieCritiqueScoreStatistics[serie][3]}" />
+		</display:column>
+	
+	</display:table>
+</p>

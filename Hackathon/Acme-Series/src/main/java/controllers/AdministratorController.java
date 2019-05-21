@@ -10,7 +10,9 @@
 
 package controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -31,6 +33,7 @@ import services.SeasonService;
 import services.SerieService;
 import services.SystemConfigurationService;
 import domain.Actor;
+import domain.Serie;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
 
@@ -116,10 +119,18 @@ public class AdministratorController extends AbstractController {
 		result.addObject("commentsPerSerieStatistics", this.commentService.getCommentsPerSerieStatistics());
 
 		// Top 5 series más comentadas.
+		result.addObject("top5SeriesWithMostComments", this.serieService.getTop5SeriesWithMostComments());
 
 		// Top 5 series mejor valoradas.
+		result.addObject("top5SeriesWithBestAverageCritiqueScore", this.serieService.getTop5SeriesWithBestAverageCritiqueScore());
 
 		// Mínimo, máximo, media y desviación típica de las valoraciones de los críticos por serie.
+		final List<Serie> allSeries = this.serieService.findAll();
+		final Map<Serie, Double[]> serieCritiqueScoreStatistics = new HashMap<>();
+		for (final Serie serie : allSeries)
+			serieCritiqueScoreStatistics.put(serie, this.serieService.getSerieCritiqueScoreStatistics(serie));
+		result.addObject("allSeries", allSeries);
+		result.addObject("serieCritiqueScoreStatistics", serieCritiqueScoreStatistics);
 
 		return result;
 	}
