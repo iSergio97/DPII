@@ -54,7 +54,6 @@ public class Application extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@NotBlank
 	public String getDescription() {
 		return this.description;
 	}

@@ -6,12 +6,18 @@
 
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -23,11 +29,9 @@ public class Chapter extends DomainEntity {
 	private int		number;
 	private String	title;
 	private String	description;
+	private Date	releaseDate;
 	private int		duration;
 
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationships
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
@@ -59,6 +63,17 @@ public class Chapter extends DomainEntity {
 		this.description = description;
 	}
 
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	public Date getReleaseDate() {
+		return this.releaseDate;
+	}
+
+	public void setReleaseDate(final Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
 	@Range(min = 0)
 	public int getDuration() {
 		return this.duration;
@@ -67,8 +82,5 @@ public class Chapter extends DomainEntity {
 	public void setDuration(final int duration) {
 		this.duration = duration;
 	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
 
 }

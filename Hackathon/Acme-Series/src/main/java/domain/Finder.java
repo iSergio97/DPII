@@ -13,7 +13,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +37,6 @@ public class Finder extends DomainEntity {
 
 	private User				user;
 	private Collection<Serie>	series;
-	private Genre				genre;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -85,17 +83,6 @@ public class Finder extends DomainEntity {
 
 	public void setUser(final User user) {
 		this.user = user;
-	}
-
-	@ManyToOne
-	@Valid
-	@NotNull
-	public Genre getGenre() {
-		return this.genre;
-	}
-
-	public void setGenre(final Genre genre) {
-		this.genre = genre;
 	}
 
 	@ManyToMany

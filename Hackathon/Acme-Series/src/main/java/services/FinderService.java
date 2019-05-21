@@ -57,7 +57,6 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		result.setKeyword(finderForm.getKeyword());
 		result.setMinDate(finderForm.getMinDate());
 		result.setMaxDate(finderForm.getMaxDate());
-		result.setGenre(finderForm.getGenre());
 
 		this.validator.validate(result, binding);
 
@@ -74,7 +73,6 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		finderForm.setKeyword(finder.getKeyword());
 		finderForm.setMinDate(finder.getMinDate());
 		finderForm.setMaxDate(finder.getMaxDate());
-		finderForm.setGenre(finder.getGenre());
 
 		return finderForm;
 	}
@@ -82,8 +80,8 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	////////////////////////////////////////////////////////////////////////////////
 	// Ancillary methods
 
-	public Collection<Serie> findPositions(final String keyword, final Date minDate, final Date maxDate, final int genreId) {
-		return this.repository.findPositions(keyword, minDate, maxDate, genreId);
+	public Collection<Serie> findSeries(final String keyword, final Date minDate, final Date maxDate) {
+		return this.repository.findSeries(keyword, minDate, maxDate);
 	}
 
 	public Finder findByUser(final int userId) {

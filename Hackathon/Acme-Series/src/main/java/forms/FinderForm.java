@@ -5,13 +5,10 @@ import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import domain.Genre;
 
 public class FinderForm {
 
@@ -22,11 +19,6 @@ public class FinderForm {
 	private String	keyword;
 	private Date	minDate;
 	private Date	maxDate;
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationships
-
-	private Genre	genre;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -66,19 +58,6 @@ public class FinderForm {
 
 	public void setMaxDate(final Date maxDate) {
 		this.maxDate = maxDate;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	// Relationship access methods
-
-	@Valid
-	@NotNull
-	public Genre getGenre() {
-		return this.genre;
-	}
-
-	public void setGenre(final Genre genre) {
-		this.genre = genre;
 	}
 
 }

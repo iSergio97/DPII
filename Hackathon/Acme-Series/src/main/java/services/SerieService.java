@@ -62,7 +62,6 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setStartDate(serieForm.getStartDate());
 		result.setEndDate(serieForm.getEndDate());
 		result.setStatus(serieForm.getStatus());
-		result.setGenre(serieForm.getGenre());
 
 		this.validator.validate(result, binding);
 
@@ -82,7 +81,6 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		serieForm.setStartDate(serie.getStartDate());
 		serieForm.setEndDate(serie.getEndDate());
 		serieForm.setStatus(serie.getStatus());
-		serieForm.setGenre(serie.getGenre());
 
 		return serieForm;
 	}
