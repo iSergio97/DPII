@@ -1,6 +1,6 @@
 /*
  * Actor.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -67,7 +67,7 @@ public class Actor extends DomainEntity {
 
 	@NotBlank
 	// identificator@domain
-	@Pattern(regexp = "^([a-z0-9]+@[a-z0-9.]+)$")
+	@Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+$")
 	public String getEmail() {
 		return this.email;
 	}

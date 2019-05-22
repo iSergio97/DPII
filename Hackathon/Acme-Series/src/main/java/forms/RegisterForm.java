@@ -1,6 +1,6 @@
 /*
  * RegisterForm.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -65,7 +65,7 @@ public class RegisterForm {
 
 	@NotBlank
 	// identificator@domain
-	@Pattern(regexp = "^([a-z0-9]+@[a-z0-9.]+)$")
+	@Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -75,7 +75,7 @@ public class RegisterForm {
 	}
 
 	// "+CP (CA) NP" xor "+CP NP" xor empty string
-	@Pattern(regexp = "^(|\\+\\d{1,3} \\(\\d{1,3}\\) \\d{4,}|\\+\\d{1,3} \\d{4,})$")
+	@Pattern(regexp = "^(|\\+\\d{1,3} \\(\\d{1,3}\\) \\d{4,}|\\+\\d{1,3} \\d{4,}|\\d{4,})$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
