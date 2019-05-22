@@ -23,7 +23,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="administrator" action="register/administrator/edit.do">
+<form:form modelAttribute="publisher" action="register/publisher/edit.do">
 
 	<form:hidden path="id"/>
 	
@@ -32,7 +32,6 @@
 	<legend> <spring:message code="actorProperties" /> </legend>
 	<acme:register code="name" path="name"/>
 	<acme:register code="surnames" path="surnames"/>
-	<acme:register code="vat" path="vat"/>
 	<acme:register code="email" path="email"/>
 	<acme:registerWithPlaceholder code="photo" path="photo" placeholder="https://imgur.com/r/panda/vhGv9Z0"/>
 	<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber" placeholder="+XX (YYY) ZZZZZZ"/>
