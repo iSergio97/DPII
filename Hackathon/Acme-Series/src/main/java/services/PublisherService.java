@@ -1,6 +1,6 @@
 /*
  * PublisherService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -11,16 +11,19 @@ import java.util.List;
 
 import javax.validation.ValidationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
+import domain.Publisher;
+import forms.RegisterPublisherForm;
 import repositories.PublisherRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Publisher;
-import forms.RegisterPublisherForm;
+import security.UserAccountRepository;
 
 @Service
 @Transactional
@@ -28,6 +31,10 @@ public class PublisherService extends AbstractService<PublisherRepository, Publi
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	@Autowired
+	private UserAccountRepository userAccountRepository;
+
 
 	@Override
 	public Publisher create() {
@@ -57,6 +64,47 @@ public class PublisherService extends AbstractService<PublisherRepository, Publi
 
 	public Publisher reconstructForm(final RegisterPublisherForm publisherForm, final BindingResult bindingResult) {
 		final Publisher result;
+
+		final List<String> usernames = this.userAccountRepository.getUserNames();
+
+		if (publisherForm.getId() == 0) {
+			if (usernames.contains(publisherForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final Publisher publisher3 = this.findPrincipal();
+			usernames.remove(publisher3.getUserAccount().getUsername());
+			if (usernames.contains(publisherForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUsername");
+			}
+		}
+
+		if (publisherForm.getUsername().length() < 5 || publisherForm.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+
+		if (!publisherForm.getPassword().equals(publisherForm.getConfirmPassword())) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (publisherForm.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (publisherForm.getPhoneNumber().length() < 3) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
 
 		if (publisherForm.getId() == 0)
 			result = this.create();

@@ -1,8 +1,6 @@
 
 package controllers;
 
-import java.util.List;
-
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.CriticService;
-import services.MessageBoxService;
-import services.PublisherService;
-import services.UserService;
 import domain.Administrator;
 import domain.Critic;
 import domain.MessageBox;
@@ -31,6 +22,13 @@ import forms.RegisterAdministratorForm;
 import forms.RegisterCriticForm;
 import forms.RegisterPublisherForm;
 import forms.RegisterUserForm;
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.CriticService;
+import services.MessageBoxService;
+import services.PublisherService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/register")
@@ -74,46 +72,6 @@ public class RegisterController {
 	public ModelAndView registerAdministratorPost(@ModelAttribute("administrator") final RegisterAdministratorForm registerAdministratorForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Administrator administrator2;
-		final List<String> usernames = this.userAccountRepository.getUserNames();
-
-		if (registerAdministratorForm.getId() == 0) {
-			if (usernames.contains(registerAdministratorForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUserName");
-			}
-		} else {
-			final Administrator administrator3 = this.administratorService.findPrincipal();
-			usernames.remove(administrator3.getUserAccount().getUsername());
-			if (usernames.contains(registerAdministratorForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUsername");
-			}
-		}
-
-		if (registerAdministratorForm.getUsername().length() < 5 || registerAdministratorForm.getUsername().length() > 32) {
-			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.shortUserName");
-		}
-
-		if (!registerAdministratorForm.getPassword().equals(registerAdministratorForm.getConfirmPassword())) {
-			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.wrongPass");
-		}
-		if (registerAdministratorForm.getPassword().length() == 0) {
-			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.nullPass");
-		}
-
-		if (registerAdministratorForm.getPhoneNumber().length() < 3) {
-			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
-		}
 
 		try {
 			administrator2 = this.administratorService.reconstructForm(registerAdministratorForm, bindingResult);
@@ -122,7 +80,7 @@ public class RegisterController {
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			administrator2.setUserAccount(uaSaved);
 			if (!administrator2.getPhoneNumber().startsWith("(+"))
-				administrator2.setPhoneNumber("(+34)" + administrator2.getPhoneNumber());
+				administrator2.setPhoneNumber("+34" + administrator2.getPhoneNumber());
 			final Administrator administratorSaved = this.administratorService.save(administrator2);
 			if (administrator2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -137,14 +95,6 @@ public class RegisterController {
 		}
 
 		return result;
-	}
-
-	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
-	public ModelAndView editA() {
-		final Administrator admin = this.administratorService.findPrincipal();
-		final RegisterAdministratorForm raf = this.administratorService.deconstruct(admin);
-
-		return this.createEditModelAndView(raf);
 	}
 
 	// Publisher -------------------------------------------------------------------
@@ -163,47 +113,6 @@ public class RegisterController {
 	public ModelAndView registerPublisherPost(@ModelAttribute("publisher") final RegisterPublisherForm registerPublisherForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Publisher publisher2;
-		final List<String> usernames = this.userAccountRepository.getUserNames();
-
-		if (registerPublisherForm.getId() == 0) {
-			if (usernames.contains(registerPublisherForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUserName");
-			}
-		} else {
-			final Publisher publisher3 = this.publisherService.findPrincipal();
-			usernames.remove(publisher3.getUserAccount().getUsername());
-			if (usernames.contains(registerPublisherForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUsername");
-			}
-		}
-
-		if (registerPublisherForm.getUsername().length() < 5 || registerPublisherForm.getUsername().length() > 32) {
-			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.shortUserName");
-		}
-
-		if (!registerPublisherForm.getPassword().equals(registerPublisherForm.getConfirmPassword())) {
-			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.wrongPass");
-		}
-		if (registerPublisherForm.getPassword().length() == 0) {
-			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.nullPass");
-		}
-
-		if (registerPublisherForm.getPhoneNumber().length() < 3) {
-			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
-		}
-
 		try {
 			publisher2 = this.publisherService.reconstructForm(registerPublisherForm, bindingResult);
 			final UserAccount ua = publisher2.getUserAccount();
@@ -226,14 +135,6 @@ public class RegisterController {
 		return result;
 	}
 
-	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
-	public ModelAndView editPublisher() {
-		final Publisher publisher = this.publisherService.findPrincipal();
-		final RegisterPublisherForm rpf = this.publisherService.deconstruct(publisher);
-
-		return this.createEditModelAndView(rpf);
-	}
-
 	// Critic ----------------------------------------------------------------------
 
 	@RequestMapping(value = "/critic/create", method = RequestMethod.GET)
@@ -251,47 +152,6 @@ public class RegisterController {
 	public ModelAndView registerCriticPost(@ModelAttribute("critic") final RegisterCriticForm registerCriticForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Critic critic2;
-		final List<String> usernames = this.userAccountRepository.getUserNames();
-
-		if (registerCriticForm.getId() == 0) {
-			if (usernames.contains(registerCriticForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUserName");
-			}
-		} else {
-			final Critic critic3 = this.criticService.findPrincipal();
-			usernames.remove(critic3.getUserAccount().getUsername());
-			if (usernames.contains(registerCriticForm.getUsername())) {
-				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
-				bindingResult.addError(error);
-				bindingResult.rejectValue("username", "error.existedUsername");
-			}
-		}
-
-		if (registerCriticForm.getUsername().length() < 5 || registerCriticForm.getUsername().length() > 32) {
-			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("username", "error.shortUserName");
-		}
-
-		if (!registerCriticForm.getPassword().equals(registerCriticForm.getConfirmPassword())) {
-			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.wrongPass");
-		}
-		if (registerCriticForm.getPassword().length() == 0) {
-			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("password", "error.nullPass");
-		}
-
-		if (registerCriticForm.getPhoneNumber().length() < 3) {
-			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
-			bindingResult.addError(error);
-			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
-		}
-
 		try {
 			critic2 = this.criticService.reconstructForm(registerCriticForm, bindingResult);
 			final UserAccount ua = critic2.getUserAccount();
@@ -299,7 +159,7 @@ public class RegisterController {
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			critic2.setUserAccount(uaSaved);
 			if (!critic2.getPhoneNumber().startsWith("(+"))
-				critic2.setPhoneNumber("(+34)" + critic2.getPhoneNumber());
+				critic2.setPhoneNumber("+34" + critic2.getPhoneNumber());
 			final Critic criticSaved = this.criticService.save(critic2);
 			if (critic2.getId() == 0)
 				for (final MessageBox mb : this.messageBoxService.createSystemBoxes()) {
@@ -316,14 +176,6 @@ public class RegisterController {
 		return result;
 	}
 
-	@RequestMapping(value = "/critic/edit", method = RequestMethod.GET)
-	public ModelAndView editC() {
-		final Critic critic = this.criticService.findPrincipal();
-		final RegisterCriticForm rhf = this.criticService.deconstruct(critic);
-
-		return this.createEditModelAndView(rhf);
-	}
-
 	// User ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/user/create", method = RequestMethod.GET)
@@ -337,14 +189,6 @@ public class RegisterController {
 		return result;
 	}
 
-	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
-	public ModelAndView editUser() {
-		final User user = this.userService.findPrincipal();
-		final RegisterUserForm rhf = this.userService.deconstruct(user);
-
-		return this.createEditModelAndView(rhf);
-	}
-
 	@RequestMapping(value = "/user/edit", method = RequestMethod.POST)
 	public ModelAndView registerUserPost(@ModelAttribute("user") final RegisterUserForm registerUserForm, final BindingResult bindingResult) {
 		ModelAndView result;
@@ -352,11 +196,10 @@ public class RegisterController {
 
 		try {
 			user2 = this.userService.reconstructForm(registerUserForm, bindingResult);
-			final UserAccount ua = user2.getUserAccount();
-			ua.setPassword(new Md5PasswordEncoder().encodePassword(user2.getUserAccount().getPassword(), null));
-			// Esto no hace falta: Spring te actualiza la variable de entrada al salir del método
 			if (!user2.getPhoneNumber().startsWith("+"))
 				user2.setPhoneNumber("+34 " + user2.getPhoneNumber());
+			final UserAccount ua = user2.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(user2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			user2.setUserAccount(uaSaved);
 			final User userSaved = this.userService.save(user2);

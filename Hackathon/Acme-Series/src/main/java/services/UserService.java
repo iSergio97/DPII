@@ -1,6 +1,6 @@
 /*
  * UserService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import domain.User;
+import forms.RegisterUserForm;
 import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.User;
-import forms.RegisterUserForm;
 
 @Service
 @Transactional
