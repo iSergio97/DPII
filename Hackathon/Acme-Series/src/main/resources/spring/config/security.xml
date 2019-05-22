@@ -41,9 +41,9 @@
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />  
 	
-		<security:intercept-url pattern="/register/publisher/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/publisher/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/profile/publisher/edit.do" access="hasRole('PUBLISHER')" />
-		<security:intercept-url pattern="/register/user/create.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/user/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/profile/user/edit.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/profile/critic/edit.do" access="hasRole('CRITIC')" />
 		<security:intercept-url pattern="/profile/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />

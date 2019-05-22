@@ -23,7 +23,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="publisher" action="register/publisher/edit.do">
+<form:form modelAttribute="publisher" action="register/publisher/edit.do" method="POST">
 
 	<form:hidden path="id"/>
 	

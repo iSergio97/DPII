@@ -11,9 +11,11 @@ import java.util.List;
 
 import javax.validation.ValidationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import domain.User;
 import forms.RegisterUserForm;
@@ -21,6 +23,7 @@ import repositories.UserRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import security.UserAccountRepository;
 
 @Service
 @Transactional
@@ -28,6 +31,10 @@ public class UserService extends AbstractService<UserRepository, User> {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
+
+	@Autowired
+	private UserAccountRepository userAccountRepository;
+
 
 	@Override
 	public User create() {
@@ -57,6 +64,47 @@ public class UserService extends AbstractService<UserRepository, User> {
 
 	public User reconstructForm(final RegisterUserForm userForm, final BindingResult bindingResult) {
 		final User result;
+
+		final List<String> usernames = this.userAccountRepository.getUserNames();
+
+		if (userForm.getId() == 0) {
+			if (usernames.contains(userForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUserName");
+			}
+		} else {
+			final User user3 = this.findPrincipal();
+			usernames.remove(user3.getUserAccount().getUsername());
+			if (usernames.contains(userForm.getUsername())) {
+				final ObjectError error = new ObjectError("userName", "An account already exists for this username.");
+				bindingResult.addError(error);
+				bindingResult.rejectValue("username", "error.existedUsername");
+			}
+		}
+
+		if (userForm.getUsername().length() < 5 || userForm.getUsername().length() > 32) {
+			final ObjectError error = new ObjectError("username", "This username is too short or too long. Please, use another.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("username", "error.shortUserName");
+		}
+
+		if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+			final ObjectError error = new ObjectError("pass", "Both password do not match. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.wrongPass");
+		}
+		if (userForm.getPassword().length() == 0) {
+			final ObjectError error = new ObjectError("pass", "Password must not be empty!. Try again.");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("password", "error.nullPass");
+		}
+
+		if (userForm.getPhoneNumber().length() < 11) {
+			final ObjectError error = new ObjectError("phoneNumber", "Short phone number");
+			bindingResult.addError(error);
+			bindingResult.rejectValue("phoneNumber", "error.shortNumber");
+		}
 
 		if (userForm.getId() == 0)
 			result = this.create();
