@@ -1,6 +1,6 @@
 /*
  * Application.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -63,7 +63,7 @@ public class Application extends DomainEntity {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "^PENDING|ACCEPTED|REJECTED")
+	@Pattern(regexp = "^(PENDING|ACCEPTED|REJECTED)$")
 	public String getStatus() {
 		return this.status;
 	}
@@ -75,8 +75,8 @@ public class Application extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@ManyToOne(optional = true)
 	@Valid
+	@ManyToOne(optional = true)
 	public Administrator getAdministrator() {
 		return this.administrator;
 	}
@@ -85,8 +85,8 @@ public class Application extends DomainEntity {
 		this.administrator = administrator;
 	}
 
-	@ManyToOne(optional = false)
 	@Valid
+	@ManyToOne(optional = false)
 	public Publisher getPublisher() {
 		return this.publisher;
 	}
@@ -95,8 +95,8 @@ public class Application extends DomainEntity {
 		this.publisher = publisher;
 	}
 
-	@ManyToOne(optional = false)
 	@Valid
+	@ManyToOne(optional = false)
 	public Serie getSerie() {
 		return this.serie;
 	}

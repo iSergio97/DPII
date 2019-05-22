@@ -1,6 +1,6 @@
 /*
  * Message.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -31,7 +31,7 @@ public class Message extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private Date					date;
+	private Date					moment;
 	private String					subject;
 	private String					body;
 	private String					priority;
@@ -52,12 +52,12 @@ public class Message extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getDate() {
-		return this.date;
+	public Date getMoment() {
+		return this.moment;
 	}
 
-	public void setDate(final Date date) {
-		this.date = date;
+	public void setMoment(final Date date) {
+		this.moment = date;
 	}
 
 	@NotBlank
@@ -78,7 +78,7 @@ public class Message extends DomainEntity {
 		this.body = body;
 	}
 
-	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	@Pattern(regexp = "^(HIGH|NEUTRAL|LOW)$")
 	public String getPriority() {
 		return this.priority;
 	}
@@ -117,7 +117,6 @@ public class Message extends DomainEntity {
 		this.sender = sender;
 	}
 
-	@NotNull
 	@NotEmpty
 	@Valid
 	@ManyToMany
@@ -129,10 +128,9 @@ public class Message extends DomainEntity {
 		this.recipients = recipients;
 	}
 
-	@NotNull
+	@NotEmpty
 	@Valid
 	@ManyToMany
-	@NotEmpty
 	public Collection<MessageBox> getMessageBoxes() {
 		return this.messageBoxes;
 	}

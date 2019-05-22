@@ -1,6 +1,6 @@
 /*
  * MessageBox.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -43,7 +43,6 @@ public class MessageBox extends DomainEntity {
 		this.name = name;
 	}
 
-	@Valid
 	public boolean getIsSystem() {
 		return this.isSystem;
 	}

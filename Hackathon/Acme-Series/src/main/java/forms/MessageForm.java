@@ -8,11 +8,13 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 import domain.Actor;
 
 public class MessageForm {
 
+	private int					id;
 	private String				subject;
 	private String				body;
 	private String				priority;
@@ -20,6 +22,14 @@ public class MessageForm {
 	private Collection<Actor>	recipients;
 	private boolean				broadcast;
 
+
+	@Range(min = 0)
+	public int getId() {
+		return this.id;
+	}
+	public void setId(final int id) {
+		this.id = id;
+	}
 
 	@NotBlank
 	public String getSubject() {
@@ -39,7 +49,7 @@ public class MessageForm {
 		this.body = body;
 	}
 
-	@Pattern(regexp = "^HIGH|NEUTRAL|LOW$")
+	@Pattern(regexp = "^(HIGH|NEUTRAL|LOW)$")
 	public String getPriority() {
 		return this.priority;
 	}

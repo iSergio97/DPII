@@ -81,7 +81,7 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		message.setPriority(messageForm.getPriority());
 		message.setTags(messageForm.getTags());
 		message.setRecipients(messageForm.getRecipients());
-		message.setDate(new Date());
+		message.setMoment(new Date());
 		final List<String> spamWordsUpperCase = new ArrayList<>();
 		for (final String spamWord : this.systemConfigurationservice.getSystemConfiguration().getSpamWords())
 			spamWordsUpperCase.add(spamWord.toUpperCase());

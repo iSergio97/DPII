@@ -1,6 +1,6 @@
 /*
  * Chapter.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -36,7 +36,7 @@ public class Chapter extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@Range(min = 0)
+	@Range(min = 1)
 	public int getNumber() {
 		return this.number;
 	}

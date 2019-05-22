@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.SystemConfigurationRepository;
-import utilities.ConversionUtils;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
+import repositories.SystemConfigurationRepository;
+import utilities.ConversionUtils;
 
 @Service
 @Transactional
@@ -68,7 +68,6 @@ public class SystemConfigurationService {
 		systemConfigurationForm.setSystemName(systemConfiguration.getSystemName());
 		systemConfigurationForm.setBanner(systemConfiguration.getBanner());
 		systemConfigurationForm.setDefaultCountryCode(systemConfiguration.getDefaultCountryCode());
-		systemConfigurationForm.setFinderCacheTime(systemConfiguration.getFinderCacheTime());
 		systemConfigurationForm.setMaximumFinderResults(systemConfiguration.getMaximumFinderResults());
 		systemConfigurationForm.setSpamWords(ConversionUtils.listToString(systemConfiguration.getSpamWords(), ","));
 		systemConfigurationForm.setWelcomeMessage(ConversionUtils.mapToString(systemConfiguration.getWelcomeMessage(), ":", ";"));
@@ -80,7 +79,6 @@ public class SystemConfigurationService {
 		systemConfiguration.setSystemName(systemConfigurationForm.getSystemName());
 		systemConfiguration.setBanner(systemConfigurationForm.getBanner());
 		systemConfiguration.setDefaultCountryCode(systemConfigurationForm.getDefaultCountryCode());
-		systemConfiguration.setFinderCacheTime(systemConfigurationForm.getFinderCacheTime());
 		systemConfiguration.setMaximumFinderResults(systemConfigurationForm.getMaximumFinderResults());
 		systemConfiguration.setSpamWords(ConversionUtils.stringToList(systemConfigurationForm.getSpamWords(), ","));
 		systemConfiguration.setWelcomeMessage(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessage(), ":", ";"));

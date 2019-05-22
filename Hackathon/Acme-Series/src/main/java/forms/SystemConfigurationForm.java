@@ -1,13 +1,11 @@
 /*
  * SystemConfigurationForm.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package forms;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -23,11 +21,12 @@ public class SystemConfigurationForm {
 	private int		id;
 	private String	systemName;
 	private String	banner;
-	private String	defaultCountryCode;
-	private int		finderCacheTime;
+	private int		defaultCountryCode;
 	private int		maximumFinderResults;
 	private String	spamWords;
 	private String	welcomeMessage;
+	private String	positiveWords;
+	private String	negativeWords;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -60,27 +59,16 @@ public class SystemConfigurationForm {
 		this.banner = banner;
 	}
 
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
+	@Range(min = 1, max = 999)
+	public int getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
 
-	public void setDefaultCountryCode(final String defaultCountryCode) {
+	public void setDefaultCountryCode(final int defaultCountryCode) {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
-	public int getFinderCacheTime() {
-		return this.finderCacheTime;
-	}
-
-	public void setFinderCacheTime(final int finderCacheTime) {
-		this.finderCacheTime = finderCacheTime;
-	}
-
-	@Min(value = 1)
-	@Max(value = 100)
+	@Range(min = 1, max = 100)
 	public int getMaximumFinderResults() {
 		return this.maximumFinderResults;
 	}
@@ -89,6 +77,7 @@ public class SystemConfigurationForm {
 		this.maximumFinderResults = maximumFinderResults;
 	}
 
+	@NotNull
 	// Matches a list of strings with "," as an element separator, or an empty string
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getPositiveWords() {
@@ -99,6 +88,7 @@ public class SystemConfigurationForm {
 		this.positiveWords = positiveWords;
 	}
 
+	@NotNull
 	// Matches a list of strings with "," as an element separator, or an empty string
 	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getNegativeWords() {

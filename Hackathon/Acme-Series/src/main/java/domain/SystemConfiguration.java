@@ -1,6 +1,6 @@
 /*
  * SystemConfiguration.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -14,11 +14,11 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.MapKeyClass;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -30,18 +30,18 @@ public class SystemConfiguration extends DomainEntity {
 
 	private String				systemName;
 	private String				banner;
-	private String				defaultCountryCode;
-	private int					finderCacheTime;
+	private int					defaultCountryCode;
 	private int					maximumFinderResults;
+	private List<String>		spamWords;
 	private List<String>		positiveWords;
 	private List<String>		negativeWords;
-	private List<String>		spamWords;
 	private Map<String, String>	welcomeMessage;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
+	@NotBlank
 	public String getSystemName() {
 		return this.systemName;
 	}
@@ -59,27 +59,16 @@ public class SystemConfiguration extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
+	@Range(min = 1, max = 999)
+	public int getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
 
-	public void setDefaultCountryCode(final String defaultCountryCode) {
+	public void setDefaultCountryCode(final int defaultCountryCode) {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
-	public int getFinderCacheTime() {
-		return this.finderCacheTime;
-	}
-
-	public void setFinderCacheTime(final int finderCacheTime) {
-		this.finderCacheTime = finderCacheTime;
-	}
-
-	@Min(value = 1)
-	@Max(value = 100)
+	@Range(min = 1, max = 100)
 	public int getMaximumFinderResults() {
 		return this.maximumFinderResults;
 	}
@@ -118,7 +107,7 @@ public class SystemConfiguration extends DomainEntity {
 		this.spamWords = spamWords;
 	}
 
-	@NotNull
+	@NotEmpty
 	@ElementCollection(targetClass = String.class)
 	@MapKeyClass(String.class)
 	public Map<String, String> getWelcomeMessage() {

@@ -1,19 +1,25 @@
 /*
  * Comment.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -22,6 +28,7 @@ public class Comment extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
+	private Date	moment;
 	private String	text;
 	private double	score;
 
@@ -35,6 +42,18 @@ public class Comment extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	public Date getMoment() {
+		return this.moment;
+	}
+
+	public void setMoment(final Date moment) {
+		this.moment = moment;
+	}
+
+	@NotBlank
 	public String getText() {
 		return this.text;
 	}

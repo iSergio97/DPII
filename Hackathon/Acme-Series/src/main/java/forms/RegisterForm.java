@@ -1,6 +1,6 @@
 /*
  * RegisterForm.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -17,18 +17,19 @@ public class RegisterForm {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	// UserAccount
+	//DomainEntity
 	private int		id;
+	// UserAccount
+	private String	username;
+	private String	password;
 	// Actor
 	private String	name;
 	private String	surnames;
 	private String	email;
-	private String	photo;
 	private String	phoneNumber;
 	private String	address;
-	private String	username;
-	private String	password;
-	// Register itself
+	private String	photo;
+	// RegisterForm
 	private String	confirmPassword;
 
 
@@ -54,7 +55,6 @@ public class RegisterForm {
 	}
 
 	@NotBlank
-	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
 	public String getSurnames() {
 		return this.surnames;
 	}
@@ -64,8 +64,8 @@ public class RegisterForm {
 	}
 
 	@NotBlank
-	// Matches administrator email addresses
-	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
+	// identificator@domain
+	@Pattern(regexp = "^([a-z0-9]+@[a-z0-9.]+)$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -74,20 +74,8 @@ public class RegisterForm {
 		this.email = email;
 	}
 
-	// Optional
-	@URL
-	public String getPhoto() {
-		return this.photo;
-	}
-
-	public void setPhoto(final String photo) {
-		this.photo = photo;
-	}
-
-	// Optional
-	@NotBlank
-	// Matches a phone number or an empty string
-	@Pattern(regexp = "(^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$)|(^$)")
+	// "+CP (CA) NP" xor "+CP NP" xor empty string
+	@Pattern(regexp = "^(|\\+\\d{1,3} \\(\\d{1,3}\\) \\d{4,}|\\+\\d{1,3} \\d{4,})$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -96,14 +84,21 @@ public class RegisterForm {
 		this.phoneNumber = phoneNumber;
 	}
 
-	// Optional
-	@NotBlank
 	public String getAddress() {
 		return this.address;
 	}
 
 	public void setAddress(final String address) {
 		this.address = address;
+	}
+
+	@URL
+	public String getPhoto() {
+		return this.photo;
+	}
+
+	public void setPhoto(final String photo) {
+		this.photo = photo;
 	}
 
 	@NotBlank

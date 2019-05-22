@@ -1,13 +1,13 @@
 /*
  * Season.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -30,20 +30,20 @@ public class Season extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private int				number;
-	private Date			startDate;
-	private Date			endDate;
+	private int					number;
+	private Date				startDate;
+	private Date				endDate;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private List<Chapter>	chapters;
+	private Collection<Chapter>	chapters;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@Range(min = 0)
+	@Range(min = 1)
 	public int getNumber() {
 		return this.number;
 	}
@@ -63,6 +63,7 @@ public class Season extends DomainEntity {
 		this.startDate = startDate;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndDate() {
@@ -76,15 +77,15 @@ public class Season extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToMany
-	@Valid
 	@NotNull
+	@Valid
+	@OneToMany
 	@Cascade(CascadeType.ALL)
-	public List<Chapter> getChapters() {
+	public Collection<Chapter> getChapters() {
 		return this.chapters;
 	}
 
-	public void setChapters(final List<Chapter> chapters) {
+	public void setChapters(final Collection<Chapter> chapters) {
 		this.chapters = chapters;
 	}
 

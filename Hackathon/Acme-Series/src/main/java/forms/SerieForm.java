@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,6 +24,8 @@ public class SerieForm {
 	private Date	startDate;
 	private Date	endDate;
 	private String	status;
+	private String	director;
+	private String	cast;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +67,6 @@ public class SerieForm {
 		this.banner = banner;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartDate() {
@@ -87,13 +87,30 @@ public class SerieForm {
 		this.endDate = endDate;
 	}
 
-	@Pattern(regexp = "^ON EMISSION|FINALIZED")
+	@NotBlank
+	@Pattern(regexp = "^(ON EMISSION|FINALIZED)$")
 	public String getStatus() {
 		return this.status;
 	}
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	public String getDirector() {
+		return this.director;
+	}
+
+	public void setDirector(final String director) {
+		this.director = director;
+	}
+
+	public String getCast() {
+		return this.cast;
+	}
+
+	public void setCast(final String cast) {
+		this.cast = cast;
 	}
 
 }

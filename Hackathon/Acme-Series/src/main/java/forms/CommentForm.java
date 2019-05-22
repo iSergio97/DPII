@@ -8,6 +8,7 @@ public class CommentForm {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
+	int				id;
 	private String	text;
 	private double	score;
 	private int		serieId;
@@ -15,6 +16,15 @@ public class CommentForm {
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
+
+	@Range(min = 0)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
+	}
 
 	public String getText() {
 		return this.text;

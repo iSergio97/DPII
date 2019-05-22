@@ -1,6 +1,6 @@
 /*
  * SocialProfile.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -54,7 +53,7 @@ public class SocialProfile extends DomainEntity {
 		this.socialNetworkName = socialNetworkName;
 	}
 
-	@NotEmpty
+	@NotBlank
 	@URL
 	public String getProfileLink() {
 		return this.profileLink;
@@ -68,7 +67,7 @@ public class SocialProfile extends DomainEntity {
 	// Relationship access methods
 
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	public Actor getActor() {
 		return this.actor;
 	}

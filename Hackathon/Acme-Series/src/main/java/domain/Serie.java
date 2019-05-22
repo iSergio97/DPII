@@ -1,17 +1,18 @@
 /*
  * Serie.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -33,21 +34,25 @@ public class Serie extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String			title;
-	private String			description;
-	private String			banner;
-	private Date			startDate;
-	private Date			endDate;
-	private String			status;
-	private String			director;
-	private String			cast;
-	private boolean			draft;
+	private String				title;
+	private String				description;
+	private String				banner;
+	private Date				startDate;
+	private Date				endDate;
+	private String				status;
+	private String				director;
+	private String				cast;
+	private boolean				isDraft;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Publisher		publisher;
-	private List<Season>	seasons;
+	private Publisher			publisher;
+	private Collection<Season>	seasons;
+	private Collection<User>	favouritedUsers;
+	private Collection<User>	pendingUsers;
+	private Collection<User>	watchingUsers;
+	private Collection<User>	watchedUsers;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +85,6 @@ public class Serie extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getStartDate() {
@@ -101,7 +105,8 @@ public class Serie extends DomainEntity {
 		this.endDate = endDate;
 	}
 
-	@Pattern(regexp = "^ON EMISSION|FINALIZED")
+	@NotBlank
+	@Pattern(regexp = "^(ON EMISSION|FINALIZED)$")
 	public String getStatus() {
 		return this.status;
 	}
@@ -126,20 +131,20 @@ public class Serie extends DomainEntity {
 		this.cast = cast;
 	}
 
-	public boolean getDraft() {
-		return this.draft;
+	public boolean getIsDraft() {
+		return this.isDraft;
 	}
 
-	public void setDraft(final boolean draft) {
-		this.draft = draft;
+	public void setIsDraft(final boolean draft) {
+		this.isDraft = draft;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@ManyToOne
-	@Valid
 	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
 	public Publisher getPublisher() {
 		return this.publisher;
 	}
@@ -148,16 +153,60 @@ public class Serie extends DomainEntity {
 		this.publisher = publisher;
 	}
 
-	@OneToMany
-	@Valid
 	@NotNull
+	@Valid
+	@OneToMany
 	@Cascade(CascadeType.ALL)
-	public List<Season> getSeasons() {
+	public Collection<Season> getSeasons() {
 		return this.seasons;
 	}
 
-	public void setSeasons(final List<Season> seasons) {
+	public void setSeasons(final Collection<Season> seasons) {
 		this.seasons = seasons;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<User> getFavouritedUsers() {
+		return this.favouritedUsers;
+	}
+
+	public void setFavouritedUsers(final Collection<User> favouritedUsers) {
+		this.favouritedUsers = favouritedUsers;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<User> getPendingUsers() {
+		return this.pendingUsers;
+	}
+
+	public void setPendingUsers(final Collection<User> pendingUsers) {
+		this.pendingUsers = pendingUsers;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<User> getWatchingUsers() {
+		return this.watchingUsers;
+	}
+
+	public void setWatchingUsers(final Collection<User> watchingUsers) {
+		this.watchingUsers = watchingUsers;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<User> getWatchedUsers() {
+		return this.watchedUsers;
+	}
+
+	public void setWatchedUsers(final Collection<User> watchedUsers) {
+		this.watchedUsers = watchedUsers;
 	}
 
 }

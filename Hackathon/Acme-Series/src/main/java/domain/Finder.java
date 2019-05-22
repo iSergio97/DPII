@@ -1,6 +1,6 @@
 /*
  * Finder.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -42,7 +42,6 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@NotNull
 	public String getKeyword() {
 		return this.keyword;
 	}
@@ -74,9 +73,9 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@OneToOne
 	@Valid
 	@NotNull
+	@OneToOne
 	public User getUser() {
 		return this.user;
 	}
@@ -85,9 +84,9 @@ public class Finder extends DomainEntity {
 		this.user = user;
 	}
 
-	@ManyToMany
 	@Valid
 	@NotNull
+	@ManyToMany
 	public Collection<Serie> getSeries() {
 		return this.series;
 	}
