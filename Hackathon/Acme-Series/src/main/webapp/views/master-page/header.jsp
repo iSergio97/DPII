@@ -62,7 +62,7 @@
 									code="action.edit" /> </a></li>
 						<li><a href="register/administrator/create.do"><spring:message
 									code="master.page.create.admin" /> </a></li>
-						<li><a href="register/critico/create.do"><spring:message
+						<li><a href="register/critic/create.do"><spring:message
 									code="master.page.create.auditor" /> </a></li>
 					</security:authorize>
 
