@@ -79,7 +79,7 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(administrator2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			administrator2.setUserAccount(uaSaved);
-			if (!administrator2.getPhoneNumber().startsWith("(+"))
+			if (!administrator2.getPhoneNumber().startsWith("+"))
 				administrator2.setPhoneNumber("+34" + administrator2.getPhoneNumber());
 			final Administrator administratorSaved = this.administratorService.save(administrator2);
 			if (administrator2.getId() == 0)
@@ -158,7 +158,7 @@ public class RegisterController {
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(critic2.getUserAccount().getPassword(), null));
 			final UserAccount uaSaved = this.userAccountRepository.save(ua);
 			critic2.setUserAccount(uaSaved);
-			if (!critic2.getPhoneNumber().startsWith("(+"))
+			if (!critic2.getPhoneNumber().startsWith("+"))
 				critic2.setPhoneNumber("+34" + critic2.getPhoneNumber());
 			final Critic criticSaved = this.criticService.save(critic2);
 			if (critic2.getId() == 0)
