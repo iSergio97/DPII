@@ -116,24 +116,44 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	<br>
 	<display:table name="allSeries" id="serie">
 	
-		<display:column property="title">
+		<display:column titleKey="title">
 			<jstl:out value="${serie.title}" />
 		</display:column>
 		
-		<display:column property="minimumScore">
-			<jstl:out value="${serieCritiqueScoreStatistics[serie][0]}" />
+		<display:column titleKey="minimumScore">
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][0] != null}" >
+				<jstl:out value="${serieCritiqueScoreStatistics[serie][0]}" />
+			</jstl:if>
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][0] == null}" >
+				<spring:message code="noCritiques" />
+			</jstl:if>
 		</display:column>
 		
-		<display:column property="maximumScore">
-			<jstl:out value="${serieCritiqueScoreStatistics[serie][1]}" />
+		<display:column titleKey="maximumScore">
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][1] != null}" >
+				<jstl:out value="${serieCritiqueScoreStatistics[serie][1]}" />
+			</jstl:if>
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][1] == null}" >
+				<spring:message code="noCritiques" />
+			</jstl:if>
 		</display:column>
 		
-		<display:column property="averageScore">
-			<jstl:out value="${serieCritiqueScoreStatistics[serie][2]}" />
+		<display:column titleKey="averageScore">
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][2] != null}" >
+				<jstl:out value="${serieCritiqueScoreStatistics[serie][2]}" />
+			</jstl:if>
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][2] == null}" >
+				<spring:message code="noCritiques" />
+			</jstl:if>
 		</display:column>
 		
-		<display:column property="standardDeviationScore">
-			<jstl:out value="${serieCritiqueScoreStatistics[serie][3]}" />
+		<display:column titleKey="standardDeviationScore">
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][3] != null}" >
+				<jstl:out value="${serieCritiqueScoreStatistics[serie][3]}" />
+			</jstl:if>
+			<jstl:if test="${serieCritiqueScoreStatistics[serie][3] == null}" >
+				<spring:message code="noCritiques" />
+			</jstl:if>
 		</display:column>
 	
 	</display:table>
