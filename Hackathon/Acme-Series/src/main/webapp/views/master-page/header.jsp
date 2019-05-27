@@ -60,10 +60,6 @@
 					<security:authorize access="hasRole('ADMINISTRATOR')">
 						<li><a href="profile/administrator/edit.do"><spring:message
 									code="master.page.edit.profile" /> </a></li>
-						<li><a href="register/administrator/create.do"><spring:message
-									code="master.page.create.admin" /> </a></li>
-						<li><a href="register/critic/create.do"><spring:message
-									code="master.page.create.auditor" /> </a></li>
 						<li><a href="profile/administrator/show.do"><spring:message
 									code="master.page.show.profile" /> </a></li>
 					</security:authorize>
@@ -85,7 +81,8 @@
 						<li><a href="profile/publisher/edit.do"><spring:message
 									code="master.page.edit.profile" /> </a></li>
 					</security:authorize>
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
+					<li><a href="j_spring_security_logout"><spring:message
+								code="master.page.logout" /> </a></li>
 				</ul></li>
 			<li><a class="fNiv" href="social-profile/all/list.do"><spring:message
 						code="master.page.socialProfile" /></a></li>
@@ -124,8 +121,8 @@
 								code="master.page.administrator.listActor" /></a></li>
 					<li><a href="register/administrator/create.do"><spring:message
 								code="master.page.administrator.register" /></a></li>
-					<li><a href="register/auditor/create.do"><spring:message
-								code="master.page.auditor.register" /></a></li>
+					<li><a href="register/critic/create.do"><spring:message
+								code="master.page.register.critic" /> </a></li>
 				</ul></li>
 		</security:authorize>
 
