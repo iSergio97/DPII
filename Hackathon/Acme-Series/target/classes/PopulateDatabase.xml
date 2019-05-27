@@ -436,7 +436,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<property name="tags" value="#EstoNoEsUnaAmenaza" />
 		<property name="isSpam" value="false" />
 		<property name="sender">
-				<ref bean="publisher1"/>
+			<ref bean="publisher1"/>
 		</property>
 		<property name="recipients">
 			<list>
@@ -472,6 +472,183 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<property name="series">
 			<list>
 			</list>
+		</property>
+	</bean>
+
+	<!-- Social profiles -->
+
+	<bean id="socialProfile1" class="domain.SocialProfile">
+		<property name="nick" value="aaa"/>
+		<property name="socialNetworkName" value="facebook"/>
+		<property name="profileLink" value ="http://www.facebook.com"/>
+		<property name="actor">
+			<ref bean="user1"/>
+		</property>
+	</bean>
+
+	<bean id="socialProfile2" class="domain.SocialProfile">
+		<property name="nick" value="bbb"/>
+		<property name="socialNetworkName" value="twitter"/>
+		<property name="profileLink" value ="http://www.twitter.com"/>
+		<property name="actor">
+			<ref bean="user2"/>
+		</property>
+	</bean>
+
+	<!-- Series, seasons and chapters -->
+
+	<bean id="serie1" class="domain.Serie">
+		<property name="title" value="Dragon Ball"/>
+		<property name="description" value="Un chino busca las 7 bolas de dragón para resucitar a su amigo que no para de morirse"/>
+		<property name="banner" value=""/>
+		<property name="startDate" value="01/01/2000"/>
+		<property name="endDate" value ="31/12/2015"/>
+		<property name="status" value ="FINALIZED"/>
+		<property name="director" value="yo k sé"/>
+		<property name="cast" value="Son Goku, Krilin, Vegeta777 y Willyrex"/>
+		<property name="isDraft" value="false"/>
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="seasons">
+			<list>
+				<ref bean="serie1season1"/>
+				<ref bean="serie1season2"/>
+			</list>
+		</property>
+		<property name="favouritedUsers">
+			<list>
+			</list>
+		</property>
+		<property name="pendingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchedUsers">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season1" class="domain.Season">
+		<property name="number" value="1"/>
+		<property name="startDate" value="01/01/2000"/>
+		<property name="endDate" value ="31/12/2007"/>
+		<property name="chapters">
+			<list>
+				<ref bean="serie1season1chapter1"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season1chapter1" class="domain.Chapter">
+		<property name="number" value="1"/>
+		<property name="title" value="En busca de la bola de dragón 1"/>
+		<property name="description" value="ondecoñostá"/>
+		<property name="releaseDate" value ="01/01/2000"/>
+		<property name="duration" value="20"/>
+	</bean>
+
+	<bean id="serie1season2" class="domain.Season">
+		<property name="number" value="2"/>
+		<property name="startDate" value="01/01/2008"/>
+		<property name="endDate" value ="31/12/2016"/>
+		<property name="chapters">
+			<list>
+				<ref bean="serie1season2chapter1"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season2chapter1" class="domain.Chapter">
+		<property name="number" value="1"/>
+		<property name="title" value="Me cago en los muertos"/>
+		<property name="description" value="Por fin encontramos todas las putas bolas de dragón y el hijoputa va y se muere otra vez"/>
+		<property name="releaseDate" value ="01/01/2008"/>
+		<property name="duration" value="20"/>
+	</bean>
+
+	<bean id="serie2" class="domain.Serie">
+		<property name="title" value="Rick y Morty"/>
+		<property name="description" value="Mira esto y te aceptarán en Hardvard y te llevarás todos los nobels"/>
+		<property name="banner" value=""/>
+		<property name="startDate" value="01/01/2000"/>
+		<!-- <property name="endDate" value =""/> -->
+		<property name="status" value ="ON EMISSION"/>
+		<property name="director" value="un nota"/>
+		<property name="cast" value="Ricardo y Mórtimer"/>
+		<property name="isDraft" value="true"/>
+		<property name="publisher">
+			<ref bean="publisher2"/>
+		</property>
+		<property name="seasons">
+			<list>
+			</list>
+		</property>
+		<property name="favouritedUsers">
+			<list>
+			</list>
+		</property>
+		<property name="pendingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchedUsers">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Critiques -->
+
+	<bean id="critique1" class="domain.Critique">
+		<property name="moment" value="01/01/2000"/>
+		<property name="text" value="Me pica el coño"/>
+		<property name="score" value="6.0"/>
+		<property name="critic">
+			<ref bean="critic1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+
+	<!-- Comments -->
+
+	<bean id="comment1" class="domain.Comment">
+		<property name="moment" value="01/01/2000"/>
+		<property name="text" value="biba begeta 777 y wilireks"/>
+		<property name="score" value="10.0"/>
+		<property name="user">
+			<ref bean="user1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+
+	<!-- Applicationss -->
+
+	<bean id="application1" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="iyo aceptadme la serie con vuestros muertos"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher2"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie2"/>
 		</property>
 	</bean>
 

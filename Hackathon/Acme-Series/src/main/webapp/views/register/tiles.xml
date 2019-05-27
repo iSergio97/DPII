@@ -9,32 +9,32 @@
 
 <tiles-definitions>
 
-	<definition name="register/rookie/create"
+	<definition name="register/user/create"
 		extends="master.page">
-		<put-attribute name="title" value="Register as rookie" />
+		<put-attribute name="title" value="Register as user" />
 		<put-attribute name="body"
-			value="/views/register/rookie/create.jsp" />
+			value="/views/register/user/create.jsp" />
 	</definition>
 
-	<definition name="register/rookie/edit"
+	<definition name="profile/user/edit"
 		extends="master.page">
 		<put-attribute name="title" value="Edit your profile" />
 		<put-attribute name="body"
-			value="/views/register/rookie/create.jsp" />
+			value="/views/register/user/edit.jsp" />
 	</definition>
 
-	<definition name="register/company/create"
+	<definition name="register/publisher/create"
 		extends="master.page">
-		<put-attribute name="title" value="Register as company" />
+		<put-attribute name="title" value="Register as publisher" />
 		<put-attribute name="body"
-			value="/views/register/company/create.jsp" />
+			value="/views/register/publisher/create.jsp" />
 	</definition>
 
-	<definition name="register/company/edit"
+	<definition name="profile/publisher/edit"
 		extends="master.page">
 		<put-attribute name="title" value="Edit your profile" />
 		<put-attribute name="body"
-			value="/views/register/company/create.jsp" />
+			value="/views/register/publisher/edit.jsp" />
 	</definition>
 
 	<definition name="register/administrator/create"
@@ -45,41 +45,25 @@
 			value="/views/register/administrator/create.jsp" />
 	</definition>
 
-	<definition name="register/administrator/edit"
+	<definition name="profile/administrator/edit"
 		extends="master.page">
 		<put-attribute name="title" value="Edit your profile" />
 		<put-attribute name="body"
-			value="/views/register/administrator/create.jsp" />
-	</definition>
-
-	<definition name="register/auditor/create"
-		extends="master.page">
-		<put-attribute name="title"
-			value="Register as auditor" />
-		<put-attribute name="body"
-			value="/views/register/auditor/create.jsp" />
-	</definition>
-
-	<definition name="register/auditor/edit"
-		extends="master.page">
-		<put-attribute name="title" value="Edit your profile" />
-		<put-attribute name="body"
-			value="/views/register/auditor/create.jsp" />
+			value="/views/register/administrator/edit.jsp" />
 	</definition>
 	
-	<definition name="register/provider/create"
+	<definition name="register/critic/create"
 		extends="master.page">
-		<put-attribute name="title"
-			value="Register as provider" />
+		<put-attribute name="title" value="Register as critic" />
 		<put-attribute name="body"
-			value="/views/register/provider/create.jsp" />
+			value="/views/register/critic/create.jsp" />
 	</definition>
 
-	<definition name="register/provider/edit"
+	<definition name="profile/critic/edit"
 		extends="master.page">
 		<put-attribute name="title" value="Edit your profile" />
 		<put-attribute name="body"
-			value="/views/register/provider/create.jsp" />
+			value="/views/register/critic/edit.jsp" />
 	</definition>
 
 </tiles-definitions>

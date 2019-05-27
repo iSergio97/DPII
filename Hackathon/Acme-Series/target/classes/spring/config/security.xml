@@ -38,7 +38,18 @@
 
 		<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
-
+		<security:intercept-url pattern="/welcome/index.do" access="permitAll" />  
+	
+		<security:intercept-url pattern="/register/publisher/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/profile/publisher/edit.do" access="hasRole('PUBLISHER')" />
+		<security:intercept-url pattern="/register/user/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/profile/user/edit.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/profile/critic/edit.do" access="hasRole('CRITIC')" />
+		<security:intercept-url pattern="/profile/administrator/edit.do" access="hasRole('ADMINISTRATOR')" />
+		
+		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/register/critic/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
@@ -53,7 +64,8 @@
 		<security:intercept-url pattern="/*/all/**" access="isAuthenticated()" />
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
-
+		
+		
 		<security:form-login 
 			login-page="/security/login.do"
 			password-parameter="password" 

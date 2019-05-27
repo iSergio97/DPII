@@ -23,7 +23,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="administrator" action="register/administrator/edit.do" method="POST">
+<form:form modelAttribute="critic" action="register/critic/edit.do" method="POST">
 
 	<form:hidden path="id"/>
 	
@@ -46,8 +46,8 @@
 	<acme:password code="password" path="password"/>
 	<acme:password code="confirmPassword" path="confirmPassword"/>
 	</fieldset>
-	<br>
 	
+	<br>
 	
 	<%-- <acme:submit name="save" code="save"/> --%>
 	<button type="submit" onClick="return test();"><spring:message code="save" /> </button>
