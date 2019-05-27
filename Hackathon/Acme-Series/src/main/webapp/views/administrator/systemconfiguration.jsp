@@ -58,14 +58,6 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="defaultCountryCode" />
 	</div>
 
-	<div id="finderCacheTime" class="finderCacheTime">
-		<form:label path="finderCacheTime">
-			<spring:message code="finderCacheTime" />
-		</form:label>
-		<form:input path="finderCacheTime" />
-		<form:errors path="finderCacheTime" />
-	</div>
-
 	<div id="maximumFinderResults" class="maximumFinderResults">
 		<form:label path="maximumFinderResults">
 			<spring:message code="maximumFinderResults" />
@@ -74,9 +66,17 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="maximumFinderResults" />
 	</div>
 
+	<div id="spamWords" class="spamWords">
+		<form:label path="spamWords">
+			<spring:message code="spamWords" />
+		</form:label>
+		<form:input path="spamWords" />
+		<form:errors path="spamWords" />
+	</div>
+
 	<div id="positiveWords" class="positiveWords">
 		<form:label path="positiveWords">
-			<spring:message code="systemConfiguration.positiveWords" />
+			<spring:message code="positiveWords" />
 		</form:label>
 		<form:input path="positiveWords" />
 		<form:errors path="positiveWords" />
@@ -84,18 +84,10 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 	<div id="negativeWords" class="negativeWords">
 		<form:label path="negativeWords">
-			<spring:message code="systemConfiguration.negativeWords" />
+			<spring:message code="negativeWords" />
 		</form:label>
 		<form:input path="negativeWords" />
 		<form:errors path="negativeWords" />
-	</div>
-
-	<div id="spamWords" class="spamWords">
-		<form:label path="spamWords">
-			<spring:message code="spamWords" />
-		</form:label>
-		<form:input path="spamWords" />
-		<form:errors path="spamWords" />
 	</div>
 
 	<div id="welcomeMessage" class="welcomeMessage">

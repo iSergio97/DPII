@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,10 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.SystemConfiguration;
-import forms.SystemConfigurationForm;
 import repositories.SystemConfigurationRepository;
 import utilities.ConversionUtils;
+import domain.SystemConfiguration;
+import forms.SystemConfigurationForm;
 
 @Service
 @Transactional
@@ -70,6 +70,8 @@ public class SystemConfigurationService {
 		systemConfigurationForm.setDefaultCountryCode(systemConfiguration.getDefaultCountryCode());
 		systemConfigurationForm.setMaximumFinderResults(systemConfiguration.getMaximumFinderResults());
 		systemConfigurationForm.setSpamWords(ConversionUtils.listToString(systemConfiguration.getSpamWords(), ","));
+		systemConfigurationForm.setPositiveWords(ConversionUtils.listToString(systemConfiguration.getPositiveWords(), ","));
+		systemConfigurationForm.setNegativeWords(ConversionUtils.listToString(systemConfiguration.getNegativeWords(), ","));
 		systemConfigurationForm.setWelcomeMessage(ConversionUtils.mapToString(systemConfiguration.getWelcomeMessage(), ":", ";"));
 		return systemConfigurationForm;
 	}
@@ -81,6 +83,8 @@ public class SystemConfigurationService {
 		systemConfiguration.setDefaultCountryCode(systemConfigurationForm.getDefaultCountryCode());
 		systemConfiguration.setMaximumFinderResults(systemConfigurationForm.getMaximumFinderResults());
 		systemConfiguration.setSpamWords(ConversionUtils.stringToList(systemConfigurationForm.getSpamWords(), ","));
+		systemConfiguration.setPositiveWords(ConversionUtils.stringToList(systemConfigurationForm.getPositiveWords(), ","));
+		systemConfiguration.setNegativeWords(ConversionUtils.stringToList(systemConfigurationForm.getNegativeWords(), ","));
 		systemConfiguration.setWelcomeMessage(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessage(), ":", ";"));
 		this.validator.validate(systemConfiguration, bindingResult);
 		this.systemConfigurationRepository.flush();

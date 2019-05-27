@@ -99,11 +99,19 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	}
 
 	public List<Object[]> getTop5SeriesWithMostComments() {
-		return this.repository.getSeriesSortedByNumberOfCommentsDescending().subList(0, 5);
+		final List<Object[]> topSeriesWithMostComments = this.repository.getSeriesSortedByNumberOfCommentsDescending();
+		if (topSeriesWithMostComments.size() <= 5)
+			return topSeriesWithMostComments;
+		else
+			return topSeriesWithMostComments.subList(0, 5);
 	}
 
 	public List<Object[]> getTop5SeriesWithBestAverageCritiqueScore() {
-		return this.repository.getSeriesSortedByCritiqueScoreDescending().subList(0, 5);
+		final List<Object[]> topSeriesWithBestAverageCritiqueScore = this.repository.getSeriesSortedByCritiqueScoreDescending();
+		if (topSeriesWithBestAverageCritiqueScore.size() <= 5)
+			return topSeriesWithBestAverageCritiqueScore;
+		else
+			return topSeriesWithBestAverageCritiqueScore.subList(0, 5);
 	}
 
 }
