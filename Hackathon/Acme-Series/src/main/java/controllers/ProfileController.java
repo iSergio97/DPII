@@ -75,7 +75,7 @@ public class ProfileController {
 			admin = this.administratorService.reconstructForm(raf, bindingResult);
 			final UserAccount ua = admin.getUserAccount();
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(raf.getPassword(), null));
-			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
+			final UserAccount savedUA = this.userAccountRepository.save(ua);
 			admin.setUserAccount(savedUA);
 			this.administratorService.save(admin);
 			result = this.showAdmin();
@@ -114,7 +114,7 @@ public class ProfileController {
 			publisher = this.publisherService.reconstructForm(rpf, bindingResult);
 			final UserAccount ua = publisher.getUserAccount();
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(rpf.getPassword(), null));
-			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
+			final UserAccount savedUA = this.userAccountRepository.save(ua);
 			publisher.setUserAccount(savedUA);
 			this.publisherService.save(publisher);
 			result = this.showPublisher();
@@ -153,7 +153,7 @@ public class ProfileController {
 			critic = this.criticService.reconstructForm(rcf, bindingResult);
 			final UserAccount ua = critic.getUserAccount();
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(rcf.getPassword(), null));
-			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
+			final UserAccount savedUA = this.userAccountRepository.save(ua);
 			critic.setUserAccount(savedUA);
 			this.criticService.save(critic);
 			result = this.showCritic();
@@ -192,7 +192,7 @@ public class ProfileController {
 			user = this.userService.reconstructForm(ruf, bindingResult);
 			final UserAccount ua = user.getUserAccount();
 			ua.setPassword(new Md5PasswordEncoder().encodePassword(ruf.getPassword(), null));
-			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
+			final UserAccount savedUA = this.userAccountRepository.save(ua);
 			user.setUserAccount(savedUA);
 			this.userService.save(user);
 			result = this.showUser();
