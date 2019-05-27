@@ -117,7 +117,7 @@ public class ProfileController {
 			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
 			publisher.setUserAccount(savedUA);
 			this.publisherService.save(publisher);
-			result = this.showAdmin();
+			result = this.showPublisher();
 		} catch (final ValidationException valExp) {
 			result = this.createEditModelAndView(rpf, "edit");
 		} catch (final Throwable oops) {
@@ -136,16 +136,16 @@ public class ProfileController {
 		return result;
 	}
 
-	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "critic/edit", method = RequestMethod.GET)
 	public ModelAndView editCritic() {
 		final ModelAndView result;
-		final Publisher publisher = this.publisherService.findPrincipal();
-		final RegisterPublisherForm rpf = this.publisherService.deconstruct(publisher);
-		result = this.createEditModelAndView(rpf, "edit");
+		final Critic critic = this.criticService.findPrincipal();
+		final RegisterCriticForm rcf = this.criticService.deconstruct(critic);
+		result = this.createEditModelAndView(rcf, "edit");
 		return result;
 	}
 
-	@RequestMapping(value = "/publisher/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/critic/edit", method = RequestMethod.POST)
 	public ModelAndView saveCritic(@ModelAttribute("critic") final RegisterCriticForm rcf, final BindingResult bindingResult) {
 		ModelAndView result;
 		final Critic critic;
@@ -156,11 +156,50 @@ public class ProfileController {
 			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
 			critic.setUserAccount(savedUA);
 			this.criticService.save(critic);
-			result = this.showAdmin();
+			result = this.showCritic();
 		} catch (final ValidationException valExp) {
 			result = this.createEditModelAndView(rcf, "edit");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(rcf, "edit");
+		}
+		return result;
+	}
+
+	//User web pages
+	@RequestMapping(value = "/user/show", method = RequestMethod.GET)
+	public ModelAndView showUser() {
+		final ModelAndView result;
+		final User user = this.userService.findPrincipal();
+		result = this.createEditModelAndView(user, "show");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	public ModelAndView editUser() {
+		final ModelAndView result;
+		final User user = this.userService.findPrincipal();
+		final RegisterUserForm ruf = this.userService.deconstruct(user);
+		result = this.createEditModelAndView(ruf, "edit");
+		return result;
+	}
+
+	@RequestMapping(value = "/user/edit", method = RequestMethod.POST)
+	public ModelAndView saveUser(@ModelAttribute("user") final RegisterUserForm ruf, final BindingResult bindingResult) {
+		ModelAndView result;
+		final User user;
+		try {
+			user = this.userService.reconstructForm(ruf, bindingResult);
+			final UserAccount ua = user.getUserAccount();
+			ua.setPassword(new Md5PasswordEncoder().encodePassword(ruf.getPassword(), null));
+			final UserAccount savedUA = this.userAccountRepository.saveAndFlush(ua);
+			user.setUserAccount(savedUA);
+			this.userService.save(user);
+			result = this.showUser();
+		} catch (final ValidationException valExp) {
+			result = this.createEditModelAndView(ruf, "edit");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(ruf, "edit");
 		}
 		return result;
 	}
@@ -179,16 +218,16 @@ public class ProfileController {
 		ModelAndView result = null;
 
 		if (t instanceof RegisterAdministratorForm || t instanceof Administrator) {
-			result = new ModelAndView("register/administrator/" + messageCode);
+			result = new ModelAndView("profile/administrator/" + messageCode);
 			result.addObject("administrator", t);
 		} else if (t instanceof RegisterPublisherForm || t instanceof Publisher) {
-			result = new ModelAndView("register/publisher/" + messageCode);
+			result = new ModelAndView("profile/publisher/" + messageCode);
 			result.addObject("publisher", t);
 		} else if (t instanceof RegisterCriticForm || t instanceof Critic) {
-			result = new ModelAndView("register/critic/" + messageCode);
+			result = new ModelAndView("profile/critic/" + messageCode);
 			result.addObject("critic", t);
 		} else if (t instanceof RegisterUserForm || t instanceof User) {
-			result = new ModelAndView("register/user/" + messageCode);
+			result = new ModelAndView("profile/user/" + messageCode);
 			result.addObject("user", t);
 		}
 

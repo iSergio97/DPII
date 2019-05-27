@@ -58,16 +58,34 @@
 				<ul>
 					<li class="arrow"></li>
 					<security:authorize access="hasRole('ADMINISTRATOR')">
-						<li><a href="register/administrator/edit.do"><spring:message
-									code="action.edit" /> </a></li>
+						<li><a href="profile/administrator/edit.do"><spring:message
+									code="master.page.edit.profile" /> </a></li>
 						<li><a href="register/administrator/create.do"><spring:message
 									code="master.page.create.admin" /> </a></li>
 						<li><a href="register/critic/create.do"><spring:message
 									code="master.page.create.auditor" /> </a></li>
+						<li><a href="profile/administrator/show.do"><spring:message
+									code="master.page.show.profile" /> </a></li>
 					</security:authorize>
-
-					<li><a href="j_spring_security_logout"><spring:message
-								code="master.page.logout" /> </a></li>
+					<security:authorize access="hasRole('USER')">
+						<li><a href="profile/user/show.do"><spring:message
+									code="master.page.show.profile" /> </a></li>
+						<li><a href="profile/user/edit.do"><spring:message
+									code="master.page.edit.profile" /> </a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('CRITIC')">
+						<li><a href="profile/critic/show.do"><spring:message
+									code="master.page.show.profile" /> </a></li>
+						<li><a href="profile/critic/edit.do"><spring:message
+									code="master.page.edit.profile" /> </a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('PUBLISHER')">
+						<li><a href="profile/publisher/show.do"><spring:message
+									code="master.page.show.profile" /> </a></li>
+						<li><a href="profile/publisher/edit.do"><spring:message
+									code="master.page.edit.profile" /> </a></li>
+					</security:authorize>
+					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul></li>
 			<li><a class="fNiv" href="social-profile/all/list.do"><spring:message
 						code="master.page.socialProfile" /></a></li>

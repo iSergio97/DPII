@@ -1,17 +1,3 @@
-<%--
- * register/aministrator/create.jsp
- *
- * Copyright (C) 2019 Group 16 Desing & Testing II
- * @author Sergio Garrido Domínguez
- --%>
-
-<script type="text/javascript">
-	function test() {
-		//let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
-		if (!document.getElementById("phoneNumber").value.includes("+")) { return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?"); }
-	}
-</script>
-
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -23,7 +9,28 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="user" action="register/user/edit.do" method="POST">
+<script type="text/javascript" >
+function showPass() {
+	var showPass = document.getElementById("password");
+	var showPassC = document.getElementById("confirmPassword");
+	if(showPass.type == 'text') {
+		showPass.type = 'password';
+		showPassC.type = 'password';
+	} else {
+		showPass.type = 'text';
+		showPassC.type = 'text';
+	}
+	return false;
+}
+
+function test() {
+	//let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
+	if (!document.getElementById("phoneNumber").value.includes("+")) { return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?"); }
+}
+</script>
+
+
+<form:form modelAttribute="administrator" action="profile/administrator/edit.do" method="POST">
 
 	<form:hidden path="id" />
 
@@ -51,6 +58,7 @@
 		<acme:register code="username" path="username" />
 		<acme:password code="password" path="password" />
 		<acme:password code="confirmPassword" path="confirmPassword" />
+		<button onclick="return showPass();"> <spring:message code="showOrHidePass" /></button>
 	</fieldset>
 
 	<br>

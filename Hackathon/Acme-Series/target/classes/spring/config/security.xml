@@ -50,6 +50,7 @@
 		
 		<security:intercept-url pattern="/register/administrator/create.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/register/critic/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/profile/**" access="isAuthenticated()" />
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		

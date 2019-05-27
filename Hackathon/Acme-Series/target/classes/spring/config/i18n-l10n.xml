@@ -22,6 +22,7 @@
 		<value>/views/register/messages</value>
 		<value>/views/message/messages</value>
 		<value>/views/message-box/messages</value>
+		<value>/views/profile/messages</value>
 	</util:list>
 
 </beans>

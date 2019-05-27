@@ -8,7 +8,7 @@
   <script type="text/javascript">
       function test() {
           //let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
-          if(!document.getElementById("phoneNumber").value.includes("+34")){
+          if(!document.getElementById("phoneNumber").value.includes("+")){
               return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?");
           }
         }
