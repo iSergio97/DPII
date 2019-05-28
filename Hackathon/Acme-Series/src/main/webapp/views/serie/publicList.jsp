@@ -14,27 +14,36 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<form>
+	<spring:message code="keyword" />
+	: <input type="text" value="" id="keyword" name="keyword" />
+	<button type="submit">
+		<spring:message code="search" />
+	</button>
+</form>
+
 <display:table name="series" id="row" pagesize="5" class="displaytag">
 
-<display:column titleKey = "title">
-<jstl:out value="${row.title}" />
+	<display:column titleKey="title">
+		<jstl:out value="${row.title}" />
 	</display:column>
-	
-	<display:column titleKey = "description">
-<jstl:out value="${row.description}" />
+
+	<display:column titleKey="description">
+		<jstl:out value="${row.description}" />
 	</display:column>
-	
-	<display:column titleKey = "status">
-<jstl:out value="${row.status}" />
+
+	<display:column titleKey="status">
+		<jstl:out value="${row.status}" />
 	</display:column>
-	
+
 	<display:column titleKey="show">
-		<a href="serie/all/show.do?serieId=${row.id}"><spring:message code="show" /></a>
+		<a href="serie/public/show.do?serieId=${row.id}"><spring:message
+				code="show" /></a>
 	</display:column>
-	
-	
-	
-	
+
+
+
+
 	<%--
 	*<security:authorize access="hasRole('USER')">
 	*<display:column titleKey="comment">
@@ -53,7 +62,7 @@
 </display:table>
 
 <security:authorize access="hasRole('PUBLISHER')">
-<p>
-	<a href="serie/publisher/create.do"><spring:message code="create" /></a>
-</p>
+	<p>
+		<a href="serie/publisher/create.do"><spring:message code="create" /></a>
+	</p>
 </security:authorize>

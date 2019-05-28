@@ -1,6 +1,6 @@
 /*
  * SerieRepository.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -49,5 +49,8 @@ public interface SerieRepository extends AbstractRepository<Serie> {
 
 	@Query("select s from Serie s join s.seasons se where se.id = ?1")
 	Serie findSerieAssociated(int seasonId);
+
+	@Query("select s from Serie s where s.title like ?1 or s.description like ?1")
+	Collection<Serie> searchQuery(String text);
 
 }

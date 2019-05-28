@@ -65,11 +65,12 @@ public class SerieController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
-	public ModelAndView publicList() {
+	public ModelAndView publicList(@RequestParam(required = false) final String keyword) {
 		ModelAndView result;
 		Collection<Serie> series;
 
-		series = this.serieService.findPublicSeries();
+		series = this.serieService.searchQuery(keyword == null ? "" : keyword);
+
 		result = new ModelAndView("serie/public/list");
 		result.addObject("series", series);
 

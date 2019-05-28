@@ -56,7 +56,7 @@
 <jstl:out value="${serie.cast}" />
 <br>
 
-<strong><a href="season/all/list.do"><spring:message code="seasons" /></a></strong>
+<strong><a href="season/public/list.do"><spring:message code="seasons" /></a></strong>
 :
 
 
