@@ -1,6 +1,6 @@
 /*
  * CriticService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -12,18 +12,20 @@ import java.util.List;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import domain.Critic;
-import forms.RegisterCriticForm;
 import repositories.CriticRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Critic;
+import forms.RegisterCriticForm;
 
 @Service
 @Transactional
@@ -33,7 +35,7 @@ public class CriticService extends AbstractService<CriticRepository, Critic> {
 	// CRUD methods
 
 	@Autowired
-	private UserAccountRepository userAccountRepository;
+	private UserAccountRepository	userAccountRepository;
 
 
 	@Override
@@ -154,8 +156,15 @@ public class CriticService extends AbstractService<CriticRepository, Critic> {
 	}
 
 	public Critic findPrincipal() {
-		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)
+			return null;
+		else {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			for (final Authority authority : userAccount.getAuthorities())
+				if (authority.getAuthority().equals(Authority.CRITIC))
+					return this.findByUserAccountId(userAccount.getId());
+			return null;
+		}
 	}
 
 }

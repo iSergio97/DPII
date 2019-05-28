@@ -59,8 +59,9 @@
 		<security:intercept-url pattern="/*/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/all/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/*/all/**" access="isAuthenticated()" />
-    
-    
+		<security:intercept-url pattern="/public/**" access="permitAll" />
+		<security:intercept-url pattern="/*/public/**" access="permitAll" />
+
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		
 		

@@ -112,6 +112,10 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		return this.repository.getSerieCritiqueScoreStatistics(serie.getId());
 	}
 
+	public List<Serie> getSeriesSortedByNumberOfFavorites() {
+		return this.repository.getSeriesSortedByNumberOfFavorites();
+	}
+
 	public List<Object[]> getTop5SeriesWithMostComments() {
 		final List<Object[]> topSeriesWithMostComments = this.repository.getSeriesSortedByNumberOfCommentsDescending();
 		if (topSeriesWithMostComments.size() <= 5)
@@ -141,7 +145,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	}
 
 	public Collection<Serie> findWatchedByUserId(final int userId) {
-		return this.findWatchedByUserId(userId);
+		return this.repository.findWatchedByUserId(userId);
 	}
 
 	public Collection<Serie> findByPublisherId(final int publisherId) {

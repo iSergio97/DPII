@@ -2,6 +2,9 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,28 +31,30 @@ import forms.SerieForm;
 @RequestMapping("/serie")
 public class SerieController extends AbstractController {
 
-	@Autowired
-	private SerieService		serieService;
-
-	@Autowired
-	private UserService			userService;
-
-	@Autowired
-	private PublisherService	publisherService;
-
-	@Autowired
-	private SeasonService		seasonService;
+	////////////////////////////////////////////////////////////////////////////////
+	// Services
 
 	@Autowired
 	private ChapterService		chapterService;
+	@Autowired
+	private PublisherService	publisherService;
+	@Autowired
+	private SeasonService		seasonService;
+	@Autowired
+	private SerieService		serieService;
+	@Autowired
+	private UserService			userService;
 
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Constructors
 
 	public SerieController() {
 
 	}
 
-	/////////////////////////////////////////////////////////////
-	//List
+	////////////////////////////////////////////////////////////////////////////////
+	// List
 
 	@RequestMapping(value = "/publisher/list", method = RequestMethod.GET)
 	public ModelAndView publisherList() {
@@ -64,14 +69,68 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView result;
 		Collection<Serie> series;
 
 		series = this.serieService.findPublicSeries();
-		result = new ModelAndView("serie/all/list");
+		result = new ModelAndView("serie/public/list");
 		result.addObject("series", series);
+
+		final User user = this.userService.findPrincipal();
+		if (user != null) {
+			final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+			for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+				seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+			result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+			final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+			for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+				seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+			result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+			final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+			for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+				seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+			result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+			final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+			for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+				seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+			result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
+		}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/user/sortedByFavoritesList", method = RequestMethod.GET)
+	public ModelAndView list() {
+		final ModelAndView result;
+		final User user;
+		final List<Serie> series;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+		series = this.serieService.getSeriesSortedByNumberOfFavorites();
+
+		result = new ModelAndView("serie/user/sortedByFavoritesList");
+		result.addObject("series", series);
+
+		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+		for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+			seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+		result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+		final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+		for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+			seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+		result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+		for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+			seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+		result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+		for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+			seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+		result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 
 		return result;
 	}
@@ -79,13 +138,30 @@ public class SerieController extends AbstractController {
 	@RequestMapping(value = "/user/favouriteList", method = RequestMethod.GET)
 	public ModelAndView favouriteUserList() {
 		ModelAndView result;
-		User u;
+		User user;
 		Collection<Serie> series;
 
-		u = this.userService.findPrincipal();
-		series = this.serieService.findFavouriteByUserId(u.getId());
+		user = this.userService.findPrincipal();
+		series = this.serieService.findFavouriteByUserId(user.getId());
 		result = new ModelAndView("serie/user/favouriteList");
 		result.addObject("series", series);
+
+		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+		for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+			seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+		result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+		final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+		for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+			seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+		result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+		for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+			seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+		result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+		for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+			seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+		result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 
 		return result;
 	}
@@ -93,13 +169,30 @@ public class SerieController extends AbstractController {
 	@RequestMapping(value = "/user/pendingList", method = RequestMethod.GET)
 	public ModelAndView pendingUserList() {
 		ModelAndView result;
-		User u;
+		User user;
 		Collection<Serie> series;
 
-		u = this.userService.findPrincipal();
-		series = this.serieService.findPendingByUserId(u.getId());
+		user = this.userService.findPrincipal();
+		series = this.serieService.findPendingByUserId(user.getId());
 		result = new ModelAndView("serie/user/pendingList");
 		result.addObject("series", series);
+
+		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+		for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+			seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+		result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+		final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+		for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+			seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+		result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+		for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+			seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+		result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+		for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+			seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+		result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 
 		return result;
 	}
@@ -107,13 +200,30 @@ public class SerieController extends AbstractController {
 	@RequestMapping(value = "/user/watchingList", method = RequestMethod.GET)
 	public ModelAndView watchingList() {
 		ModelAndView result;
-		User u;
+		User user;
 		Collection<Serie> series;
 
-		u = this.userService.findPrincipal();
-		series = this.serieService.findWatchingByUserId(u.getId());
+		user = this.userService.findPrincipal();
+		series = this.serieService.findWatchingByUserId(user.getId());
 		result = new ModelAndView("serie/user/watchingList");
 		result.addObject("series", series);
+
+		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+		for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+			seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+		result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+		final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+		for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+			seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+		result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+		for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+			seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+		result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+		for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+			seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+		result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 
 		return result;
 	}
@@ -121,46 +231,74 @@ public class SerieController extends AbstractController {
 	@RequestMapping(value = "/user/watchedList", method = RequestMethod.GET)
 	public ModelAndView watchedList() {
 		ModelAndView result;
-		User u;
+		User user;
 		Collection<Serie> series;
 
-		u = this.userService.findPrincipal();
-		series = this.serieService.findWatchedByUserId(u.getId());
+		user = this.userService.findPrincipal();
+		series = this.serieService.findWatchedByUserId(user.getId());
 		result = new ModelAndView("serie/user/watchedList");
 		result.addObject("series", series);
+
+		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+		for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+			seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+		result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+		final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+		for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+			seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+		result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+		for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+			seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+		result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+		final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+		for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+			seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+		result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 
 		return result;
 	}
 
-	////////////////////////////////////////////////////////////////////////
-	//Show
+	////////////////////////////////////////////////////////////////////////////////
+	// Show
 
-	@RequestMapping(value = "/publisher/show")
+	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
 
 		serie = this.serieService.findOne(serieId);
-		result = new ModelAndView("serie/publisher/show");
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		result = new ModelAndView("serie/public/show");
 		result.addObject("serie", serie);
+
+		final User user = this.userService.findPrincipal();
+		if (user != null) {
+			final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
+			for (final Serie serieFavoritedByPrincipal : this.serieService.findFavouriteByUserId(user.getId()))
+				seriesFavoritedByPrincipal.put(serieFavoritedByPrincipal, true);
+			result.addObject("seriesFavoritedByPrincipal", seriesFavoritedByPrincipal);
+			final Map<Serie, Boolean> seriesPendingByPrincipal = new HashMap<>();
+			for (final Serie seriePendingByPrincipal : this.serieService.findPendingByUserId(user.getId()))
+				seriesPendingByPrincipal.put(seriePendingByPrincipal, true);
+			result.addObject("seriesPendingByPrincipal", seriesPendingByPrincipal);
+			final Map<Serie, Boolean> seriesWatchingByPrincipal = new HashMap<>();
+			for (final Serie serieWatchingByPrincipal : this.serieService.findWatchingByUserId(user.getId()))
+				seriesWatchingByPrincipal.put(serieWatchingByPrincipal, true);
+			result.addObject("seriesWatchingByPrincipal", seriesWatchingByPrincipal);
+			final Map<Serie, Boolean> seriesWatchedByPrincipal = new HashMap<>();
+			for (final Serie serieWatchedByPrincipal : this.serieService.findWatchedByUserId(user.getId()))
+				seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
+			result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
+		}
 
 		return result;
 	}
 
-	@RequestMapping(value = "/all/show")
-	public ModelAndView showPublic(@RequestParam final int serieId) {
-		ModelAndView result;
-		Serie serie;
-
-		serie = this.serieService.findOne(serieId);
-		result = new ModelAndView("serie/all/show");
-		result.addObject("serie", serie);
-
-		return result;
-	}
-
-	///////////////////////////////////////////////////////////////////////
-	//Create
+	////////////////////////////////////////////////////////////////////////////////
+	// Create
 
 	@RequestMapping(value = "/publisher/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -173,8 +311,8 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-	//Edit
+	////////////////////////////////////////////////////////////////////////////////
+	// Edit
 
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int serieId) {
@@ -188,34 +326,135 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
-	////////////////////////////////////////////////////////////////////
-	//Save
+	////////////////////////////////////////////////////////////////////////////////
+	// Save
 
 	@RequestMapping(value = "/publisher/edit", params = "save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute("serie") final SerieForm serie, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("serie") final SerieForm serieForm, final BindingResult binding) {
 		ModelAndView result;
-		Serie serie2;
+		Serie serie;
 
-		serie2 = this.serieService.reconstruct(serie, binding);
+		serie = this.serieService.reconstruct(serieForm, binding);
 		if (binding.hasErrors())
-			result = this.createAndEditModelAndView(serie);
+			result = this.createAndEditModelAndView(serieForm);
 		else
 			try {
-				if (serie2.getSeasons().isEmpty()) {
-					final Season s = this.seasonService.create();
-					final Chapter c = this.chapterService.create();
-					s.getChapters().add(c);
-					serie2.getSeasons().add(s);
+				if (serie.getSeasons().isEmpty()) {
+					final Season season = this.seasonService.create();
+					final Chapter chapter = this.chapterService.create();
+					season.getChapters().add(chapter);
+					serie.getSeasons().add(season);
 				}
-				this.serieService.save(serie2);
+				this.serieService.save(serie);
 				result = this.publisherList();
 			} catch (final Throwable oops) {
-				result = this.createAndEditModelAndView(serie);
+				result = this.createAndEditModelAndView(serieForm);
 			}
 		return result;
 	}
 
-	// Ancillary Methods ------------------------------------------------
+	////////////////////////////////////////////////////////////////////////////////
+	// Mark as favorite
+
+	@RequestMapping(value = "/user/markAsFavorite", method = RequestMethod.POST)
+	public ModelAndView favorite(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> favoritedUsers = serie.getFavouritedUsers();
+		if (favoritedUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		favoritedUsers.add(user);
+		serie.setFavouritedUsers(favoritedUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Mark as pending
+
+	@RequestMapping(value = "/user/markAsPending", method = RequestMethod.POST)
+	public ModelAndView pending(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> pendingUsers = serie.getPendingUsers();
+		if (pendingUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		pendingUsers.add(user);
+		serie.setPendingUsers(pendingUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Mark as watching
+
+	@RequestMapping(value = "/user/markAsWatching", method = RequestMethod.POST)
+	public ModelAndView watching(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> watchingUsers = serie.getWatchingUsers();
+		if (watchingUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		watchingUsers.add(user);
+		serie.setWatchingUsers(watchingUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Mark as watched
+
+	@RequestMapping(value = "/user/markAsWatched", method = RequestMethod.POST)
+	public ModelAndView watched(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> watchedUsers = serie.getWatchedUsers();
+		if (watchedUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		watchedUsers.add(user);
+		serie.setWatchedUsers(watchedUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary Methods
 
 	protected ModelAndView createAndEditModelAndView(final SerieForm serie) {
 		ModelAndView result;

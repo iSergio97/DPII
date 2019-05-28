@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- * serie/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing II -->
+<!--
+serie/tiles_es.xml
+
+Copyright (C) 2019 Group 16 Desing & Testing II
+-->
 
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
@@ -8,64 +12,60 @@
 
 <tiles-definitions>
 
-	<definition name="serie/publisher/create"
-		extends="master.page">
-		<put-attribute name="title" value="Publicar nueva serie" />
-		<put-attribute name="body"
-			value="/views/serie/edit.jsp" />
-	</definition>
-	
-	<definition name="serie/publisher/edit"
-		extends="master.page">
-		<put-attribute name="title" value="Editar serie" />
-		<put-attribute name="body"
-			value="/views/serie/edit.jsp" />
+	<!-- Public -->
+
+	<definition name="serie/public/list" extends="master.page">
+		<put-attribute name="title" value="Todas las series" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
 	</definition>
 
-	<definition name="serie/publisher/list"
-		extends="master.page">
-		<put-attribute name="title"
-			value="Series" />
-		<put-attribute name="body"
-			value="/views/serie/list.jsp" />
-	</definition>
-
-	<definition name="serie/publisher/show"
-		extends="master.page">
+	<definition name="serie/public/show" extends="master.page">
 		<put-attribute name="title" value="Mostrar Serie" />
-		<put-attribute name="body"
-			value="/views/serie/show.jsp" />
+		<put-attribute name="body" value="/views/serie/show.jsp" />
 	</definition>
-	
-	<definition name="serie/all/list"
-		extends="master.page">
-		<put-attribute name="title" value="Todas las Series" />
-		<put-attribute name="body"
-			value="/views/serie/publicList.jsp" />
+
+	<!-- Publisher -->
+
+	<definition name="serie/publisher/list" extends="master.page">
+		<put-attribute name="title" value="Mis series" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
 	</definition>
-	
-		<definition name="serie/all/show"
-		extends="master.page">
-		<put-attribute name="title"
-			value="Mostrar Serie" />
-		<put-attribute name="body"
-			value="/views/serie/publicShow.jsp" />
+
+	<definition name="serie/publisher/create" extends="master.page">
+		<put-attribute name="title" value="Publicar nueva serie" />
+		<put-attribute name="body" value="/views/serie/edit.jsp" />
 	</definition>
-	
-	<definition name="season/all/list"
-		extends="master.page">
-		<put-attribute name="title"
-			value="Temporadas" />
-		<put-attribute name="body"
-			value="/views/season/publicList.jsp" />
+
+	<definition name="serie/publisher/edit" extends="master.page">
+		<put-attribute name="title" value="Editar serie" />
+		<put-attribute name="body" value="/views/serie/edit.jsp" />
 	</definition>
-	
-	<definition name="season/publisher/list"
-		extends="master.page">
-		<put-attribute name="title"
-			value="Temporadas" />
-		<put-attribute name="body"
-			value="/views/season/list.jsp" />
+
+	<!-- User -->
+
+	<definition name="serie/user/sortedByFavoritesList" extends="master.page">
+		<put-attribute name="title" value="Las series favoritas de la comunidad" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
+	</definition>
+
+	<definition name="serie/user/favouriteList" extends="master.page">
+		<put-attribute name="title" value="Mis series favoritas" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
+	</definition>
+
+	<definition name="serie/user/pendingList" extends="master.page">
+		<put-attribute name="title" value="Mis series pendientes" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
+	</definition>
+
+	<definition name="serie/user/watchingList" extends="master.page">
+		<put-attribute name="title" value="Lo que estoy viendo" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
+	</definition>
+
+	<definition name="serie/user/watchedList" extends="master.page">
+		<put-attribute name="title" value="Lo que he visto" />
+		<put-attribute name="body" value="/views/serie/list.jsp" />
 	</definition>
 
 </tiles-definitions>

@@ -6,13 +6,14 @@
 
 package services;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Actor;
 import repositories.ActorRepository;
 import security.LoginService;
-import security.UserAccount;
+import domain.Actor;
 
 @Service
 @Transactional
@@ -26,11 +27,13 @@ public class ActorService extends AbstractService<ActorRepository, Actor> {
 	}
 
 	public Actor findPrincipal() {
-		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)
+			return null;
+		else
+			return this.findByUserAccountId(LoginService.getPrincipal().getId());
 	}
 
-	public Actor findByUsername(String username) {
+	public Actor findByUsername(final String username) {
 		return this.repository.findByUsername(username);
 	}
 

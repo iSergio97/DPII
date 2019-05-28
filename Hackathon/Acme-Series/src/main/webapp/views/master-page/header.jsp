@@ -48,8 +48,8 @@
 						code="master.page.register.user" /></a></li>
 			<li><a class="fNiv" href="register/publisher/create.do"> <spring:message
 						code="master.page.register.publisher" /></a></li>
-			<li><a class="fNiv" href="serie/all/list.do"> <spring:message
-						code="master.page.serie.all" /></a></li>
+			<li><a class="fNiv" href="serie/public/list.do"> <spring:message
+						code="master.page.serie.public" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -82,8 +82,6 @@
 									code="master.page.show.profile" /> </a></li>
 						<li><a href="profile/publisher/edit.do"><spring:message
 									code="master.page.edit.profile" /> </a></li>
-						<li><a href="serie/publisher/list.do"><spring:message
-									code="master.page.serie.publisher" /> </a></li>
 					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
@@ -127,6 +125,29 @@
 								code="master.page.administrator.register" /></a></li>
 					<li><a href="register/critic/create.do"><spring:message
 								code="master.page.register.critic" /> </a></li>
+				</ul></li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('PUBLISHER')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.publisher" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="serie/publisher/list.do"><spring:message
+								code="master.page.serie.publisher" /> </a></li>
+				</ul></li>
+		</security:authorize>
+
+		<security:authorize access="hasRole('USER')">
+			<li><a class="fNiv"><spring:message
+						code="master.page.user" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="serie/user/sortedByFavoritesList.do"><spring:message code="master.page.serie.user.sortedByFavoritesList" /> </a></li>
+					<li><a href="serie/user/favouriteList.do"><spring:message code="master.page.serie.user.favouriteList" /> </a></li>
+					<li><a href="serie/user/pendingList.do"><spring:message code="master.page.serie.user.pendingList" /> </a></li>
+					<li><a href="serie/user/watchingList.do"><spring:message code="master.page.serie.user.watchingList" /> </a></li>
+					<li><a href="serie/user/watchedList.do"><spring:message code="master.page.serie.user.watchedList" /> </a></li>
 				</ul></li>
 		</security:authorize>
 
