@@ -18,80 +18,80 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <img src="${serie.banner}" />
 
 <p>
-	<strong><spring:message code="serie.title" /></strong>:<jstl:out value="${serie.title}" />
+	<strong><spring:message code="title" /></strong>:<jstl:out value="${serie.title}" />
 </p>
 
 <p>
-	<strong><spring:message code="serie.description" /></strong>:<jstl:out value="${serie.description}" />
+	<strong><spring:message code="description" /></strong>:<jstl:out value="${serie.description}" />
 </p>
 
 <p>
-	<strong><spring:message code="serie.status" /></strong>:<jstl:out value="${serie.status}" />
+	<strong><spring:message code="status" /></strong>:<jstl:out value="${serie.status}" />
 </p>
 
 <p>
-	<strong><spring:message code="serie.startDate" /></strong>:<jstl:out value="${serie.startDate}" />
+	<strong><spring:message code="startDate" /></strong>:<jstl:out value="${serie.startDate}" />
 </p>
 
 <p>
 	<jstl:if test="${serie.status == 'FINALIZED'}">
-		<strong><spring:message code="serie.endDate" /></strong>:<jstl:out value="${serie.endDate}" />
+		<strong><spring:message code="endDate" /></strong>:<jstl:out value="${serie.endDate}" />
 	</jstl:if>
 </p>
 
 <p>
-	<strong><spring:message code="serie.director" /></strong>:<jstl:out value="${serie.director}" />
+	<strong><spring:message code="director" /></strong>:<jstl:out value="${serie.director}" />
 </p>
 
 <p>
-	<strong><spring:message code="serie.cast" /></strong>:<jstl:out value="${serie.cast}" />
+	<strong><spring:message code="cast" /></strong>:<jstl:out value="${serie.cast}" />
 </p>
 
 <security:authorize access="hasRole('PUBLISHER')">
 	<p>
-		<a href="season/publisher/list.do?serieId=${serie.id}"><spring:message code="serie.seasons" /></a>
+		<a href="season/publisher/list.do?serieId=${serie.id}"><spring:message code="seasons" /></a>
 	</p>
 </security:authorize>
 
 <security:authorize access="!hasRole('PUBLISHER')">
 	<p>
-		<a href="season/public/list.do"><spring:message code="serie.seasons" /></a>
+		<a href="season/public/list.do"><spring:message code="seasons" /></a>
 	</p>
 </security:authorize>
 
 <security:authorize access="hasRole('CRITIC')">
 	<p>
-		<a href="critique/critic/create.do?serieId=${serie.id}"><spring:message code="serie.makeCritique"/></a>
+		<a href="critique/critic/create.do?serieId=${serie.id}"><spring:message code="makeCritique"/></a>
 	</p>
 </security:authorize>
 
 <security:authorize access="hasRole('USER')">
 	<p>
-		<a href="comment/user/create.do?serieId=${serie.id}"><spring:message code="serie.makeComment"/></a>
+		<a href="comment/user/create.do?serieId=${serie.id}"><spring:message code="makeComment"/></a>
 	</p>
 	<p>
 		<jstl:if test="${seriesFavoritedByPrincipal[serie] ne true}">
 			<form action="serie/user/markAsFavorite.do" method="POST">
 				<input type="hidden" name="serieId" value="<jstl:out value='${serie.id}' />" />
-				<input type="submit" name="markAsFavorite" value="<spring:message code='serie.markAsFavorite' />" />
+				<input type="submit" name="markAsFavorite" value="<spring:message code='markAsFavorite' />" />
 			</form>
 		</jstl:if>
 		<jstl:if test="${seriesPendingByPrincipal[serie] ne true}">
 			<form action="serie/user/markAsPending.do" method="POST">
 				<input type="hidden" name="serieId" value="<jstl:out value='${serie.id}' />" />
-				<input type="submit" name="markAsPending" value="<spring:message code='serie.markAsPending' />" />
+				<input type="submit" name="markAsPending" value="<spring:message code='markAsPending' />" />
 			</form>
 		</jstl:if>
 		<jstl:if test="${seriesWatchingByPrincipal[serie] ne true}">
 			<form action="serie/user/markAsWatching.do" method="POST">
 				<input type="hidden" name="serieId" value="<jstl:out value='${serie.id}' />" />
-				<input type="submit" name="markAsWatching" value="<spring:message code='serie.markAsWatching' />" />
+				<input type="submit" name="markAsWatching" value="<spring:message code='markAsWatching' />" />
 			</form>
 		</jstl:if>
 		<jstl:if test="${seriesWatchedByPrincipal[serie] ne true}">
 			<form action="serie/user/markAsWatched.do" method="POST">
 				<input type="hidden" name="serieId" value="<jstl:out value='${serie.id}' />" />
-				<input type="submit" name="markAsWatched" value="<spring:message code='serie.markAsWatched' />" />
+				<input type="submit" name="markAsWatched" value="<spring:message code='markAsWatched' />" />
 			</form>
 		</jstl:if>
 	</p>

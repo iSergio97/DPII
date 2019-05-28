@@ -20,7 +20,7 @@
 
 <div id="title" class="title">
 		<form:label path="title">
-			<spring:message code="serie.title" />
+			<spring:message code="title" />
 		</form:label>
 		<form:input path="title" />
 		<form:errors path="title" />
@@ -28,7 +28,7 @@
 	
 	<div id="description" class="description">
 		<form:label path="description">
-			<spring:message code="serie.description" />
+			<spring:message code="description" />
 		</form:label>
 		<form:input path="description" />
 		<form:errors path="description" />
@@ -36,7 +36,7 @@
 	
 	<div id="banner" class="banner">
 		<form:label path="banner">
-			<spring:message code="serie.banner" />
+			<spring:message code="banner" />
 		</form:label>
 		<form:input path="banner" />
 		<form:errors path="banner" />
@@ -44,7 +44,7 @@
 	
 	<div id="startDate" class="startDate">
 		<form:label path="startDate">
-			<spring:message code="serie.startDate" />
+			<spring:message code="startDate" />
 		</form:label>
 		<form:input path="startDate" />
 		<form:errors path="startDate" />
@@ -52,7 +52,7 @@
 	
 	<div id="endDate" class="endDate">
 		<form:label path="endDate">
-			<spring:message code="serie.endDate" />
+			<spring:message code="endDate" />
 		</form:label>
 		<form:input path="endDate" />
 		<form:errors path="endDate" />
@@ -60,7 +60,7 @@
 	
 	<div id="status" class="status">
 		<form:label path="status">
-			<spring:message code="serie.status" />
+			<spring:message code="status" />
 		</form:label>
 		<form:input path="status" />
 		<form:errors path="status" />
@@ -68,7 +68,7 @@
 	
 	<div id="director" class="director">
 		<form:label path="director">
-			<spring:message code="serie.director" />
+			<spring:message code="director" />
 		</form:label>
 		<form:input path="director" />
 		<form:errors path="director" />
@@ -76,7 +76,7 @@
 	
 	<div id="cast" class="cast">
 		<form:label path="cast">
-			<spring:message code="serie.cast" />
+			<spring:message code="cast" />
 		</form:label>
 		<form:input path="cast" />
 		<form:errors path="cast" />
