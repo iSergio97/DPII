@@ -1,6 +1,6 @@
 /*
  * SerieService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import repositories.SerieRepository;
 import domain.Serie;
 import forms.SerieForm;
-import repositories.SerieRepository;
 
 @Service
 @Transactional
@@ -29,7 +29,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	// Supporting services
 
 	@Autowired
-	private PublisherService publisherService;
+	private PublisherService	publisherService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +112,10 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		return this.repository.getSerieCritiqueScoreStatistics(serie.getId());
 	}
 
+	public List<Serie> getSeriesSortedByNumberOfFavorites() {
+		return this.repository.getSeriesSortedByNumberOfFavorites();
+	}
+
 	public List<Object[]> getTop5SeriesWithMostComments() {
 		final List<Object[]> topSeriesWithMostComments = this.repository.getSeriesSortedByNumberOfCommentsDescending();
 		if (topSeriesWithMostComments.size() <= 5)
@@ -141,7 +145,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	}
 
 	public Collection<Serie> findWatchedByUserId(final int userId) {
-		return this.findWatchedByUserId(userId);
+		return this.repository.findWatchedByUserId(userId);
 	}
 
 	public Collection<Serie> findByPublisherId(final int publisherId) {

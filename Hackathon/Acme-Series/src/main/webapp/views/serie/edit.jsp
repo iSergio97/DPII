@@ -16,12 +16,11 @@
 <form:hidden path="id" />
 <form:hidden path="isDraft" />
 
-
 <!-- Input Fields -->
 
 <div id="title" class="title">
 		<form:label path="title">
-			<spring:message code="title" />
+			<spring:message code="serie.title" />
 		</form:label>
 		<form:input path="title" />
 		<form:errors path="title" />
@@ -29,7 +28,7 @@
 	
 	<div id="description" class="description">
 		<form:label path="description">
-			<spring:message code="description" />
+			<spring:message code="serie.description" />
 		</form:label>
 		<form:input path="description" />
 		<form:errors path="description" />
@@ -37,7 +36,7 @@
 	
 	<div id="banner" class="banner">
 		<form:label path="banner">
-			<spring:message code="banner" />
+			<spring:message code="serie.banner" />
 		</form:label>
 		<form:input path="banner" />
 		<form:errors path="banner" />
@@ -45,7 +44,7 @@
 	
 	<div id="startDate" class="startDate">
 		<form:label path="startDate">
-			<spring:message code="startDate" />
+			<spring:message code="serie.startDate" />
 		</form:label>
 		<form:input path="startDate" />
 		<form:errors path="startDate" />
@@ -53,7 +52,7 @@
 	
 	<div id="endDate" class="endDate">
 		<form:label path="endDate">
-			<spring:message code="endDate" />
+			<spring:message code="serie.endDate" />
 		</form:label>
 		<form:input path="endDate" />
 		<form:errors path="endDate" />
@@ -61,7 +60,7 @@
 	
 	<div id="status" class="status">
 		<form:label path="status">
-			<spring:message code="status" />
+			<spring:message code="serie.status" />
 		</form:label>
 		<form:input path="status" />
 		<form:errors path="status" />
@@ -69,7 +68,7 @@
 	
 	<div id="director" class="director">
 		<form:label path="director">
-			<spring:message code="director" />
+			<spring:message code="serie.director" />
 		</form:label>
 		<form:input path="director" />
 		<form:errors path="director" />
@@ -77,7 +76,7 @@
 	
 	<div id="cast" class="cast">
 		<form:label path="cast">
-			<spring:message code="cast" />
+			<spring:message code="serie.cast" />
 		</form:label>
 		<form:input path="cast" />
 		<form:errors path="cast" />
@@ -86,13 +85,13 @@
 
 <!-- Form options -->
 
-<input type="submit" name="save" value="<spring:message code="send" />" />
+<input type="submit" name="save" value="<spring:message code="serie.send" />" />
 <form action="serie/publisher/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${serie.id}' />" />
 	<p>
 	</p>
 	<jstl:if test="${serie.isDraft}">
-<input type="submit" name="delete" value="<spring:message code='delete' />" />	
+<input type="submit" name="delete" value="<spring:message code='serie.delete' />" />	
 </jstl:if>
 </form>
 

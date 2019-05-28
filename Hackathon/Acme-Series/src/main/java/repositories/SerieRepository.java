@@ -29,6 +29,9 @@ public interface SerieRepository extends AbstractRepository<Serie> {
 	@Query("select distinct c.serie, avg(c.score) from Critique c group by c.serie order by avg(c.score) desc")
 	List<Object[]> getSeriesSortedByCritiqueScoreDescending();
 
+	@Query("select s from Serie s order by s.favouritedUsers.size desc")
+	List<Serie> getSeriesSortedByNumberOfFavorites();
+
 	@Query("select s from Serie s join s.favouritedUsers u where u.id = ?1")
 	Collection<Serie> findFavouriteByUserId(int userId);
 
