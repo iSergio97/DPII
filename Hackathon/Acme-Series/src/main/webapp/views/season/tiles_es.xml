@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- * serie/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing II -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="season/publisher/create"
+		extends="master.page">
+		<put-attribute name="title" value="Crear nueva temporada" />
+		<put-attribute name="body"
+			value="/views/season/edit.jsp" />
+	</definition>
+	
+	<definition name="season/publisher/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Editar Temporada" />
+		<put-attribute name="body"
+			value="/views/season/edit.jsp" />
+	</definition>
+
+	<definition name="season/publisher/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Temporadas" />
+		<put-attribute name="body"
+			value="/views/season/list.jsp" />
+	</definition>
+
+	<definition name="season/publisher/show"
+		extends="master.page">
+		<put-attribute name="title" value="Mostrar Temporada" />
+		<put-attribute name="body"
+			value="/views/season/show.jsp" />
+	</definition>
+	
+	<definition name="chapter/publisher/list"
+		extends="master.page">
+		<put-attribute name="title" value="Capítulos" />
+		<put-attribute name="body"
+			value="/views/chapter/show.jsp" />
+	</definition>
+	
+	</tiles-definitions>

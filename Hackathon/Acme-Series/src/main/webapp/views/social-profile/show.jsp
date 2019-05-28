@@ -19,7 +19,3 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	<acme:field value="${socialProfile.socialNetworkName}" code="socialNetworkName"/>
 	<acme:link value="${socialProfile.profileLink}" code="profileLink"/>
 </div>
-
-<div>
-	<acme:cancel url="welcome/index.do" code="action.cancel" />
-</div>

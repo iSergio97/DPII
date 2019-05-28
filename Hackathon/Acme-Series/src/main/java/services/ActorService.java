@@ -30,8 +30,8 @@ public class ActorService extends AbstractService<ActorRepository, Actor> {
 		return this.findByUserAccountId(userAccount.getId());
 	}
 
-	public Actor findActorUA(String un) {
-		return this.repository.findByUsername(un);
+	public Actor findByUsername(String username) {
+		return this.repository.findByUsername(username);
 	}
 
 }

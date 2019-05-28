@@ -14,11 +14,11 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.MapKeyClass;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -30,18 +30,18 @@ public class SystemConfiguration extends DomainEntity {
 
 	private String				systemName;
 	private String				banner;
-	private String				defaultCountryCode;
-	private int					finderCacheTime;
+	private int					defaultCountryCode;
 	private int					maximumFinderResults;
 	private List<String>		spamWords;
-	private Map<String, String>	welcomeMessages;
-	private double				vat;
-	private double				flatRate;
+	private List<String>		positiveWords;
+	private List<String>		negativeWords;
+	private Map<String, String>	welcomeMessage;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
+	@NotBlank
 	public String getSystemName() {
 		return this.systemName;
 	}
@@ -59,33 +59,42 @@ public class SystemConfiguration extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
+	@Range(min = 1, max = 999)
+	public int getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
 
-	public void setDefaultCountryCode(final String defaultCountryCode) {
+	public void setDefaultCountryCode(final int defaultCountryCode) {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
-	public int getFinderCacheTime() {
-		return this.finderCacheTime;
-	}
-
-	public void setFinderCacheTime(final int finderCacheTime) {
-		this.finderCacheTime = finderCacheTime;
-	}
-
-	@Min(value = 1)
-	@Max(value = 100)
+	@Range(min = 1, max = 100)
 	public int getMaximumFinderResults() {
 		return this.maximumFinderResults;
 	}
 
 	public void setMaximumFinderResults(final int maximumFinderResults) {
 		this.maximumFinderResults = maximumFinderResults;
+	}
+
+	@NotNull
+	@ElementCollection
+	public List<String> getPositiveWords() {
+		return this.positiveWords;
+	}
+
+	public void setPositiveWords(final List<String> positiveWords) {
+		this.positiveWords = positiveWords;
+	}
+
+	@NotNull
+	@ElementCollection
+	public List<String> getNegativeWords() {
+		return this.negativeWords;
+	}
+
+	public void setNegativeWords(final List<String> negativeWords) {
+		this.negativeWords = negativeWords;
 	}
 
 	@NotNull
@@ -98,33 +107,15 @@ public class SystemConfiguration extends DomainEntity {
 		this.spamWords = spamWords;
 	}
 
-	@NotNull
+	@NotEmpty
 	@ElementCollection(targetClass = String.class)
 	@MapKeyClass(String.class)
-	public Map<String, String> getWelcomeMessages() {
-		return this.welcomeMessages;
+	public Map<String, String> getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setWelcomeMessages(final Map<String, String> welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
-	}
-
-	@Min(value = 0)
-	public double getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final double vat) {
-		this.vat = vat;
-	}
-
-	@Min(value = 0)
-	public double getFlatRate() {
-		return this.flatRate;
-	}
-
-	public void setFlatRate(final double flatRate) {
-		this.flatRate = flatRate;
+	public void setWelcomeMessage(final Map<String, String> welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
 	}
 
 }

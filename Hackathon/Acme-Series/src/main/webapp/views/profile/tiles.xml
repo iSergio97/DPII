@@ -16,14 +16,52 @@
        
 <tiles-definitions>
 
-	<definition name="profile/action-1" extends="master.page">	
-		<put-attribute name="title" value="Profile: Action 1" />
-		<put-attribute name="body" value="/views/profile/action-1.jsp" />
+	<definition name="profile/user/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/user/show.jsp" />
 	</definition>
-	
-	<definition name="profile/action-2" extends="master.page">	
-		<put-attribute name="title" value="Profile: Action 2" />
-		<put-attribute name="body" value="/views/profile/action-2.jsp" />
+
+	<definition name="profile/user/edit" extends="master.page">
+		<put-attribute name="title" value="Edit profile" />
+		<put-attribute name="body"
+			value="/views/profile/user/edit.jsp" />
+	</definition>
+
+	<definition name="profile/critic/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/critic/show.jsp" />
+	</definition>
+
+	<definition name="profile/critic/edit" extends="master.page">
+		<put-attribute name="title" value="Edit profile" />
+		<put-attribute name="body"
+			value="/views/profile/critic/edit.jsp" />
+	</definition>
+
+	<definition name="profile/administrator/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/administrator/show.jsp" />
+	</definition>
+
+	<definition name="profile/administrator/edit" extends="master.page">
+		<put-attribute name="title" value="Edit profile" />
+		<put-attribute name="body"
+			value="/views/profile/administrator/edit.jsp" />
+	</definition>
+
+	<definition name="profile/publisher/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/publisher/show.jsp" />
+	</definition>
+
+	<definition name="profile/publisher/edit" extends="master.page">
+		<put-attribute name="title" value="Edit profile" />
+		<put-attribute name="body"
+			value="/views/profile/publisher/edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

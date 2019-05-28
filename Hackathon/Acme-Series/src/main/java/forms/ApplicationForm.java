@@ -7,7 +7,6 @@
 package forms;
 
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.URL;
 
 public class ApplicationForm {
 
@@ -15,8 +14,7 @@ public class ApplicationForm {
 	// Fields
 
 	private int		id;
-	private String	explanations;
-	private String	codeLink;
+	private String	description;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -31,21 +29,12 @@ public class ApplicationForm {
 		this.id = id;
 	}
 
-	public String getExplanations() {
-		return this.explanations;
+	public String getDescription() {
+		return this.description;
 	}
 
-	public void setExplanations(final String explanations) {
-		this.explanations = explanations;
-	}
-
-	@URL
-	public String getCodeLink() {
-		return this.codeLink;
-	}
-
-	public void setCodeLink(final String codeLink) {
-		this.codeLink = codeLink;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 }

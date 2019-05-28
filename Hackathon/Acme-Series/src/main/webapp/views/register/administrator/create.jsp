@@ -8,7 +8,7 @@
   <script type="text/javascript">
       function test() {
           //let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
-          if(!document.getElementById("phoneNumber").value.includes("(+34)")){
+          if(!document.getElementById("phoneNumber").value.includes("+")){
               return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?");
           }
         }
@@ -23,7 +23,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="administrator" action="register/administrator/edit.do">
+<form:form modelAttribute="administrator" action="register/administrator/edit.do" method="POST">
 
 	<form:hidden path="id"/>
 	
@@ -32,10 +32,9 @@
 	<legend> <spring:message code="actorProperties" /> </legend>
 	<acme:register code="name" path="name"/>
 	<acme:register code="surnames" path="surnames"/>
-	<acme:register code="vat" path="vat"/>
 	<acme:register code="email" path="email"/>
 	<acme:registerWithPlaceholder code="photo" path="photo" placeholder="https://imgur.com/r/panda/vhGv9Z0"/>
-		<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber" placeholder="+XX (YYY) ZZZZZZ"/>
+	<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber" placeholder="+XX (YYY) ZZZZZZ"/>
 	<acme:register code="address" path="address"/>
 	</fieldset>
 	
@@ -49,18 +48,7 @@
 	</fieldset>
 	<br>
 	
-	<%-- Campos de tarjeta de crédito --%>
-	<fieldset>
-		<legend>
-			<spring:message code="creditCardProperties" />
-		</legend>
-		<acme:register code="holder" path="holder" />
-		<acme:register code="brand" path="brand" />
-		<acme:register code="number" path="number" />
-		<acme:register code="expirationMonth" path="expirationMonth" />
-		<acme:register code="expirationYear" path="expirationYear" />
-		<acme:register code="cvv" path="CVV" />
-	</fieldset>
+	
 	<%-- <acme:submit name="save" code="save"/> --%>
 	<button type="submit" onClick="return test();"><spring:message code="save" /> </button>
 	<acme:cancel url="welcome/index.do" code="cancel"/>

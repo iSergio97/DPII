@@ -18,10 +18,47 @@
 	">
 
 	<util:list id="converters">
-		<!-- 
-			Add your own converters using entries of the following form: 
-			<bean class="converters.Class1ToClass2" /> 
-		-->
+		
+		<!-- To string converters -->
+		
+		<bean class="converters.ActorToStringConverter" />
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.ApplicationToStringConverter" />
+		<bean class="converters.ChapterToStringConverter" />
+		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.CriticToStringConverter" />
+		<bean class="converters.CritiqueToStringConverter" />
+		<bean class="converters.FinderToStringConverter" />
+		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.MessageBoxToStringConverter" />
+		<bean class="converters.PublisherToStringConverter" />
+		<bean class="converters.SeasonToStringConverter" />
+		<bean class="converters.SerieToStringConverter" />
+		<bean class="converters.SocialProfileToStringConverter" />
+		<bean class="converters.SystemConfigurationToStringConverter" />
+		<bean class="converters.UserToStringConverter" />
+		<bean class="converters.UserAccountToStringConverter" />
+		
+		<!-- From string converters -->
+		
+		<bean class="converters.StringToActorConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+		<bean class="converters.StringToApplicationConverter" />
+		<bean class="converters.StringToChapterConverter" />
+		<bean class="converters.StringToCommentConverter" />
+		<bean class="converters.StringToCriticConverter" />
+		<bean class="converters.StringToCritiqueConverter" />
+		<bean class="converters.StringToFinderConverter" />
+		<bean class="converters.StringToMessageConverter" />
+		<bean class="converters.StringToMessageBoxConverter" />
+		<bean class="converters.StringToPublisherConverter" />
+		<bean class="converters.StringToSeasonConverter" />
+		<bean class="converters.StringToSerieConverter" />
+		<bean class="converters.StringToSocialProfileConverter" />
+		<bean class="converters.StringToSystemConfigurationConverter" />
+		<bean class="converters.StringToUserConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
+		
 	</util:list>
 	
 </beans>

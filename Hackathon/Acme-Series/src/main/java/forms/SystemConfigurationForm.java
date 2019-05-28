@@ -1,13 +1,11 @@
 /*
  * SystemConfigurationForm.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package forms;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -23,13 +21,12 @@ public class SystemConfigurationForm {
 	private int		id;
 	private String	systemName;
 	private String	banner;
-	private String	defaultCountryCode;
-	private int		finderCacheTime;
+	private int		defaultCountryCode;
 	private int		maximumFinderResults;
 	private String	spamWords;
-	private String	welcomeMessages;
-	private double	vat;
-	private double	flatRate;
+	private String	positiveWords;
+	private String	negativeWords;
+	private String	welcomeMessage;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -62,33 +59,44 @@ public class SystemConfigurationForm {
 		this.banner = banner;
 	}
 
-	@Pattern(regexp = "^\\+[1-9]\\d{0,2}$")
-	public String getDefaultCountryCode() {
+	@Range(min = 1, max = 999)
+	public int getDefaultCountryCode() {
 		return this.defaultCountryCode;
 	}
 
-	public void setDefaultCountryCode(final String defaultCountryCode) {
+	public void setDefaultCountryCode(final int defaultCountryCode) {
 		this.defaultCountryCode = defaultCountryCode;
 	}
 
-	@Min(value = 1)
-	@Max(value = 24)
-	public int getFinderCacheTime() {
-		return this.finderCacheTime;
-	}
-
-	public void setFinderCacheTime(final int finderCacheTime) {
-		this.finderCacheTime = finderCacheTime;
-	}
-
-	@Min(value = 1)
-	@Max(value = 100)
+	@Range(min = 1, max = 100)
 	public int getMaximumFinderResults() {
 		return this.maximumFinderResults;
 	}
 
 	public void setMaximumFinderResults(final int maximumFinderResults) {
 		this.maximumFinderResults = maximumFinderResults;
+	}
+
+	@NotNull
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
+	public String getPositiveWords() {
+		return this.positiveWords;
+	}
+
+	public void setPositiveWords(final String positiveWords) {
+		this.positiveWords = positiveWords;
+	}
+
+	@NotNull
+	// Matches a list of strings with "," as an element separator, or an empty string
+	@Pattern(regexp = "(^([^,]+,)*[^,]+$)|(^$)")
+	public String getNegativeWords() {
+		return this.negativeWords;
+	}
+
+	public void setNegativeWords(final String negativeWords) {
+		this.negativeWords = negativeWords;
 	}
 
 	@NotNull
@@ -105,30 +113,12 @@ public class SystemConfigurationForm {
 	@NotNull
 	// Matches a map of strings with ":" as a pair separator and ";" as an entry separator, or an empty string
 	@Pattern(regexp = "(^([^;:]+:[^;:]+;)*[^;:]+:[^;:]+$)|(^$)")
-	public String getWelcomeMessages() {
-		return this.welcomeMessages;
+	public String getWelcomeMessage() {
+		return this.welcomeMessage;
 	}
 
-	public void setWelcomeMessages(final String welcomeMessages) {
-		this.welcomeMessages = welcomeMessages;
-	}
-
-	@Min(value = 0)
-	public double getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final double vat) {
-		this.vat = vat;
-	}
-
-	@Min(value = 0)
-	public double getFlatRate() {
-		return this.flatRate;
-	}
-
-	public void setFlatRate(final double flatRate) {
-		this.flatRate = flatRate;
+	public void setWelcomeMessage(final String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
 	}
 
 }

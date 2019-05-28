@@ -68,12 +68,11 @@ public class SystemConfigurationService {
 		systemConfigurationForm.setSystemName(systemConfiguration.getSystemName());
 		systemConfigurationForm.setBanner(systemConfiguration.getBanner());
 		systemConfigurationForm.setDefaultCountryCode(systemConfiguration.getDefaultCountryCode());
-		systemConfigurationForm.setFinderCacheTime(systemConfiguration.getFinderCacheTime());
 		systemConfigurationForm.setMaximumFinderResults(systemConfiguration.getMaximumFinderResults());
 		systemConfigurationForm.setSpamWords(ConversionUtils.listToString(systemConfiguration.getSpamWords(), ","));
-		systemConfigurationForm.setWelcomeMessages(ConversionUtils.mapToString(systemConfiguration.getWelcomeMessages(), ":", ";"));
-		systemConfigurationForm.setVat(systemConfiguration.getVat());
-		systemConfigurationForm.setFlatRate(systemConfiguration.getFlatRate());
+		systemConfigurationForm.setPositiveWords(ConversionUtils.listToString(systemConfiguration.getPositiveWords(), ","));
+		systemConfigurationForm.setNegativeWords(ConversionUtils.listToString(systemConfiguration.getNegativeWords(), ","));
+		systemConfigurationForm.setWelcomeMessage(ConversionUtils.mapToString(systemConfiguration.getWelcomeMessage(), ":", ";"));
 		return systemConfigurationForm;
 	}
 
@@ -82,12 +81,11 @@ public class SystemConfigurationService {
 		systemConfiguration.setSystemName(systemConfigurationForm.getSystemName());
 		systemConfiguration.setBanner(systemConfigurationForm.getBanner());
 		systemConfiguration.setDefaultCountryCode(systemConfigurationForm.getDefaultCountryCode());
-		systemConfiguration.setFinderCacheTime(systemConfigurationForm.getFinderCacheTime());
 		systemConfiguration.setMaximumFinderResults(systemConfigurationForm.getMaximumFinderResults());
 		systemConfiguration.setSpamWords(ConversionUtils.stringToList(systemConfigurationForm.getSpamWords(), ","));
-		systemConfiguration.setWelcomeMessages(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessages(), ":", ";"));
-		systemConfiguration.setVat(systemConfigurationForm.getVat());
-		systemConfiguration.setFlatRate(systemConfigurationForm.getFlatRate());
+		systemConfiguration.setPositiveWords(ConversionUtils.stringToList(systemConfigurationForm.getPositiveWords(), ","));
+		systemConfiguration.setNegativeWords(ConversionUtils.stringToList(systemConfigurationForm.getNegativeWords(), ","));
+		systemConfiguration.setWelcomeMessage(ConversionUtils.stringToMap(systemConfigurationForm.getWelcomeMessage(), ":", ";"));
 		this.validator.validate(systemConfiguration, bindingResult);
 		this.systemConfigurationRepository.flush();
 		return systemConfiguration;

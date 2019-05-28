@@ -1,6 +1,6 @@
 /*
  * Actor.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -31,12 +31,10 @@ public class Actor extends DomainEntity {
 
 	private String		name;
 	private String		surnames;
-	private String		vat;
-	private CreditCard	creditCard;
-	private String		photo;
 	private String		email;
 	private String		phoneNumber;
 	private String		address;
+	private String		photo;
 	private boolean		isFlagged;
 	private boolean		isBanned;
 
@@ -67,17 +65,9 @@ public class Actor extends DomainEntity {
 		this.surnames = surnames;
 	}
 
-	public String getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final String vat) {
-		this.vat = vat;
-	}
-
 	@NotBlank
-	// Matches administrator email addresses
-	@Pattern(regexp = "^([a-zA-Z0-9 ]+<[a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?>)|([a-zA-Z0-9]+@([a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*)?)$")
+	// identificator@domain
+	@Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+$")
 	public String getEmail() {
 		return this.email;
 	}
@@ -86,26 +76,8 @@ public class Actor extends DomainEntity {
 		this.email = email;
 	}
 
-	@Valid
-	public CreditCard getCreditCard() {
-		return this.creditCard;
-	}
-
-	public void setCreditCard(final CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
-
-	@URL
-	public String getPhoto() {
-		return this.photo;
-	}
-
-	public void setPhoto(final String photo) {
-		this.photo = photo;
-	}
-
-	// Matches a phone number or an empty string
-	@Pattern(regexp = "(^(\\+[1-9]\\d{0,2} (\\([1-9]\\d{0,2}\\) )?)?\\d{4,}$)|(^$)")
+	// "+CP (CA) NP" xor "+CP NP" xor empty string
+	@Pattern(regexp = "^(|\\+\\d{1,3} \\(\\d{1,3}\\) \\d{4,}|\\+\\d{1,3} \\d{4,})$")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -120,6 +92,15 @@ public class Actor extends DomainEntity {
 
 	public void setAddress(final String address) {
 		this.address = address;
+	}
+
+	@URL
+	public String getPhoto() {
+		return this.photo;
+	}
+
+	public void setPhoto(final String photo) {
+		this.photo = photo;
 	}
 
 	public boolean getIsFlagged() {
@@ -141,8 +122,8 @@ public class Actor extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
-	@Valid
 	@NotNull
+	@Valid
 	@OneToOne(optional = false)
 	public UserAccount getUserAccount() {
 		return this.userAccount;

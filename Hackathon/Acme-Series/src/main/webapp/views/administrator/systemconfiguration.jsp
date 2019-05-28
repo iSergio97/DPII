@@ -58,14 +58,6 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="defaultCountryCode" />
 	</div>
 
-	<div id="finderCacheTime" class="finderCacheTime">
-		<form:label path="finderCacheTime">
-			<spring:message code="finderCacheTime" />
-		</form:label>
-		<form:input path="finderCacheTime" />
-		<form:errors path="finderCacheTime" />
-	</div>
-
 	<div id="maximumFinderResults" class="maximumFinderResults">
 		<form:label path="maximumFinderResults">
 			<spring:message code="maximumFinderResults" />
@@ -82,28 +74,28 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 		<form:errors path="spamWords" />
 	</div>
 
-	<div id="welcomeMessages" class="welcomeMessages">
-		<form:label path="welcomeMessages">
-			<spring:message code="welcomeMessages" />
+	<div id="positiveWords" class="positiveWords">
+		<form:label path="positiveWords">
+			<spring:message code="positiveWords" />
 		</form:label>
-		<form:input path="welcomeMessages" />
-		<form:errors path="welcomeMessages" />
+		<form:input path="positiveWords" />
+		<form:errors path="positiveWords" />
 	</div>
-	
-	<div id="vat" class="vat">
-		<form:label path="vat">
-			<spring:message code="systemConfiguration.vat" />
+
+	<div id="negativeWords" class="negativeWords">
+		<form:label path="negativeWords">
+			<spring:message code="negativeWords" />
 		</form:label>
-		<form:input path="vat" />
-		<form:errors path="vat" />
+		<form:input path="negativeWords" />
+		<form:errors path="negativeWords" />
 	</div>
-	
-	<div id="flatRate" class="flatRate">
-		<form:label path="flatRate">
-			<spring:message code="systemConfiguration.flatRate" />
+
+	<div id="welcomeMessage" class="welcomeMessage">
+		<form:label path="welcomeMessage">
+			<spring:message code="welcomeMessage" />
 		</form:label>
-		<form:input path="flatRate" />
-		<form:errors path="flatRate" />
+		<form:input path="welcomeMessage" />
+		<form:errors path="welcomeMessage" />
 	</div>
 
 	<!-- Form options -->

@@ -18,7 +18,7 @@
 
 .jMenu li {
 	display: table-cell;
-	background-color: #ABCDEF;
+	background:linear-gradient(90deg, #f12711 0%, #f5af19 50%);
 	margin: 0px;
 }
 

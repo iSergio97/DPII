@@ -13,106 +13,100 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import repositories.MessageRepository;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 import forms.MessageForm;
-import repositories.MessageRepository;
-import security.LoginService;
 
 @Service
 @Transactional
 public class MessageService extends AbstractService<MessageRepository, Message> {
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Supporting services
+
 	@Autowired
 	private ActorService				actorService;
-
+	@Autowired
+	private MessageBoxService			messageBoxService;
 	@Autowired
 	private SystemConfigurationService	systemConfigurationservice;
 
-	@Autowired
-	private MessageBoxService			messageBoxService;
 
+	////////////////////////////////////////////////////////////////////////////////
+	// CRUD methods
 
 	@Override
 	public Message create() {
-		final Message m = new Message();
+		final Message message = super.create();
 
-		final Actor actual = this.actorService.findByUserAccountId(LoginService.getPrincipal().getId());
-		m.setBody("");
-		m.setIsSpam(false);
-		m.setSender(actual);
-		m.setTags("");
-		m.setRecipients(new ArrayList<Actor>());
-		m.setSubject("");
-		final MessageBox outBox = this.messageBoxService.findOutbox(actual.getId());
-		final Collection<MessageBox> mbs = new ArrayList<>();
-		mbs.add(outBox);
-		m.setMessageBoxes(mbs);
-		return m;
+		final Actor principal = this.actorService.findPrincipal();
+
+		message.setSender(principal);
+
+		final MessageBox outBox = this.messageBoxService.findOutbox(principal.getId());
+		final Collection<MessageBox> messageBoxes = new ArrayList<>();
+		messageBoxes.add(outBox);
+		message.setMessageBoxes(messageBoxes);
+
+		return message;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Form methods
+
 	public MessageForm createForm() {
-		final MessageForm mf = new MessageForm();
+		final MessageForm messageForm = super.instanceClass(MessageForm.class);
 
-		mf.setSubject("");
-		mf.setBody("");
-		mf.setTags("");
-		mf.setRecipients(new ArrayList<Actor>());
-		mf.setBroadcast(false);
+		messageForm.setBroadcast(false);
 
-		return mf;
+		return messageForm;
 	}
 
 	public MessageForm createBroadcast() {
-		final MessageForm mf = new MessageForm();
+		final MessageForm messageForm = super.instanceClass(MessageForm.class);
 
-		mf.setSubject("");
-		mf.setBody("");
-		mf.setTags("");
-		mf.setPriority("HIGH");
-		mf.setRecipients(new ArrayList<Actor>());
-		mf.setBroadcast(true);
+		messageForm.setPriority("HIGH");
+		messageForm.setBroadcast(true);
 
-		return mf;
+		return messageForm;
 	}
 
-	public Message reconstruct(final MessageForm mf, final BindingResult bindingResult) {
-		final Message m = this.create();
+	public Message reconstruct(final MessageForm messageForm, final BindingResult bindingResult) {
+		final Message message = this.create();
 
-		m.setBody(mf.getBody());
-		m.setSubject(mf.getSubject());
-		m.setPriority(mf.getPriority());
-		m.setTags(mf.getTags());
-		m.setRecipients(mf.getRecipients());
-		m.setDate(new Date());
-		final List<String> sw = this.systemConfigurationservice.getSystemConfiguration().getSpamWords();
-		List<String> swUpper = new ArrayList<>();
-		for (String s : sw) {
-			swUpper.add(s.toUpperCase());
-		}
-		String body = m.getBody().toUpperCase();
-		String subject = m.getSubject().toUpperCase();
-		String tags = m.getTags().toUpperCase();
-		if (m.getSender().getIsFlagged() || swUpper.contains(body) || swUpper.contains(subject) || swUpper.contains(tags))
-			m.setIsSpam(true);
+		message.setBody(messageForm.getBody());
+		message.setSubject(messageForm.getSubject());
+		message.setPriority(messageForm.getPriority());
+		message.setTags(messageForm.getTags());
+		message.setRecipients(messageForm.getRecipients());
+		message.setMoment(new Date());
+		final List<String> spamWordsUpperCase = new ArrayList<>();
+		for (final String spamWord : this.systemConfigurationservice.getSystemConfiguration().getSpamWords())
+			spamWordsUpperCase.add(spamWord.toUpperCase());
+		final String body = message.getBody().toUpperCase();
+		final String subject = message.getSubject().toUpperCase();
+		final String tags = message.getTags().toUpperCase();
+		if (message.getSender().getIsFlagged() || spamWordsUpperCase.contains(body) || spamWordsUpperCase.contains(subject) || spamWordsUpperCase.contains(tags))
+			message.setIsSpam(true);
 
-		this.validator.validate(m, bindingResult);
+		this.validator.validate(message, bindingResult);
 		if (bindingResult.hasErrors())
 			throw new ValidationException();
 
-		return m;
+		return message;
 	}
 
 	public Collection<Message> findMessages(final int messageBoxId) {
 		return this.repository.findMessages(messageBoxId);
 	}
 
-	public int countSpam(int id) {
+	public int countSpam(final int id) {
 		return this.repository.countSpam(id);
 	}
 
-	public int countMails(int id) {
+	public int countMails(final int id) {
 		return this.repository.countMails(id);
 	}
 

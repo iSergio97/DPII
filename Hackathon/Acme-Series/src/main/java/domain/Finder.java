@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -29,23 +28,20 @@ public class Finder extends DomainEntity {
 	////////////////////////////////////////////////////////////////////////////////
 	// Fields
 
-	private String					keyword;
-	private Date					deadline;
-	private double					minimumSalary;
-	private Date					maximumDeadline;
-	private Date					moment;
+	private String				keyword;
+	private Date				minDate;
+	private Date				maxDate;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationships
 
-	private Rookie					rookie;
-	private Collection<Position>	positions;
+	private User				user;
+	private Collection<Serie>	series;
 
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Field access methods
 
-	@NotNull
 	public String getKeyword() {
 		return this.keyword;
 	}
@@ -56,62 +52,47 @@ public class Finder extends DomainEntity {
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getDeadline() {
-		return this.deadline;
+	public Date getMinDate() {
+		return this.minDate;
 	}
 
-	public void setDeadline(final Date deadline) {
-		this.deadline = deadline;
-	}
-
-	@Range(min = 0)
-	public double getMinimumSalary() {
-		return this.minimumSalary;
-	}
-
-	public void setMinimumSalary(final double minimumSalary) {
-		this.minimumSalary = minimumSalary;
+	public void setMinDate(final Date minDate) {
+		this.minDate = minDate;
 	}
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public Date getMaximumDeadline() {
-		return this.maximumDeadline;
+	public Date getMaxDate() {
+		return this.maxDate;
 	}
 
-	public void setMaximumDeadline(final Date maximumDeadline) {
-		this.maximumDeadline = maximumDeadline;
-	}
-
-	public Date getMoment() {
-		return this.moment;
-	}
-
-	public void setMoment(final Date moment) {
-		this.moment = moment;
+	public void setMaxDate(final Date maxDate) {
+		this.maxDate = maxDate;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Relationship access methods
 
+	@Valid
+	@NotNull
 	@OneToOne
-	@Valid
-	public Rookie getRookie() {
-		return this.rookie;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setRookie(final Rookie rookie) {
-		this.rookie = rookie;
+	public void setUser(final User user) {
+		this.user = user;
 	}
 
 	@Valid
+	@NotNull
 	@ManyToMany
-	public Collection<Position> getPositions() {
-		return this.positions;
+	public Collection<Serie> getSeries() {
+		return this.series;
 	}
 
-	public void setPositions(final Collection<Position> positions) {
-		this.positions = positions;
+	public void setSeries(final Collection<Serie> positions) {
+		this.series = positions;
 	}
 
 }
