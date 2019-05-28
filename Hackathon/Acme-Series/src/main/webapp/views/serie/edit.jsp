@@ -85,13 +85,13 @@
 
 <!-- Form options -->
 
-<input type="submit" name="save" value="<spring:message code="serie.send" />" />
+<input type="submit" name="save" value="<spring:message code="send" />" />
 <form action="serie/publisher/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${serie.id}' />" />
 	<p>
 	</p>
 	<jstl:if test="${serie.isDraft}">
-<input type="submit" name="delete" value="<spring:message code='serie.delete' />" />	
+<input type="submit" name="delete" value="<spring:message code='delete' />" />	
 </jstl:if>
 </form>
 
