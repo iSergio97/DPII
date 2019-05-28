@@ -55,6 +55,8 @@
 		<security:intercept-url pattern="/*/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/publisher/**" access="hasRole('PUBLISHER')" />
 		<security:intercept-url pattern="/*/publisher/**" access="hasRole('PUBLISHER')" />
+		<security:intercept-url pattern="/critic/**" access="hasRole('CRITIC')" />
+		<security:intercept-url pattern="/*/critic/**" access="hasRole('CRITIC')" />
 		<security:intercept-url pattern="/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/*/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/all/**" access="isAuthenticated()" />

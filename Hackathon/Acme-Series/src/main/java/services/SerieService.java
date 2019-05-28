@@ -6,6 +6,8 @@
 
 package services;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -38,6 +40,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		final Serie serie = super.create();
 
 		serie.setStatus("ON EMISSION");
+		serie.setIsDraft(true);
 		serie.setPublisher(this.publisherService.findPrincipal());
 
 		return serie;
@@ -47,7 +50,17 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	// Form methods
 
 	public SerieForm createForm() {
-		return this.instanceClass(SerieForm.class);
+		final SerieForm form = new SerieForm();
+		form.setTitle("");
+		form.setDescription("");
+		form.setBanner("");
+		form.setStartDate(new Date());
+		form.setStatus("ON EMISSION");
+		form.setIsDraft(true);
+		form.setDirector("");
+		form.setCast("");
+
+		return form;
 	}
 
 	public Serie reconstruct(final SerieForm serieForm, final BindingResult binding) {
@@ -64,6 +77,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setStartDate(serieForm.getStartDate());
 		result.setEndDate(serieForm.getEndDate());
 		result.setStatus(serieForm.getStatus());
+		result.setIsDraft(serieForm.getIsDraft());
 
 		this.validator.validate(result, binding);
 
@@ -112,6 +126,34 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 			return topSeriesWithBestAverageCritiqueScore;
 		else
 			return topSeriesWithBestAverageCritiqueScore.subList(0, 5);
+	}
+
+	public Collection<Serie> findFavouriteByUserId(final int userId) {
+		return this.repository.findFavouriteByUserId(userId);
+	}
+
+	public Collection<Serie> findPendingByUserId(final int userId) {
+		return this.repository.findPendingByUserId(userId);
+	}
+
+	public Collection<Serie> findWatchingByUserId(final int userId) {
+		return this.repository.findWatchingByUserId(userId);
+	}
+
+	public Collection<Serie> findWatchedByUserId(final int userId) {
+		return this.findWatchedByUserId(userId);
+	}
+
+	public Collection<Serie> findByPublisherId(final int publisherId) {
+		return this.repository.findByPublisherId(publisherId);
+	}
+
+	public Collection<Serie> findPublicSeries() {
+		return this.repository.findPublicSeries();
+	}
+
+	public Serie findSerieAssociated(final int seasonId) {
+		return this.repository.findSerieAssociated(seasonId);
 	}
 
 }

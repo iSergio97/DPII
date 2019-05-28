@@ -25,10 +25,12 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 				<value>cialis</value>
 				<value>one million</value>
 				<value>you've been selected</value>
+				<value>you have been selected</value>
 				<value>Nigeria</value>
 				<value>sexo</value>
 				<value>un millón</value>
 				<value>ha sido seleccionado</value>
+				<value>has sido seleccionado</value>
 			</list>
 		</property>
 		<property name="positiveWords">

@@ -26,6 +26,9 @@
 		<value>/views/register/tiles.xml</value>
 		<value>/views/profile/tiles.xml</value>
 		<value>/views/social-profile/tiles.xml</value>
+		<value>/views/serie/tiles.xml</value>
+		<value>/views/season/tiles.xml</value>
+		<value>/views/chapter/tiles.xml</value>
 	</util:list>
 
 </beans>

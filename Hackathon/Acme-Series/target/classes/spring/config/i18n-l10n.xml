@@ -24,6 +24,9 @@
 		<value>/views/message-box/messages</value>
 		<value>/views/profile/messages</value>
 		<value>/views/social-profile/messages</value>
+		<value>/views/serie/messages</value>
+		<value>/views/season/messages</value>
+		<value>/views/chapter/messages</value>
 	</util:list>
 
 </beans>

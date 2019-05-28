@@ -17,4 +17,7 @@ public interface SeasonRepository extends AbstractRepository<Season> {
 	@Query("select min(s.chapters.size) * 1.0, max(s.chapters.size) * 1.0, avg(s.chapters.size), stddev(s.chapters.size) from Season s")
 	Double[] getChaptersPerSeasonStatistics();
 
+	@Query("select s from Season s join s.chapters c where c.id = ?1")
+	Season findSeasonAssociated(int chapterId);
+
 }

@@ -48,6 +48,8 @@
 						code="master.page.register.user" /></a></li>
 			<li><a class="fNiv" href="register/publisher/create.do"> <spring:message
 						code="master.page.register.publisher" /></a></li>
+			<li><a class="fNiv" href="serie/all/list.do"> <spring:message
+						code="master.page.serie.all" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -80,6 +82,8 @@
 									code="master.page.show.profile" /> </a></li>
 						<li><a href="profile/publisher/edit.do"><spring:message
 									code="master.page.edit.profile" /> </a></li>
+						<li><a href="serie/publisher/list.do"><spring:message
+									code="master.page.serie.publisher" /> </a></li>
 					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
