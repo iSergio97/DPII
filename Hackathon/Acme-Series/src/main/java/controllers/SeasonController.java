@@ -139,14 +139,16 @@ public class SeasonController extends AbstractController {
 	public ModelAndView delete(@ModelAttribute("season") final SeasonForm seasonForm, final BindingResult binding) {
 		ModelAndView result;
 		Season season;
+		final Serie s = this.serieService.findOne(seasonForm.getSerieId());
 
 		season = this.seasonService.reconstruct(seasonForm, binding);
 		if (binding.hasErrors())
 			result = this.createAndEditModelAndView(seasonForm);
 		else
 			try {
-				final Serie s = this.serieService.findSerieAssociated(season.getId());
-				s.getSeasons().remove(season);
+				final Collection<Season> seasons = s.getSeasons();
+				seasons.remove(season);
+				s.setSeasons(seasons);
 				this.serieService.save(s);
 				this.seasonService.delete(season);
 				result = this.list(s.getId());

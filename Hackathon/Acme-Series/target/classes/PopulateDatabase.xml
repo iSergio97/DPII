@@ -36,33 +36,81 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<property name="positiveWords">
 			<list>
 				<value>good</value>
-				<value>bueno</value>
-				<value>fantastic</value>
-				<value>fantástico</value>
+				<value>positive</value>
 				<value>excellent</value>
-				<value>excelente</value>
+				<value>successful</value>
+				<value>better</value>
+				<value>best</value>
+				<value>optimal</value>
+				<value>fantastic</value>
+				<value>unbelievable</value>
+				<value>astonishing</value>
+				<value>magnificent</value>
+				<value>impressing</value>
 				<value>great</value>
 				<value>genial</value>
 				<value>amazing</value>
-				<value>asombroso</value>
 				<value>terrific</value>
+				<value>marvellous</value>
+				<value>wonderful</value>
+				<value>master piece</value>
+				<value>wonder</value>
+				<value>fascinating</value>
+				<value>bueno</value>
+				<value>buena</value>
+				<value>positivo</value>
+				<value>positiva</value>
+				<value>excelente</value>
+				<value>satisfactorio</value>
+				<value>satisfactoria</value>
+				<value>mejor</value>
+				<value>óptimo</value>
+				<value>óptima</value>
+				<value>fantástico</value>
+				<value>fantástica</value>
+				<value>increíble</value>
+				<value>asombroso</value>
+				<value>asombrosa</value>
 				<value>magnífico</value>
-				<value>beautiful</value>
-				<value>bonito</value>
+				<value>magnífica</value>
+				<value>impresionante</value>
+				<value>maravilla</value>
+				<value>obra maestra</value>
+				<value>fascinante</value>
 			</list>
 		</property>
 		<property name="negativeWords">
 			<list>
-				<value>not</value>
-				<value>no</value>
 				<value>bad</value>
-				<value>malo</value>
-				<value>horrible</value>
-				<value>horrible</value>
-				<value>average</value>
-				<value>mediocre</value>
+				<value>negative</value>
+				<value>deplorable</value>
+				<value>disappointing</value>
+				<value>regretful</value>
 				<value>disaster</value>
+				<value>aberration</value>
+				<value>worse</value>
+				<value>awful</value>
+				<value>disastrous</value>
+				<value>garbage</value>
+				<value>rubbish</value>
+				<value>so-so</value>
+				<value>horrible</value>
+				<value>malo</value>
+				<value>mala</value>
+				<value>negativo</value>
+				<value>negativa</value>
+				<value>decepcionante</value>
+				<value>lamentable</value>
+				<value>desastre</value>
+				<value>aberración</value>
+				<value>peor</value>
+				<value>pésimo</value>
+				<value>pésima</value>
 				<value>desastroso</value>
+				<value>desastrosa</value>
+				<value>bodrio</value>
+				<value>basura</value>
+				<value>mediocre</value>
 			</list>
 		</property>
 		<property name="welcomeMessage">

@@ -133,14 +133,16 @@ public class ChapterController extends AbstractController {
 	public ModelAndView delete(@ModelAttribute("chapter") final ChapterForm chapterForm, final BindingResult binding) {
 		ModelAndView result;
 		Chapter chapter;
+		final Season s = this.seasonService.findOne(chapterForm.getSeasonId());
 
 		chapter = this.chapterService.reconstruct(chapterForm, binding);
 		if (binding.hasErrors())
 			result = this.createAndEditModelAndView(chapterForm);
 		else
 			try {
-				final Season s = this.seasonService.findSeasonAssociated(chapter.getId());
-				s.getChapters().remove(chapter);
+				final Collection<Chapter> chapters = s.getChapters();
+				chapters.remove(chapter);
+				s.setChapters(chapters);
 				this.seasonService.save(s);
 				this.chapterService.delete(chapter);
 				result = this.list(s.getId());

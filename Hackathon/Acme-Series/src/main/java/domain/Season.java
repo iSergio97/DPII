@@ -1,6 +1,6 @@
 /*
  * Season.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -63,7 +63,6 @@ public class Season extends DomainEntity {
 		this.startDate = startDate;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getEndDate() {
