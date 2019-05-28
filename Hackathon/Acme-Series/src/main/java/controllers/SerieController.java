@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ChapterService;
-import services.PublisherService;
-import services.SeasonService;
-import services.SerieService;
-import services.UserService;
 import domain.Chapter;
 import domain.Publisher;
 import domain.Season;
 import domain.Serie;
 import domain.User;
 import forms.SerieForm;
+import services.ChapterService;
+import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/serie")
@@ -64,13 +64,13 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView result;
 		Collection<Serie> series;
 
 		series = this.serieService.findPublicSeries();
-		result = new ModelAndView("serie/all/list");
+		result = new ModelAndView("serie/public/list");
 		result.addObject("series", series);
 
 		return result;
@@ -147,13 +147,13 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/all/show")
+	@RequestMapping(value = "/public/show")
 	public ModelAndView showPublic(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
 
 		serie = this.serieService.findOne(serieId);
-		result = new ModelAndView("serie/all/show");
+		result = new ModelAndView("serie/public/show");
 		result.addObject("serie", serie);
 
 		return result;

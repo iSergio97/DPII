@@ -29,7 +29,7 @@ import services.UserService;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController extends AbstractController {
 
 	//Supporting classes
 	@Autowired

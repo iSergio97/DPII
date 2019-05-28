@@ -48,8 +48,6 @@
 						code="master.page.register.user" /></a></li>
 			<li><a class="fNiv" href="register/publisher/create.do"> <spring:message
 						code="master.page.register.publisher" /></a></li>
-			<li><a class="fNiv" href="serie/all/list.do"> <spring:message
-						code="master.page.serie.all" /></a></li>
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
@@ -129,6 +127,8 @@
 								code="master.page.register.critic" /> </a></li>
 				</ul></li>
 		</security:authorize>
+		<li><a class="fNiv" href="serie/public/list.do"> <spring:message
+					code="master.page.serie.all" /></a></li>
 
 	</ul>
 </div>

@@ -24,7 +24,7 @@ import services.MessageService;
 
 @Controller
 @RequestMapping("/message/all")
-public class MessageController {
+public class MessageController extends AbstractController {
 
 	// Services --------------------------------------------------------------------
 
@@ -90,16 +90,15 @@ public class MessageController {
 
 	// PROTECTED SHOW -----------------------------------------------------------
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam int id) {
-		Message m = this.messageService.findOne(id);
+	public ModelAndView show(@RequestParam final int id) {
+		final Message m = this.messageService.findOne(id);
 		ModelAndView result;
-		Actor principal = actorService.findPrincipal();
+		final Actor principal = this.actorService.findPrincipal();
 		if (m.getSender().equals(principal) || m.getRecipients().contains(principal)) {
 			result = new ModelAndView("message/all/show");
 			result.addObject(m);
-		} else {
+		} else
 			result = new ModelAndView("/welcome/index.do");
-		}
 
 		return result;
 

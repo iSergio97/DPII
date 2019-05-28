@@ -25,7 +25,7 @@ import services.MessageService;
 
 @Controller
 @RequestMapping("/message-box/all")
-public class MessageBoxController {
+public class MessageBoxController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
