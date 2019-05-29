@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.filechooser.FileSystemView;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +128,8 @@ public class ProfileController extends AbstractController {
 		try {
 
 			final String locale = System.getProperty("user.home");
-			PdfWriter.getInstance(document, new FileOutputStream(locale + "\\Escritorio\\export.pdf"));
+			final FileSystemView filesys = FileSystemView.getFileSystemView();
+			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
 			document.open();
 			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
 			gpdr.setAlignment(Element.ALIGN_CENTER);
