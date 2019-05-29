@@ -18,7 +18,11 @@
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	">
 
-	<import resource="datasource.xml" />
 	<import resource="config/packages.xml" />
+	<import resource="config/i18n-l10n.xml" />
+	
+	<import resource="messages.xml" />
+	<import resource="datasource.xml" />	
+	<import resource="validator.xml" />
 	
 </beans>

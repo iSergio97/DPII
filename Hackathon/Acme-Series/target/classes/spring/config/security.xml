@@ -51,12 +51,6 @@
 		<security:intercept-url pattern="/register/critic/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/profile/**" access="isAuthenticated()" /> 
 
-		<security:intercept-url pattern="/message/all/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/serie/public/**" access="permitAll" />
-		<security:intercept-url pattern="/season/public/**" access="permitAll" />
-		<security:intercept-url pattern="/chapter/public/**" access="permitAll" />
-		<security:intercept-url pattern="/social-profile/**/**" access="isAuthenticated()" />
-
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/*/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/publisher/**" access="hasRole('PUBLISHER')" />
