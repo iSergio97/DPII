@@ -56,10 +56,22 @@
 					<input type="submit" name="markAsFavorite" value="<spring:message code='markAsFavorite' />" />
 				</form>
 			</jstl:if>
+			<jstl:if test="${seriesFavoritedByPrincipal[row] eq true}">
+				<form action="serie/user/unmarkAsFavorite.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsFavorite" value="<spring:message code='unmarkAsFavorite' />" />
+				</form>
+			</jstl:if>
 			<jstl:if test="${seriesPendingByPrincipal[row] ne true}">
 				<form action="serie/user/markAsPending.do" method="POST">
 					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
 					<input type="submit" name="markAsPending" value="<spring:message code='markAsPending' />" />
+				</form>
+			</jstl:if>
+			<jstl:if test="${seriesPendingByPrincipal[row] eq true}">
+				<form action="serie/user/unmarkAsPending.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsPending" value="<spring:message code='unmarkAsPending' />" />
 				</form>
 			</jstl:if>
 			<jstl:if test="${seriesWatchingByPrincipal[row] ne true}">
@@ -68,10 +80,22 @@
 					<input type="submit" name="markAsWatching" value="<spring:message code='markAsWatching' />" />
 				</form>
 			</jstl:if>
+			<jstl:if test="${seriesWatchingByPrincipal[row] eq true}">
+				<form action="serie/user/unmarkAsWatching.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsWatching" value="<spring:message code='unmarkAsWatching' />" />
+				</form>
+			</jstl:if>
 			<jstl:if test="${seriesWatchedByPrincipal[row] ne true}">
 				<form action="serie/user/markAsWatched.do" method="POST">
 					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
 					<input type="submit" name="markAsWatched" value="<spring:message code='markAsWatched' />" />
+				</form>
+			</jstl:if>
+			<jstl:if test="${seriesWatchedByPrincipal[row] eq true}">
+				<form action="serie/user/unmarkAsWatched.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsWatched" value="<spring:message code='unmarkAsWatched' />" />
 				</form>
 			</jstl:if>
 			<a href="comment/user/create.do?serieId=${row.id}"><spring:message code="makeComment"/></a>

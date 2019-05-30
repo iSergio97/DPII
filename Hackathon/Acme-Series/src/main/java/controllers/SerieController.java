@@ -357,7 +357,7 @@ public class SerieController extends AbstractController {
 	// Mark as favorite
 
 	@RequestMapping(value = "/user/markAsFavorite", method = RequestMethod.POST)
-	public ModelAndView favorite(@RequestParam(value = "serieId") final int serieId) {
+	public ModelAndView markAsFavorite(@RequestParam(value = "serieId") final int serieId) {
 		final User user;
 
 		user = this.userService.findPrincipal();
@@ -378,11 +378,33 @@ public class SerieController extends AbstractController {
 		return this.show(serieId);
 	}
 
+	@RequestMapping(value = "/user/unmarkAsFavorite", method = RequestMethod.POST)
+	public ModelAndView unmarkAsFavorite(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> favoritedUsers = serie.getFavouritedUsers();
+		if (!favoritedUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		favoritedUsers.remove(user);
+		serie.setFavouritedUsers(favoritedUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Mark as pending
 
 	@RequestMapping(value = "/user/markAsPending", method = RequestMethod.POST)
-	public ModelAndView pending(@RequestParam(value = "serieId") final int serieId) {
+	public ModelAndView markAsPending(@RequestParam(value = "serieId") final int serieId) {
 		final User user;
 
 		user = this.userService.findPrincipal();
@@ -403,11 +425,33 @@ public class SerieController extends AbstractController {
 		return this.show(serieId);
 	}
 
+	@RequestMapping(value = "/user/unmarkAsPending", method = RequestMethod.POST)
+	public ModelAndView unmarkAsPending(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> pendingUsers = serie.getPendingUsers();
+		if (!pendingUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		pendingUsers.remove(user);
+		serie.setPendingUsers(pendingUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Mark as watching
 
 	@RequestMapping(value = "/user/markAsWatching", method = RequestMethod.POST)
-	public ModelAndView watching(@RequestParam(value = "serieId") final int serieId) {
+	public ModelAndView markAsWatching(@RequestParam(value = "serieId") final int serieId) {
 		final User user;
 
 		user = this.userService.findPrincipal();
@@ -428,11 +472,33 @@ public class SerieController extends AbstractController {
 		return this.show(serieId);
 	}
 
+	@RequestMapping(value = "/user/unmarkAsWatching", method = RequestMethod.POST)
+	public ModelAndView unmarkAsWatching(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> watchingUsers = serie.getWatchingUsers();
+		if (!watchingUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		watchingUsers.remove(user);
+		serie.setWatchingUsers(watchingUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Mark as watched
 
 	@RequestMapping(value = "/user/markAsWatched", method = RequestMethod.POST)
-	public ModelAndView watched(@RequestParam(value = "serieId") final int serieId) {
+	public ModelAndView markAsWatched(@RequestParam(value = "serieId") final int serieId) {
 		final User user;
 
 		user = this.userService.findPrincipal();
@@ -447,6 +513,28 @@ public class SerieController extends AbstractController {
 		if (watchedUsers.contains(user))
 			return new ModelAndView("redirect:/welcome/index.do");
 		watchedUsers.add(user);
+		serie.setWatchedUsers(watchedUsers);
+		this.serieService.save(serie);
+
+		return this.show(serieId);
+	}
+
+	@RequestMapping(value = "/user/unmarkAsWatched", method = RequestMethod.POST)
+	public ModelAndView unmarkAsWatched(@RequestParam(value = "serieId") final int serieId) {
+		final User user;
+
+		user = this.userService.findPrincipal();
+		if (user == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Serie serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		final Collection<User> watchedUsers = serie.getWatchedUsers();
+		if (!watchedUsers.contains(user))
+			return new ModelAndView("redirect:/welcome/index.do");
+		watchedUsers.remove(user);
 		serie.setWatchedUsers(watchedUsers);
 		this.serieService.save(serie);
 
