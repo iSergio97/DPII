@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 
 import domain.Administrator;
 import domain.Application;
+import domain.Publisher;
 import forms.ApplicationForm;
 import repositories.ApplicationRepository;
 
@@ -92,6 +93,10 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 
 	public List<Application> findAllAppliesByAdminId(final Administrator admin) {
 		return this.repository.findAllAppliesByAdminId(admin.getId());
+	}
+
+	public List<Application> findAllApplicatoinsByPublisher(final Publisher publisher) {
+		return this.repository.findAllApplicatoinsByPublisher(publisher.getId());
 	}
 
 }

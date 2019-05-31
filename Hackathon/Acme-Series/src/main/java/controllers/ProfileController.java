@@ -25,12 +25,16 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
+import domain.Actor;
 import domain.Administrator;
 import domain.Application;
+import domain.Chapter;
 import domain.Critic;
 import domain.Message;
 import domain.MessageBox;
 import domain.Publisher;
+import domain.Season;
+import domain.Serie;
 import domain.SocialProfile;
 import domain.User;
 import forms.RegisterAdministratorForm;
@@ -42,10 +46,13 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import services.AdministratorService;
 import services.ApplicationService;
+import services.ChapterService;
 import services.CriticService;
 import services.MessageBoxService;
 import services.MessageService;
 import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
 import services.SocialProfileService;
 import services.UserService;
 
@@ -72,6 +79,12 @@ public class ProfileController extends AbstractController {
 	private SocialProfileService	socialProfileService;
 	@Autowired
 	private ApplicationService		applicationService;
+	@Autowired
+	private SerieService			serieService;
+	@Autowired
+	private SeasonService			seasonService;
+	@Autowired
+	private ChapterService			chapterService;
 
 
 	public ProfileController() {
@@ -127,7 +140,6 @@ public class ProfileController extends AbstractController {
 
 		try {
 
-			final String locale = System.getProperty("user.home");
 			final FileSystemView filesys = FileSystemView.getFileSystemView();
 			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
 			document.open();
@@ -155,7 +167,9 @@ public class ProfileController extends AbstractController {
 				document.add(new Paragraph("[]"));
 
 			for (final Message m : messagesSent) {
-				document.add(new Paragraph(m.getRecipients().toArray()[0].toString()));
+				document.add(new Paragraph("Recipients: "));
+				for (final Actor a : m.getRecipients())
+					document.add(new Paragraph(a.getName()));
 				document.add(new Paragraph(m.getSubject()));
 				document.add(new Paragraph(m.getBody()));
 				document.add(new Paragraph(m.getTags().toString()));
@@ -249,6 +263,132 @@ public class ProfileController extends AbstractController {
 			result = this.createEditModelAndView(rpf, "edit");
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/publisher/export", method = RequestMethod.GET)
+	public ModelAndView exportPublisher() {
+		final Publisher publisher = this.publisherService.findPrincipal();
+		final Publisher actual = this.publisherService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Document document = new Document(PageSize.A4);
+		if (actual != publisher)
+			return new ModelAndView("/welcome/index.do");
+
+		try {
+
+			final FileSystemView filesys = FileSystemView.getFileSystemView();
+			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
+			document.open();
+			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+			gpdr.setAlignment(Element.ALIGN_CENTER);
+			document.add(gpdr);
+			final Paragraph userData = new Paragraph("Userdata");
+			document.add(userData);
+			final Paragraph name = new Paragraph("name: " + publisher.getName());
+			document.add(name);
+			document.add(new Paragraph("photo: " + publisher.getPhoto()));
+			document.add(new Paragraph("email: " + publisher.getEmail()));
+			document.add(new Paragraph("phone number: " + publisher.getPhoneNumber()));
+			document.add(new Paragraph("address: " + publisher.getAddress()));
+			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
+			document.add(userAccount);
+			document.add(new Paragraph("useraccount: " + publisher.getUserAccount().getUsername()));
+			document.add(new Paragraph("password: " + publisher.getUserAccount().getPassword()));
+			document.add(new Paragraph("authority: " + publisher.getUserAccount().getAuthorities().toArray()[0]));
+			final Paragraph messages = new Paragraph("\n\nMessages Sent");
+			document.add(messages);
+			final Collection<Message> messagesSent = this.messageService.getSent(publisher.getId());
+			final Collection<Message> messagesReceived = this.messageService.getRecieved(publisher.getId());
+			if (messagesSent.size() == 0)
+				document.add(new Paragraph("[]"));
+
+			for (final Message m : messagesSent) {
+				document.add(new Paragraph("Recipients: "));
+				for (final Actor a : m.getRecipients())
+					document.add(new Paragraph(a.getName()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+			}
+
+			document.add(new Paragraph("\n\nMessages received"));
+			if (messagesReceived.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final Message m : messagesReceived) {
+				document.add(new Paragraph(m.getSender().getName()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+			}
+			final Paragraph profiles = new Paragraph("\n\nProfiles");
+			document.add(profiles);
+			final Collection<SocialProfile> socialProfiles = this.socialProfileService.findByActor(publisher);
+			if (socialProfiles.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final SocialProfile p : socialProfiles) {
+				document.add(new Paragraph("Nick: " + p.getNick()));
+				document.add(new Paragraph("Link: " + p.getProfileLink()));
+				document.add(new Paragraph("Social Network: " + p.getSocialNetworkName()));
+			}
+
+			final List<MessageBox> mbs = (List<MessageBox>) this.messageBoxService.findMessageBoxes(publisher.getUserAccount().getId());
+			final List<MessageBox> systemBoxes = (List<MessageBox>) this.messageBoxService.findSystemBoxes(publisher.getUserAccount().getId());
+			final Paragraph cajas = new Paragraph("\n\nMessage boxes");
+			document.add(cajas);
+			for (final MessageBox mb : systemBoxes)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+			document.add(new Paragraph("\n"));
+			for (final MessageBox mb : mbs)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+			final Paragraph appliedSeries = new Paragraph("\n\nApplied series");
+			document.add(appliedSeries);
+			final Collection<Application> app = this.applicationService.findAllApplicatoinsByPublisher(publisher);
+			if (app.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final Application ap : app) {
+				document.add(new Paragraph("Serie: " + ap.getSerie()));
+				document.add(new Paragraph("Status: " + ap.getStatus()));
+			}
+			final Paragraph series = new Paragraph("\n\nSeries");
+			document.add(series);
+			final Collection<Serie> seriesC = this.serieService.findByPublisherId(publisher.getId());
+			for (final Serie s : seriesC) {
+				document.add(new Paragraph("Name: " + s.getTitle()));
+				document.add(new Paragraph("Description: " + s.getDescription()));
+				document.add(new Paragraph("Banner: " + s.getBanner()));
+				document.add(new Paragraph("Start date: " + s.getStartDate()));
+				document.add(new Paragraph("Status: " + s.getStatus()));
+				if (s.getStatus().equals("FINALIZED"))
+					document.add(new Paragraph("End date: " + s.getEndDate()));
+				document.add(new Paragraph("Director: " + s.getDirector()));
+				document.add(new Paragraph("Cast: " + s.getCast()));
+				final List<Season> seasons = (List<Season>) this.seasonService.findSeasonsBySerie(s);
+				document.add(new Paragraph("Number of seasons: " + seasons.size()));
+				for (int i = 0; i < seasons.size(); i++) {
+					document.add(new Paragraph("Season " + (i + 1)));
+					document.add(new Paragraph("Chapters: "));
+					final Collection<Chapter> chapters = this.chapterService.findChaptersBySeason(seasons.get(i));
+					for (final Chapter c : chapters) {
+						document.add(new Paragraph("Title: " + c.getTitle()));
+						document.add(new Paragraph("Description: " + c.getDescription()));
+						document.add(new Paragraph("Release date: " + c.getReleaseDate()));
+						document.add(new Paragraph("Duration: " + c.getDuration()));
+					}
+					document.add(new Paragraph("\n"));
+				}
+
+			}
+		} catch (FileNotFoundException | DocumentException e1) {
+			e1.printStackTrace();
+		}
+		document.close();
+
+		return this.showPublisher();
 	}
 
 	//Critic web pages

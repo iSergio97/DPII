@@ -18,4 +18,7 @@ public interface ApplicationRepository extends AbstractRepository<Application> {
 
 	@Query("select a from Application a join a.administrator admin where admin.id = ?1")
 	List<Application> findAllAppliesByAdminId(int id);
+
+	@Query("select a from Application a join a.publisher p where p.id = ?1")
+	List<Application> findAllApplicatoinsByPublisher(int id);
 }
