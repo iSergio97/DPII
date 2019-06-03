@@ -15,9 +15,9 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <div>
-	<acme:field value="${application.moment}" code="application.moment" />
-	<acme:field value="${application.description}" code="application.description" />
-	<acme:field value="${application.status}" code="application.status" />
-	<acme:field value="${application.publisher.userAccount.username}" code="application.publisher" />
-	<acme:field value="${application.administrator.userAccount.username}" code="application.administrator" />
+	<acme:field value="${critique.moment}" code="critique.moment" />
+	<acme:field value="${critique.text}" code="critique.text" />
+	<acme:field value="${critique.score}" code="critique.score" />
+	<acme:field value="${critique.serie.title}" code="critique.series" />
+	<acme:field value="${critique.critic.userAccount.username}" code="critique.critic" />
 </div>
