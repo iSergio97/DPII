@@ -12,8 +12,6 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p>Oops! You don't have access to this resource. You must be a...</p>
-
-<img width="500px" alt="Hackerman" src="https://3.bp.blogspot.com/-YpVmLl2neak/WjgV8XnJyQI/AAAAAAAACqE/18pcPPwaCOgreBNq6au7BZVqs5c_cu47QCLcBGAs/s1600/GVJ06OK.jpg">
+<p>Oops! You don't have access to this resource.</p> 
 
 <p><a href="<spring:url value='/' />">Return to the welcome page</a><p>
