@@ -48,3 +48,5 @@
 <jstl:out value="${message.body}" /><br/>
 </p>
 <br/>
+
+<a href="message/all/trashBox.do?messageId=${message.id}"> <spring:message code="message.delete" /> </a>

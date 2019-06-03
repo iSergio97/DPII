@@ -29,7 +29,7 @@
 		<spring:message code="${code}"/>:
 	</strong>
 	<jstl:if test="${empty value}">
-		<spring:message code="notAvailable"/>
+		<jstl:out value="N/A"/>
 	</jstl:if>
 		<a href="${value}"><jstl:out value="${value}"/></a>
 	<br>

@@ -55,5 +55,4 @@ public interface SerieRepository extends AbstractRepository<Serie> {
 
 	@Query("select s from Serie s where s.title like ?1 or s.description like ?1")
 	Collection<Serie> searchQuery(String text);
-
 }
