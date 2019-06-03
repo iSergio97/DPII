@@ -48,6 +48,7 @@ import services.AdministratorService;
 import services.ApplicationService;
 import services.ChapterService;
 import services.CriticService;
+import services.CritiqueService;
 import services.MessageBoxService;
 import services.MessageService;
 import services.PublisherService;
@@ -85,6 +86,8 @@ public class ProfileController extends AbstractController {
 	private SeasonService			seasonService;
 	@Autowired
 	private ChapterService			chapterService;
+	@Autowired
+	private CritiqueService			critiqueService;
 
 
 	public ProfileController() {
@@ -430,6 +433,93 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/critic/export", method = RequestMethod.GET)
+	public ModelAndView exportCritic() {
+		final Critic critic = this.criticService.findPrincipal();
+		final Critic actual = this.criticService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Document document = new Document(PageSize.A4);
+		if (actual != critic)
+			return new ModelAndView("/welcome/index.do");
+
+		try {
+			final FileSystemView filesys = FileSystemView.getFileSystemView();
+			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
+			document.open();
+			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+			gpdr.setAlignment(Element.ALIGN_CENTER);
+			document.add(gpdr);
+			final Paragraph userData = new Paragraph("Userdata");
+			document.add(userData);
+			final Paragraph name = new Paragraph("name: " + critic.getName());
+			document.add(name);
+			document.add(new Paragraph("photo: " + critic.getPhoto()));
+			document.add(new Paragraph("email: " + critic.getEmail()));
+			document.add(new Paragraph("phone number: " + critic.getPhoneNumber()));
+			document.add(new Paragraph("address: " + critic.getAddress()));
+			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
+			document.add(userAccount);
+			document.add(new Paragraph("useraccount: " + critic.getUserAccount().getUsername()));
+			document.add(new Paragraph("password: " + critic.getUserAccount().getPassword()));
+			document.add(new Paragraph("authority: " + critic.getUserAccount().getAuthorities().toArray()[0]));
+			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
+			document.add(messages);
+			final Collection<Message> messagesSent = this.messageService.getSent(critic.getId());
+			final Collection<Message> messagesReceived = this.messageService.getRecieved(critic.getId());
+			if (messagesSent.size() == 0)
+				document.add(new Paragraph("[]"));
+
+			for (final Message m : messagesSent) {
+				document.add(new Paragraph("Recipients: "));
+				for (final Actor a : m.getRecipients())
+					document.add(new Paragraph(a.getName()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+			}
+
+			document.add(new Paragraph("\n\nMessages received"));
+			if (messagesReceived.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final Message m : messagesReceived) {
+				document.add(new Paragraph(m.getSender().getName()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+			}
+			final Paragraph profiles = new Paragraph("\n\nProfiles");
+			document.add(profiles);
+			final Collection<SocialProfile> socialProfiles = this.socialProfileService.findByActor(critic);
+			if (socialProfiles.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final SocialProfile p : socialProfiles) {
+				document.add(new Paragraph("Nick: " + p.getNick()));
+				document.add(new Paragraph("Link: " + p.getProfileLink()));
+				document.add(new Paragraph("Social Network: " + p.getSocialNetworkName()));
+			}
+
+			final List<MessageBox> mbs = (List<MessageBox>) this.messageBoxService.findMessageBoxes(critic.getUserAccount().getId());
+			final List<MessageBox> systemBoxes = (List<MessageBox>) this.messageBoxService.findSystemBoxes(critic.getUserAccount().getId());
+			final Paragraph cajas = new Paragraph("\n\nMessage boxes");
+			document.add(cajas);
+			for (final MessageBox mb : systemBoxes)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+			document.add(new Paragraph("\n"));
+			for (final MessageBox mb : mbs)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+		} catch (FileNotFoundException | DocumentException e1) {
+			e1.printStackTrace();
+		}
+		document.close();
+
+		return this.showCritic();
+	}
+
 	//User web pages
 	@RequestMapping(value = "/user/show", method = RequestMethod.GET)
 	public ModelAndView showUser() {
@@ -467,6 +557,129 @@ public class ProfileController extends AbstractController {
 			result = this.createEditModelAndView(ruf, "edit");
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/user/export", method = RequestMethod.GET)
+	public ModelAndView exportUser() {
+		final User user = this.userService.findPrincipal();
+		final User actual = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
+		final Document document = new Document(PageSize.A4);
+		if (actual != user)
+			return new ModelAndView("/welcome/index.do");
+
+		try {
+
+			final FileSystemView filesys = FileSystemView.getFileSystemView();
+			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
+			document.open();
+			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+			gpdr.setAlignment(Element.ALIGN_CENTER);
+			document.add(gpdr);
+			final Paragraph userData = new Paragraph("Userdata");
+			document.add(userData);
+			final Paragraph name = new Paragraph("name: " + user.getName());
+			document.add(name);
+			document.add(new Paragraph("photo: " + user.getPhoto()));
+			document.add(new Paragraph("email: " + user.getEmail()));
+			document.add(new Paragraph("phone number: " + user.getPhoneNumber()));
+			document.add(new Paragraph("address: " + user.getAddress()));
+			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
+			document.add(userAccount);
+			document.add(new Paragraph("useraccount: " + user.getUserAccount().getUsername()));
+			document.add(new Paragraph("password: " + user.getUserAccount().getPassword()));
+			document.add(new Paragraph("authority: " + user.getUserAccount().getAuthorities().toArray()[0]));
+			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
+			document.add(messages);
+			final Collection<Message> messagesSent = this.messageService.getSent(user.getId());
+			final Collection<Message> messagesReceived = this.messageService.getRecieved(user.getId());
+			if (messagesSent.size() == 0)
+				document.add(new Paragraph("[]"));
+
+			for (final Message m : messagesSent) {
+				document.add(new Paragraph("Recipients: "));
+				for (final Actor a : m.getRecipients())
+					document.add(new Paragraph(a.getName()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+			}
+
+			document.add(new Paragraph("\n\nMessages received"));
+			if (messagesReceived.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final Message m : messagesReceived) {
+				document.add(new Paragraph(m.getSender().getName()));
+				document.add(new Paragraph(m.getBody()));
+				document.add(new Paragraph(m.getSubject()));
+				document.add(new Paragraph(m.getTags().toString()));
+				document.add(new Paragraph(m.getPriority().toString()));
+				document.add(new Paragraph(m.getMoment().toGMTString()));
+			}
+			final Paragraph profiles = new Paragraph("\n\nProfiles");
+			document.add(profiles);
+			final Collection<SocialProfile> socialProfiles = this.socialProfileService.findByActor(user);
+			if (socialProfiles.size() == 0)
+				document.add(new Paragraph("[]"));
+			for (final SocialProfile p : socialProfiles) {
+				document.add(new Paragraph("Nick: " + p.getNick()));
+				document.add(new Paragraph("Link: " + p.getProfileLink()));
+				document.add(new Paragraph("Social Network: " + p.getSocialNetworkName()));
+			}
+
+			final List<MessageBox> mbs = (List<MessageBox>) this.messageBoxService.findMessageBoxes(user.getUserAccount().getId());
+			final List<MessageBox> systemBoxes = (List<MessageBox>) this.messageBoxService.findSystemBoxes(user.getUserAccount().getId());
+			final Paragraph cajas = new Paragraph("\n\nMessage boxes");
+			document.add(cajas);
+			for (final MessageBox mb : systemBoxes)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+			document.add(new Paragraph("\n"));
+			for (final MessageBox mb : mbs)
+				document.add(new Paragraph("Name: " + mb.getName()));
+
+			final Paragraph pending = new Paragraph("\n\nPending series");
+			final Paragraph watching = new Paragraph("\n\nWatching series");
+			final Paragraph watched = new Paragraph("\n\nWatched series");
+			final Paragraph favorites = new Paragraph("\n\nFavorites series");
+			final List<Serie> pendingS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
+			final List<Serie> watchingS = (List<Serie>) this.serieService.findWatchingByUserId(user.getId());
+			final List<Serie> watchedS = (List<Serie>) this.serieService.findWatchedByUserId(user.getId());
+			final List<Serie> favoritesS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
+			document.add(pending);
+			if (pendingS.isEmpty())
+				document.add(new Paragraph("[]"));
+			for (final Serie s : pendingS) {
+				document.add(new Paragraph("Title: " + s.getTitle()));
+				document.add(new Paragraph("Status: " + s.getStatus()));
+			}
+			document.add(watching);
+			if (watchingS.isEmpty())
+				document.add(new Paragraph("[]"));
+			for (final Serie s : watchingS) {
+				document.add(new Paragraph("Title: " + s.getTitle()));
+				document.add(new Paragraph("Status: " + s.getStatus()));
+			}
+			document.add(watched);
+			if (watchedS.isEmpty())
+				document.add(new Paragraph("[]"));
+			for (final Serie s : watchedS) {
+				document.add(new Paragraph("Title: " + s.getTitle()));
+				document.add(new Paragraph("Status: " + s.getStatus()));
+			}
+			document.add(favorites);
+			if (favoritesS.isEmpty())
+				document.add(new Paragraph("[]"));
+			for (final Serie s : favoritesS) {
+				document.add(new Paragraph("Title: " + s.getTitle()));
+				document.add(new Paragraph("Status: " + s.getStatus()));
+			}
+		} catch (FileNotFoundException | DocumentException e1) {
+			e1.printStackTrace();
+		}
+		document.close();
+		return this.showUser();
 	}
 
 	// Model and view methods ------------------------------------------------------

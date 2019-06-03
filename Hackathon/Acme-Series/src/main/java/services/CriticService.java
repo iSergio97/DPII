@@ -1,6 +1,6 @@
 /*
  * CriticService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -19,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import domain.Critic;
+import forms.RegisterCriticForm;
 import repositories.CriticRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import domain.Critic;
-import forms.RegisterCriticForm;
 
 @Service
 @Transactional
@@ -35,7 +35,7 @@ public class CriticService extends AbstractService<CriticRepository, Critic> {
 	// CRUD methods
 
 	@Autowired
-	private UserAccountRepository	userAccountRepository;
+	private UserAccountRepository userAccountRepository;
 
 
 	@Override
@@ -47,7 +47,7 @@ public class CriticService extends AbstractService<CriticRepository, Critic> {
 		final List<Authority> authorities = new ArrayList<>();
 		Authority authority;
 		authority = new Authority();
-		authority.setAuthority(Authority.PUBLISHER);
+		authority.setAuthority(Authority.CRITIC);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount.setUsername("");
