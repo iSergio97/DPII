@@ -29,6 +29,8 @@
 		<value>/views/serie/tiles.xml</value>
 		<value>/views/season/tiles.xml</value>
 		<value>/views/chapter/tiles.xml</value>
+		<value>/views/message/tiles.xml</value>
+		<value>/views/message-box/tiles.xml</value>
 	</util:list>
 
 </beans>
