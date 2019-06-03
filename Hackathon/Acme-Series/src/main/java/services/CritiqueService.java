@@ -70,9 +70,7 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 		critique.setScore(critiqueForm.getScore());
 		critique.setSerie(this.serieService.findOne(critiqueForm.getSerieId()));
 
-		this.validator.validate(critique, binding);
-		if (binding.hasErrors())
-			throw new ValidationException();
+		this.validator.validate(critique, bindingResult);
 
 		return critique;
 	}
