@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -54,6 +55,8 @@ public class Application extends DomainEntity {
 		this.moment = moment;
 	}
 
+	@NotBlank
+	@SafeHtml
 	public String getDescription() {
 		return this.description;
 	}

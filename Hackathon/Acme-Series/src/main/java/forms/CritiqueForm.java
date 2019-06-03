@@ -1,6 +1,6 @@
 /*
  * CritiqueForm.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -8,6 +8,7 @@ package forms;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 
 public class CritiqueForm {
 
@@ -33,6 +34,7 @@ public class CritiqueForm {
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getText() {
 		return this.text;
 	}

@@ -1,5 +1,5 @@
 <%--
- * showField.tag
+ * sortablecolumn.tag
  *
  * Copyright (C) Group 16 DP II
  * 
@@ -15,6 +15,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
@@ -24,13 +25,9 @@
 
 <%-- Definition --%>
 
-<div>
-	<strong>
-		<spring:message code="${code}"/>:
-	</strong>
+<display:column titleKey="${code}" sortable="true">
 	<jstl:if test="${empty value}">
 		<spring:message code="notAvailable"/>
 	</jstl:if>
-		<a href="${value}"><jstl:out value="${value}"/></a>
-	<br>
-</div>
+		<jstl:out value="${value}"/>
+</display:column>

@@ -1,5 +1,5 @@
 <%--
-application/show.jsp
+application/create.jsp
 
 Copyright (C) 2019 Group 16 Desing & Testing II
 --%>
@@ -14,10 +14,20 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<div>
-	<acme:field value="${application.moment}" code="application.moment" />
-	<acme:field value="${application.description}" code="application.description" />
-	<acme:field value="${application.status}" code="application.status" />
-	<acme:field value="${application.publisher.userAccount.username}" code="application.publisher" />
-	<acme:field value="${application.administrator.userAccount.username}" code="application.administrator" />
-</div>
+<form:form action="application/publisher/edit.do" modelAttribute="application">
+
+	<!-- Hidden fields -->
+	
+	<form:hidden path="id" />
+	<input type="hidden" id="serieId" name="serieId" value="${serieId}">
+	
+	<!-- Input fields -->
+	
+	<acme:textarea path="description" code="application.description" />
+	
+	<!-- Buttons -->
+
+	<acme:submit name="save" code="action.save"/>
+	<acme:cancel url="welcome/index.do" code="action.cancel"/>
+
+</form:form>

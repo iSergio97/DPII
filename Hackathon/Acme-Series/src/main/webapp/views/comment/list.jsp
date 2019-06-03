@@ -1,5 +1,5 @@
 <%--
-application/show.jsp
+comment/list.jsp
 
 Copyright (C) 2019 Group 16 Desing & Testing II
 --%>
@@ -14,10 +14,11 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<div>
-	<acme:field value="${application.moment}" code="application.moment" />
-	<acme:field value="${application.description}" code="application.description" />
-	<acme:field value="${application.status}" code="application.status" />
-	<acme:field value="${application.publisher.userAccount.username}" code="application.publisher" />
-	<acme:field value="${application.administrator.userAccount.username}" code="application.administrator" />
-</div>
+<display:table name="comments" id="row" pagesize="5" class="displaytag">
+	<acme:column value="${row.moment}" code="comment.moment" />
+	<acme:column value="${row.text}" code="comment.text" />
+	<acme:column value="${row.score}" code="comment.score" />
+	<acme:column value="${row.user.userAccount.username}" code="comment.user" />
+	<acme:column value="${row.serie.title}" code="comment.series" />
+	<acme:actioncolumn url="comment/user/edit.do?commentId" value="${row.id}" code="action.edit"/>
+</display:table>
