@@ -685,11 +685,56 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		</property>
 	</bean>
 
-	<!-- Applicationss -->
+	<!-- Applications -->
 
 	<bean id="application1" class="domain.Application">
 		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="Me encanta esta serie y no me creo que esté"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+	
+	<bean id="application2" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="ola wenas"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie2"/>
+		</property>
+	</bean>
+	
+	<bean id="application3" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
 		<property name="description" value="iyo aceptadme la serie con vuestros muertos"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie2"/>
+		</property>
+	</bean>
+	
+	<bean id="application4" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="AYUWOKI"/>
 		<property name="status" value="PENDING"/>
 		<!-- <property name="administrator">
 			<ref bean=""/>
@@ -698,7 +743,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 			<ref bean="publisher2"/>
 		</property>
 		<property name="serie">
-			<ref bean="serie2"/>
+			<ref bean="serie1"/>
 		</property>
 	</bean>
 

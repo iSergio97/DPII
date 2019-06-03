@@ -21,5 +21,3 @@
 	<br>
 	<strong><spring:message code="address" /></strong>: <jstl:out value="${administrator.address}" />
 	<br>
-	
-	<a href="profile/administrator/export.do" ><spring:message code="profile.export" /></a>

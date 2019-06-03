@@ -1,12 +1,10 @@
 /*
  * SeasonRepository.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package repositories;
-
-import java.util.Collection;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,6 +20,4 @@ public interface SeasonRepository extends AbstractRepository<Season> {
 	@Query("select s from Season s join s.chapters c where c.id = ?1")
 	Season findSeasonAssociated(int chapterId);
 
-	@Query("select s.seasons from Serie s where s.id = ?1")
-	Collection<Season> findSeasonsBySerieId(int id);
 }

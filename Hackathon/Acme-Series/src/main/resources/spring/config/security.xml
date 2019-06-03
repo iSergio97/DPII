@@ -57,8 +57,6 @@
 		<security:intercept-url pattern="/*/publisher/**" access="hasRole('PUBLISHER')" />
 		<security:intercept-url pattern="/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/*/user/**" access="hasRole('USER')" />
-		<security:intercept-url pattern="/message/all/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/message-box/all/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/all/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/*/all/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/public/**" access="permitAll" />

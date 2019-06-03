@@ -313,6 +313,14 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.7.4</version>
 		</dependency>
+		
+		<!-- jsoup -->
+		
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.11.2</version>
+		</dependency>
 
 	</dependencies>
 

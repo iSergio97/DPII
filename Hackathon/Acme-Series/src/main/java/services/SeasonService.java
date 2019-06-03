@@ -1,24 +1,22 @@
 /*
  * SeasonService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import repositories.SeasonRepository;
 import domain.Chapter;
 import domain.Season;
-import domain.Serie;
 import forms.SeasonForm;
-import repositories.SeasonRepository;
 
 @Service
 @Transactional
@@ -73,10 +71,6 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
 	public Season findSeasonAssociated(final int chapterId) {
 		return this.repository.findSeasonAssociated(chapterId);
-	}
-
-	public Collection<Season> findSeasonsBySerie(final Serie s) {
-		return this.repository.findSeasonsBySerieId(s.getId());
 	}
 
 }
