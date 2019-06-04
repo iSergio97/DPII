@@ -74,7 +74,7 @@ public class AdministratorController extends AbstractController {
 
 		systemConfigurationForm = this.systemConfigurationService.deconstruct(this.systemConfigurationService.getSystemConfiguration());
 
-		result = new ModelAndView("administrator/systemconfiguration");
+		result = this.createModelAndViewWithSystemConfiguration("administrator/systemconfiguration");
 		result.addObject("systemConfigurationForm", systemConfigurationForm);
 
 		return result;
@@ -86,13 +86,13 @@ public class AdministratorController extends AbstractController {
 		SystemConfiguration systemConfiguration;
 
 		if (bindingResult.hasErrors()) {
-			result = new ModelAndView("administrator/systemconfiguration");
+			result = this.createModelAndViewWithSystemConfiguration("administrator/systemconfiguration");
 			result.addObject("systemConfigurationForm", systemConfigurationForm);
 			result.addObject("error", true);
 		} else {
 			systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
 			this.systemConfigurationService.save(systemConfiguration);
-			result = new ModelAndView("administrator/systemconfiguration");
+			result = this.createModelAndViewWithSystemConfiguration("administrator/systemconfiguration");
 			result.addObject("systemConfigurationForm", systemConfigurationForm);
 			result.addObject("success", true);
 		}
@@ -104,7 +104,7 @@ public class AdministratorController extends AbstractController {
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard() {
-		final ModelAndView result = new ModelAndView("administrator/dashboard");
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("administrator/dashboard");
 
 		// Mínimo, máximo, media y desviación típica del número de series por publicador.
 		result.addObject("seriesPerPublisherStatistics", this.publisherService.getSeriesPerPublisherStatistics());
@@ -148,7 +148,7 @@ public class AdministratorController extends AbstractController {
 			if (media > 0.2)
 				a.setIsFlagged(true);
 		}
-		result = new ModelAndView("administrator/actor/list");
+		result = this.createModelAndViewWithSystemConfiguration("administrator/actor/list");
 		result.addObject("listActors", listActors);
 
 		return result;

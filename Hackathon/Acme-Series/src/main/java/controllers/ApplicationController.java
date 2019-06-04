@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Administrator;
-import domain.Application;
-import domain.Serie;
-import forms.ApplicationForm;
 import security.LoginService;
 import services.AdministratorService;
 import services.ApplicationService;
 import services.SerieService;
+import domain.Administrator;
+import domain.Application;
+import domain.Serie;
+import forms.ApplicationForm;
 
 @Controller
 @RequestMapping("/application")
@@ -56,7 +56,7 @@ public class ApplicationController extends AbstractController {
 		final int userAccountId = LoginService.getPrincipal().getId();
 		applications = this.applicationService.findAllByUserAccountId(userAccountId);
 
-		result = new ModelAndView("application/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/publisher/list");
 		result.addObject("applications", applications);
 		result.addObject("role", "publisher");
 		result.addObject("requestURI", "application/publisher/list.do");
@@ -73,7 +73,7 @@ public class ApplicationController extends AbstractController {
 
 		applications = this.applicationService.findAll();
 
-		result = new ModelAndView("application/administrator/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/administrator/list");
 		result.addObject("applications", applications);
 		result.addObject("role", "administrator");
 		result.addObject("requestURI", "application/administrator/list.do");
@@ -217,7 +217,7 @@ public class ApplicationController extends AbstractController {
 	private ModelAndView createEditModelAndView(final Application application, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("application/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("application/" + role + "/" + action);
 		result.addObject("application", application);
 
 		return result;
@@ -230,7 +230,7 @@ public class ApplicationController extends AbstractController {
 	private ModelAndView createEditModelAndView(final ApplicationForm applicationForm, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("application/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("application/" + role + "/" + action);
 		result.addObject("application", applicationForm);
 
 		return result;
