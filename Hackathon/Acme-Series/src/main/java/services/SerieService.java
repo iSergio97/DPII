@@ -1,6 +1,6 @@
 /*
  * SerieService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import domain.Serie;
+import forms.SerieForm;
 import repositories.SerieRepository;
 import security.Authority;
 import security.LoginService;
-import domain.Serie;
-import forms.SerieForm;
 
 @Service
 @Transactional
@@ -32,7 +32,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	// Supporting services
 
 	@Autowired
-	private PublisherService	publisherService;
+	private PublisherService publisherService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -54,11 +54,6 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 	@Override
 	public Serie save(final Serie res) {
-		final Authority a = new Authority();
-		final Authority b = new Authority();
-		a.setAuthority(Authority.PUBLISHER);
-		b.setAuthority(Authority.ADMINISTRATOR);
-		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
 		return super.save(res);
 	}
 
