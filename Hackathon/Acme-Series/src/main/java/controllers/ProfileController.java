@@ -3,9 +3,12 @@ package controllers;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.filechooser.FileSystemView;
 import javax.validation.ValidationException;
 
@@ -16,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lowagie.text.Document;
@@ -560,125 +564,142 @@ public class ProfileController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/user/export", method = RequestMethod.GET)
-	public ModelAndView exportUser() {
+	@ResponseBody
+	public ModelAndView exportUser(final HttpServletResponse response) {
 		final User user = this.userService.findPrincipal();
 		final User actual = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
-		final Document document = new Document(PageSize.A4);
 		if (actual != user)
 			return new ModelAndView("/welcome/index.do");
-
+		ServletOutputStream outStream;
 		try {
-
-			final FileSystemView filesys = FileSystemView.getFileSystemView();
-			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
-			document.open();
-			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
-			gpdr.setAlignment(Element.ALIGN_CENTER);
-			document.add(gpdr);
-			final Paragraph userData = new Paragraph("Userdata");
-			document.add(userData);
-			final Paragraph name = new Paragraph("name: " + user.getName());
-			document.add(name);
-			document.add(new Paragraph("photo: " + user.getPhoto()));
-			document.add(new Paragraph("email: " + user.getEmail()));
-			document.add(new Paragraph("phone number: " + user.getPhoneNumber()));
-			document.add(new Paragraph("address: " + user.getAddress()));
-			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
-			document.add(userAccount);
-			document.add(new Paragraph("useraccount: " + user.getUserAccount().getUsername()));
-			document.add(new Paragraph("password: " + user.getUserAccount().getPassword()));
-			document.add(new Paragraph("authority: " + user.getUserAccount().getAuthorities().toArray()[0]));
-			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
-			document.add(messages);
-			final Collection<Message> messagesSent = this.messageService.getSent(user.getId());
-			final Collection<Message> messagesReceived = this.messageService.getRecieved(user.getId());
-			if (messagesSent.size() == 0)
-				document.add(new Paragraph("[]"));
-
-			for (final Message m : messagesSent) {
-				document.add(new Paragraph("Recipients: "));
-				for (final Actor a : m.getRecipients())
-					document.add(new Paragraph(a.getName()));
-				document.add(new Paragraph(m.getSubject()));
-				document.add(new Paragraph(m.getBody()));
-				document.add(new Paragraph(m.getTags().toString()));
-				document.add(new Paragraph(m.getMoment().toGMTString()));
-				document.add(new Paragraph(m.getPriority().toString()));
-			}
-
-			document.add(new Paragraph("\n\nMessages received"));
-			if (messagesReceived.size() == 0)
-				document.add(new Paragraph("[]"));
-			for (final Message m : messagesReceived) {
-				document.add(new Paragraph(m.getSender().getName()));
-				document.add(new Paragraph(m.getBody()));
-				document.add(new Paragraph(m.getSubject()));
-				document.add(new Paragraph(m.getTags().toString()));
-				document.add(new Paragraph(m.getPriority().toString()));
-				document.add(new Paragraph(m.getMoment().toGMTString()));
-			}
-			final Paragraph profiles = new Paragraph("\n\nProfiles");
-			document.add(profiles);
-			final Collection<SocialProfile> socialProfiles = this.socialProfileService.findByActor(user);
-			if (socialProfiles.size() == 0)
-				document.add(new Paragraph("[]"));
-			for (final SocialProfile p : socialProfiles) {
-				document.add(new Paragraph("Nick: " + p.getNick()));
-				document.add(new Paragraph("Link: " + p.getProfileLink()));
-				document.add(new Paragraph("Social Network: " + p.getSocialNetworkName()));
-			}
-
-			final List<MessageBox> mbs = (List<MessageBox>) this.messageBoxService.findMessageBoxes(user.getUserAccount().getId());
-			final List<MessageBox> systemBoxes = (List<MessageBox>) this.messageBoxService.findSystemBoxes(user.getUserAccount().getId());
-			final Paragraph cajas = new Paragraph("\n\nMessage boxes");
-			document.add(cajas);
-			for (final MessageBox mb : systemBoxes)
-				document.add(new Paragraph("Name: " + mb.getName()));
-
-			document.add(new Paragraph("\n"));
-			for (final MessageBox mb : mbs)
-				document.add(new Paragraph("Name: " + mb.getName()));
-
-			final Paragraph pending = new Paragraph("\n\nPending series");
-			final Paragraph watching = new Paragraph("\n\nWatching series");
-			final Paragraph watched = new Paragraph("\n\nWatched series");
-			final Paragraph favorites = new Paragraph("\n\nFavorites series");
-			final List<Serie> pendingS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
-			final List<Serie> watchingS = (List<Serie>) this.serieService.findWatchingByUserId(user.getId());
-			final List<Serie> watchedS = (List<Serie>) this.serieService.findWatchedByUserId(user.getId());
-			final List<Serie> favoritesS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
-			document.add(pending);
-			if (pendingS.isEmpty())
-				document.add(new Paragraph("[]"));
-			for (final Serie s : pendingS) {
-				document.add(new Paragraph("Title: " + s.getTitle()));
-				document.add(new Paragraph("Status: " + s.getStatus()));
-			}
-			document.add(watching);
-			if (watchingS.isEmpty())
-				document.add(new Paragraph("[]"));
-			for (final Serie s : watchingS) {
-				document.add(new Paragraph("Title: " + s.getTitle()));
-				document.add(new Paragraph("Status: " + s.getStatus()));
-			}
-			document.add(watched);
-			if (watchedS.isEmpty())
-				document.add(new Paragraph("[]"));
-			for (final Serie s : watchedS) {
-				document.add(new Paragraph("Title: " + s.getTitle()));
-				document.add(new Paragraph("Status: " + s.getStatus()));
-			}
-			document.add(favorites);
-			if (favoritesS.isEmpty())
-				document.add(new Paragraph("[]"));
-			for (final Serie s : favoritesS) {
-				document.add(new Paragraph("Title: " + s.getTitle()));
-				document.add(new Paragraph("Status: " + s.getStatus()));
-			}
-		} catch (FileNotFoundException | DocumentException e1) {
-			e1.printStackTrace();
+			final StringBuilder sb = new StringBuilder();
+			sb.append("userData");
+			sb.append(user.getName());
+			sb.append(user.getSurnames());
+			sb.append(user.getEmail());
+			sb.append(user.getPhoneNumber());
+			sb.append(user.getPhoto());
+			sb.append(user.getAddress());
+			sb.append(user.getUserAccount().getUsername());
+			sb.append(user.getUserAccount().getPassword());
+			sb.append(";");
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "attachment;filename=data.pdf");
+			outStream = response.getOutputStream();
+			outStream.println(sb.toString());
+			outStream.flush();
+			outStream.close();
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		document.close();
+
+		//			final FileSystemView filesys = FileSystemView.getFileSystemView();
+		//			PdfWriter.getInstance(document, new FileOutputStream(filesys.getHomeDirectory() + "\\export.pdf"));
+		//			document.open();
+		//			final Paragraph gpdr = new Paragraph("GPDR Legislation\n\n");
+		//			gpdr.setAlignment(Element.ALIGN_CENTER);
+		//			document.add(gpdr);
+		//			final Paragraph userData = new Paragraph("Userdata");
+		//			document.add(userData);
+		//			final Paragraph name = new Paragraph("name: " + user.getName());
+		//			document.add(name);
+		//			document.add(new Paragraph("photo: " + user.getPhoto()));
+		//			document.add(new Paragraph("email: " + user.getEmail()));
+		//			document.add(new Paragraph("phone number: " + user.getPhoneNumber()));
+		//			document.add(new Paragraph("address: " + user.getAddress()));
+		//			final Paragraph userAccount = new Paragraph("\n\nuserAccount");
+		//			document.add(userAccount);
+		//			document.add(new Paragraph("useraccount: " + user.getUserAccount().getUsername()));
+		//			document.add(new Paragraph("password: " + user.getUserAccount().getPassword()));
+		//			document.add(new Paragraph("authority: " + user.getUserAccount().getAuthorities().toArray()[0]));
+		//			final Paragraph messages = new Paragraph("\n\nMessages Recieved");
+		//			document.add(messages);
+		//			final Collection<Message> messagesSent = this.messageService.getSent(user.getId());
+		//			final Collection<Message> messagesReceived = this.messageService.getRecieved(user.getId());
+		//			if (messagesSent.size() == 0)
+		//				document.add(new Paragraph("[]"));
+		//
+		//			for (final Message m : messagesSent) {
+		//				document.add(new Paragraph("Recipients: "));
+		//				for (final Actor a : m.getRecipients())
+		//					document.add(new Paragraph(a.getName()));
+		//				document.add(new Paragraph(m.getSubject()));
+		//				document.add(new Paragraph(m.getBody()));
+		//				document.add(new Paragraph(m.getTags().toString()));
+		//				document.add(new Paragraph(m.getMoment().toGMTString()));
+		//				document.add(new Paragraph(m.getPriority().toString()));
+		//			}
+		//
+		//			document.add(new Paragraph("\n\nMessages received"));
+		//			if (messagesReceived.size() == 0)
+		//				document.add(new Paragraph("[]"));
+		//			for (final Message m : messagesReceived) {
+		//				document.add(new Paragraph(m.getSender().getName()));
+		//				document.add(new Paragraph(m.getBody()));
+		//				document.add(new Paragraph(m.getSubject()));
+		//				document.add(new Paragraph(m.getTags().toString()));
+		//				document.add(new Paragraph(m.getPriority().toString()));
+		//				document.add(new Paragraph(m.getMoment().toGMTString()));
+		//			}
+		//			final Paragraph profiles = new Paragraph("\n\nProfiles");
+		//			document.add(profiles);
+		//			final Collection<SocialProfile> socialProfiles = this.socialProfileService.findByActor(user);
+		//			if (socialProfiles.size() == 0)
+		//				document.add(new Paragraph("[]"));
+		//			for (final SocialProfile p : socialProfiles) {
+		//				document.add(new Paragraph("Nick: " + p.getNick()));
+		//				document.add(new Paragraph("Link: " + p.getProfileLink()));
+		//				document.add(new Paragraph("Social Network: " + p.getSocialNetworkName()));
+		//			}
+		//
+		//			final List<MessageBox> mbs = (List<MessageBox>) this.messageBoxService.findMessageBoxes(user.getUserAccount().getId());
+		//			final List<MessageBox> systemBoxes = (List<MessageBox>) this.messageBoxService.findSystemBoxes(user.getUserAccount().getId());
+		//			final Paragraph cajas = new Paragraph("\n\nMessage boxes");
+		//			document.add(cajas);
+		//			for (final MessageBox mb : systemBoxes)
+		//				document.add(new Paragraph("Name: " + mb.getName()));
+		//
+		//			document.add(new Paragraph("\n"));
+		//			for (final MessageBox mb : mbs)
+		//				document.add(new Paragraph("Name: " + mb.getName()));
+		//
+		//			final Paragraph pending = new Paragraph("\n\nPending series");
+		//			final Paragraph watching = new Paragraph("\n\nWatching series");
+		//			final Paragraph watched = new Paragraph("\n\nWatched series");
+		//			final Paragraph favorites = new Paragraph("\n\nFavorites series");
+		//			final List<Serie> pendingS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
+		//			final List<Serie> watchingS = (List<Serie>) this.serieService.findWatchingByUserId(user.getId());
+		//			final List<Serie> watchedS = (List<Serie>) this.serieService.findWatchedByUserId(user.getId());
+		//			final List<Serie> favoritesS = (List<Serie>) this.serieService.findFavouriteByUserId(user.getId());
+		//			document.add(pending);
+		//			if (pendingS.isEmpty())
+		//				document.add(new Paragraph("[]"));
+		//			for (final Serie s : pendingS) {
+		//				document.add(new Paragraph("Title: " + s.getTitle()));
+		//				document.add(new Paragraph("Status: " + s.getStatus()));
+		//			}
+		//			document.add(watching);
+		//			if (watchingS.isEmpty())
+		//				document.add(new Paragraph("[]"));
+		//			for (final Serie s : watchingS) {
+		//				document.add(new Paragraph("Title: " + s.getTitle()));
+		//				document.add(new Paragraph("Status: " + s.getStatus()));
+		//			}
+		//			document.add(watched);
+		//			if (watchedS.isEmpty())
+		//				document.add(new Paragraph("[]"));
+		//			for (final Serie s : watchedS) {
+		//				document.add(new Paragraph("Title: " + s.getTitle()));
+		//				document.add(new Paragraph("Status: " + s.getStatus()));
+		//			}
+		//			document.add(favorites);
+		//			if (favoritesS.isEmpty())
+		//				document.add(new Paragraph("[]"));
+		//			for (final Serie s : favoritesS) {
+		//				document.add(new Paragraph("Title: " + s.getTitle()));
+		//				document.add(new Paragraph("Status: " + s.getStatus()));
+		//}
 		return this.showUser();
 	}
 
