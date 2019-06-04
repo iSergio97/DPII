@@ -36,19 +36,15 @@
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 
 		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"> <spring:message code="master.page.login" /></a></li>
-			<li><a class="fNiv" href="register/user/create.do"> <spring:message code="master.page.user.register" /></a></li>
-			<li><a class="fNiv" href="register/publisher/create.do"> <spring:message code="master.page.publisher.register" /></a></li>
-		</security:authorize>
-		
-		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv"><spring:message code="master.page.series" /></a>
+			<li><a class="fNiv"><spring:message code="master.page.access" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="serie/public/list.do"> <spring:message code="action.list.series" /></a></li>
+					<li><a href="security/login.do"> <spring:message code="master.page.login" /></a></li>
+					<li><a href="register/user/create.do"> <spring:message code="master.page.user.register" /></a></li>
+					<li><a href="register/publisher/create.do"> <spring:message code="master.page.publisher.register" /></a></li>
 				</ul>
+			</li>	
 		</security:authorize>
-		
 
 		<security:authorize access="isAuthenticated()">
 			<li><a class="fNiv"> <spring:message code="master.page.profile" /> (<security:authentication property="principal.username" />)</a>
@@ -97,6 +93,20 @@
 				</ul>
 			</li>
 		</security:authorize>
+		
+		<security:authorize access="permitAll()">
+			<li><a class="fNiv"><spring:message code="master.page.series" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="serie/public/list.do"> <spring:message code="action.list.series" /></a></li>
+					<security:authorize access="hasRole('USER')">
+						<li><a href="serie/user/favouriteList.do"><spring:message code="master.page.series.favourites" /> </a></li>
+						<li><a href="serie/user/pendingList.do"><spring:message code="master.page.series.pending" /> </a></li>
+						<li><a href="serie/user/watchingList.do"><spring:message code="master.page.series.watching" /> </a></li>
+						<li><a href="serie/user/watchedList.do"><spring:message code="master.page.series.watched" /> </a></li>
+					</security:authorize>
+				</ul>
+		</security:authorize>
 
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
@@ -129,11 +139,7 @@
 			<li><a class="fNiv"><spring:message code="master.page.user" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="serie/user/sortedByFavoritesList.do"><spring:message code="master.page.serie.user.sortedByFavoritesList" /> </a></li>
-					<li><a href="serie/user/favouriteList.do"><spring:message code="master.page.serie.user.favouriteList" /> </a></li>
-					<li><a href="serie/user/pendingList.do"><spring:message code="master.page.serie.user.pendingList" /> </a></li>
-					<li><a href="serie/user/watchingList.do"><spring:message code="master.page.serie.user.watchingList" /> </a></li>
-					<li><a href="serie/user/watchedList.do"><spring:message code="master.page.serie.user.watchedList" /> </a></li>
+					<li><a href="serie/user/sortedByFavoritesList.do"><spring:message code="master.page.user.sortedByFavoritesList" /> </a></li>
 				</ul>
 			</li>
 		</security:authorize>
