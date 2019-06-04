@@ -1,25 +1,21 @@
 /*
  * CritiqueService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
 import java.util.Date;
-import java.util.List;
-
-import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.CritiqueRepository;
 import domain.Critique;
 import forms.CritiqueForm;
-import repositories.CritiqueRepository;
 
 @Service
 @Transactional
@@ -40,9 +36,7 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 	@Override
 	public Critique create() {
 		final Critique critique = super.create();
-		Assert.notNull(critique);
 
-		Assert.notNull(this.criticService.findPrincipal());
 		critique.setCritic(this.criticService.findPrincipal());
 
 		return critique;
@@ -55,15 +49,13 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 		return this.instanceClass(CritiqueForm.class);
 	}
 
-	public Critique reconstructForm(final CritiqueForm critiqueForm, final BindingResult binding) {
+	public Critique reconstructForm(final CritiqueForm critiqueForm, final BindingResult bindingResult) {
 		final Critique critique;
 
 		if (critiqueForm.getId() == 0)
 			critique = this.create();
-		else {
+		else
 			critique = this.findOne(critiqueForm.getId());
-			Assert.isTrue(critique.getCritic().equals(this.criticService.findPrincipal()));
-		}
 
 		critique.setMoment(new Date());
 		critique.setText(critiqueForm.getText());
@@ -84,10 +76,6 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 		critiqueForm.setSerieId(critique.getSerie().getId());
 
 		return critiqueForm;
-	}
-
-	public List<Critique> findAllByUserAccountId(final int userAccountId) {
-		return this.repository.findAllByUserAccount(userAccountId);
 	}
 
 }

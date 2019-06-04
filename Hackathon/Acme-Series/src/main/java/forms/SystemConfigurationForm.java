@@ -1,6 +1,6 @@
 /*
  * SystemConfigurationForm.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -24,9 +24,9 @@ public class SystemConfigurationForm {
 	private int		defaultCountryCode;
 	private int		maximumFinderResults;
 	private String	spamWords;
-	private String	welcomeMessage;
 	private String	positiveWords;
 	private String	negativeWords;
+	private String	welcomeMessage;
 
 
 	////////////////////////////////////////////////////////////////////////////////

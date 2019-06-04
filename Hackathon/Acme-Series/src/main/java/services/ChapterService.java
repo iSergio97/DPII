@@ -1,20 +1,22 @@
 /*
  * ChapterService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import repositories.ChapterRepository;
 import domain.Chapter;
+import domain.Season;
 import forms.ChapterForm;
+import repositories.ChapterRepository;
 
 @Service
 @Transactional
@@ -63,6 +65,10 @@ public class ChapterService extends AbstractService<ChapterRepository, Chapter> 
 		this.validator.validate(result, binding);
 
 		return result;
+	}
+
+	public Collection<Chapter> findChaptersBySeason(final Season s) {
+		return this.repository.findChaptersBySeasonId(s.getId());
 	}
 
 }

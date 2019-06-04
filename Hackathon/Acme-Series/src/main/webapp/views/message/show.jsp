@@ -20,7 +20,7 @@
 
 
 <strong><spring:message code="message.date"/>:</strong>
-<jstl:out value="${message.date}"/><br/>
+<jstl:out value="${message.moment}"/><br/>
 <strong><spring:message code="message.sender"/>:</strong>
 <jstl:out value="${message.sender.name} " />
 <jstl:out value="${message.sender.surnames}" />

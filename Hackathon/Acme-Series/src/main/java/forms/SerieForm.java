@@ -26,6 +26,7 @@ public class SerieForm {
 	private String	status;
 	private String	director;
 	private String	cast;
+	private boolean	isDraft;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +112,14 @@ public class SerieForm {
 
 	public void setCast(final String cast) {
 		this.cast = cast;
+	}
+
+	public boolean getIsDraft() {
+		return this.isDraft;
+	}
+
+	public void setIsDraft(final boolean isDraft) {
+		this.isDraft = isDraft;
 	}
 
 }
