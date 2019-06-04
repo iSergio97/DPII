@@ -27,6 +27,10 @@
 		<value>/views/serie/messages</value>
 		<value>/views/season/messages</value>
 		<value>/views/chapter/messages</value>
+		<value>/views/application/messages</value>
+		<value>/views/comment/messages</value>
+		<value>/views/chapter/messages</value>
+		<value>/views/critique/messages</value>
 	</util:list>
 
 </beans>
