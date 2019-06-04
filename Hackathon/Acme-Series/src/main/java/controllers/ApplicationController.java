@@ -1,330 +1,239 @@
-/*
- * package controllers;
- * 
- * import java.util.Collection;
- * import java.util.HashMap;
- * import java.util.List;
- * import java.util.Map;
- * import java.util.concurrent.ThreadLocalRandom;
- * 
- * import javax.validation.Valid;
- * 
- * import org.springframework.beans.factory.annotation.Autowired;
- * import org.springframework.stereotype.Controller;
- * import org.springframework.validation.BindingResult;
- * import org.springframework.web.bind.annotation.ModelAttribute;
- * import org.springframework.web.bind.annotation.RequestMapping;
- * import org.springframework.web.bind.annotation.RequestMethod;
- * import org.springframework.web.bind.annotation.RequestParam;
- * import org.springframework.web.servlet.ModelAndView;
- * 
- * import domain.Application;
- * import domain.Publisher;
- * import domain.Curriculum;
- * import domain.Serie;
- * import domain.Problem;
- * import domain.Rookie;
- * import forms.ApplicationForm;
- * import services.ApplicationService;
- * import services.CompanyService;
- * import services.CurriculumService;
- * import services.PositionService;
- * import services.RookieService;
- * 
- * @Controller
- * 
- * @RequestMapping("/application")
- * public class ApplicationController extends AbstractController {
- * 
- * // Services ---------------------------------------------------------------
- * 
- * @Autowired
- * private ApplicationService applicationService;
- * 
- * @Autowired
- * private CompanyService companyService;
- * 
- * @Autowired
- * private CurriculumService curriculumService;
- * 
- * @Autowired
- * private RookieService rookieService;
- * 
- * @Autowired
- * private PositionService positionService;
- * 
- * 
- * // Constructors -----------------------------------------------------------
- * 
- * public ApplicationController() {
- * super();
- * }
- * 
- * // Rookie list ------------------------------------------------------------
- * 
- * @RequestMapping(value = "/rookie/list", method = RequestMethod.GET)
- * public ModelAndView rookieList() {
- * final ModelAndView result;
- * final Rookie rookie;
- * final Map<String, List<Application>> applications;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfRookie(rookie));
- * 
- * result = new ModelAndView("application/list");
- * result.addObject("pendingApplications", applications.get("PENDING"));
- * result.addObject("submittedApplications", applications.get("SUBMITTED"));
- * result.addObject("rejectedApplications", applications.get("REJECTED"));
- * result.addObject("acceptedApplications", applications.get("ACCEPTED"));
- * 
- * return result;
- * }
- * 
- * // Rookie show ------------------------------------------------------------
- * 
- * @RequestMapping(value = "/rookie/show", method = RequestMethod.GET)
- * public ModelAndView rookieShow(@RequestParam(value = "id") final int id) {
- * final ModelAndView result;
- * final Rookie rookie;
- * final Application application;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(id);
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getRookie().equals(rookie))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * result = new ModelAndView("application/show");
- * 
- * result.addObject("application", application);
- * 
- * return result;
- * }
- * 
- * // Create -----------------------------------------------------------------
- * 
- * @RequestMapping(value = "/rookie/create", method = RequestMethod.GET)
- * public ModelAndView create(@RequestParam(value = "positionId") final int positionId) {
- * final ModelAndView result;
- * final Rookie rookie;
- * final Serie position;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * position = this.positionService.findOne(positionId);
- * if (position == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!position.getStatus().equals("ACCEPTED"))
- * return new ModelAndView("redirect:/welcome/index.do");
- * result = new ModelAndView("application/rookie/create");
- * 
- * final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByRookie(rookie);
- * if (curricula.size() == 0)
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * final Map<Integer, String> curriculaMap = new HashMap<>();
- * for (final Curriculum curriculum : curricula)
- * curriculaMap.put(curriculum.getId(), curriculum.getPersonalData().getStatement());
- * result.addObject("curriculaMap", curriculaMap);
- * result.addObject("position", position);
- * 
- * return result;
- * }
- * 
- * @RequestMapping(value = "/rookie/create", method = RequestMethod.POST)
- * public ModelAndView create(@RequestParam(value = "positionId") final int positionId, @RequestParam(value = "curriculumId") final int curriculumId) {
- * Application application;
- * Curriculum curriculum;
- * final Rookie rookie;
- * Serie position;
- * Problem problem;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * position = this.positionService.findOne(positionId);
- * if (position == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * curriculum = this.curriculumService.findOne(curriculumId);
- * if (curriculum == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!curriculum.getRookie().equals(rookie))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * // Copy curriculum and set rookie to null so it doesn't show up in the rookie's curriculums
- * curriculum = this.curriculumService.copy(curriculum);
- * curriculum.setRookie(null);
- * curriculum = this.curriculumService.save(curriculum);
- * 
- * final List<Problem> problems = (List<Problem>) position.getProblems();
- * int chosenProblemIndex = ThreadLocalRandom.current().nextInt(problems.size());
- * problem = problems.get(chosenProblemIndex);
- * 
- * // Create application
- * application = this.applicationService.create();
- * application.setCurriculum(curriculum);
- * application.setProblem(problem);
- * application.setPosition(position);
- * application.setRookie(rookie);
- * application = this.applicationService.save(application);
- * 
- * return this.rookieShow(application.getId());
- * }
- * 
- * // Submit -----------------------------------------------------------------
- * 
- * @RequestMapping(value = "/rookie/submit", method = RequestMethod.GET)
- * public ModelAndView submit(@RequestParam(value = "id") final int id) {
- * final ModelAndView result;
- * final Rookie rookie;
- * final Application application;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(id);
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getRookie().equals(rookie))
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getStatus().equals("PENDING"))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * result = new ModelAndView("application/rookie/submit");
- * 
- * result.addObject("applicationForm", this.applicationService.deconstruct(application));
- * 
- * return result;
- * }
- * 
- * @RequestMapping(value = "/rookie/submit", method = RequestMethod.POST)
- * public ModelAndView submit(@Valid @ModelAttribute("applicationForm") final ApplicationForm applicationForm, final BindingResult bindingResult) {
- * final ModelAndView result;
- * final Rookie rookie;
- * Application application;
- * 
- * rookie = this.rookieService.findPrincipal();
- * if (rookie == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(applicationForm.getId());
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getRookie().equals(rookie))
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getStatus().equals("PENDING"))
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!bindingResult.hasErrors()) {
- * application = this.applicationService.reconstructForm(applicationForm, bindingResult);
- * application.setStatus("SUBMITTED");
- * application = this.applicationService.save(application);
- * result = this.rookieShow(application.getId());
- * } else {
- * result = new ModelAndView("application/rookie/submit");
- * result.addObject("applicationForm", applicationForm);
- * }
- * 
- * return result;
- * }
- * 
- * // Company list -----------------------------------------------------------
- * 
- * @RequestMapping(value = "/company/list", method = RequestMethod.GET)
- * public ModelAndView companyList(@RequestParam(value = "positionId") final int positionId) {
- * final ModelAndView result;
- * final Publisher company;
- * final Serie position;
- * final Map<String, List<Application>> applications;
- * 
- * company = this.companyService.findPrincipal();
- * if (company == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * position = this.positionService.findOne(positionId);
- * if (position == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfPosition(position));
- * 
- * result = new ModelAndView("application/list");
- * result.addObject("pendingApplications", applications.get("PENDING"));
- * result.addObject("submittedApplications", applications.get("SUBMITTED"));
- * result.addObject("rejectedApplications", applications.get("REJECTED"));
- * result.addObject("acceptedApplications", applications.get("ACCEPTED"));
- * 
- * return result;
- * }
- * 
- * // Company show -----------------------------------------------------------
- * 
- * @RequestMapping(value = "/company/show", method = RequestMethod.GET)
- * public ModelAndView companyShow(@RequestParam(value = "id") final int id) {
- * final ModelAndView result;
- * final Publisher company;
- * final Application application;
- * 
- * company = this.companyService.findPrincipal();
- * if (company == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(id);
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getPosition().getCompany().equals(company))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * result = new ModelAndView("application/show");
- * 
- * result.addObject("application", application);
- * 
- * return result;
- * }
- * 
- * // Accept -----------------------------------------------------------------
- * 
- * @RequestMapping(value = "/company/accept", method = RequestMethod.POST)
- * public ModelAndView accept(@RequestParam(value = "id") final int id) {
- * final Publisher company;
- * final Application application;
- * 
- * company = this.companyService.findPrincipal();
- * if (company == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(id);
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getPosition().getCompany().equals(company))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * application.setStatus("ACCEPTED");
- * this.applicationService.save(application);
- * 
- * return this.companyShow(id);
- * }
- * 
- * // Reject -----------------------------------------------------------------
- * 
- * @RequestMapping(value = "/company/reject", method = RequestMethod.POST)
- * public ModelAndView reject(@RequestParam(value = "id") final int id) {
- * final Publisher company;
- * final Application application;
- * 
- * company = this.companyService.findPrincipal();
- * if (company == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * application = this.applicationService.findOne(id);
- * if (application == null)
- * return new ModelAndView("redirect:/welcome/index.do");
- * if (!application.getPosition().getCompany().equals(company))
- * return new ModelAndView("redirect:/welcome/index.do");
- * 
- * application.setStatus("REJECTED");
- * this.applicationService.save(application);
- * 
- * return this.companyShow(id);
- * }
- * 
- * }
- */
+
+package controllers;
+
+import java.util.List;
+
+import javax.validation.ValidationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import domain.Administrator;
+import domain.Application;
+import domain.Serie;
+import forms.ApplicationForm;
+import security.LoginService;
+import services.AdministratorService;
+import services.ApplicationService;
+import services.SerieService;
+
+@Controller
+@RequestMapping("/application")
+public class ApplicationController extends AbstractController {
+
+	// Services ---------------------------------------------------------------
+
+	@Autowired
+	private ApplicationService		applicationService;
+
+	@Autowired
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private SerieService			serieService;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public ApplicationController() {
+		super();
+	}
+
+	// List (Publisher) -------------------------------------------------------
+
+	@RequestMapping(value = "/publisher/list", method = RequestMethod.GET)
+	public ModelAndView publisherList() {
+		final ModelAndView result;
+		final List<Application> applications;
+
+		final int userAccountId = LoginService.getPrincipal().getId();
+		applications = this.applicationService.findAllByUserAccountId(userAccountId);
+
+		result = new ModelAndView("application/publisher/list");
+		result.addObject("applications", applications);
+		result.addObject("role", "publisher");
+		result.addObject("requestURI", "application/publisher/list.do");
+
+		return result;
+	}
+
+	// List (Administrator) ---------------------------------------------------
+
+	@RequestMapping(value = "/administrator/list", method = RequestMethod.GET)
+	public ModelAndView administratorList() {
+		final ModelAndView result;
+		final List<Application> applications;
+
+		applications = this.applicationService.findAll();
+
+		result = new ModelAndView("application/administrator/list");
+		result.addObject("applications", applications);
+		result.addObject("role", "administrator");
+		result.addObject("requestURI", "application/administrator/list.do");
+
+		return result;
+	}
+
+	// Show -------------------------------------------------------------------
+
+	@RequestMapping(value = "/administrator,publisher/show", method = RequestMethod.GET)
+	public ModelAndView show(@RequestParam final int applicationId) {
+		ModelAndView result;
+		Application application;
+
+		try {
+			application = this.applicationService.findOne(applicationId);
+			Assert.notNull(application);
+			result = this.createEditModelAndView(application, "administrator,publisher", "show");
+		} catch (final Throwable oops) {
+			return new ModelAndView("redirect:/panic.do");
+		}
+
+		return result;
+	}
+
+	// Create -----------------------------------------------------------------
+
+	@RequestMapping(value = "/publisher/create", method = RequestMethod.GET)
+	public ModelAndView create(@RequestParam final int serieId) {
+		final ModelAndView result;
+		final Application application;
+		final Serie serie;
+
+		serie = this.serieService.findOne(serieId);
+
+		try {
+			application = this.applicationService.create();
+			final List<Application> acceptedApplications = this.applicationService.findAllAcceptedBySerieId(serieId);
+
+			Assert.notNull(serie);
+			Assert.isTrue(acceptedApplications.isEmpty());
+			Assert.isTrue(LoginService.getPrincipal().equals(serie.getPublisher().getUserAccount()));
+		} catch (final Throwable oops) {
+			return new ModelAndView("redirect:/panic.do");
+		}
+
+		result = this.createEditModelAndView(application, "publisher", "create");
+		result.addObject("serieId", serie.getId());
+
+		return result;
+	}
+
+	// Save -------------------------------------------------------------------
+
+	@RequestMapping(value = "/publisher/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@ModelAttribute("application") final ApplicationForm applicationForm, final BindingResult binding) {
+		ModelAndView result;
+		Application application;
+
+		try {
+			application = this.applicationService.reconstructForm(applicationForm, binding);
+			this.applicationService.save(application);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(applicationForm, "publisher", "edit");
+			result.addObject("serieId", applicationForm.getSerieId());
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(applicationForm, "application.commit.error", "publisher", "edit");
+			result.addObject("serieId", applicationForm.getSerieId());
+		}
+		return result;
+	}
+
+	// Accept -----------------------------------------------------------------
+
+	@RequestMapping(value = "/administrator/accept", method = RequestMethod.GET)
+	public ModelAndView accept(@RequestParam final int applicationId) {
+		ModelAndView result;
+		final Administrator administrator;
+		final Application application;
+
+		administrator = this.administratorService.findPrincipal();
+		application = this.applicationService.findOne(applicationId);
+		Assert.isTrue(administrator != null);
+		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
+
+		try {
+			final Serie serie = application.getSerie();
+			final List<Application> pendingApplications = this.applicationService.findAllPendingBySerieId(serie.getId());
+			for (final Application a : pendingApplications) {
+				a.setStatus("REJECTED");
+				a.setAdministrator(administrator);
+				this.applicationService.save(a);
+			}
+			application.setStatus("ACCEPTED");
+			application.setAdministrator(administrator);
+			this.applicationService.save(application);
+			serie.setIsDraft(false);
+			this.serieService.save(serie);
+			// TODO: Send Notification
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			return new ModelAndView("redirect:/panic.do");
+		}
+
+		return result;
+	}
+
+	// Reject -----------------------------------------------------------------
+
+	@RequestMapping(value = "/administrator/reject", method = RequestMethod.GET)
+	public ModelAndView reject(@RequestParam final int applicationId) {
+		ModelAndView result;
+		final Administrator administrator;
+		final Application application;
+
+		administrator = this.administratorService.findPrincipal();
+		application = this.applicationService.findOne(applicationId);
+		Assert.isTrue(administrator != null);
+		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
+
+		try {
+			application.setStatus("REJECTED");
+			application.setAdministrator(administrator);
+			this.applicationService.save(application);
+			// TODO: Send Notification
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			return new ModelAndView("redirect:/panic.do");
+		}
+
+		return result;
+	}
+
+	// Ancillary Methods ------------------------------------------------------
+
+	private ModelAndView createEditModelAndView(final Application application, final String role, final String action) {
+		return this.createEditModelAndView(application, null, role, action);
+	}
+
+	private ModelAndView createEditModelAndView(final Application application, final String messageCode, final String role, final String action) {
+		final ModelAndView result;
+
+		result = new ModelAndView("application/" + role + "/" + action);
+		result.addObject("application", application);
+
+		return result;
+	}
+
+	private ModelAndView createEditModelAndView(final ApplicationForm applicationForm, final String role, final String action) {
+		return this.createEditModelAndView(applicationForm, null, role, action);
+	}
+
+	private ModelAndView createEditModelAndView(final ApplicationForm applicationForm, final String messageCode, final String role, final String action) {
+		final ModelAndView result;
+
+		result = new ModelAndView("application/" + role + "/" + action);
+		result.addObject("application", applicationForm);
+
+		return result;
+	}
+
+}

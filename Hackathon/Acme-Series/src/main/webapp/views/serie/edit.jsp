@@ -16,7 +16,6 @@
 <form:hidden path="id" />
 <form:hidden path="isDraft" />
 
-
 <!-- Input Fields -->
 
 <div id="title" class="title">
@@ -60,10 +59,11 @@
 	</div>
 	
 	<div id="status" class="status">
-		<form:label path="status">
-			<spring:message code="status" />
-		</form:label>
-		<form:input path="status" />
+	<spring:message code="status" />
+		<form:select path="status">
+		<form:option label = "ON EMISSION" value="ON EMISSION"></form:option>
+		<form:option label = "FINALIZED" value="FINALIZED"></form:option>
+		</form:select>
 		<form:errors path="status" />
 	</div>
 	
@@ -86,14 +86,14 @@
 
 <!-- Form options -->
 
+
 <input type="submit" name="save" value="<spring:message code="send" />" />
+<jstl:if test="${serie.id != 0}">
 <form action="serie/publisher/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${serie.id}' />" />
-	<p>
-	</p>
-	<jstl:if test="${serie.isDraft}">
+	
 <input type="submit" name="delete" value="<spring:message code='delete' />" />	
-</jstl:if>
 </form>
+</jstl:if>
 
 </form:form>

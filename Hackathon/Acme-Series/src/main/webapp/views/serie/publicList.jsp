@@ -14,46 +14,69 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<form action="serie/public/list.do" method="GET">
+	<spring:message code="keyword" />
+	: <input type="text" value="" id="keyword" name="keyword" />
+	<button type="submit">
+		<spring:message code="search" />
+	</button>
+</form>
+
 <display:table name="series" id="row" pagesize="5" class="displaytag">
 
-<display:column titleKey = "title">
-<jstl:out value="${row.title}" />
+	<display:column titleKey="title">
+		<jstl:out value="${row.title}" />
+	</display:column>
+
+	<display:column titleKey="description">
+		<jstl:out value="${row.description}" />
+	</display:column>
+
+	<display:column titleKey="status">
+		<jstl:out value="${row.status}" />
+	</display:column>
+
+	<display:column titleKey="options">
+		<a href="serie/public/show.do?serieId=${row.id}"><spring:message code="show" /></a>
+		
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+		<a href="serie/administrator/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('CRITIC')">
+			<a href="critique/critic/create.do?serieId=${row.id}"><spring:message code="makeCritique"/></a>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('USER')">
+			<jstl:if test="${seriesFavoritedByPrincipal[row] ne true}">
+				<form action="serie/user/markAsFavorite.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="markAsFavorite" value="<spring:message code='markAsFavorite' />" />
+				</form>
+			</jstl:if>
+			<jstl:if test="${seriesPendingByPrincipal[row] ne true}">
+				<form action="serie/user/markAsPending.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="markAsPending" value="<spring:message code='markAsPending' />" />
+				</form>
+			</jstl:if>
+			<jstl:if test="${seriesWatchingByPrincipal[row] ne true}">
+				<form action="serie/user/markAsWatching.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="markAsWatching" value="<spring:message code='markAsWatching' />" />
+				</form>
+			</jstl:if>
+			<jstl:if test="${seriesWatchedByPrincipal[row] ne true}">
+				<form action="serie/user/markAsWatched.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="markAsWatched" value="<spring:message code='markAsWatched' />" />
+				</form>
+			</jstl:if>
+			<a href="comment/user/create.do?serieId=${row.id}"><spring:message code="makeComment"/></a>
+		</security:authorize>
 	</display:column>
 	
-	<display:column titleKey = "description">
-<jstl:out value="${row.description}" />
-	</display:column>
-	
-	<display:column titleKey = "status">
-<jstl:out value="${row.status}" />
-	</display:column>
-	
-	<display:column titleKey="show">
-		<a href="serie/all/show.do?serieId=${row.id}"><spring:message code="show" /></a>
-	</display:column>
-	
-	
-	
-	
-	<%--
-	*<security:authorize access="hasRole('USER')">
-	*<display:column titleKey="comment">
-	*<a href="comment/user/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
-	*</display:column>
-	*</security:authorize>
-	*
-	*
-	*<security:authorize access="hasRole('CRITIC')">
-	*<display:column titleKey="critique">
-	*<a href="critique/critic/create.do?serieId=${row.id}"><spring:message code="edit"/></a>
-	*</display:column>
-	*</security:authorize>
-	--%>
+
 
 </display:table>
 
-<security:authorize access="hasRole('PUBLISHER')">
-<p>
-	<a href="serie/publisher/create.do"><spring:message code="create" /></a>
-</p>
-</security:authorize>

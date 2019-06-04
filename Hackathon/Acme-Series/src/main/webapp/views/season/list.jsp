@@ -28,13 +28,16 @@
 		<a href="season/publisher/show.do?seasonId=${row.id}"><spring:message code="show" /></a>
 	</display:column>
 	
+	<security:authorize access="hasRole('PUBLISHER')">
 	<display:column titleKey="edit">
 		<a href="season/publisher/edit.do?seasonId=${row.id}"><spring:message code="edit"/></a>
 	</display:column>
+	</security:authorize>
 
 </display:table>
 
-
+<security:authorize access="hasRole('PUBLISHER')">
 <p>
 	<a href="season/publisher/create.do?serieId=${serieId}"><spring:message code="create" /></a>
 </p>
+</security:authorize>

@@ -1,22 +1,27 @@
 /*
  * SeasonService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import repositories.SeasonRepository;
 import domain.Chapter;
 import domain.Season;
+import domain.Serie;
 import forms.SeasonForm;
+import repositories.SeasonRepository;
+import security.Authority;
+import security.LoginService;
 
 @Service
 @Transactional
@@ -24,12 +29,35 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
 	@Override
 	public Season create() {
+		final Authority a = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
 		final Season season = new Season();
 		season.setChapters(new ArrayList<Chapter>());
 		season.setNumber(1);
 		season.setStartDate(new Date());
 
 		return season;
+	}
+
+	@Override
+	public Season save(final Season res) {
+		final Authority a = new Authority();
+		final Authority b = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		b.setAuthority(Authority.ADMINISTRATOR);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
+		return super.save(res);
+	}
+
+	@Override
+	public void delete(final Season res) {
+		final Authority a = new Authority();
+		final Authority b = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		b.setAuthority(Authority.ADMINISTRATOR);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
+		super.delete(res);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +99,10 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
 	public Season findSeasonAssociated(final int chapterId) {
 		return this.repository.findSeasonAssociated(chapterId);
+	}
+
+	public Collection<Season> findSeasonsBySerie(final Serie s) {
+		return this.repository.findSeasonsBySerieId(s.getId());
 	}
 
 }

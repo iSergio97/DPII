@@ -32,13 +32,16 @@
 		<a href="chapter/publisher/show.do?chapterId=${row.id}"><spring:message code="show" /></a>
 	</display:column>
 	
+	<security:authorize access="hasRole('PUBLISHER')">
 	<display:column titleKey="edit">
 		<a href="chapter/publisher/edit.do?chapterId=${row.id}"><spring:message code="edit"/></a>
 	</display:column>
+	</security:authorize>
 
 </display:table>
 
-
+<security:authorize access="hasRole('PUBLISHER')">
 <p>
 	<a href="chapter/publisher/create.do?seasonId=${seasonId}"><spring:message code="create" /></a>
 </p>
+</security:authorize>

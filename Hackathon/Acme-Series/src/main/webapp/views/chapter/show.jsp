@@ -42,8 +42,11 @@
 <jstl:out value="${chapter.releaseDate}" />
 <br>
 
-
+<security:authorize access="hasRole('PUBLISHER')">
 <p>
 	<a href="chapter/publisher/edit.do?chapterId=${chapter.id}"><spring:message code="edit" /></a>
 </p>
+</security:authorize>
+
+
 

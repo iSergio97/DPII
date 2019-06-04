@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import repositories.MessageRepository;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 import forms.MessageForm;
+import repositories.MessageRepository;
 
 @Service
 @Transactional
@@ -110,4 +110,11 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 		return this.repository.countMails(id);
 	}
 
+	public Collection<Message> getSent(final int id) {
+		return this.repository.getSent(id);
+	}
+
+	public Collection<Message> getRecieved(final int id) {
+		return this.repository.getRecieved(id);
+	}
 }

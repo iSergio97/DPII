@@ -7,6 +7,7 @@ import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,18 +91,57 @@ public class MessageController {
 
 	// PROTECTED SHOW -----------------------------------------------------------
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam int id) {
-		Message m = this.messageService.findOne(id);
+	public ModelAndView show(@RequestParam final int id) {
+		final Message m = this.messageService.findOne(id);
 		ModelAndView result;
-		Actor principal = actorService.findPrincipal();
+		final Actor principal = this.actorService.findPrincipal();
 		if (m.getSender().equals(principal) || m.getRecipients().contains(principal)) {
 			result = new ModelAndView("message/all/show");
 			result.addObject(m);
-		} else {
+		} else
 			result = new ModelAndView("/welcome/index.do");
-		}
 
 		return result;
+
+	}
+
+	@RequestMapping(value = "/trashBox", method = RequestMethod.GET)
+	public ModelAndView trashBox(@RequestParam final int messageId) {
+		final Actor a = this.actorService.findPrincipal();
+		final Message msg = this.messageService.findOne(messageId);
+		MessageBox box;
+		final MessageBox trash = this.messageBoxService.findTrashBox(a.getId());
+		Assert.isTrue(msg.getSender().equals(a) || msg.getRecipients().contains(a));
+		if (msg.getSender().equals(a)) {
+			box = this.messageBoxService.findOutbox(a.getId());
+			msg.getMessageBoxes().remove(box);
+		} else if (msg.getIsSpam()) {
+			box = this.messageBoxService.findSpamBox(a.getId());
+			msg.getMessageBoxes().remove(box);
+		} else {
+			box = this.messageBoxService.findInbox(a.getId());
+			msg.getMessageBoxes().remove(box);
+		}
+		msg.getMessageBoxes().add(trash);
+		this.messageService.save(msg);
+		return new ModelAndView("redirect:/message-box/all/show.do?name=inBox");
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int messageId) {
+		final Actor a = this.actorService.findPrincipal();
+		final Message msg = this.messageService.findOne(messageId);
+		final MessageBox trash = this.messageBoxService.findTrashBox(a.getId());
+		//Assert.isTrue(msg.getSender().equals(a) || msg.getRecipients().contains(a));
+		//Assert.isTrue(msg.getMessageBoxes().contains(trash));
+		if ((msg.getSender().equals(a) || msg.getRecipients().contains(a)) && msg.getMessageBoxes().contains(trash)) {
+			msg.getMessageBoxes().remove(trash);
+			if (msg.getRecipients().contains(a))
+				msg.getRecipients().remove(a);
+			this.messageService.save(msg);
+		}
+
+		return new ModelAndView("redirect:/message-box/all/show.do?name=trashBox");
 
 	}
 

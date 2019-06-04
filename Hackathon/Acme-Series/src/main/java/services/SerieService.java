@@ -10,14 +10,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import repositories.SerieRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Serie;
 import forms.SerieForm;
 
@@ -37,13 +38,31 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 	@Override
 	public Serie create() {
+		final Authority a = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
 		final Serie serie = super.create();
 
-		serie.setStatus("ON EMISSION");
+		serie.setStatus("");
 		serie.setIsDraft(true);
 		serie.setPublisher(this.publisherService.findPrincipal());
 
 		return serie;
+	}
+
+	@Override
+	public Serie save(final Serie res) {
+		return super.save(res);
+	}
+
+	@Override
+	public void delete(final Serie res) {
+		final Authority a = new Authority();
+		final Authority b = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		b.setAuthority(Authority.ADMINISTRATOR);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
+		super.delete(res);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +74,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		form.setDescription("");
 		form.setBanner("");
 		form.setStartDate(new Date());
-		form.setStatus("ON EMISSION");
+		form.setStatus("");
 		form.setIsDraft(true);
 		form.setDirector("");
 		form.setCast("");
@@ -77,12 +96,11 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setStartDate(serieForm.getStartDate());
 		result.setEndDate(serieForm.getEndDate());
 		result.setStatus(serieForm.getStatus());
+		result.setDirector(serieForm.getDirector());
+		result.setCast(serieForm.getCast());
 		result.setIsDraft(serieForm.getIsDraft());
 
 		this.validator.validate(result, binding);
-
-		if (binding.hasErrors())
-			throw new ValidationException();
 
 		return result;
 	}
@@ -97,6 +115,9 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		serieForm.setStartDate(serie.getStartDate());
 		serieForm.setEndDate(serie.getEndDate());
 		serieForm.setStatus(serie.getStatus());
+		serieForm.setDirector(serie.getDirector());
+		serieForm.setCast(serie.getCast());
+		serieForm.setIsDraft(serie.getIsDraft());
 
 		return serieForm;
 	}
@@ -110,6 +131,10 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 	public Double[] getSerieCritiqueScoreStatistics(final Serie serie) {
 		return this.repository.getSerieCritiqueScoreStatistics(serie.getId());
+	}
+
+	public List<Serie> getSeriesSortedByNumberOfFavorites() {
+		return this.repository.getSeriesSortedByNumberOfFavorites();
 	}
 
 	public List<Object[]> getTop5SeriesWithMostComments() {
@@ -141,7 +166,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	}
 
 	public Collection<Serie> findWatchedByUserId(final int userId) {
-		return this.findWatchedByUserId(userId);
+		return this.repository.findWatchedByUserId(userId);
 	}
 
 	public Collection<Serie> findByPublisherId(final int publisherId) {
@@ -154,6 +179,11 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 
 	public Serie findSerieAssociated(final int seasonId) {
 		return this.repository.findSerieAssociated(seasonId);
+	}
+
+	public Collection<Serie> searchQuery(final String text) {
+		final String query = "%" + text + "%";
+		return this.repository.searchQuery(query);
 	}
 
 }

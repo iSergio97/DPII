@@ -32,7 +32,7 @@ import services.UserService;
 
 @Controller
 @RequestMapping("/register")
-public class RegisterController {
+public class RegisterController extends AbstractController {
 
 	// Services --------------------------------------------------------------------
 

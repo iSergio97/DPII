@@ -1,5 +1,5 @@
 <%--
- * showField.tag
+ * field.tag
  *
  * Copyright (C) Group 16 DP II
  * 
@@ -29,7 +29,7 @@
 		<spring:message code="${code}"/>:
 	</strong>
 	<jstl:if test="${empty value}">
-		<jstl:out value="N/A"/>
+		<spring:message code="notAvailable"/>
 	</jstl:if>
 		<jstl:out value="${value}"/>
 	<br>
