@@ -13,7 +13,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <img src="${serie.banner}" />
 
@@ -61,7 +61,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 <security:authorize access="hasRole('CRITIC')">
 	<p>
-		<a href="critique/critic/create.do?serieId=${serie.id}"><spring:message code="makeCritique"/></a>
+		<a href="critique/critic/create.do?serieId=${serie.id}"><spring:message code="action.series.critique"/></a>
 	</p>
 </security:authorize>
 
