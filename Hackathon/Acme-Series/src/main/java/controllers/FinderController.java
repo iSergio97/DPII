@@ -70,7 +70,7 @@
  * positions = this.positionService.findAll();
  * if (now.before(overCache) && !finder.getPositions().isEmpty())
  * positions.retainAll(finder.getPositions());
- * result = createModelAndViewWithSystemConfiguration("/finder/list");
+ * result = new ModelAndView("/finder/list");
  * result.addObject("positions", positions);
  * result.addObject("requestURI", "finder/list.do");
  * }
@@ -145,7 +145,7 @@
  * protected ModelAndView createAndEditModelAndView(final FinderForm finder, final String message) {
  * final ModelAndView result;
  * 
- * result = createModelAndViewWithSystemConfiguration("/finder/create");
+ * result = new ModelAndView("/finder/create");
  * result.addObject("finder", finder);
  * result.addObject("message", message);
  * 

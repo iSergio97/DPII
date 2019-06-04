@@ -13,13 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.CriticService;
-import services.MessageBoxService;
-import services.PublisherService;
-import services.UserService;
 import domain.Administrator;
 import domain.Critic;
 import domain.MessageBox;
@@ -29,6 +22,13 @@ import forms.RegisterAdministratorForm;
 import forms.RegisterCriticForm;
 import forms.RegisterPublisherForm;
 import forms.RegisterUserForm;
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.CriticService;
+import services.MessageBoxService;
+import services.PublisherService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/register")
@@ -234,16 +234,16 @@ public class RegisterController extends AbstractController {
 		ModelAndView result = null;
 
 		if (t instanceof RegisterAdministratorForm) {
-			result = this.createModelAndViewWithSystemConfiguration("register/administrator/create");
+			result = new ModelAndView("register/administrator/create");
 			result.addObject("administrator", t);
 		} else if (t instanceof RegisterPublisherForm) {
-			result = this.createModelAndViewWithSystemConfiguration("register/publisher/create");
+			result = new ModelAndView("register/publisher/create");
 			result.addObject("publisher", t);
 		} else if (t instanceof RegisterCriticForm) {
-			result = this.createModelAndViewWithSystemConfiguration("register/critic/create");
+			result = new ModelAndView("register/critic/create");
 			result.addObject("critic", t);
 		} else if (t instanceof RegisterUserForm) {
-			result = this.createModelAndViewWithSystemConfiguration("register/user/create");
+			result = new ModelAndView("register/user/create");
 			result.addObject("user", t);
 		}
 

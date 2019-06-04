@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.SocialProfileService;
 import domain.Actor;
 import domain.SocialProfile;
 import forms.SocialProfileForm;
+import services.ActorService;
+import services.SocialProfileService;
 
 @Controller
 @RequestMapping("/social-profile/all")
@@ -51,7 +51,7 @@ public class SocialProfileController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		socialProfiles = this.socialProfileService.findByActor(actor);
 
-		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/list");
+		result = new ModelAndView("social-profile/all/list");
 		result.addObject("socialProfiles", socialProfiles);
 
 		return result;
@@ -74,7 +74,7 @@ public class SocialProfileController extends AbstractController {
 		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/show");
+		result = new ModelAndView("social-profile/all/show");
 
 		result.addObject("socialProfile", socialProfile);
 
@@ -94,7 +94,7 @@ public class SocialProfileController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		socialProfileForm = this.socialProfileService.createForm();
 
-		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/edit");
+		result = new ModelAndView("social-profile/all/edit");
 		result.addObject("socialProfileForm", socialProfileForm);
 
 		return result;
@@ -117,7 +117,7 @@ public class SocialProfileController extends AbstractController {
 		if (!socialProfile.getActor().equals(actor))
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/edit");
+		result = new ModelAndView("social-profile/all/edit");
 
 		result.addObject("socialProfileForm", this.socialProfileService.deconstruct(socialProfile));
 
@@ -148,7 +148,7 @@ public class SocialProfileController extends AbstractController {
 			socialProfile = this.socialProfileService.save(socialProfile);
 			result = this.show(socialProfile.getId());
 		} else {
-			result = this.createModelAndViewWithSystemConfiguration("social-profile/all/edit");
+			result = new ModelAndView("social-profile/all/edit");
 			result.addObject("socialProfileForm", socialProfileForm);
 		}
 

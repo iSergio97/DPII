@@ -22,22 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.ApplicationService;
-import services.ChapterService;
-import services.CriticService;
-import services.CritiqueService;
-import services.MessageBoxService;
-import services.MessageService;
-import services.PublisherService;
-import services.SeasonService;
-import services.SerieService;
-import services.SocialProfileService;
-import services.UserService;
-
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -61,6 +45,21 @@ import forms.RegisterAdministratorForm;
 import forms.RegisterCriticForm;
 import forms.RegisterPublisherForm;
 import forms.RegisterUserForm;
+import security.LoginService;
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.ApplicationService;
+import services.ChapterService;
+import services.CriticService;
+import services.CritiqueService;
+import services.MessageBoxService;
+import services.MessageService;
+import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
+import services.SocialProfileService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/profile")
@@ -144,7 +143,7 @@ public class ProfileController extends AbstractController {
 		final Administrator actual = this.administratorService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Document document = new Document(PageSize.A4);
 		if (actual != admin)
-			return this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
+			return new ModelAndView("/welcome/index.do");
 
 		try {
 
@@ -279,7 +278,7 @@ public class ProfileController extends AbstractController {
 		final Publisher actual = this.publisherService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Document document = new Document(PageSize.A4);
 		if (actual != publisher)
-			return this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
+			return new ModelAndView("/welcome/index.do");
 
 		try {
 
@@ -444,7 +443,7 @@ public class ProfileController extends AbstractController {
 		final Critic actual = this.criticService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Document document = new Document(PageSize.A4);
 		if (actual != critic)
-			return this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
+			return new ModelAndView("/welcome/index.do");
 
 		try {
 			final FileSystemView filesys = FileSystemView.getFileSystemView();
@@ -570,7 +569,7 @@ public class ProfileController extends AbstractController {
 		final User user = this.userService.findPrincipal();
 		final User actual = this.userService.findByUserAccountId(LoginService.getPrincipal().getId());
 		if (actual != user)
-			return this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
+			return new ModelAndView("/welcome/index.do");
 		ServletOutputStream outStream;
 		try {
 			final StringBuilder sb = new StringBuilder();
@@ -719,16 +718,16 @@ public class ProfileController extends AbstractController {
 		ModelAndView result = null;
 
 		if (t instanceof RegisterAdministratorForm || t instanceof Administrator) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/administrator/" + messageCode);
+			result = new ModelAndView("profile/administrator/" + messageCode);
 			result.addObject("administrator", t);
 		} else if (t instanceof RegisterPublisherForm || t instanceof Publisher) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/publisher/" + messageCode);
+			result = new ModelAndView("profile/publisher/" + messageCode);
 			result.addObject("publisher", t);
 		} else if (t instanceof RegisterCriticForm || t instanceof Critic) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/critic/" + messageCode);
+			result = new ModelAndView("profile/critic/" + messageCode);
 			result.addObject("critic", t);
 		} else if (t instanceof RegisterUserForm || t instanceof User) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/user/" + messageCode);
+			result = new ModelAndView("profile/user/" + messageCode);
 			result.addObject("user", t);
 		}
 

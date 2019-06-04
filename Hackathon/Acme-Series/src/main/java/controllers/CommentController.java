@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CommentService;
-import services.SerieService;
-import services.UserService;
 import domain.Comment;
 import domain.Serie;
 import forms.CommentForm;
+import services.CommentService;
+import services.SerieService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/comment")
-public class CommentController extends AbstractController {
+public class CommentController {
 
 	// Services ---------------------------------------------------------------
 
@@ -140,7 +140,7 @@ public class CommentController extends AbstractController {
 	private ModelAndView createEditModelAndView(final Comment comment, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = this.createModelAndViewWithSystemConfiguration("comment/" + role + "/" + action);
+		result = new ModelAndView("comment/" + role + "/" + action);
 		result.addObject("comment", comment);
 
 		return result;
@@ -153,7 +153,7 @@ public class CommentController extends AbstractController {
 	private ModelAndView createEditModelAndView(final CommentForm commentForm, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = this.createModelAndViewWithSystemConfiguration("comment/" + role + "/" + action);
+		result = new ModelAndView("comment/" + role + "/" + action);
 		result.addObject("comment", commentForm);
 
 		return result;

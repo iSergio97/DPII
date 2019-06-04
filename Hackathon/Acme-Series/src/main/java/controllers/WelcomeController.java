@@ -39,7 +39,7 @@ public class WelcomeController extends AbstractController {
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
 
-		result = this.createModelAndViewWithSystemConfiguration("welcome/index");
+		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
 		result.addObject("moment", moment);
 
@@ -50,7 +50,7 @@ public class WelcomeController extends AbstractController {
 	public ModelAndView termsAndConditions() {
 		ModelAndView result;
 
-		result = this.createModelAndViewWithSystemConfiguration("welcome/termsandconditions");
+		result = new ModelAndView("welcome/termsandconditions");
 
 		return result;
 	}

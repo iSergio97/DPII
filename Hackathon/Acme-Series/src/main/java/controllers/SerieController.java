@@ -63,7 +63,7 @@ public class SerieController extends AbstractController {
 		final Publisher p = this.publisherService.findPrincipal();
 
 		series = this.serieService.findByPublisherId(p.getId());
-		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/list");
+		result = new ModelAndView("serie/publisher/list");
 		result.addObject("series", series);
 
 		return result;
@@ -75,7 +75,7 @@ public class SerieController extends AbstractController {
 		Collection<Serie> series;
 
 		series = this.serieService.searchQuery(keyword == null ? "" : keyword);
-		result = this.createModelAndViewWithSystemConfiguration("serie/public/list");
+		result = new ModelAndView("serie/public/list");
 		result.addObject("series", series);
 
 		final User user = this.userService.findPrincipal();
@@ -112,7 +112,7 @@ public class SerieController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		series = this.serieService.getSeriesSortedByNumberOfFavorites();
 
-		result = this.createModelAndViewWithSystemConfiguration("serie/user/sortedByFavoritesList");
+		result = new ModelAndView("serie/user/sortedByFavoritesList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -143,7 +143,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findFavouriteByUserId(user.getId());
-		result = this.createModelAndViewWithSystemConfiguration("serie/user/favouriteList");
+		result = new ModelAndView("serie/user/favouriteList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -174,7 +174,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findPendingByUserId(user.getId());
-		result = this.createModelAndViewWithSystemConfiguration("serie/user/pendingList");
+		result = new ModelAndView("serie/user/pendingList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -205,7 +205,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findWatchingByUserId(user.getId());
-		result = this.createModelAndViewWithSystemConfiguration("serie/user/watchingList");
+		result = new ModelAndView("serie/user/watchingList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -236,7 +236,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findWatchedByUserId(user.getId());
-		result = this.createModelAndViewWithSystemConfiguration("serie/user/watchedList");
+		result = new ModelAndView("serie/user/watchedList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -271,7 +271,7 @@ public class SerieController extends AbstractController {
 		if (serie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("serie/public/show");
+		result = new ModelAndView("serie/public/show");
 		result.addObject("serie", serie);
 
 		final User user = this.userService.findPrincipal();
@@ -320,7 +320,7 @@ public class SerieController extends AbstractController {
 		Serie serie;
 
 		serie = this.serieService.findOne(serieId);
-		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/edit");
+		result = new ModelAndView("serie/publisher/edit");
 		result.addObject("serie", serie);
 
 		return result;
@@ -332,7 +332,7 @@ public class SerieController extends AbstractController {
 		Serie serie;
 
 		serie = this.serieService.findOne(serieId);
-		result = this.createModelAndViewWithSystemConfiguration("serie/administrator/edit");
+		result = new ModelAndView("serie/administrator/edit");
 		result.addObject("serie", serie);
 
 		return result;
@@ -634,7 +634,7 @@ public class SerieController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final SerieForm serie, final String message) {
 		final ModelAndView result;
 
-		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/create");
+		result = new ModelAndView("serie/publisher/create");
 		result.addObject("serie", serie);
 		result.addObject("message", message);
 
@@ -652,7 +652,7 @@ public class SerieController extends AbstractController {
 	protected ModelAndView adminEditModelAndView(final SerieForm serie, final String message) {
 		final ModelAndView result;
 
-		result = this.createModelAndViewWithSystemConfiguration("serie/administrator/edit");
+		result = new ModelAndView("serie/administrator/edit");
 		result.addObject("serie", serie);
 		result.addObject("message", message);
 
