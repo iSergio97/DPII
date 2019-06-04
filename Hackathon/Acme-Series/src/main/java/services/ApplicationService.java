@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import domain.Administrator;
 import domain.Application;
+import domain.Publisher;
 import domain.Serie;
 import forms.ApplicationForm;
 import repositories.ApplicationRepository;
@@ -112,6 +114,14 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 
 	public List<Application> findAllPendingBySerieId(final int serieId) {
 		return this.repository.findAllPendingBySerieId(serieId);
+	}
+
+	public List<Application> findAllAppliesByAdminId(final Administrator admin) {
+		return this.repository.findAllAppliesByAdminId(admin.getId());
+	}
+
+	public List<Application> findAllApplicatoinsByPublisher(final Publisher publisher) {
+		return this.repository.findAllApplicatoinsByPublisher(publisher.getId());
 	}
 
 }
