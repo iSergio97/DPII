@@ -28,4 +28,4 @@
 	<br>
 	<strong><spring:message code="address" /></strong>: <jstl:out value="${user.address}" />
 	<br>
-	<a href="profile/user/export.do" ><spring:message code="profile.export" /></a>
+	<a href="profile/actor/export.do" ><spring:message code="profile.export" /></a>
