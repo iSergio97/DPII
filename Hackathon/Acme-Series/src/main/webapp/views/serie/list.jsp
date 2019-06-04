@@ -55,11 +55,27 @@
 				</form>
 			</display:column>
 		</jstl:if>
+		<jstl:if test="${seriesFavoritedByPrincipal[row] eq true}">
+			<display:column>
+				<form action="serie/user/unmarkAsFavorite.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsFavorite" value="<spring:message code='unmarkAsFavorite' />" />
+				</form>
+			</display:column>
+		</jstl:if>
 		<jstl:if test="${seriesPendingByPrincipal[row] ne true}">
 			<display:column>
 				<form action="serie/user/markAsPending.do" method="POST">
 					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
 					<input type="submit" name="markAsPending" value="<spring:message code='markAsPending' />" />
+				</form>
+			</display:column>
+		</jstl:if>
+		<jstl:if test="${seriesPendingByPrincipal[row] eq true}">
+			<display:column>
+				<form action="serie/user/unmarkAsPending.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsPending" value="<spring:message code='unmarkAsPending' />" />
 				</form>
 			</display:column>
 		</jstl:if>
@@ -71,6 +87,14 @@
 				</form>
 			</display:column>
 		</jstl:if>
+		<jstl:if test="${seriesWatchingByPrincipal[row] eq true}">
+			<display:column>
+				<form action="serie/user/unmarkAsWatching.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsWatching" value="<spring:message code='unmarkAsWatching' />" />
+				</form>
+			</display:column>
+		</jstl:if>
 		<jstl:if test="${seriesWatchedByPrincipal[row] ne true}">
 			<display:column>
 				<form action="serie/user/markAsWatched.do" method="POST">
@@ -78,7 +102,15 @@
 					<input type="submit" name="markAsWatched" value="<spring:message code='markAsWatched' />" />
 				</form>
 			</display:column>
-		</jstl:if>		
+		</jstl:if>
+		<jstl:if test="${seriesWatchedByPrincipal[row] eq true}">
+			<display:column>
+				<form action="serie/user/unmarkAsWatched.do" method="POST">
+					<input type="hidden" name="serieId" value="<jstl:out value='${row.id}' />" />
+					<input type="submit" name="unmarkAsWatched" value="<spring:message code='unmarkAsWatched' />" />
+				</form>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 
 </display:table>
