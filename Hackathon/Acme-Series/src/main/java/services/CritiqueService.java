@@ -1,6 +1,6 @@
 /*
  * CritiqueService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -9,17 +9,15 @@ package services;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.CritiqueRepository;
 import domain.Critique;
 import forms.CritiqueForm;
-import repositories.CritiqueRepository;
 
 @Service
 @Transactional
@@ -70,7 +68,7 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 		critique.setScore(critiqueForm.getScore());
 		critique.setSerie(this.serieService.findOne(critiqueForm.getSerieId()));
 
-		this.validator.validate(critique, bindingResult);
+		this.validator.validate(critique, binding);
 
 		return critique;
 	}

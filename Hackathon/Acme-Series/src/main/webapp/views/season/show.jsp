@@ -34,12 +34,23 @@
 <jstl:out value="${season.endDate}" />
 <br>
 
-
+<security:authorize access="hasRole('PUBLISHER')">
 <strong><a href="chapter/publisher/list.do?seasonId=${season.id}"><spring:message code="chapters" /></a></strong>
+</security:authorize>
 
+<security:authorize access="!hasRole('PUBLISHER')">
+<strong><a href="chapter/public/list.do?seasonId=${season.id}"><spring:message code="chapters" /></a></strong>
+</security:authorize>
 
-
+<security:authorize access="hasRole('PUBLISHER')">
 <p>
 	<a href="serie/publisher/edit.do?seasonId=${season.id}"><spring:message code="edit" /></a>
 </p>
+</security:authorize>
+
+<security:authorize access="hasRole('ADMINISTRATOR')">
+<p>
+	<a href="serie/administrator/edit.do?seasonId=${season.id}"><spring:message code="edit" /></a>
+</p>
+</security:authorize>
 

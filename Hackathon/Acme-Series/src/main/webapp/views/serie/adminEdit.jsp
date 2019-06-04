@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="serie" method="POST" action="serie/publisher/edit.do">
+<form:form modelAttribute="serie" method="POST" action="serie/administrator/edit.do">
 
 <!-- Hidden Fields -->
 
@@ -86,9 +86,8 @@
 
 <!-- Form options -->
 
-
 <input type="submit" name="save" value="<spring:message code="send" />" />
-<form action="serie/publisher/edit.do" method="POST">
+<form action="serie/administrator/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${serie.id}' />" />
 	<p>
 	</p>

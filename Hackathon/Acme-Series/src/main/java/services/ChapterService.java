@@ -10,9 +10,12 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import repositories.ChapterRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Chapter;
 import forms.ChapterForm;
 
@@ -22,6 +25,9 @@ public class ChapterService extends AbstractService<ChapterRepository, Chapter> 
 
 	@Override
 	public Chapter create() {
+		final Authority a = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a));
 		final Chapter chapter = new Chapter();
 		chapter.setTitle("New Chapter");
 		chapter.setDescription("New Description");
@@ -30,6 +36,26 @@ public class ChapterService extends AbstractService<ChapterRepository, Chapter> 
 		chapter.setReleaseDate(new Date());
 
 		return chapter;
+	}
+
+	@Override
+	public Chapter save(final Chapter res) {
+		final Authority a = new Authority();
+		final Authority b = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		b.setAuthority(Authority.ADMINISTRATOR);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
+		return super.save(res);
+	}
+
+	@Override
+	public void delete(final Chapter res) {
+		final Authority a = new Authority();
+		final Authority b = new Authority();
+		a.setAuthority(Authority.PUBLISHER);
+		b.setAuthority(Authority.ADMINISTRATOR);
+		Assert.isTrue(LoginService.getPrincipal().getAuthorities().contains(a) || LoginService.getPrincipal().getAuthorities().contains(b));
+		super.delete(res);
 	}
 
 	//////////////////////////////////////////////////////////////

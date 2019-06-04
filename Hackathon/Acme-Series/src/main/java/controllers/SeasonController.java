@@ -54,6 +54,20 @@ public class SeasonController extends AbstractController {
 
 		return result;
 	}
+
+	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
+	public ModelAndView publicList(@RequestParam final int serieId) {
+		ModelAndView result;
+		Collection<Season> seasons;
+		final Serie s = this.serieService.findOne(serieId);
+
+		seasons = s.getSeasons();
+		result = new ModelAndView("season/public/list");
+		result.addObject("seasons", seasons);
+		result.addObject("serieId", serieId);
+
+		return result;
+	}
 	/////////////////////////////////////////////////////////////
 	//Show
 
@@ -64,6 +78,18 @@ public class SeasonController extends AbstractController {
 
 		season = this.seasonService.findOne(seasonId);
 		result = new ModelAndView("season/publisher/show");
+		result.addObject("season", season);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
+	public ModelAndView publicShow(@RequestParam final int seasonId) {
+		ModelAndView result;
+		Season season;
+
+		season = this.seasonService.findOne(seasonId);
+		result = new ModelAndView("season/public/show");
 		result.addObject("season", season);
 
 		return result;
@@ -102,6 +128,22 @@ public class SeasonController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
+	public ModelAndView adminEdit(@RequestParam final int seasonId) {
+		ModelAndView result;
+		final Season season = this.seasonService.findOne(seasonId);
+		final SeasonForm form = this.seasonService.createForm(season);
+		final Serie serie = this.serieService.findSerieAssociated(seasonId);
+
+		serie.getSeasons().remove(season);
+		this.serieService.save(serie);
+		form.setSerieId(serie.getId());
+
+		result = new ModelAndView("season/administrator/edit");
+		result.addObject("season", form);
+		return result;
+	}
+
 	/////////////////////////////////////////////////////////////////
 	//Save
 
@@ -128,6 +170,33 @@ public class SeasonController extends AbstractController {
 				result = this.list(serie.getId());
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(season, "season.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/administrator/edit", params = "save", method = RequestMethod.POST)
+	public ModelAndView adminSave(@ModelAttribute("season") final SeasonForm season, final BindingResult binding) {
+		ModelAndView result;
+		Season season2;
+		final Serie serie = this.serieService.findOne(season.getSerieId());
+
+		season2 = this.seasonService.reconstruct(season, binding);
+		if (binding.hasErrors())
+			result = this.adminEditModelAndView(season);
+		else
+			try {
+				if (season2.getChapters().isEmpty()) {
+					final Chapter c = this.chapterService.create();
+					season2.getChapters().add(c);
+				}
+				this.seasonService.save(season2);
+				final Collection<Season> seasons = serie.getSeasons();
+				seasons.add(season2);
+				serie.setSeasons(seasons);
+				this.serieService.save(serie);
+				result = this.publicList(serie.getId());
+			} catch (final Throwable oops) {
+				result = this.adminEditModelAndView(season, "season.commit.error");
 			}
 		return result;
 	}
@@ -159,6 +228,30 @@ public class SeasonController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView adminDelete(@ModelAttribute("season") final SeasonForm seasonForm, final BindingResult binding) {
+		ModelAndView result;
+		Season season;
+		final Serie s = this.serieService.findOne(seasonForm.getSerieId());
+
+		season = this.seasonService.reconstruct(seasonForm, binding);
+		if (binding.hasErrors())
+			result = this.adminEditModelAndView(seasonForm);
+		else
+			try {
+				final Collection<Season> seasons = s.getSeasons();
+				seasons.remove(season);
+				s.setSeasons(seasons);
+				this.serieService.save(s);
+				this.seasonService.delete(season);
+				result = this.publicList(s.getId());
+
+			} catch (final Throwable oops) {
+				result = this.adminEditModelAndView(seasonForm, "season.commit.error");
+			}
+		return result;
+	}
+
 	// Ancillary Methods ------------------------------------------------
 
 	protected ModelAndView createAndEditModelAndView(final SeasonForm season) {
@@ -173,6 +266,24 @@ public class SeasonController extends AbstractController {
 		final ModelAndView result;
 
 		result = new ModelAndView("season/publisher/create");
+		result.addObject("season", season);
+		result.addObject("message", message);
+
+		return result;
+	}
+
+	protected ModelAndView adminEditModelAndView(final SeasonForm season) {
+		ModelAndView result;
+
+		result = this.adminEditModelAndView(season, null);
+
+		return result;
+	}
+
+	protected ModelAndView adminEditModelAndView(final SeasonForm season, final String message) {
+		final ModelAndView result;
+
+		result = new ModelAndView("season/administrator/edit");
 		result.addObject("season", season);
 		result.addObject("message", message);
 

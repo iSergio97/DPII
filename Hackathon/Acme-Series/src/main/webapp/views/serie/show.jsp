@@ -55,7 +55,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 <security:authorize access="!hasRole('PUBLISHER')">
 	<p>
-		<a href="season/public/list.do"><spring:message code="seasons" /></a>
+		<a href="season/public/list.do?serieId=${serie.id}"><spring:message code="seasons" /></a>
 	</p>
 </security:authorize>
 

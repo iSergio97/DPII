@@ -45,6 +45,12 @@
 			</jstl:if>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<jstl:if test="${!row.isDraft}">
+				<a href="serie/administrator/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
+			</jstl:if>
+		</security:authorize>
+		
 		<security:authorize access="hasRole('CRITIC')">
 			<a href="critique/critic/create.do?serieId=${row.id}"><spring:message code="makeCritique"/></a>
 		</security:authorize>

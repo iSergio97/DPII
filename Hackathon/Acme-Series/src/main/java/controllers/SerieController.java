@@ -326,6 +326,18 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
+	public ModelAndView adminEdit(@RequestParam final int serieId) {
+		ModelAndView result;
+		Serie serie;
+
+		serie = this.serieService.findOne(serieId);
+		result = new ModelAndView("serie/administrator/edit");
+		result.addObject("serie", serie);
+
+		return result;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Save
 
@@ -349,6 +361,73 @@ public class SerieController extends AbstractController {
 				result = this.publisherList();
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(serieForm);
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/administrator/edit", params = "save", method = RequestMethod.POST)
+	public ModelAndView adminSave(@ModelAttribute("serie") final SerieForm serieForm, final BindingResult binding) {
+		ModelAndView result;
+		Serie serie;
+
+		serie = this.serieService.reconstruct(serieForm, binding);
+		if (binding.hasErrors())
+			result = this.adminEditModelAndView(serieForm);
+		else
+			try {
+				if (serie.getSeasons().isEmpty()) {
+					final Season season = this.seasonService.create();
+					final Chapter chapter = this.chapterService.create();
+					season.getChapters().add(chapter);
+					serie.getSeasons().add(season);
+				}
+				this.serieService.save(serie);
+				result = this.publicList(null);
+			} catch (final Throwable oops) {
+				result = this.adminEditModelAndView(serieForm);
+			}
+		return result;
+	}
+
+	///////////////////////////////////////////////////////////////////
+	//Delete
+
+	@RequestMapping(value = "/publisher/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@ModelAttribute("serie") final SerieForm serieForm, final BindingResult binding) {
+		ModelAndView result;
+		Serie s;
+
+		s = this.serieService.reconstruct(serieForm, binding);
+		if (binding.hasErrors())
+			result = this.createAndEditModelAndView(serieForm);
+		else
+			try {
+				this.serieService.delete(s);
+
+				result = this.list();
+
+			} catch (final Throwable oops) {
+				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
+			}
+		return result;
+	}
+
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView adminDelete(@ModelAttribute("serie") final SerieForm serieForm, final BindingResult binding) {
+		ModelAndView result;
+		Serie s;
+
+		s = this.serieService.reconstruct(serieForm, binding);
+		if (binding.hasErrors())
+			result = this.adminEditModelAndView(serieForm);
+		else
+			try {
+				this.serieService.delete(s);
+
+				result = this.list();
+
+			} catch (final Throwable oops) {
+				result = this.adminEditModelAndView(serieForm, "serie.commit.error");
 			}
 		return result;
 	}
@@ -556,6 +635,24 @@ public class SerieController extends AbstractController {
 		final ModelAndView result;
 
 		result = new ModelAndView("serie/publisher/create");
+		result.addObject("serie", serie);
+		result.addObject("message", message);
+
+		return result;
+	}
+
+	protected ModelAndView adminEditModelAndView(final SerieForm serie) {
+		ModelAndView result;
+
+		result = this.adminEditModelAndView(serie, null);
+
+		return result;
+	}
+
+	protected ModelAndView adminEditModelAndView(final SerieForm serie, final String message) {
+		final ModelAndView result;
+
+		result = new ModelAndView("serie/administrator/edit");
 		result.addObject("serie", serie);
 		result.addObject("message", message);
 

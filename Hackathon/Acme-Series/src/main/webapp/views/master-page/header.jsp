@@ -125,6 +125,8 @@
 								code="master.page.administrator.register" /></a></li>
 					<li><a href="register/critic/create.do"><spring:message
 								code="master.page.register.critic" /> </a></li>
+					<li><a href="serie/public/list.do"> <spring:message
+						code="master.page.serie.public" /></a></li>
 				</ul></li>
 		</security:authorize>
 
@@ -143,6 +145,7 @@
 						code="master.page.user" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="serie/public/list.do"> <spring:message code="master.page.serie.all" /></a></li>
 					<li><a href="serie/user/sortedByFavoritesList.do"><spring:message code="master.page.serie.user.sortedByFavoritesList" /> </a></li>
 					<li><a href="serie/user/favouriteList.do"><spring:message code="master.page.serie.user.favouriteList" /> </a></li>
 					<li><a href="serie/user/pendingList.do"><spring:message code="master.page.serie.user.pendingList" /> </a></li>

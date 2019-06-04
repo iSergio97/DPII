@@ -37,11 +37,33 @@
 			value="/views/season/show.jsp" />
 	</definition>
 	
+	<definition name="season/public/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Season list" />
+		<put-attribute name="body"
+			value="/views/season/list.jsp" />
+	</definition>
+
+	<definition name="season/public/show"
+		extends="master.page">
+		<put-attribute name="title" value="Show Season" />
+		<put-attribute name="body"
+			value="/views/season/show.jsp" />
+	</definition>
+	
 	<definition name="chapter/publisher/list"
 		extends="master.page">
 		<put-attribute name="title" value="Chapters" />
 		<put-attribute name="body"
-			value="/views/chapter/show.jsp" />
+			value="/views/chapter/list.jsp" />
+	</definition>
+	
+	<definition name="season/administrator/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit Season" />
+		<put-attribute name="body"
+			value="/views/season/adminEdit.jsp" />
 	</definition>
 	
 	</tiles-definitions>
