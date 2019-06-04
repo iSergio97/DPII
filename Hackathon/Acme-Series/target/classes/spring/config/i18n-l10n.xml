@@ -38,6 +38,7 @@
 		<value>/views/social-profile/messages</value>
 		<value>/views/serie/messages</value>
 		<value>/views/season/messages</value>
+		<value>/views/finder/messages</value>
 	</util:list>
 
 </beans>

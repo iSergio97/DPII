@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import repositories.FinderRepository;
 import domain.Finder;
 import domain.Serie;
 import forms.FinderForm;
+import repositories.FinderRepository;
 
 @Service
 @Transactional
@@ -24,7 +24,7 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	// Supporting services
 
 	@Autowired
-	private UserService	userService;
+	private UserService userService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +89,7 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	}
 
 	public Finder findByPrincipal() {
+		final int id = this.userService.findPrincipal().getId();
 		return this.findByUser(this.userService.findPrincipal().getId());
 	}
 

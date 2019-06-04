@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="finder" method="POST" action="finder/edit.do">
+<form:form modelAttribute="finder" method="POST" action="finder/user/edit.do">
 
 <!-- Hidden fields -->
 
@@ -17,37 +17,9 @@
 
 <!-- Input fields -->
 
-<div id="keyword" class="keyword">
-		<form:label path="keyword">
-			<spring:message code="keyword" />
-		</form:label>
-		<form:input path="keyword" />
-		<form:errors path="keyword" />
-	</div>
-	
-	<div id="deadline" class="deadline">
-		<form:label path="deadline">
-			<spring:message code="deadline" />
-		</form:label>
-		<form:input path="deadline" />
-		<form:errors path="deadline" />
-	</div>
-	
-	<div id="maximumDeadline" class="maximumDeadline">
-		<form:label path="maximumDeadline">
-			<spring:message code="maximumDeadline" />
-		</form:label>
-		<form:input path="maximumDeadline" />
-		<form:errors path="maximumDeadline" />
-	</div>
-	
-	<div id="minimumSalary" class="minimumSalary">
-		<form:label path="minimumSalary">
-			<spring:message code="minimumSalary" />
-		</form:label>
-		<form:input path="minimumSalary" />
-		<form:errors path="minimumSalary" />
-	</div>
+<acme:register code="keyword" path="keyword"/>
+<acme:register code="minDate" path="minDate"/>
+<acme:register code="maxDate" path="maxDate"/>
 	
 	<!-- Form options -->
 	
