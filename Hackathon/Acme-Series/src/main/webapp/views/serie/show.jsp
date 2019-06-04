@@ -15,61 +15,38 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<img src="${serie.banner}" />
-
-<p>
-	<strong><spring:message code="title" /></strong>:<jstl:out value="${serie.title}" />
-</p>
-
-<p>
-	<strong><spring:message code="description" /></strong>:<jstl:out value="${serie.description}" />
-</p>
-
-<p>
-	<strong><spring:message code="status" /></strong>:<jstl:out value="${serie.status}" />
-</p>
-
-<p>
-	<strong><spring:message code="startDate" /></strong>:<jstl:out value="${serie.startDate}" />
-</p>
-
-<p>
+<div>
+	<img src="${serie.banner}" />
+	<acme:field value="${serie.title}" code="series.title" />
+	<acme:field value="${serie.description}" code="series.description" />
+	<acme:field value="${serie.status}" code="series.status" />
+	<acme:field value="${serie.startDate}" code="series.startDate" />
 	<jstl:if test="${serie.status == 'FINALIZED'}">
-		<strong><spring:message code="endDate" /></strong>:<jstl:out value="${serie.endDate}" />
+		<acme:field value="${serie.endDate}" code="series.endDate" />
 	</jstl:if>
-</p>
-
-<p>
-	<strong><spring:message code="director" /></strong>:<jstl:out value="${serie.director}" />
-</p>
-
-<p>
-	<strong><spring:message code="cast" /></strong>:<jstl:out value="${serie.cast}" />
-</p>
-
-<security:authorize access="hasRole('PUBLISHER')">
-	<p>
-		<a href="season/publisher/list.do?serieId=${serie.id}"><spring:message code="seasons" /></a>
-	</p>
-</security:authorize>
-
-<security:authorize access="!hasRole('PUBLISHER')">
-	<p>
-		<a href="season/public/list.do?serieId=${serie.id}"><spring:message code="seasons" /></a>
-	</p>
-</security:authorize>
+	<acme:field value="${serie.director}" code="series.director" />
+	<acme:field value="${serie.cast}" code="series.cast" />
+	<acme:field value="${serie.title}" code="series.title" />
+	<security:authorize access="hasRole('PUBLISHER')">
+		<acme:actionlink value="season/publisher/list.do?serieId=${serie.id}" code="series.seasons"/>
+		<acme:actionlink value="application/publisher/create.do?serieId=${row.id}" code="action.series.apply" />
+	</security:authorize>
+	<security:authorize access="!hasRole('PUBLISHER')">
+		<acme:actionlink value="season/public/list.do?serieId=${serie.id}" code="series.seasons"/>
+	</security:authorize>
+</div>
 
 <security:authorize access="hasRole('CRITIC')">
-	<p>
-		<a href="critique/critic/create.do?serieId=${serie.id}"><spring:message code="action.series.critique"/></a>
-	</p>
+	<div>
+		<acme:actionlink value="critique/critic/create.do?serieId=${serie.id}" code="action.series.critique"/>
+	</div>
 </security:authorize>
 
 <security:authorize access="hasRole('USER')">
-	<p>
-		<a href="comment/user/create.do?serieId=${serie.id}"><spring:message code="makeComment"/></a>
-	</p>
-	<p>
+	<div>
+		<acme:actionlink value="comment/user/create.do?serieId=${serie.id}" code="action.series.comment"/>
+	</div>
+	<div>
 		<jstl:if test="${seriesFavoritedByPrincipal[serie] ne true}">
 			<form action="serie/user/markAsFavorite.do" method="POST">
 				<input type="hidden" name="serieId" value="<jstl:out value='${serie.id}' />" />
@@ -94,5 +71,19 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 				<input type="submit" name="markAsWatched" value="<spring:message code='markAsWatched' />" />
 			</form>
 		</jstl:if>
-	</p>
+	</div>
 </security:authorize>
+
+<display:table name="${critiques}" id="row" requestURI="${requestURI}" pagesize="5" class="displaytag"
+		sort="list" defaultsort="1">
+	<acme:sortablecolumndescending value="${row.moment}" code="critique.moment" />
+	<acme:sortablecolumn value="${row.score}" code="critique.score" />
+	<acme:actioncolumn url="critique/critic/show.do?critiqueId" value="${row.id}" code="action.show"/>
+</display:table>
+
+<display:table name="${comments}" id="row" requestURI="${requestURI}" pagesize="5" class="displaytag"
+		sort="list" defaultsort="1">
+	<acme:sortablecolumndescending value="${row.moment}" code="comment.moment" />
+	<acme:sortablecolumn value="${row.text}" code="comment.text" />
+	<acme:sortablecolumn value="${row.score}" code="comment.score" />
+</display:table>

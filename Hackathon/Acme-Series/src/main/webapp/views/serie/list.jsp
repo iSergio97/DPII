@@ -13,6 +13,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form action="serie/public/list.do" method="GET">
 	<spring:message code="keyword" />
@@ -24,48 +25,28 @@
 
 <display:table name="series" id="row" pagesize="5" class="displaytag">
 
-	<display:column titleKey="title">
-		<jstl:out value="${row.title}" />
-	</display:column>
+	<acme:column value="${row.title}" code="series.title"/>
+	<acme:column value="${row.description}" code="series.description"/>
+	<acme:column value="${row.status}" code="series.status"/>
 
-	<display:column titleKey="description">
-		<jstl:out value="${row.description}" />
-	</display:column>
-
-	<display:column titleKey="status">
-		<jstl:out value="${row.status}" />
-	</display:column>
-
-	<display:column>
-		<a href="serie/public/show.do?serieId=${row.id}"><spring:message code="show" /></a>
-	</display:column>
-
+	<acme:actioncolumn url="serie/public/show.do?serieId" value="${row.id}" code="action.show" />
 	<security:authorize access="hasRole('PUBLISHER')">
-		<display:column>
-			<jstl:if test="${row.isDraft}">
-				<a href="serie/publisher/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
-			</jstl:if>
-		</display:column>
+		<jstl:if test="${row.isDraft}">
+			<acme:actioncolumn url="serie/publisher/edit.do?serieId" value="${row.id}" code="action.edit" />
+			<acme:actioncolumn url="application/publisher/create.do?serieId" value="${row.id}" code="action.series.apply" />
+		</jstl:if>
 	</security:authorize>
-
 	<security:authorize access="hasRole('ADMINISTRATOR')">
-		<display:column>
-			<jstl:if test="${!row.isDraft}">
-				<a href="serie/administrator/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
-			</jstl:if>
-		</display:column>
+		<jstl:if test="${!row.isDraft}">
+			<acme:actioncolumn url="serie/administrator/edit.do?serieId" value="${row.id}" code="action.edit" />
+		</jstl:if>
 	</security:authorize>
-
 	<security:authorize access="hasRole('CRITIC')">
-		<display:column>
-			<a href="critique/critic/create.do?serieId=${row.id}"><spring:message code="action.series.critique"/></a>
-		</display:column>
+		<acme:actioncolumn url="critique/critic/create.do?serieId" value="${row.id}" code="action.series.critique" />
 	</security:authorize>
 		
 	<security:authorize access="hasRole('USER')">
-		<display:column>
-			<a href="comment/user/create.do?serieId=${row.id}"><spring:message code="makeComment"/></a>
-		</display:column>
+		<acme:actioncolumn url="comment/user/create.do?serieId" value="${row.id}" code="action.series.comment" />
 		<jstl:if test="${seriesFavoritedByPrincipal[row] ne true}">
 			<display:column>
 				<form action="serie/user/markAsFavorite.do" method="POST">

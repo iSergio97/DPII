@@ -89,4 +89,8 @@ public class CommentService extends AbstractService<CommentRepository, Comment> 
 		return this.repository.findAllByUserAccount(userAccountId);
 	}
 
+	public List<Comment> findAllBySerie(final int serieId) {
+		return this.repository.findAllBySerie(serieId);
+	}
+
 }

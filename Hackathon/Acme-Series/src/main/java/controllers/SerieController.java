@@ -15,17 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ChapterService;
-import services.PublisherService;
-import services.SeasonService;
-import services.SerieService;
-import services.UserService;
 import domain.Chapter;
+import domain.Comment;
+import domain.Critique;
 import domain.Publisher;
 import domain.Season;
 import domain.Serie;
 import domain.User;
 import forms.SerieForm;
+import services.CommentService;
+import services.CritiqueService;
 
 @Controller
 @RequestMapping("/serie")
@@ -36,12 +35,22 @@ public class SerieController extends AbstractController {
 
 	@Autowired
 	private ChapterService		chapterService;
+
+	@Autowired
+	private CommentService		commentService;
+
+	@Autowired
+	private CritiqueService		critiqueService;
+
 	@Autowired
 	private PublisherService	publisherService;
+
 	@Autowired
 	private SeasonService		seasonService;
+
 	@Autowired
 	private SerieService		serieService;
+
 	@Autowired
 	private UserService			userService;
 
@@ -266,13 +275,20 @@ public class SerieController extends AbstractController {
 	public ModelAndView show(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		final List<Critique> critiques;
+		final List<Comment> comments;
 
 		serie = this.serieService.findOne(serieId);
 		if (serie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("serie/public/show");
+		critiques = this.critiqueService.findAllBySerie(serie.getId());
+		comments = this.commentService.findAllBySerie(serie.getId());
+
+		result = new ModelAndView("serie/public/show");
 		result.addObject("serie", serie);
+		result.addObject("critiques", critiques);
+		result.addObject("comments", comments);
 
 		final User user = this.userService.findPrincipal();
 		if (user != null) {

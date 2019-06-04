@@ -23,4 +23,7 @@ public interface CommentRepository extends AbstractRepository<Comment> {
 	@Query("select co from Comment co join co.user u where u.userAccount.id = ?1")
 	List<Critique> findAllByUserAccount(int userAccountId);
 
+	@Query("select co from Comment co join co.serie s where s.id = ?1")
+	List<Comment> findAllBySerie(int serieId);
+
 }
