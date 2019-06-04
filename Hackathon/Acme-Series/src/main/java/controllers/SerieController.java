@@ -15,6 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ApplicationService;
+import services.ChapterService;
+import services.CommentService;
+import services.CritiqueService;
+import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
+import services.UserService;
+import domain.Application;
 import domain.Chapter;
 import domain.Comment;
 import domain.Critique;
@@ -23,8 +32,6 @@ import domain.Season;
 import domain.Serie;
 import domain.User;
 import forms.SerieForm;
-import services.CommentService;
-import services.CritiqueService;
 
 @Controller
 @RequestMapping("/serie")
@@ -53,6 +60,9 @@ public class SerieController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private ApplicationService	applicationService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -313,6 +323,28 @@ public class SerieController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/publisher/show", method = RequestMethod.GET)
+	public ModelAndView publisherShow(@RequestParam final int serieId) {
+		ModelAndView result;
+		Serie serie;
+		final List<Critique> critiques;
+		final List<Comment> comments;
+
+		serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		critiques = this.critiqueService.findAllBySerie(serie.getId());
+		comments = this.commentService.findAllBySerie(serie.getId());
+
+		result = new ModelAndView("serie/publisher/show");
+		result.addObject("serie", serie);
+		result.addObject("critiques", critiques);
+		result.addObject("comments", comments);
+
+		return result;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Create
 
@@ -418,6 +450,12 @@ public class SerieController extends AbstractController {
 			result = this.createAndEditModelAndView(serieForm);
 		else
 			try {
+				final List<Comment> comments = this.commentService.findAllBySerie(s.getId());
+				final List<Application> applications = this.applicationService.findAllBySerie(s.getId());
+				final List<Critique> critiques = this.critiqueService.findAllBySerie(s.getId());
+				this.commentService.delete(comments);
+				this.applicationService.delete(applications);
+				this.critiqueService.delete(critiques);
 				this.serieService.delete(s);
 
 				result = this.list();
@@ -438,6 +476,12 @@ public class SerieController extends AbstractController {
 			result = this.adminEditModelAndView(serieForm);
 		else
 			try {
+				final List<Comment> comments = this.commentService.findAllBySerie(s.getId());
+				final List<Application> applications = this.applicationService.findAllBySerie(s.getId());
+				final List<Critique> critiques = this.critiqueService.findAllBySerie(s.getId());
+				this.commentService.delete(comments);
+				this.applicationService.delete(applications);
+				this.critiqueService.delete(critiques);
 				this.serieService.delete(s);
 
 				result = this.list();

@@ -14,30 +14,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="sponsorships" id="row" pagesize="5" class="displaytag">
+<display:table name="seasons" id="row" pagesize="5" class="displaytag">
 
-<display:column titleKey = "targetPage">
-<jstl:out value="${row.targetPage}" />
+<display:column titleKey = "number">
+<jstl:out value="${row.number}" />
 	</display:column>
 	
-	<display:column titleKey = "position">
-<jstl:out value="${row.position.title}" />
+	<display:column titleKey = "startDate">
+<jstl:out value="${row.startDate}" />
 	</display:column>
 	
-	<display:column titleKey = "provider">
-<jstl:out value="${row.provider.make}" />
+	<display:column titleKey="show">
+		<a href="season/public/show.do?seasonId=${row.id}"><spring:message code="show" /></a>
 	</display:column>
-
-<display:column titleKey="show">
-		<a href="sponsorship/provider/show.do?sponsorshipId=${row.id}"><spring:message code="show" /></a>
-	</display:column>
-
+	
+	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
 	<display:column titleKey="edit">
-		<a href="sponsorship/provider/edit.do?sponsorshipId=${row.id}"><spring:message code="edit" /></a>
+		<a href="season/administrator/edit.do?seasonId=${row.id}"><spring:message code="edit"/></a>
 	</display:column>
+	</security:authorize>
 
 </display:table>
 
-<p>
-	<a href="sponsorship/provider/create.do"><spring:message code="create" /></a>
-</p>
+

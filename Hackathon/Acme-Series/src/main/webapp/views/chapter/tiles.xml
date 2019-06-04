@@ -42,14 +42,14 @@
 		<put-attribute name="title"
 			value="Chapter list" />
 		<put-attribute name="body"
-			value="/views/chapter/list.jsp" />
+			value="/views/chapter/publicList.jsp" />
 	</definition>
 
 	<definition name="chapter/public/show"
 		extends="master.page">
 		<put-attribute name="title" value="Show chapter" />
 		<put-attribute name="body"
-			value="/views/chapter/show.jsp" />
+			value="/views/chapter/publicShow.jsp" />
 	</definition>
 	
 	<definition name="chapter/administrator/edit"

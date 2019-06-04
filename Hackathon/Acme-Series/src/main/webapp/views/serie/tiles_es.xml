@@ -16,12 +16,12 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 	<definition name="serie/public/list" extends="master.page">
 		<put-attribute name="title" value="Todas las series" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 	<definition name="serie/public/show" extends="master.page">
 		<put-attribute name="title" value="Mostrar Serie" />
-		<put-attribute name="body" value="/views/serie/show.jsp" />
+		<put-attribute name="body" value="/views/serie/publicShow.jsp" />
 	</definition>
 
 	<!-- Publisher -->
@@ -39,6 +39,11 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	<definition name="serie/publisher/edit" extends="master.page">
 		<put-attribute name="title" value="Editar serie" />
 		<put-attribute name="body" value="/views/serie/edit.jsp" />
+	</definition>
+	
+	<definition name="serie/publisher/show" extends="master.page">
+		<put-attribute name="title" value="Mostrar Serie" />
+		<put-attribute name="body" value="/views/serie/show.jsp" />
 	</definition>
 	
 	<!-- Administrator -->

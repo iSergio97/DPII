@@ -23,7 +23,14 @@
 	<acme:register path="banner" code="series.banner" />
 	<acme:registerDate path="startDate" code="series.startDate" />
 	<acme:registerDate path="endDate" code="series.endDate" />
-	<acme:register path="status" code="series.status" />
+	<div id="status" class="status">
+	<spring:message code="series.status" />
+		<form:select path="status">
+		<form:option label = "ON EMISSION" value="ON EMISSION"></form:option>
+		<form:option label = "FINALIZED" value="FINALIZED"></form:option>
+		</form:select>
+		<form:errors path="status" />
+	</div>
 	<acme:register path="director" code="series.director" />
 	<acme:register path="cast" code="series.cast" />
 	

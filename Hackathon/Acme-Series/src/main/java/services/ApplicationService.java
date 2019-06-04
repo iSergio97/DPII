@@ -1,6 +1,6 @@
 /*
  * ApplicationService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.ApplicationRepository;
+import security.LoginService;
 import domain.Administrator;
 import domain.Application;
 import domain.Publisher;
 import domain.Serie;
 import forms.ApplicationForm;
-import repositories.ApplicationRepository;
-import security.LoginService;
 
 @Service
 @Transactional
@@ -122,6 +122,10 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 
 	public List<Application> findAllApplicatoinsByPublisher(final Publisher publisher) {
 		return this.repository.findAllApplicatoinsByPublisher(publisher.getId());
+	}
+
+	public List<Application> findAllBySerie(final int serieId) {
+		return this.repository.findAllBySerie(serieId);
 	}
 
 }

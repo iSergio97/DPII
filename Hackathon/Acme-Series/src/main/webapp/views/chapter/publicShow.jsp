@@ -19,29 +19,33 @@
 
 <strong><spring:message code="number" /></strong>
 :
-<jstl:out value="${season.number}" />
+<jstl:out value="${chapter.number}" />
 <br>
 
-
-
-<strong><spring:message code="startDate" /></strong>
+<strong><spring:message code="title" /></strong>
 :
-<jstl:out value="${season.startDate}" />
+<jstl:out value="${chapter.title}" />
 <br>
 
-<strong><spring:message code="endDate" /></strong>
+<strong><spring:message code="description" /></strong>
 :
-<jstl:out value="${season.endDate}" />
+<jstl:out value="${chapter.description}" />
+<br>
+
+<strong><spring:message code="duration" /></strong>
+:
+<jstl:out value="${chapter.duration}" />
+<br>
+
+<strong><spring:message code="releaseDate" /></strong>
+:
+<jstl:out value="${chapter.releaseDate}" />
 <br>
 
 
-<strong><a href="chapter/publisher/list.do?seasonId=${season.id}"><spring:message code="chapters" /></a></strong>
-
-
-<security:authorize access="hasRole('PUBLISHER')">
+<security:authorize access="hasRole('ADMINISTRATOR')">
 <p>
-	<a href="season/publisher/edit.do?seasonId=${season.id}"><spring:message code="edit" /></a>
+	<a href="chapter/administrator/edit.do?chapterId=${chapter.id}"><spring:message code="edit" /></a>
 </p>
 </security:authorize>
-
 

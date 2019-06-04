@@ -64,10 +64,12 @@
 <!-- Form options -->
 
 <input type="submit" name="save" value="<spring:message code="send" />" />
+<jstl:if test="${serie.id ne 0}">
 <form action="chapter/publisher/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${chapter.id}' />" />
 	
 <input type="submit" name="delete" value="<spring:message code='delete' />" />	
 </form>
+</jstl:if>
 
 </form:form>

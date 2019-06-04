@@ -1,6 +1,6 @@
 /*
  * SerieService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -10,19 +10,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import domain.Serie;
-import forms.SerieForm;
 import repositories.SerieRepository;
 import security.Authority;
 import security.LoginService;
+import domain.Serie;
+import forms.SerieForm;
 
 @Service
 @Transactional
@@ -32,7 +30,7 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 	// Supporting services
 
 	@Autowired
-	private PublisherService publisherService;
+	private PublisherService	publisherService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -103,9 +101,6 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setIsDraft(serieForm.getIsDraft());
 
 		this.validator.validate(result, binding);
-
-		if (binding.hasErrors())
-			throw new ValidationException();
 
 		return result;
 	}
