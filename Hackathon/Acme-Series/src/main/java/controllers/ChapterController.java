@@ -43,7 +43,7 @@ public class ChapterController extends AbstractController {
 		Collection<Chapter> chapters;
 
 		chapters = season.getChapters();
-		result = new ModelAndView("chapter/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/list");
 		result.addObject("chapters", chapters);
 		result.addObject("seasonId", seasonId);
 
@@ -57,7 +57,7 @@ public class ChapterController extends AbstractController {
 		Collection<Chapter> chapters;
 
 		chapters = season.getChapters();
-		result = new ModelAndView("chapter/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/public/list");
 		result.addObject("chapters", chapters);
 		result.addObject("seasonId", seasonId);
 
@@ -73,7 +73,7 @@ public class ChapterController extends AbstractController {
 		Chapter chapter;
 
 		chapter = this.chapterService.findOne(chapterId);
-		result = new ModelAndView("chapter/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/public/show");
 		result.addObject("chapter", chapter);
 
 		return result;
@@ -85,7 +85,7 @@ public class ChapterController extends AbstractController {
 		Chapter chapter;
 
 		chapter = this.chapterService.findOne(chapterId);
-		result = new ModelAndView("chapter/publisher/show");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/show");
 		result.addObject("chapter", chapter);
 
 		return result;
@@ -123,7 +123,7 @@ public class ChapterController extends AbstractController {
 		form = this.chapterService.createForm(chapter);
 		form.setSeasonId(s.getId());
 
-		result = new ModelAndView("chapter/publisher/edit");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/edit");
 		result.addObject("chapter", form);
 
 		return result;
@@ -141,7 +141,7 @@ public class ChapterController extends AbstractController {
 		form = this.chapterService.createForm(chapter);
 		form.setSeasonId(s.getId());
 
-		result = new ModelAndView("chapter/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/administrator/edit");
 		result.addObject("chapter", form);
 
 		return result;
@@ -260,7 +260,7 @@ public class ChapterController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final ChapterForm chapter, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("chapter/publisher/create");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/create");
 		result.addObject("chapter", chapter);
 		result.addObject("message", message);
 
@@ -278,7 +278,7 @@ public class ChapterController extends AbstractController {
 	protected ModelAndView adminEditModelAndView(final ChapterForm chapter, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("chapter/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("chapter/administrator/edit");
 		result.addObject("chapter", chapter);
 		result.addObject("message", message);
 

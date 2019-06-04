@@ -48,7 +48,7 @@ public class SeasonController extends AbstractController {
 		final Serie s = this.serieService.findOne(serieId);
 
 		seasons = s.getSeasons();
-		result = new ModelAndView("season/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/list");
 		result.addObject("seasons", seasons);
 		result.addObject("serieId", serieId);
 
@@ -62,7 +62,7 @@ public class SeasonController extends AbstractController {
 		final Serie s = this.serieService.findOne(serieId);
 
 		seasons = s.getSeasons();
-		result = new ModelAndView("season/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("season/public/list");
 		result.addObject("seasons", seasons);
 		result.addObject("serieId", serieId);
 
@@ -77,7 +77,7 @@ public class SeasonController extends AbstractController {
 		Season season;
 
 		season = this.seasonService.findOne(seasonId);
-		result = new ModelAndView("season/publisher/show");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/show");
 		result.addObject("season", season);
 
 		return result;
@@ -89,7 +89,7 @@ public class SeasonController extends AbstractController {
 		Season season;
 
 		season = this.seasonService.findOne(seasonId);
-		result = new ModelAndView("season/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("season/public/show");
 		result.addObject("season", season);
 
 		return result;
@@ -123,7 +123,7 @@ public class SeasonController extends AbstractController {
 		this.serieService.save(serie);
 		form.setSerieId(serie.getId());
 
-		result = new ModelAndView("season/publisher/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/edit");
 		result.addObject("season", form);
 		return result;
 	}
@@ -139,7 +139,7 @@ public class SeasonController extends AbstractController {
 		this.serieService.save(serie);
 		form.setSerieId(serie.getId());
 
-		result = new ModelAndView("season/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/administrator/edit");
 		result.addObject("season", form);
 		return result;
 	}
@@ -265,7 +265,7 @@ public class SeasonController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final SeasonForm season, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("season/publisher/create");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/create");
 		result.addObject("season", season);
 		result.addObject("message", message);
 
@@ -283,7 +283,7 @@ public class SeasonController extends AbstractController {
 	protected ModelAndView adminEditModelAndView(final SeasonForm season, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("season/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/administrator/edit");
 		result.addObject("season", season);
 		result.addObject("message", message);
 

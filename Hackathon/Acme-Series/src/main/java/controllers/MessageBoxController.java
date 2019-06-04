@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Actor;
-import domain.Message;
-import domain.MessageBox;
 import security.LoginService;
 import services.ActorService;
 import services.MessageBoxService;
 import services.MessageService;
+import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
 
 @Controller
 @RequestMapping("/message-box/all")
@@ -53,7 +53,7 @@ public class MessageBoxController extends AbstractController {
 		try {
 			final Collection<MessageBox> messageBoxes = this.messageBoxService.findMessageBoxes(LoginService.getPrincipal().getId());
 
-			result = new ModelAndView("message-box/all/list");
+			result = this.createModelAndViewWithSystemConfiguration("message-box/all/list");
 			result.addObject("messageBoxes", messageBoxes);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect::/welcome");
@@ -170,7 +170,7 @@ public class MessageBoxController extends AbstractController {
 		messages = this.messageService.findMessages(messageBox.getId());
 
 		// Ligera modificación por motivos de tiles.xml (<h1>)
-		result = new ModelAndView("message-box/all/" + viewName);
+		result = this.createModelAndViewWithSystemConfiguration("message-box/all/" + viewName);
 		result.addObject("messageBox", messageBox);
 		result.addObject("name", name);
 		result.addObject("actor", actor);
