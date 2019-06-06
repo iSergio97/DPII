@@ -28,4 +28,7 @@
 	<br>
 	<strong><spring:message code="address" /></strong>: <jstl:out value="${publisher.address}" />
 	<br>
-	<a href="profile/actor/export.do" ><spring:message code="profile.export" /></a>
+	<a href="profile/actor/export.do" ><spring:message code="profile.export" /></a>	
+	<br>
+	<br>
+	<a href="profile/publisher/delete.do" ><spring:message code="profile.delete" /></a>

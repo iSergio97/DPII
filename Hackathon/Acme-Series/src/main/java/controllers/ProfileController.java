@@ -41,6 +41,7 @@ import security.UserAccountRepository;
 import services.ActorService;
 import services.AdministratorService;
 import services.ApplicationService;
+import services.ChapterService;
 import services.CommentService;
 import services.CriticService;
 import services.CritiqueService;
@@ -48,6 +49,7 @@ import services.FinderService;
 import services.MessageBoxService;
 import services.MessageService;
 import services.PublisherService;
+import services.SeasonService;
 import services.SerieService;
 import services.SocialProfileService;
 import services.UserService;
@@ -85,6 +87,10 @@ public class ProfileController extends AbstractController {
 	private SerieService			serieService;
 	@Autowired
 	private FinderService			finderService;
+	@Autowired
+	private ChapterService			chapterService;
+	@Autowired
+	private SeasonService			seasonService;
 
 
 	public ProfileController() {
@@ -139,8 +145,11 @@ public class ProfileController extends AbstractController {
 		this.applicationService.delete(applies);
 		final Collection<Message> ms = this.messageService.findAllMessages(admin.getId());
 		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(admin.getId());
-		for (final Message m : ms)
+		for (final Message m : ms) {
 			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
 
 		this.messageBoxService.delete(mb);
 
@@ -236,8 +245,11 @@ public class ProfileController extends AbstractController {
 		final Critic critic = this.criticService.findPrincipal();
 		final Collection<Message> ms = this.messageService.findAllMessages(critic.getId());
 		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(critic.getId());
-		for (final Message m : ms)
+		for (final Message m : ms) {
 			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
 
 		this.messageBoxService.delete(mb);
 
@@ -247,6 +259,55 @@ public class ProfileController extends AbstractController {
 		this.socialProfileService.delete(profiles);
 		final UserAccount ua = critic.getUserAccount();
 		this.criticService.delete(critic);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("redirect:/j_spring_security_check");
+	}
+
+	@RequestMapping(value = "/publisher/delete", method = RequestMethod.GET)
+	public ModelAndView deletePublisher() {
+		final Publisher publisher = this.publisherService.findPrincipal();
+		final Collection<Message> sent = this.messageService.getSent(publisher.getId());
+		final Collection<Message> recieved = this.messageService.getRecieved(publisher.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(publisher.getId());
+		for (final Message m : sent) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		for (final Message m : recieved) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<Serie> series = this.serieService.findByPublisherId(publisher.getId());
+		final Collection<Application> ap = this.applicationService.findAllApplicatoinsByPublisher(publisher);
+		this.applicationService.delete(ap);
+		//		for (final Serie s : series) {
+		//			final Collection<Season> seasons = this.seasonService.findSeasonsBySerie(s);
+		//			for (final Season season : seasons) {
+		//				final Collection<Chapter> ch = this.chapterService.findChaptersBySeason(season);
+		//				this.chapterService.delete(ch);
+		//				this.seasonService.delete(season);
+		//			}
+		//		}
+
+		Collection<Comment> comments;
+		for (final Serie s : series) {
+			comments = this.commentService.findAllBySerie(s.getId());
+			this.commentService.delete(comments);
+		}
+		this.serieService.delete(series);
+		final Collection<Critique> cr = this.critiqueService.findAllByUserAccountId(publisher.getUserAccount().getId());
+		this.critiqueService.delete(cr);
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(publisher);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = publisher.getUserAccount();
+		this.publisherService.delete(publisher);
 		this.userAccountRepository.delete(ua);
 
 		return new ModelAndView("redirect:/j_spring_security_check");
@@ -296,8 +357,11 @@ public class ProfileController extends AbstractController {
 		final User user = this.userService.findPrincipal();
 		final Collection<Message> ms = this.messageService.findAllMessages(user.getId());
 		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(user.getId());
-		for (final Message m : ms)
+		for (final Message m : ms) {
 			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
 
 		this.messageBoxService.delete(mb);
 
