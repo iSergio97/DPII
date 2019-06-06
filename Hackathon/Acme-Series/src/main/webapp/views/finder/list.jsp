@@ -28,7 +28,7 @@
 	</display:column>
 	
 	<display:column>
-		<a href="serie/public/show.do?serieId${row.id}"><spring:message code="showSerie" /></a>
+		<a href="serie/public/show.do?serieId=${row.id}"><spring:message code="showSerie" /></a>
 	</display:column>
 
 </display:table>

@@ -89,7 +89,6 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 	}
 
 	public Finder findByPrincipal() {
-		final int id = this.userService.findPrincipal().getId();
 		return this.findByUser(this.userService.findPrincipal().getId());
 	}
 

@@ -85,11 +85,12 @@ public class FinderController extends AbstractController {
 		final List<Serie> series;
 		try {
 			finder2 = this.finderService.reconstruct(finder, binding);
-			series = (List<Serie>) finder2.getSeries();
+			series = (List<Serie>) this.finderService.findSeries(finder.getKeyword(), finder.getMinDate(), finder.getMaxDate());
 			if (series.size() > this.scs.getSystemConfiguration().getMaximumFinderResults())
 				finder2.setSeries(series.subList(0, this.scs.getSystemConfiguration().getMaximumFinderResults()));
 			else
 				finder2.setSeries(series);
+
 			this.finderService.save(finder2);
 
 			result = this.list();
