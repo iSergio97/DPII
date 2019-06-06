@@ -24,6 +24,7 @@ import domain.Administrator;
 import domain.Application;
 import domain.Comment;
 import domain.Critic;
+import domain.Critique;
 import domain.Finder;
 import domain.Message;
 import domain.MessageBox;
@@ -230,6 +231,27 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/critic/delete", method = RequestMethod.GET)
+	public ModelAndView deleteCritic() {
+		final Critic critic = this.criticService.findPrincipal();
+		final Collection<Message> ms = this.messageService.findAllMessages(critic.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(critic.getId());
+		for (final Message m : ms)
+			m.getMessageBoxes().removeAll(mb);
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<Critique> cr = this.critiqueService.findAllByUserAccountId(critic.getUserAccount().getId());
+		this.critiqueService.delete(cr);
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(critic);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = critic.getUserAccount();
+		this.criticService.delete(critic);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("redirect:/j_spring_security_check");
+	}
+
 	//User web pages
 	@RequestMapping(value = "/user/show", method = RequestMethod.GET)
 	public ModelAndView showUser() {
@@ -299,7 +321,7 @@ public class ProfileController extends AbstractController {
 		this.userService.delete(user);
 		this.userAccountRepository.delete(ua);
 
-		return new ModelAndView("j_spring_security_check");
+		return new ModelAndView("redirect:/j_spring_security_check");
 	}
 
 	@RequestMapping(value = "/actor/export", method = RequestMethod.GET)
