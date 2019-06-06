@@ -300,10 +300,9 @@ public class ProfileController extends AbstractController {
 		for (final Serie s : series) {
 			comments = this.commentService.findAllBySerie(s.getId());
 			this.commentService.delete(comments);
+			this.applicationService.delete(this.applicationService.findAllBySerie(s.getId()));
 		}
 		this.serieService.delete(series);
-		final Collection<Critique> cr = this.critiqueService.findAllByUserAccountId(publisher.getUserAccount().getId());
-		this.critiqueService.delete(cr);
 		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(publisher);
 		this.socialProfileService.delete(profiles);
 		final UserAccount ua = publisher.getUserAccount();
