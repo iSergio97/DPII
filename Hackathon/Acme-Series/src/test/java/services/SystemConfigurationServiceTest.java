@@ -7,6 +7,7 @@
 package services;
 
 import javax.transaction.Transactional;
+import javax.validation.Validation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +50,20 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	public void createSystemConfigurationTest() {
 		final SystemConfiguration systemConfiguration = new SystemConfiguration();
 		this.systemConfigurationService.save(systemConfiguration);
+	}
+
+	/*
+	 * Check we can't save system configurations with errors.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void saveSystemConfigurationWithErrorsTest() {
+		// Create system configuration
+		final SystemConfiguration systemConfiguration = this.systemConfigurationService.getSystemConfiguration();
+		systemConfiguration.setSystemName("");
+		systemConfiguration.setBanner("");
+		systemConfiguration.setDefaultCountryCode(9999);
+		// Validate system configuration
+		Assert.isTrue(Validation.buildDefaultValidatorFactory().getValidator().validate(systemConfiguration).size() == 0);
 	}
 
 }

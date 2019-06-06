@@ -11,89 +11,42 @@
 
 <form:form modelAttribute="serie" method="POST" action="serie/publisher/edit.do">
 
-<!-- Hidden Fields -->
+	<!-- Hidden Fields -->
 
-<form:hidden path="id" />
-<form:hidden path="isDraft" />
+	<form:hidden path="id" />
+	<form:hidden path="isDraft" />
 
-<!-- Input Fields -->
+	<!-- Input Fields -->
 
-<div id="title" class="title">
-		<form:label path="title">
-			<spring:message code="title" />
-		</form:label>
-		<form:input path="title" />
-		<form:errors path="title" />
-	</div>
-	
-	<div id="description" class="description">
-		<form:label path="description">
-			<spring:message code="description" />
-		</form:label>
-		<form:input path="description" />
-		<form:errors path="description" />
-	</div>
-	
-	<div id="banner" class="banner">
-		<form:label path="banner">
-			<spring:message code="banner" />
-		</form:label>
-		<form:input path="banner" />
-		<form:errors path="banner" />
-	</div>
-	
-	<div id="startDate" class="startDate">
-		<form:label path="startDate">
-			<spring:message code="startDate" />
-		</form:label>
-		<form:input path="startDate" />
-		<form:errors path="startDate" />
-	</div>
-	
-	<div id="endDate" class="endDate">
-		<form:label path="endDate">
-			<spring:message code="endDate" />
-		</form:label>
-		<form:input path="endDate" />
-		<form:errors path="endDate" />
-	</div>
-	
+	<acme:register path="title" code="series.title" />
+	<form:errors path="title" />
+	<acme:register path="description" code="series.description" />
+	<form:errors path="description" />
+	<acme:register path="banner" code="series.banner" />
+	<form:errors path="banner" />
+	<acme:registerDate path="startDate" code="series.startDate" />
+	<form:errors path="startDate" />
+	<acme:registerDate path="endDate" code="series.endDate" />
+	<form:errors path="endDate" />
 	<div id="status" class="status">
-	<spring:message code="status" />
+	<spring:message code="series.status" />
 		<form:select path="status">
 		<form:option label = "ON EMISSION" value="ON EMISSION"></form:option>
 		<form:option label = "FINALIZED" value="FINALIZED"></form:option>
 		</form:select>
 		<form:errors path="status" />
 	</div>
+	<acme:register path="director" code="series.director" />
+	<form:errors path="director" />
+	<acme:register path="cast" code="series.cast" />
+	<form:errors path="cast" />
 	
-	<div id="director" class="director">
-		<form:label path="director">
-			<spring:message code="director" />
-		</form:label>
-		<form:input path="director" />
-		<form:errors path="director" />
-	</div>
-	
-	<div id="cast" class="cast">
-		<form:label path="cast">
-			<spring:message code="cast" />
-		</form:label>
-		<form:input path="cast" />
-		<form:errors path="cast" />
-	</div>
-	
+	<!-- Buttons -->
 
-<!-- Form options -->
-
-
-<input type="submit" name="save" value="<spring:message code="send" />" />
-<jstl:if test="${serie.id != 0}">
-<form action="serie/publisher/edit.do" method="POST">
-	<input type="hidden" name="id" value="<jstl:out value='${serie.id}' />" />
-	
-<input type="submit" name="delete" value="<spring:message code='delete' />" />	
-</form>
-</jstl:if>
+	<acme:submit name="save" code="action.save"/>
+	<jstl:if test="${serie.id ne 0 and serie.isDraft}">
+		<acme:submit name="delete" code="action.delete"/>
+	</jstl:if>
+	<acme:cancel url="welcome/index.do" code="action.cancel"/>
 
 </form:form>

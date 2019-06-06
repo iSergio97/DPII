@@ -1,6 +1,6 @@
 /*
  * SeasonService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -10,18 +10,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ValidationException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.SeasonRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Chapter;
 import domain.Season;
 import domain.Serie;
 import forms.SeasonForm;
-import repositories.SeasonRepository;
-import security.Authority;
-import security.LoginService;
 
 @Service
 @Transactional
@@ -86,8 +88,23 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 		result.setEndDate(form.getEndDate());
 
 		this.validator.validate(result, binding);
+		this.repository.flush();
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
+	}
+
+	public SeasonForm deconstruct(final Season season) {
+		final SeasonForm form = new SeasonForm();
+
+		form.setNumber(season.getNumber());
+		form.setStartDate(season.getStartDate());
+		form.setEndDate(season.getEndDate());
+		form.setId(season.getId());
+
+		return form;
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

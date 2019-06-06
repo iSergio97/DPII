@@ -1,12 +1,11 @@
 /*
  * CommentRepository.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package repositories;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +23,7 @@ public interface CommentRepository extends AbstractRepository<Comment> {
 	@Query("select co from Comment co join co.user u where u.userAccount.id = ?1")
 	List<Critique> findAllByUserAccount(int userAccountId);
 
-	@Query("select c from Comment c where c.serie.id = ?1")
-	Collection<Comment> findBySerieId(int serieId);
+	@Query("select co from Comment co join co.serie s where s.id = ?1")
+	List<Comment> findAllBySerie(int serieId);
+
 }

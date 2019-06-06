@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Critique;
-import domain.Serie;
-import forms.CritiqueForm;
 import security.LoginService;
 import services.CriticService;
 import services.CritiqueService;
 import services.SerieService;
+import domain.Critique;
+import domain.Serie;
+import forms.CritiqueForm;
 
 @Controller
 @RequestMapping("/critique")
-public class CritiqueController {
+public class CritiqueController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -55,7 +55,7 @@ public class CritiqueController {
 		final int userAccountId = LoginService.getPrincipal().getId();
 		critiques = this.critiqueService.findAllByUserAccountId(userAccountId);
 
-		result = new ModelAndView("critique/critic/list");
+		result = this.createModelAndViewWithSystemConfiguration("critique/critic/list");
 		result.addObject("critiques", critiques);
 		result.addObject("requestURI", "critique/critic/list.do");
 
@@ -71,7 +71,7 @@ public class CritiqueController {
 	//
 	//		applications = this.applicationService.findAll();
 	//
-	//		result = new ModelAndView("application/administrator/list");
+	//		result = createModelAndViewWithSystemConfiguration("application/administrator/list");
 	//		result.addObject("applications", applications);
 	//		result.addObject("role", "administrator");
 	//		result.addObject("requestURI", "application/administrator/list.do");
@@ -196,7 +196,7 @@ public class CritiqueController {
 	private ModelAndView createEditModelAndView(final Critique critique, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("critique/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("critique/" + role + "/" + action);
 		result.addObject("critique", critique);
 
 		return result;
@@ -209,7 +209,7 @@ public class CritiqueController {
 	private ModelAndView createEditModelAndView(final CritiqueForm critiqueForm, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("critique/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("critique/" + role + "/" + action);
 		result.addObject("critique", critiqueForm);
 
 		return result;

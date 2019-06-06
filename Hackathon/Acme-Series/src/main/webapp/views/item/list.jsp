@@ -14,31 +14,26 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="seasons" id="row" pagesize="5" class="displaytag">
+<display:table name="items" id="row" pagesize="5" class="displaytag">
 
-<display:column titleKey = "number">
-<jstl:out value="${row.number}" />
+<display:column titleKey = "name">
+<jstl:out value="${row.name}" />
 	</display:column>
 	
-	<display:column titleKey = "startDate">
-<jstl:out value="${row.startDate}" />
+	<display:column titleKey = "link">
+<jstl:out value="${row.link}" />
 	</display:column>
 	
 	<display:column titleKey="show">
-		<a href="season/publisher/show.do?seasonId=${row.id}"><spring:message code="show" /></a>
+		<a href="item/provider/show.do?itemId=${row.id}"><spring:message code="show" /></a>
 	</display:column>
-	
-	<security:authorize access="hasRole('PUBLISHER')">
+
 	<display:column titleKey="edit">
-		<a href="season/publisher/edit.do?seasonId=${row.id}"><spring:message code="edit"/></a>
+		<a href="item/provider/edit.do?itemId=${row.id}"><spring:message code="edit" /></a>
 	</display:column>
-	</security:authorize>
-	
 
 </display:table>
 
-<security:authorize access="hasRole('PUBLISHER')">
 <p>
-	<a href="season/publisher/create.do?serieId=${serieId}"><spring:message code="create" /></a>
+	<a href="item/provider/create.do"><spring:message code="create" /></a>
 </p>
-</security:authorize>

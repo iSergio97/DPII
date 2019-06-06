@@ -23,7 +23,7 @@
 		<form:label path="number">
 			<spring:message code="number" />
 		</form:label>
-		<form:input path="number" />
+		<form:input type="number" min="1" path="number" />
 		<form:errors path="number" />
 	</div>
 	
@@ -48,10 +48,12 @@
 <!-- Form options -->
 
 <input type="submit" name="save" value="<spring:message code="send" />" />
+<jstl:if test="${serie.id ne 0}">
 <form action="season/administrator/edit.do" method="POST">
 	<input type="hidden" name="id" value="<jstl:out value='${season.id}' />" />
 	
 <input type="submit" name="delete" value="<spring:message code='delete' />" />	
 </form>
+</jstl:if>
 
 </form:form>

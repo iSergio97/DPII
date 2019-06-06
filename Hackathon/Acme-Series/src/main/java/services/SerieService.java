@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,12 +103,14 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setIsDraft(serieForm.getIsDraft());
 
 		this.validator.validate(result, binding);
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
 
 	public SerieForm deconstruct(final Serie serie) {
-		final SerieForm serieForm = this.createForm();
+		final SerieForm serieForm = new SerieForm();
 
 		serieForm.setId(serie.getId());
 		serieForm.setTitle(serie.getTitle());

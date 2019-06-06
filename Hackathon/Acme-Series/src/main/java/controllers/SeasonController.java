@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -48,7 +50,7 @@ public class SeasonController extends AbstractController {
 		final Serie s = this.serieService.findOne(serieId);
 
 		seasons = s.getSeasons();
-		result = new ModelAndView("season/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/list");
 		result.addObject("seasons", seasons);
 		result.addObject("serieId", serieId);
 
@@ -62,7 +64,7 @@ public class SeasonController extends AbstractController {
 		final Serie s = this.serieService.findOne(serieId);
 
 		seasons = s.getSeasons();
-		result = new ModelAndView("season/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("season/public/list");
 		result.addObject("seasons", seasons);
 		result.addObject("serieId", serieId);
 
@@ -77,7 +79,7 @@ public class SeasonController extends AbstractController {
 		Season season;
 
 		season = this.seasonService.findOne(seasonId);
-		result = new ModelAndView("season/publisher/show");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/show");
 		result.addObject("season", season);
 
 		return result;
@@ -89,7 +91,7 @@ public class SeasonController extends AbstractController {
 		Season season;
 
 		season = this.seasonService.findOne(seasonId);
-		result = new ModelAndView("season/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("season/public/show");
 		result.addObject("season", season);
 
 		return result;
@@ -115,15 +117,13 @@ public class SeasonController extends AbstractController {
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int seasonId) {
 		ModelAndView result;
+		SeasonForm form;
 		final Season season = this.seasonService.findOne(seasonId);
-		final SeasonForm form = this.seasonService.createForm(season);
 		final Serie serie = this.serieService.findSerieAssociated(seasonId);
 
-		serie.getSeasons().remove(season);
-		this.serieService.save(serie);
+		form = this.seasonService.deconstruct(season);
 		form.setSerieId(serie.getId());
-
-		result = new ModelAndView("season/publisher/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/edit");
 		result.addObject("season", form);
 		return result;
 	}
@@ -132,14 +132,13 @@ public class SeasonController extends AbstractController {
 	public ModelAndView adminEdit(@RequestParam final int seasonId) {
 		ModelAndView result;
 		final Season season = this.seasonService.findOne(seasonId);
-		final SeasonForm form = this.seasonService.createForm(season);
+		final SeasonForm form;
 		final Serie serie = this.serieService.findSerieAssociated(seasonId);
 
-		serie.getSeasons().remove(season);
-		this.serieService.save(serie);
+		form = this.seasonService.deconstruct(season);
 		form.setSerieId(serie.getId());
 
-		result = new ModelAndView("season/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/administrator/edit");
 		result.addObject("season", form);
 		return result;
 	}
@@ -168,6 +167,8 @@ public class SeasonController extends AbstractController {
 				serie.setSeasons(seasons);
 				this.serieService.save(serie);
 				result = this.list(serie.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(season, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(season, "season.commit.error");
 			}
@@ -195,6 +196,8 @@ public class SeasonController extends AbstractController {
 				serie.setSeasons(seasons);
 				this.serieService.save(serie);
 				result = this.publicList(serie.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(season, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.adminEditModelAndView(season, "season.commit.error");
 			}
@@ -265,7 +268,7 @@ public class SeasonController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final SeasonForm season, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("season/publisher/create");
+		result = this.createModelAndViewWithSystemConfiguration("season/publisher/create");
 		result.addObject("season", season);
 		result.addObject("message", message);
 
@@ -283,7 +286,7 @@ public class SeasonController extends AbstractController {
 	protected ModelAndView adminEditModelAndView(final SeasonForm season, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("season/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("season/administrator/edit");
 		result.addObject("season", season);
 		result.addObject("message", message);
 

@@ -6,7 +6,6 @@
 
 package services;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -125,8 +124,8 @@ public class ApplicationService extends AbstractService<ApplicationRepository, A
 		return this.repository.findAllApplicatoinsByPublisher(publisher.getId());
 	}
 
-	public Collection<Application> findAllBySerieId(final int serieId) {
-		return this.repository.findAllBySerieId(serieId);
+	public List<Application> findAllBySerie(final int serieId) {
+		return this.repository.findAllBySerie(serieId);
 	}
 
 }

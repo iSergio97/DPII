@@ -48,5 +48,9 @@
 </p>
 </security:authorize>
 
-
+<security:authorize access="hasRole('ADMINISTRATOR')">
+<p>
+	<a href="chapter/administrator/edit.do?chapterId=${chapter.id}"><spring:message code="edit" /></a>
+</p>
+</security:authorize>
 

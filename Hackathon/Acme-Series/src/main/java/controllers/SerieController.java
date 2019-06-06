@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -42,20 +44,27 @@ public class SerieController extends AbstractController {
 
 	@Autowired
 	private ChapterService		chapterService;
-	@Autowired
-	private PublisherService	publisherService;
-	@Autowired
-	private SeasonService		seasonService;
-	@Autowired
-	private SerieService		serieService;
-	@Autowired
-	private UserService			userService;
+
 	@Autowired
 	private CommentService		commentService;
-	@Autowired
-	private ApplicationService	applicationService;
+
 	@Autowired
 	private CritiqueService		critiqueService;
+
+	@Autowired
+	private PublisherService	publisherService;
+
+	@Autowired
+	private SeasonService		seasonService;
+
+	@Autowired
+	private SerieService		serieService;
+
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private ApplicationService	applicationService;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +84,7 @@ public class SerieController extends AbstractController {
 		final Publisher p = this.publisherService.findPrincipal();
 
 		series = this.serieService.findByPublisherId(p.getId());
-		result = new ModelAndView("serie/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/list");
 		result.addObject("series", series);
 
 		return result;
@@ -87,7 +96,7 @@ public class SerieController extends AbstractController {
 		Collection<Serie> series;
 
 		series = this.serieService.searchQuery(keyword == null ? "" : keyword);
-		result = new ModelAndView("serie/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("serie/public/list");
 		result.addObject("series", series);
 
 		final User user = this.userService.findPrincipal();
@@ -124,7 +133,7 @@ public class SerieController extends AbstractController {
 			return new ModelAndView("redirect:/welcome/index.do");
 		series = this.serieService.getSeriesSortedByNumberOfFavorites();
 
-		result = new ModelAndView("serie/user/sortedByFavoritesList");
+		result = this.createModelAndViewWithSystemConfiguration("serie/user/sortedByFavoritesList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -155,7 +164,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findFavouriteByUserId(user.getId());
-		result = new ModelAndView("serie/user/favouriteList");
+		result = this.createModelAndViewWithSystemConfiguration("serie/user/favouriteList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -186,7 +195,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findPendingByUserId(user.getId());
-		result = new ModelAndView("serie/user/pendingList");
+		result = this.createModelAndViewWithSystemConfiguration("serie/user/pendingList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -217,7 +226,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findWatchingByUserId(user.getId());
-		result = new ModelAndView("serie/user/watchingList");
+		result = this.createModelAndViewWithSystemConfiguration("serie/user/watchingList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -248,7 +257,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		series = this.serieService.findWatchedByUserId(user.getId());
-		result = new ModelAndView("serie/user/watchedList");
+		result = this.createModelAndViewWithSystemConfiguration("serie/user/watchedList");
 		result.addObject("series", series);
 
 		final Map<Serie, Boolean> seriesFavoritedByPrincipal = new HashMap<>();
@@ -278,13 +287,20 @@ public class SerieController extends AbstractController {
 	public ModelAndView show(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		final List<Critique> critiques;
+		final List<Comment> comments;
 
 		serie = this.serieService.findOne(serieId);
 		if (serie == null)
 			return new ModelAndView("redirect:/welcome/index.do");
 
+		critiques = this.critiqueService.findAllBySerie(serie.getId());
+		comments = this.commentService.findAllBySerie(serie.getId());
+
 		result = new ModelAndView("serie/public/show");
 		result.addObject("serie", serie);
+		result.addObject("critiques", critiques);
+		result.addObject("comments", comments);
 
 		final User user = this.userService.findPrincipal();
 		if (user != null) {
@@ -313,10 +329,21 @@ public class SerieController extends AbstractController {
 	public ModelAndView publisherShow(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		final List<Critique> critiques;
+		final List<Comment> comments;
 
 		serie = this.serieService.findOne(serieId);
+		if (serie == null)
+			return new ModelAndView("redirect:/welcome/index.do");
+
+		critiques = this.critiqueService.findAllBySerie(serie.getId());
+		comments = this.commentService.findAllBySerie(serie.getId());
+
 		result = new ModelAndView("serie/publisher/show");
 		result.addObject("serie", serie);
+		result.addObject("critiques", critiques);
+		result.addObject("comments", comments);
+
 		return result;
 	}
 
@@ -341,10 +368,13 @@ public class SerieController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		SerieForm form;
 
 		serie = this.serieService.findOne(serieId);
-		result = new ModelAndView("serie/publisher/edit");
-		result.addObject("serie", serie);
+
+		form = this.serieService.deconstruct(serie);
+		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/edit");
+		result.addObject("serie", form);
 
 		return result;
 	}
@@ -353,10 +383,13 @@ public class SerieController extends AbstractController {
 	public ModelAndView adminEdit(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		SerieForm form;
 
 		serie = this.serieService.findOne(serieId);
-		result = new ModelAndView("serie/administrator/edit");
-		result.addObject("serie", serie);
+		form = this.serieService.deconstruct(serie);
+
+		result = this.createModelAndViewWithSystemConfiguration("serie/administrator/edit");
+		result.addObject("serie", form);
 
 		return result;
 	}
@@ -382,8 +415,10 @@ public class SerieController extends AbstractController {
 				}
 				this.serieService.save(serie);
 				result = this.publisherList();
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
 			} catch (final Throwable oops) {
-				result = this.createAndEditModelAndView(serieForm);
+				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
 			}
 		return result;
 	}
@@ -395,7 +430,7 @@ public class SerieController extends AbstractController {
 
 		serie = this.serieService.reconstruct(serieForm, binding);
 		if (binding.hasErrors())
-			result = this.adminEditModelAndView(serieForm);
+			result = this.adminEditModelAndView(serieForm, "serie.commit.error");
 		else
 			try {
 				if (serie.getSeasons().isEmpty()) {
@@ -407,7 +442,7 @@ public class SerieController extends AbstractController {
 				this.serieService.save(serie);
 				result = this.publicList(null);
 			} catch (final Throwable oops) {
-				result = this.adminEditModelAndView(serieForm);
+				result = this.adminEditModelAndView(serieForm, "serie.commit.error");
 			}
 		return result;
 	}
@@ -425,9 +460,9 @@ public class SerieController extends AbstractController {
 			result = this.createAndEditModelAndView(serieForm);
 		else
 			try {
-				final Collection<Comment> comments = this.commentService.findBySerieId(s.getId());
-				final Collection<Application> applications = this.applicationService.findAllBySerieId(s.getId());
-				final Collection<Critique> critiques = this.critiqueService.findBySerieId(s.getId());
+				final List<Comment> comments = this.commentService.findAllBySerie(s.getId());
+				final List<Application> applications = this.applicationService.findAllBySerie(s.getId());
+				final List<Critique> critiques = this.critiqueService.findAllBySerie(s.getId());
 				this.commentService.delete(comments);
 				this.applicationService.delete(applications);
 				this.critiqueService.delete(critiques);
@@ -451,9 +486,9 @@ public class SerieController extends AbstractController {
 			result = this.adminEditModelAndView(serieForm);
 		else
 			try {
-				final Collection<Comment> comments = this.commentService.findBySerieId(s.getId());
-				final Collection<Application> applications = this.applicationService.findAllBySerieId(s.getId());
-				final Collection<Critique> critiques = this.critiqueService.findBySerieId(s.getId());
+				final List<Comment> comments = this.commentService.findAllBySerie(s.getId());
+				final List<Application> applications = this.applicationService.findAllBySerie(s.getId());
+				final List<Critique> critiques = this.critiqueService.findAllBySerie(s.getId());
 				this.commentService.delete(comments);
 				this.applicationService.delete(applications);
 				this.critiqueService.delete(critiques);
@@ -669,7 +704,7 @@ public class SerieController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final SerieForm serie, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("serie/publisher/create");
+		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/create");
 		result.addObject("serie", serie);
 		result.addObject("message", message);
 
@@ -687,7 +722,7 @@ public class SerieController extends AbstractController {
 	protected ModelAndView adminEditModelAndView(final SerieForm serie, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("serie/administrator/edit");
+		result = this.createModelAndViewWithSystemConfiguration("serie/administrator/edit");
 		result.addObject("serie", serie);
 		result.addObject("message", message);
 

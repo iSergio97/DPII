@@ -21,3 +21,4 @@
 	<br>
 	<strong><spring:message code="address" /></strong>: <jstl:out value="${critic.address}" />
 	<br>
+	<a href="profile/actor/export.do" ><spring:message code="profile.export" /></a>

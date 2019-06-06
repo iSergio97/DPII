@@ -13,6 +13,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form action="serie/public/list.do" method="GET">
 	<spring:message code="keyword" />
@@ -24,30 +25,18 @@
 
 <display:table name="series" id="row" pagesize="5" class="displaytag">
 
-	<display:column titleKey="title">
-		<jstl:out value="${row.title}" />
-	</display:column>
+	<acme:column value="${row.title}" code="series.title"/>
+	<acme:column value="${row.description}" code="series.description"/>
+	<acme:column value="${row.status}" code="series.status"/>
 
-	<display:column titleKey="description">
-		<jstl:out value="${row.description}" />
-	</display:column>
-
-	<display:column titleKey="status">
-		<jstl:out value="${row.status}" />
-	</display:column>
-
-	<display:column titleKey="options">
-		<a href="serie/publisher/show.do?serieId=${row.id}"><spring:message code="show" /></a>
-		
-		<security:authorize access="hasRole('PUBLISHER')">
-			<jstl:if test="${row.isDraft}">
-				<a href="serie/publisher/edit.do?serieId=${row.id}"><spring:message code="edit"/></a>
-			</jstl:if>
-		</security:authorize>
-	</display:column>
+	<acme:actioncolumn url="serie/publisher/show.do?serieId" value="${row.id}" code="action.show" />
+	<security:authorize access="hasRole('PUBLISHER')">
+		<jstl:if test="${row.isDraft}">
+			<acme:actioncolumn url="serie/publisher/edit.do?serieId" value="${row.id}" code="action.edit" />
+			<acme:actioncolumn url="application/publisher/create.do?serieId" value="${row.id}" code="action.series.apply" />
+		</jstl:if>
+	</security:authorize>
 	
-	
-
 </display:table>
 
 <security:authorize access="hasRole('PUBLISHER')">

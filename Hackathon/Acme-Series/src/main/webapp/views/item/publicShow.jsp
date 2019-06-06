@@ -1,5 +1,5 @@
 <%--
- * serie/show.jsp
+ * item/show.jsp
  *
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author Carlos Ruiz Briones
@@ -17,30 +17,23 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<strong><spring:message code="number" /></strong>
+<strong><spring:message code="name" /></strong>
 :
-<jstl:out value="${season.number}" />
+<jstl:out value="${item.name}" />
 <br>
 
-
-
-<strong><spring:message code="startDate" /></strong>
+<strong><spring:message code="description" /></strong>
 :
-<jstl:out value="${season.startDate}" />
+<jstl:out value="${item.description}" />
 <br>
 
-<strong><spring:message code="endDate" /></strong>
+<strong><spring:message code="link" /></strong>
 :
-<jstl:out value="${season.endDate}" />
+<jstl:out value="${item.link}" />
 <br>
 
-
-<strong><a href="chapter/public/list.do?seasonId=${season.id}"><spring:message code="chapters" /></a></strong>
-
-
-<security:authorize access="hasRole('ADMINISTRATOR')">
-<p>
-	<a href="season/administrator/edit.do?seasonId=${season.id}"><spring:message code="edit" /></a>
-</p>
-</security:authorize>
+<strong><spring:message code="pictures" /></strong>
+:
+<jstl:out value="${item.pictures}" />
+<br>
 

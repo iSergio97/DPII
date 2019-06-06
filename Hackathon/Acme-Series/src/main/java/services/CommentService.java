@@ -1,12 +1,11 @@
 /*
  * CommentService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import repositories.CommentRepository;
 import domain.Comment;
 import domain.Critique;
 import forms.CommentForm;
+import repositories.CommentRepository;
 
 @Service
 @Transactional
@@ -90,8 +89,8 @@ public class CommentService extends AbstractService<CommentRepository, Comment> 
 		return this.repository.findAllByUserAccount(userAccountId);
 	}
 
-	public Collection<Comment> findBySerieId(final int serieId) {
-		return this.repository.findBySerieId(serieId);
+	public List<Comment> findAllBySerie(final int serieId) {
+		return this.repository.findAllBySerie(serieId);
 	}
 
 }

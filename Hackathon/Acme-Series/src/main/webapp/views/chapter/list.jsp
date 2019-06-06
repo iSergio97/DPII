@@ -29,12 +29,18 @@
 	</display:column>
 	
 	<display:column titleKey="show">
-		<a href="chapter/publisher/show.do?chapterId=${row.id}"><spring:message code="show" /></a>
+		<a href="chapter/public/show.do?chapterId=${row.id}"><spring:message code="show" /></a>
 	</display:column>
 	
 	<security:authorize access="hasRole('PUBLISHER')">
 	<display:column titleKey="edit">
 		<a href="chapter/publisher/edit.do?chapterId=${row.id}"><spring:message code="edit"/></a>
+	</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+	<display:column titleKey="edit">
+		<a href="chapter/administrator/edit.do?chapterId=${row.id}"><spring:message code="edit"/></a>
 	</display:column>
 	</security:authorize>
 

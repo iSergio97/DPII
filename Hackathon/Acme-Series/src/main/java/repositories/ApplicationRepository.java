@@ -6,7 +6,6 @@
 
 package repositories;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +32,6 @@ public interface ApplicationRepository extends AbstractRepository<Application> {
 	List<Application> findAllApplicatoinsByPublisher(int id);
 
 	@Query("select a from Application a where a.serie.id = ?1")
-	Collection<Application> findAllBySerieId(int serieId);
+	List<Application> findAllBySerie(int serieId);
 
 }

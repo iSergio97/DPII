@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.MessageBoxService;
+import services.MessageService;
 import domain.Actor;
 import domain.Message;
 import domain.MessageBox;
 import forms.MessageForm;
-import services.ActorService;
-import services.MessageBoxService;
-import services.MessageService;
 
 @Controller
 @RequestMapping("/message/all")
-public class MessageController {
+public class MessageController extends AbstractController {
 
 	// Services --------------------------------------------------------------------
 
@@ -96,10 +96,10 @@ public class MessageController {
 		ModelAndView result;
 		final Actor principal = this.actorService.findPrincipal();
 		if (m.getSender().equals(principal) || m.getRecipients().contains(principal)) {
-			result = new ModelAndView("message/all/show");
+			result = this.createModelAndViewWithSystemConfiguration("message/all/show");
 			result.addObject(m);
 		} else
-			result = new ModelAndView("/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 
 		return result;
 
@@ -153,7 +153,7 @@ public class MessageController {
 	}
 
 	protected ModelAndView createEditModelAndView(final MessageForm mf, final String message) {
-		final ModelAndView result = new ModelAndView("message/all/" + message);
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("message/all/" + message);
 		result.addObject("message", mf);
 		result.addObject("messageb", message);
 		result.addObject("recipients", this.actorService.findAll());

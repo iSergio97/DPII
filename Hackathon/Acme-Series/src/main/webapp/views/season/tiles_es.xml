@@ -42,14 +42,14 @@
 		<put-attribute name="title"
 			value="Temporadas" />
 		<put-attribute name="body"
-			value="/views/season/publicList.jsp" />
+			value="/views/season/list.jsp" />
 	</definition>
 
 	<definition name="season/public/show"
 		extends="master.page">
 		<put-attribute name="title" value="Mostrar Temporada" />
 		<put-attribute name="body"
-			value="/views/season/publicShow.jsp" />
+			value="/views/season/show.jsp" />
 	</definition>
 	
 	<definition name="chapter/publisher/list"

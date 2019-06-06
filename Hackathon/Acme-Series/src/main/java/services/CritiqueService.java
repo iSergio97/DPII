@@ -1,12 +1,11 @@
 /*
  * CritiqueService.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package services;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import repositories.CritiqueRepository;
 import domain.Critique;
 import forms.CritiqueForm;
+import repositories.CritiqueRepository;
 
 @Service
 @Transactional
@@ -85,12 +84,15 @@ public class CritiqueService extends AbstractService<CritiqueRepository, Critiqu
 		return critiqueForm;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////
+	// Ancillary methods
+
 	public List<Critique> findAllByUserAccountId(final int userAccountId) {
 		return this.repository.findAllByUserAccount(userAccountId);
 	}
 
-	public Collection<Critique> findBySerieId(final int serieId) {
-		return this.repository.findBySerieId(serieId);
+	public List<Critique> findAllBySerie(final int serieId) {
+		return this.repository.findAllBySerie(serieId);
 	}
 
 }

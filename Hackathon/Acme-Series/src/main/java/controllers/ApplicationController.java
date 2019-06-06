@@ -56,7 +56,7 @@ public class ApplicationController extends AbstractController {
 		final int userAccountId = LoginService.getPrincipal().getId();
 		applications = this.applicationService.findAllByUserAccountId(userAccountId);
 
-		result = new ModelAndView("application/publisher/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/publisher/list");
 		result.addObject("applications", applications);
 		result.addObject("role", "publisher");
 		result.addObject("requestURI", "application/publisher/list.do");
@@ -73,7 +73,7 @@ public class ApplicationController extends AbstractController {
 
 		applications = this.applicationService.findAll();
 
-		result = new ModelAndView("application/administrator/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/administrator/list");
 		result.addObject("applications", applications);
 		result.addObject("role", "administrator");
 		result.addObject("requestURI", "application/administrator/list.do");
@@ -156,11 +156,11 @@ public class ApplicationController extends AbstractController {
 		final Application application;
 
 		administrator = this.administratorService.findPrincipal();
-		application = this.applicationService.findOne(applicationId);
-		Assert.isTrue(administrator != null);
-		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 
 		try {
+			application = this.applicationService.findOne(applicationId);
+			Assert.isTrue(administrator != null);
+			Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 			final Serie serie = application.getSerie();
 			final List<Application> pendingApplications = this.applicationService.findAllPendingBySerieId(serie.getId());
 			for (final Application a : pendingApplications) {
@@ -191,11 +191,11 @@ public class ApplicationController extends AbstractController {
 		final Application application;
 
 		administrator = this.administratorService.findPrincipal();
-		application = this.applicationService.findOne(applicationId);
-		Assert.isTrue(administrator != null);
-		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 
 		try {
+			application = this.applicationService.findOne(applicationId);
+			Assert.isTrue(administrator != null);
+			Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 			application.setStatus("REJECTED");
 			application.setAdministrator(administrator);
 			this.applicationService.save(application);
@@ -217,7 +217,7 @@ public class ApplicationController extends AbstractController {
 	private ModelAndView createEditModelAndView(final Application application, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("application/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("application/" + role + "/" + action);
 		result.addObject("application", application);
 
 		return result;
@@ -230,7 +230,7 @@ public class ApplicationController extends AbstractController {
 	private ModelAndView createEditModelAndView(final ApplicationForm applicationForm, final String messageCode, final String role, final String action) {
 		final ModelAndView result;
 
-		result = new ModelAndView("application/" + role + "/" + action);
+		result = this.createModelAndViewWithSystemConfiguration("application/" + role + "/" + action);
 		result.addObject("application", applicationForm);
 
 		return result;
