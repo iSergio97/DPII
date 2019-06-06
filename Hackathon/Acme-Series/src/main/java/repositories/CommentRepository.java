@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Comment;
-import domain.Critique;
 
 @Repository
 public interface CommentRepository extends AbstractRepository<Comment> {
@@ -21,7 +20,7 @@ public interface CommentRepository extends AbstractRepository<Comment> {
 	Double[] getCommentsPerSerieStatistics();
 
 	@Query("select co from Comment co join co.user u where u.userAccount.id = ?1")
-	List<Critique> findAllByUserAccount(int userAccountId);
+	List<Comment> findAllByUserAccount(int userAccountId);
 
 	@Query("select co from Comment co join co.serie s where s.id = ?1")
 	List<Comment> findAllBySerie(int serieId);

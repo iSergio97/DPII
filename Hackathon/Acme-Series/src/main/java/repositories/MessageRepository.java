@@ -30,4 +30,7 @@ public interface MessageRepository extends AbstractRepository<Message> {
 
 	@Query("select m from Message m join m.recipients r where r.id = ?1")
 	Collection<Message> getRecieved(int id);
+
+	@Query("select m from Message m join m.recipients r where m.sender.id = ?1 or r.id = ?1")
+	Collection<Message> findMessagesAll(int id);
 }

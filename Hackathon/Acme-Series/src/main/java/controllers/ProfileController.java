@@ -2,6 +2,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Administrator;
+import domain.Application;
+import domain.Comment;
 import domain.Critic;
+import domain.Critique;
+import domain.Finder;
+import domain.Message;
+import domain.MessageBox;
 import domain.Publisher;
+import domain.Serie;
+import domain.SocialProfile;
 import domain.User;
 import forms.RegisterAdministratorForm;
 import forms.RegisterCriticForm;
@@ -30,8 +40,18 @@ import security.UserAccount;
 import security.UserAccountRepository;
 import services.ActorService;
 import services.AdministratorService;
+import services.ApplicationService;
+import services.ChapterService;
+import services.CommentService;
 import services.CriticService;
+import services.CritiqueService;
+import services.FinderService;
+import services.MessageBoxService;
+import services.MessageService;
 import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
+import services.SocialProfileService;
 import services.UserService;
 
 @Controller
@@ -51,6 +71,26 @@ public class ProfileController extends AbstractController {
 	private UserAccountRepository	userAccountRepository;
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private ApplicationService		applicationService;
+	@Autowired
+	private MessageService			messageService;
+	@Autowired
+	private MessageBoxService		messageBoxService;
+	@Autowired
+	private SocialProfileService	socialProfileService;
+	@Autowired
+	private CommentService			commentService;
+	@Autowired
+	private CritiqueService			critiqueService;
+	@Autowired
+	private SerieService			serieService;
+	@Autowired
+	private FinderService			finderService;
+	@Autowired
+	private ChapterService			chapterService;
+	@Autowired
+	private SeasonService			seasonService;
 
 
 	public ProfileController() {
@@ -69,10 +109,12 @@ public class ProfileController extends AbstractController {
 
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
 	public ModelAndView editAdmin() {
-		final ModelAndView result;
+		ModelAndView result = new ModelAndView("/welcome/index.do");
 		final Administrator admin = this.administratorService.findPrincipal();
-		final RegisterAdministratorForm raf = this.administratorService.deconstruct(admin);
-		result = this.createEditModelAndView(raf, "edit");
+		if (admin != null) {
+			final RegisterAdministratorForm raf = this.administratorService.deconstruct(admin);
+			result = this.createEditModelAndView(raf, "edit");
+		}
 		return result;
 	}
 
@@ -96,6 +138,29 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/administrator/delete", method = RequestMethod.GET)
+	public ModelAndView deleteAdmin() {
+		final Administrator admin = this.administratorService.findPrincipal();
+		final Collection<Application> applies = this.applicationService.findAllAppliesByAdmin(admin);
+		this.applicationService.delete(applies);
+		final Collection<Message> ms = this.messageService.findAllMessages(admin.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(admin.getId());
+		for (final Message m : ms) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(admin);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = admin.getUserAccount();
+		this.administratorService.delete(admin);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("j_spring_security_check");
+	}
 	//Publisher web pages
 	@RequestMapping(value = "/publisher/show", method = RequestMethod.GET)
 	public ModelAndView showPublisher() {
@@ -108,16 +173,18 @@ public class ProfileController extends AbstractController {
 
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
 	public ModelAndView editPublisher() {
-		final ModelAndView result;
+		ModelAndView result = new ModelAndView("/welcome/index.do");
 		final Publisher publisher = this.publisherService.findPrincipal();
-		final RegisterPublisherForm rpf = this.publisherService.deconstruct(publisher);
-		result = this.createEditModelAndView(rpf, "edit");
+		if (publisher != null) {
+			final RegisterPublisherForm rpf = this.publisherService.deconstruct(publisher);
+			result = this.createEditModelAndView(rpf, "edit");
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.POST)
 	public ModelAndView savePublisher(@ModelAttribute("publisher") final RegisterPublisherForm rpf, final BindingResult bindingResult) {
-		ModelAndView result;
+		ModelAndView result = new ModelAndView("/welcome/index.do");
 		final Publisher publisher;
 		try {
 			publisher = this.publisherService.reconstructForm(rpf, bindingResult);
@@ -173,6 +240,79 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/critic/delete", method = RequestMethod.GET)
+	public ModelAndView deleteCritic() {
+		final Critic critic = this.criticService.findPrincipal();
+		final Collection<Message> ms = this.messageService.findAllMessages(critic.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(critic.getId());
+		for (final Message m : ms) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<Critique> cr = this.critiqueService.findAllByUserAccountId(critic.getUserAccount().getId());
+		this.critiqueService.delete(cr);
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(critic);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = critic.getUserAccount();
+		this.criticService.delete(critic);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("redirect:/j_spring_security_check");
+	}
+
+	@RequestMapping(value = "/publisher/delete", method = RequestMethod.GET)
+	public ModelAndView deletePublisher() {
+		final Publisher publisher = this.publisherService.findPrincipal();
+		final Collection<Message> sent = this.messageService.getSent(publisher.getId());
+		final Collection<Message> recieved = this.messageService.getRecieved(publisher.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(publisher.getId());
+		for (final Message m : sent) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		for (final Message m : recieved) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<Serie> series = this.serieService.findByPublisherId(publisher.getId());
+		final Collection<Application> ap = this.applicationService.findAllApplicatoinsByPublisher(publisher);
+		this.applicationService.delete(ap);
+		//		for (final Serie s : series) {
+		//			final Collection<Season> seasons = this.seasonService.findSeasonsBySerie(s);
+		//			for (final Season season : seasons) {
+		//				final Collection<Chapter> ch = this.chapterService.findChaptersBySeason(season);
+		//				this.chapterService.delete(ch);
+		//				this.seasonService.delete(season);
+		//			}
+		//		}
+
+		Collection<Comment> comments;
+		for (final Serie s : series) {
+			comments = this.commentService.findAllBySerie(s.getId());
+			this.commentService.delete(comments);
+		}
+		this.serieService.delete(series);
+		final Collection<Critique> cr = this.critiqueService.findAllByUserAccountId(publisher.getUserAccount().getId());
+		this.critiqueService.delete(cr);
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(publisher);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = publisher.getUserAccount();
+		this.publisherService.delete(publisher);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("redirect:/j_spring_security_check");
+	}
+
 	//User web pages
 	@RequestMapping(value = "/user/show", method = RequestMethod.GET)
 	public ModelAndView showUser() {
@@ -210,6 +350,42 @@ public class ProfileController extends AbstractController {
 			result = this.createEditModelAndView(ruf, "edit");
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
+	public ModelAndView deleteUser() {
+		final User user = this.userService.findPrincipal();
+		final Collection<Message> ms = this.messageService.findAllMessages(user.getId());
+		final Collection<MessageBox> mb = this.messageBoxService.findBoxes(user.getId());
+		for (final Message m : ms) {
+			m.getMessageBoxes().removeAll(mb);
+			if (m.getMessageBoxes().size() == 0)
+				this.messageService.delete(m);
+		}
+
+		this.messageBoxService.delete(mb);
+
+		final Collection<Comment> comments = this.commentService.findAllByUserAccountId(user.getUserAccount().getId());
+		this.commentService.delete(comments);
+		final Collection<Serie> series = this.serieService.findAll();
+		for (final Serie s : series) {
+			s.getFavouritedUsers().remove(user);
+			s.getWatchedUsers().remove(user);
+			s.getPendingUsers().remove(user);
+			s.getWatchingUsers().remove(user);
+			this.serieService.save(s);
+		}
+		final Finder finder = this.finderService.findByPrincipal();
+		finder.setSeries(new ArrayList<Serie>());
+		this.finderService.save(finder);
+		this.finderService.delete(finder);
+		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(user);
+		this.socialProfileService.delete(profiles);
+		final UserAccount ua = user.getUserAccount();
+		this.userService.delete(user);
+		this.userAccountRepository.delete(ua);
+
+		return new ModelAndView("redirect:/j_spring_security_check");
 	}
 
 	@RequestMapping(value = "/actor/export", method = RequestMethod.GET)
@@ -264,7 +440,6 @@ public class ProfileController extends AbstractController {
 			outStream.flush();
 			outStream.close();
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new ModelAndView("/welcome/index.do");
 		}

@@ -23,3 +23,6 @@
 	<br>
 	
 	<a href="profile/actor/export.do" ><spring:message code="profile.export" /></a>
+	<br>
+	<br>
+	<a href="profile/administrator/delete.do" ><spring:message code="profile.delete" /></a>

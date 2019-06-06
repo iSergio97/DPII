@@ -39,4 +39,7 @@ public interface MessageBoxRepository extends AbstractRepository<MessageBox> {
 	@Query("select mb from MessageBox mb join mb.actor a where a.userAccount.id = ?1 and mb.isSystem = 0")
 	Collection<MessageBox> findMessageBoxes(int id);
 
+	@Query("select mb from MessageBox mb where mb.actor.id = ?1")
+	Collection<MessageBox> findBoxes(int id);
+
 }

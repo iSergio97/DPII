@@ -18,7 +18,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import domain.Comment;
-import domain.Critique;
 import forms.CommentForm;
 import repositories.CommentRepository;
 
@@ -85,7 +84,7 @@ public class CommentService extends AbstractService<CommentRepository, Comment> 
 		return this.repository.getCommentsPerSerieStatistics();
 	}
 
-	public List<Critique> findAllByUserAccountId(final int userAccountId) {
+	public List<Comment> findAllByUserAccountId(final int userAccountId) {
 		return this.repository.findAllByUserAccount(userAccountId);
 	}
 
