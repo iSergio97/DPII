@@ -109,7 +109,7 @@ public class ProfileController extends AbstractController {
 
 	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
 	public ModelAndView editAdmin() {
-		ModelAndView result = new ModelAndView("/welcome/index.do");
+		ModelAndView result = this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 		final Administrator admin = this.administratorService.findPrincipal();
 		if (admin != null) {
 			final RegisterAdministratorForm raf = this.administratorService.deconstruct(admin);
@@ -159,7 +159,7 @@ public class ProfileController extends AbstractController {
 		this.administratorService.delete(admin);
 		this.userAccountRepository.delete(ua);
 
-		return new ModelAndView("j_spring_security_check");
+		return this.createModelAndViewWithSystemConfiguration("j_spring_security_check");
 	}
 	//Publisher web pages
 	@RequestMapping(value = "/publisher/show", method = RequestMethod.GET)
@@ -173,7 +173,7 @@ public class ProfileController extends AbstractController {
 
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
 	public ModelAndView editPublisher() {
-		ModelAndView result = new ModelAndView("/welcome/index.do");
+		ModelAndView result = this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 		final Publisher publisher = this.publisherService.findPrincipal();
 		if (publisher != null) {
 			final RegisterPublisherForm rpf = this.publisherService.deconstruct(publisher);
@@ -184,7 +184,7 @@ public class ProfileController extends AbstractController {
 
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.POST)
 	public ModelAndView savePublisher(@ModelAttribute("publisher") final RegisterPublisherForm rpf, final BindingResult bindingResult) {
-		ModelAndView result = new ModelAndView("/welcome/index.do");
+		ModelAndView result = this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 		final Publisher publisher;
 		try {
 			publisher = this.publisherService.reconstructForm(rpf, bindingResult);
@@ -261,7 +261,7 @@ public class ProfileController extends AbstractController {
 		this.criticService.delete(critic);
 		this.userAccountRepository.delete(ua);
 
-		return new ModelAndView("redirect:/j_spring_security_check");
+		return this.createModelAndViewWithSystemConfiguration("redirect:/j_spring_security_check");
 	}
 
 	@RequestMapping(value = "/publisher/delete", method = RequestMethod.GET)
@@ -310,7 +310,7 @@ public class ProfileController extends AbstractController {
 		this.publisherService.delete(publisher);
 		this.userAccountRepository.delete(ua);
 
-		return new ModelAndView("redirect:/j_spring_security_check");
+		return this.createModelAndViewWithSystemConfiguration("redirect:/j_spring_security_check");
 	}
 
 	//User web pages
@@ -388,7 +388,7 @@ public class ProfileController extends AbstractController {
 		this.userService.delete(user);
 		this.userAccountRepository.delete(ua);
 
-		return new ModelAndView("redirect:/j_spring_security_check");
+		return this.createModelAndViewWithSystemConfiguration("redirect:/j_spring_security_check");
 	}
 
 	@RequestMapping(value = "/actor/export", method = RequestMethod.GET)
@@ -444,7 +444,7 @@ public class ProfileController extends AbstractController {
 			outStream.close();
 		} catch (final IOException e) {
 			e.printStackTrace();
-			return new ModelAndView("/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 		}
 
 		if (actor.getUserAccount().getAuthorities().toArray()[0].equals("USER"))
@@ -456,7 +456,7 @@ public class ProfileController extends AbstractController {
 		else if (actor.getUserAccount().getAuthorities().toArray()[0].equals("CRITIC"))
 			result = this.showCritic();
 		else
-			result = new ModelAndView("/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("/welcome/index.do");
 
 		return result;
 	}
@@ -476,16 +476,16 @@ public class ProfileController extends AbstractController {
 		ModelAndView result = null;
 
 		if (t instanceof RegisterAdministratorForm || t instanceof Administrator) {
-			result = new ModelAndView("profile/administrator/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/administrator/" + messageCode);
 			result.addObject("administrator", t);
 		} else if (t instanceof RegisterPublisherForm || t instanceof Publisher) {
-			result = new ModelAndView("profile/publisher/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/publisher/" + messageCode);
 			result.addObject("publisher", t);
 		} else if (t instanceof RegisterCriticForm || t instanceof Critic) {
-			result = new ModelAndView("profile/critic/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/critic/" + messageCode);
 			result.addObject("critic", t);
 		} else if (t instanceof RegisterUserForm || t instanceof User) {
-			result = new ModelAndView("profile/user/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/user/" + messageCode);
 			result.addObject("user", t);
 		}
 
