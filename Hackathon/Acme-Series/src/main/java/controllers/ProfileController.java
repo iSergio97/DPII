@@ -352,6 +352,7 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
 	public ModelAndView deleteUser() {
 		final User user = this.userService.findPrincipal();
@@ -376,9 +377,11 @@ public class ProfileController extends AbstractController {
 			this.serieService.save(s);
 		}
 		final Finder finder = this.finderService.findByPrincipal();
-		finder.setSeries(new ArrayList<Serie>());
-		this.finderService.save(finder);
-		this.finderService.delete(finder);
+		if (finder != null) {
+			finder.setSeries(new ArrayList<Serie>());
+			this.finderService.save(finder);
+			this.finderService.delete(finder);
+		}
 		final Collection<SocialProfile> profiles = this.socialProfileService.findByActor(user);
 		this.socialProfileService.delete(profiles);
 		final UserAccount ua = user.getUserAccount();
