@@ -83,6 +83,9 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		Finder finder2;
 		final List<Serie> series;
+		final Finder finder3 = this.finderService.findByPrincipal();
+		if (finder3 == null)
+			result = this.create();
 		try {
 			finder2 = this.finderService.reconstruct(finder, binding);
 			series = (List<Serie>) this.finderService.findSeries(finder.getKeyword(), finder.getMinDate(), finder.getMaxDate());
@@ -93,7 +96,7 @@ public class FinderController extends AbstractController {
 
 			this.finderService.save(finder2);
 
-			result = this.list();
+			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(finder, "problem.commit.error");
 		}
