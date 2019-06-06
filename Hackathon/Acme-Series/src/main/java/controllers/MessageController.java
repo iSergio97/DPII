@@ -76,7 +76,7 @@ public class MessageController extends AbstractController {
 
 				}
 			this.messageService.save(m);
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException valExp) {
 			if (mf.getBroadcast())
 				result = this.createEditModelAndView(mf, "broadcast");
@@ -124,7 +124,7 @@ public class MessageController extends AbstractController {
 		}
 		msg.getMessageBoxes().add(trash);
 		this.messageService.save(msg);
-		return new ModelAndView("redirect:/message-box/all/show.do?name=inBox");
+		return this.createModelAndViewWithSystemConfiguration("redirect:/message-box/all/show.do?name=inBox");
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -141,7 +141,7 @@ public class MessageController extends AbstractController {
 			this.messageService.save(msg);
 		}
 
-		return new ModelAndView("redirect:/message-box/all/show.do?name=trashBox");
+		return this.createModelAndViewWithSystemConfiguration("redirect:/message-box/all/show.do?name=trashBox");
 
 	}
 

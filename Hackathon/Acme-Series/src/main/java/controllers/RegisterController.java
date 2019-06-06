@@ -87,7 +87,7 @@ public class RegisterController extends AbstractController {
 					mb.setActor(administratorSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerAdministratorForm);
 		} catch (final Throwable valExp) {
@@ -125,7 +125,7 @@ public class RegisterController extends AbstractController {
 					mb.setActor(publisherSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerPublisherForm);
 		} catch (final Throwable valExp) {
@@ -166,7 +166,7 @@ public class RegisterController extends AbstractController {
 					mb.setActor(criticSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerCriticForm);
 		} catch (final Throwable valExp) {
@@ -208,7 +208,7 @@ public class RegisterController extends AbstractController {
 					mb.setActor(userSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerUserForm);
 		} catch (final Throwable valExp) {

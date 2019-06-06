@@ -92,7 +92,7 @@ public class CritiqueController extends AbstractController {
 			Assert.isTrue(critique.getCritic().equals(this.criticService.findPrincipal()));
 			result = this.createEditModelAndView(critique, "public", "show");
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		return result;
@@ -113,7 +113,7 @@ public class CritiqueController extends AbstractController {
 			critique = this.critiqueService.create();
 			critique.setSerie(serie);
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		result = this.createEditModelAndView(critique, "critic", "create");
@@ -137,7 +137,7 @@ public class CritiqueController extends AbstractController {
 			Assert.isTrue(critique.getCritic().equals(this.criticService.findPrincipal()));
 			serieId = critique.getSerie().getId();
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		result = this.createEditModelAndView(critique, "critic", "edit");
@@ -159,7 +159,7 @@ public class CritiqueController extends AbstractController {
 			try {
 				critique = this.critiqueService.reconstructForm(critiqueForm, binding);
 				this.critiqueService.save(critique);
-				result = new ModelAndView("redirect:list.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(critiqueForm, "critic", "edit");
 				result.addObject("serieId", critiqueForm.getSerieId());
@@ -180,7 +180,7 @@ public class CritiqueController extends AbstractController {
 		critique = this.critiqueService.findOne(critiqueForm.getId());
 		try {
 			this.critiqueService.delete(critique);
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(critique, "critique.commit.error", "critic", "edit");
 		}

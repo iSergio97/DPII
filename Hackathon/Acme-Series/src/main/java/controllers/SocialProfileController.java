@@ -48,7 +48,7 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		socialProfiles = this.socialProfileService.findByActor(actor);
 
 		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/list");
@@ -67,12 +67,12 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!socialProfile.getActor().equals(actor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/show");
 
@@ -91,7 +91,7 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		socialProfileForm = this.socialProfileService.createForm();
 
 		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/edit");
@@ -110,12 +110,12 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!socialProfile.getActor().equals(actor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		result = this.createModelAndViewWithSystemConfiguration("social-profile/all/edit");
 
@@ -134,13 +134,13 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (socialProfileForm.getId() != 0) {
 			socialProfile = this.socialProfileService.findOne(socialProfileForm.getId());
 			if (socialProfile == null)
-				return new ModelAndView("redirect:/welcome/index.do");
+				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 			if (!socialProfile.getActor().equals(actor))
-				return new ModelAndView("redirect:/welcome/index.do");
+				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		}
 		if (!bindingResult.hasErrors()) {
 			socialProfile = this.socialProfileService.reconstructForm(socialProfileForm, bindingResult);
@@ -164,12 +164,12 @@ public class SocialProfileController extends AbstractController {
 
 		actor = this.actorService.findPrincipal();
 		if (actor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		socialProfile = this.socialProfileService.findOne(id);
 		if (socialProfile == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!socialProfile.getActor().equals(actor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		this.socialProfileService.delete(socialProfile);
 

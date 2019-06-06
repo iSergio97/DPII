@@ -96,7 +96,7 @@ public class FinderController extends AbstractController {
 
 			this.finderService.save(finder2);
 
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createAndEditModelAndView(finder, "problem.commit.error");
 		}

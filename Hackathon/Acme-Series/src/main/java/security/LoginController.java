@@ -74,7 +74,7 @@ public class LoginController extends AbstractController {
 	public ModelAndView failure() {
 		ModelAndView result;
 
-		result = new ModelAndView("redirect:login.do?showError=true");
+		result = this.createModelAndViewWithSystemConfiguration("redirect:login.do?showError=true");
 
 		return result;
 	}

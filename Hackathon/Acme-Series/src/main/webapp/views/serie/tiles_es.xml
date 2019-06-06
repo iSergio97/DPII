@@ -57,27 +57,27 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 
 	<definition name="serie/user/sortedByFavoritesList" extends="master.page">
 		<put-attribute name="title" value="Las series favoritas de la comunidad" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 	<definition name="serie/user/favouriteList" extends="master.page">
 		<put-attribute name="title" value="Mis series favoritas" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 	<definition name="serie/user/pendingList" extends="master.page">
 		<put-attribute name="title" value="Mis series pendientes" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 	<definition name="serie/user/watchingList" extends="master.page">
 		<put-attribute name="title" value="Lo que estoy viendo" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 	<definition name="serie/user/watchedList" extends="master.page">
 		<put-attribute name="title" value="Lo que he visto" />
-		<put-attribute name="body" value="/views/serie/list.jsp" />
+		<put-attribute name="body" value="/views/serie/publicList.jsp" />
 	</definition>
 
 </tiles-definitions>

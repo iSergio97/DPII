@@ -57,7 +57,7 @@ public class CommentController extends AbstractController {
 			comment = this.commentService.create();
 			comment.setSerie(serie);
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		result = this.createEditModelAndView(comment, "user", "create");
@@ -81,7 +81,7 @@ public class CommentController extends AbstractController {
 			Assert.isTrue(comment.getUser().equals(this.userService.findPrincipal()));
 			serieId = comment.getSerie().getId();
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		result = this.createEditModelAndView(comment, "user", "edit");
@@ -103,7 +103,7 @@ public class CommentController extends AbstractController {
 			try {
 				comment = this.commentService.reconstructForm(commentForm, binding);
 				this.commentService.save(comment);
-				result = new ModelAndView("redirect:list.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(commentForm, "user", "edit");
 				result.addObject("serieId", commentForm.getSerieId());
@@ -124,7 +124,7 @@ public class CommentController extends AbstractController {
 		comment = this.commentService.findOne(commentForm.getId());
 		try {
 			this.commentService.delete(comment);
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.commit.error", "user", "edit");
 		}

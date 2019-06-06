@@ -130,7 +130,7 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		series = this.serieService.getSeriesSortedByNumberOfFavorites();
 
 		result = this.createModelAndViewWithSystemConfiguration("serie/user/sortedByFavoritesList");
@@ -292,12 +292,12 @@ public class SerieController extends AbstractController {
 
 		serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		critiques = this.critiqueService.findAllBySerie(serie.getId());
 		comments = this.commentService.findAllBySerie(serie.getId());
 
-		result = new ModelAndView("serie/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("serie/public/show");
 		result.addObject("serie", serie);
 		result.addObject("critiques", critiques);
 		result.addObject("comments", comments);
@@ -334,12 +334,12 @@ public class SerieController extends AbstractController {
 
 		serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		critiques = this.critiqueService.findAllBySerie(serie.getId());
 		comments = this.commentService.findAllBySerie(serie.getId());
 
-		result = new ModelAndView("serie/publisher/show");
+		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/show");
 		result.addObject("serie", serie);
 		result.addObject("critiques", critiques);
 		result.addObject("comments", comments);
@@ -511,15 +511,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> favoritedUsers = serie.getFavouritedUsers();
 		if (favoritedUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		favoritedUsers.add(user);
 		serie.setFavouritedUsers(favoritedUsers);
 		this.serieService.save(serie);
@@ -533,15 +533,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> favoritedUsers = serie.getFavouritedUsers();
 		if (!favoritedUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		favoritedUsers.remove(user);
 		serie.setFavouritedUsers(favoritedUsers);
 		this.serieService.save(serie);
@@ -558,15 +558,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> pendingUsers = serie.getPendingUsers();
 		if (pendingUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		pendingUsers.add(user);
 		serie.setPendingUsers(pendingUsers);
 		this.serieService.save(serie);
@@ -580,15 +580,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> pendingUsers = serie.getPendingUsers();
 		if (!pendingUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		pendingUsers.remove(user);
 		serie.setPendingUsers(pendingUsers);
 		this.serieService.save(serie);
@@ -605,15 +605,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> watchingUsers = serie.getWatchingUsers();
 		if (watchingUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		watchingUsers.add(user);
 		serie.setWatchingUsers(watchingUsers);
 		this.serieService.save(serie);
@@ -627,15 +627,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> watchingUsers = serie.getWatchingUsers();
 		if (!watchingUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		watchingUsers.remove(user);
 		serie.setWatchingUsers(watchingUsers);
 		this.serieService.save(serie);
@@ -652,15 +652,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> watchedUsers = serie.getWatchedUsers();
 		if (watchedUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		watchedUsers.add(user);
 		serie.setWatchedUsers(watchedUsers);
 		this.serieService.save(serie);
@@ -674,15 +674,15 @@ public class SerieController extends AbstractController {
 
 		user = this.userService.findPrincipal();
 		if (user == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Serie serie = this.serieService.findOne(serieId);
 		if (serie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Collection<User> watchedUsers = serie.getWatchedUsers();
 		if (!watchedUsers.contains(user))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		watchedUsers.remove(user);
 		serie.setWatchedUsers(watchedUsers);
 		this.serieService.save(serie);

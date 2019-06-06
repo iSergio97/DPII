@@ -56,7 +56,7 @@ public class MessageBoxController extends AbstractController {
 			result = this.createModelAndViewWithSystemConfiguration("message-box/all/list");
 			result.addObject("messageBoxes", messageBoxes);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect::/welcome");
+			result = this.createModelAndViewWithSystemConfiguration("redirect::/welcome");
 		}
 
 		return result;
@@ -101,7 +101,7 @@ public class MessageBoxController extends AbstractController {
 		else
 			try {
 				this.messageBoxService.save(messageBox);
-				result = new ModelAndView("redirect:list.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 			}
@@ -117,7 +117,7 @@ public class MessageBoxController extends AbstractController {
 
 		try {
 			this.messageBoxService.delete(messageBox);
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 		}
@@ -143,7 +143,7 @@ public class MessageBoxController extends AbstractController {
 
 			result.addObject("messageCode", null);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect::/welcome");
+			result = this.createModelAndViewWithSystemConfiguration("redirect::/welcome");
 		}
 
 		return result;

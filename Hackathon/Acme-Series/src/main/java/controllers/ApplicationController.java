@@ -93,7 +93,7 @@ public class ApplicationController extends AbstractController {
 			Assert.notNull(application);
 			result = this.createEditModelAndView(application, "administrator,publisher", "show");
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		return result;
@@ -117,7 +117,7 @@ public class ApplicationController extends AbstractController {
 			Assert.isTrue(acceptedApplications.isEmpty());
 			Assert.isTrue(LoginService.getPrincipal().equals(serie.getPublisher().getUserAccount()));
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		result = this.createEditModelAndView(application, "publisher", "create");
@@ -136,7 +136,7 @@ public class ApplicationController extends AbstractController {
 		try {
 			application = this.applicationService.reconstructForm(applicationForm, binding);
 			this.applicationService.save(application);
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(applicationForm, "publisher", "edit");
 			result.addObject("serieId", applicationForm.getSerieId());
@@ -174,9 +174,9 @@ public class ApplicationController extends AbstractController {
 			serie.setIsDraft(false);
 			this.serieService.save(serie);
 			// TODO: Send Notification
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		return result;
@@ -200,9 +200,9 @@ public class ApplicationController extends AbstractController {
 			application.setAdministrator(administrator);
 			this.applicationService.save(application);
 			// TODO: Send Notification
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/panic.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/panic.do");
 		}
 
 		return result;
