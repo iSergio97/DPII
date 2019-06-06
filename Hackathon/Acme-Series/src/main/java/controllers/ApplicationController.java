@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.AdministratorService;
-import services.ApplicationService;
-import services.SerieService;
 import domain.Administrator;
 import domain.Application;
 import domain.Serie;
 import forms.ApplicationForm;
+import security.LoginService;
+import services.AdministratorService;
+import services.ApplicationService;
+import services.SerieService;
 
 @Controller
 @RequestMapping("/application")
@@ -156,11 +156,11 @@ public class ApplicationController extends AbstractController {
 		final Application application;
 
 		administrator = this.administratorService.findPrincipal();
-		application = this.applicationService.findOne(applicationId);
-		Assert.isTrue(administrator != null);
-		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 
 		try {
+			application = this.applicationService.findOne(applicationId);
+			Assert.isTrue(administrator != null);
+			Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 			final Serie serie = application.getSerie();
 			final List<Application> pendingApplications = this.applicationService.findAllPendingBySerieId(serie.getId());
 			for (final Application a : pendingApplications) {
@@ -191,11 +191,11 @@ public class ApplicationController extends AbstractController {
 		final Application application;
 
 		administrator = this.administratorService.findPrincipal();
-		application = this.applicationService.findOne(applicationId);
-		Assert.isTrue(administrator != null);
-		Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 
 		try {
+			application = this.applicationService.findOne(applicationId);
+			Assert.isTrue(administrator != null);
+			Assert.isTrue(application != null && application.getStatus().equals("PENDING"));
 			application.setStatus("REJECTED");
 			application.setAdministrator(administrator);
 			this.applicationService.save(application);
