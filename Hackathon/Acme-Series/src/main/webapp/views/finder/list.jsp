@@ -9,38 +9,26 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <p>
-	<a href="finder/create.do"><spring:message code="create" /></a>
+	<a href="finder/user/create.do"><spring:message code="create" /></a>
 </p>
 
-<display:table name="positions" id="row" requestURI="/finder/list.do" pagesize="5" class="displaytag"> 
+<display:table name="series" id="row" requestURI="/finder/user/list.do"
+	pagesize="5" class="displaytag">
 
-<display:column property="title">
+	<display:column property="title">
 		<jstl:out value="${row.title}" />
 	</display:column>
-	
+
 	<display:column property="description">
 		<jstl:out value="${row.description}" />
 	</display:column>
-	
-	<display:column property="deadline">
-		<jstl:out value="${row.deadline}" />
-	</display:column>
 
-	
-	<display:column property="profile">
-		<jstl:out value="${row.profile }" />
+	<display:column property="status">
+		<jstl:out value="${row.status}" />
 	</display:column>
 	
-	<display:column property="skills">
-		<jstl:out value="${row.skills }" />
-	</display:column>
-	
-	<display:column property="technologies">
-		<jstl:out value="${row.technologies }" />
-	</display:column>
-	
-	<display:column property="salary">
-		<jstl:out value="${row.salary }" />
+	<display:column>
+		<a href="serie/public/show.do?serieId=${row.id}"><spring:message code="showSerie" /></a>
 	</display:column>
 
 </display:table>
