@@ -23,7 +23,7 @@
 		<form:label path="number">
 			<spring:message code="number" />
 		</form:label>
-		<form:input path="number" />
+		<form:input type="number" min="1" path="number" />
 		<form:errors path="number" />
 	</div>
 	

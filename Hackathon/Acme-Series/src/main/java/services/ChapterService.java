@@ -9,11 +9,16 @@ package services;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ValidationException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.ChapterRepository;
+import security.Authority;
+import security.LoginService;
 import domain.Chapter;
 import domain.Season;
 import forms.ChapterForm;
@@ -89,8 +94,24 @@ public class ChapterService extends AbstractService<ChapterRepository, Chapter> 
 		result.setDuration(form.getDuration());
 
 		this.validator.validate(result, binding);
+		this.repository.flush();
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
+	}
+
+	public ChapterForm deconstruct(final Chapter chapter) {
+		final ChapterForm form = new ChapterForm();
+
+		form.setNumber(chapter.getNumber());
+		form.setId(chapter.getId());
+		form.setTitle(chapter.getTitle());
+		form.setDescription(chapter.getDescription());
+		form.setDuration(chapter.getDuration());
+		form.setReleaseDate(chapter.getReleaseDate());
+
+		return form;
 	}
 
 	public Collection<Chapter> findChaptersBySeason(final Season s) {

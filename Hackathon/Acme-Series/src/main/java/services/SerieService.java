@@ -101,12 +101,14 @@ public class SerieService extends AbstractService<SerieRepository, Serie> {
 		result.setIsDraft(serieForm.getIsDraft());
 
 		this.validator.validate(result, binding);
+		if (binding.hasErrors())
+			throw new ValidationException();
 
 		return result;
 	}
 
 	public SerieForm deconstruct(final Serie serie) {
-		final SerieForm serieForm = this.createForm();
+		final SerieForm serieForm = new SerieForm();
 
 		serieForm.setId(serie.getId());
 		serieForm.setTitle(serie.getTitle());

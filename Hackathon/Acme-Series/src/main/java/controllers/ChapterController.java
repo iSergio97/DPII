@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -115,12 +117,30 @@ public class ChapterController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int chapterId) {
 		ModelAndView result;
 		Chapter chapter;
+		final Season s = this.seasonService.findSeasonAssociated(chapterId);
+		ChapterForm form;
+
+		chapter = this.chapterService.findOne(chapterId);
+
+		form = this.chapterService.deconstruct(chapter);
+		form.setSeasonId(s.getId());
+
+		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/edit");
+		result.addObject("chapter", form);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
+	public ModelAndView adminEdit(@RequestParam final int chapterId) {
+		ModelAndView result;
+		Chapter chapter;
 		ChapterForm form;
 		final Season s = this.seasonService.findSeasonAssociated(chapterId);
 
 		chapter = this.chapterService.findOne(chapterId);
-		s.getChapters().remove(chapter);
-		form = this.chapterService.createForm(chapter);
+
+		form = this.chapterService.deconstruct(chapter);
 		form.setSeasonId(s.getId());
 
 		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/edit");
@@ -167,6 +187,8 @@ public class ChapterController extends AbstractController {
 				s.setChapters(chapters);
 				this.seasonService.save(s);
 				result = this.list(s.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(chapter, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(chapter, "chapter.commit.error");
 			}
@@ -190,6 +212,8 @@ public class ChapterController extends AbstractController {
 				s.setChapters(chapters);
 				this.seasonService.save(s);
 				result = this.publicList(s.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(chapter, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.adminEditModelAndView(chapter, "chapter.commit.error");
 			}

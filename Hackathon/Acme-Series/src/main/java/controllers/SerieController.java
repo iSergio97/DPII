@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -366,10 +368,13 @@ public class SerieController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		SerieForm form;
 
 		serie = this.serieService.findOne(serieId);
+
+		form = this.serieService.deconstruct(serie);
 		result = this.createModelAndViewWithSystemConfiguration("serie/publisher/edit");
-		result.addObject("serie", serie);
+		result.addObject("serie", form);
 
 		return result;
 	}
@@ -378,10 +383,13 @@ public class SerieController extends AbstractController {
 	public ModelAndView adminEdit(@RequestParam final int serieId) {
 		ModelAndView result;
 		Serie serie;
+		SerieForm form;
 
 		serie = this.serieService.findOne(serieId);
+		form = this.serieService.deconstruct(serie);
+
 		result = this.createModelAndViewWithSystemConfiguration("serie/administrator/edit");
-		result.addObject("serie", serie);
+		result.addObject("serie", form);
 
 		return result;
 	}
@@ -407,8 +415,10 @@ public class SerieController extends AbstractController {
 				}
 				this.serieService.save(serie);
 				result = this.publisherList();
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
 			} catch (final Throwable oops) {
-				result = this.createAndEditModelAndView(serieForm);
+				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
 			}
 		return result;
 	}
@@ -420,7 +430,7 @@ public class SerieController extends AbstractController {
 
 		serie = this.serieService.reconstruct(serieForm, binding);
 		if (binding.hasErrors())
-			result = this.adminEditModelAndView(serieForm);
+			result = this.adminEditModelAndView(serieForm, "serie.commit.error");
 		else
 			try {
 				if (serie.getSeasons().isEmpty()) {
@@ -432,7 +442,7 @@ public class SerieController extends AbstractController {
 				this.serieService.save(serie);
 				result = this.publicList(null);
 			} catch (final Throwable oops) {
-				result = this.adminEditModelAndView(serieForm);
+				result = this.adminEditModelAndView(serieForm, "serie.commit.error");
 			}
 		return result;
 	}

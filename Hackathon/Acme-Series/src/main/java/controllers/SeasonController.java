@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -115,14 +117,12 @@ public class SeasonController extends AbstractController {
 	@RequestMapping(value = "/publisher/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int seasonId) {
 		ModelAndView result;
+		SeasonForm form;
 		final Season season = this.seasonService.findOne(seasonId);
-		final SeasonForm form = this.seasonService.createForm(season);
 		final Serie serie = this.serieService.findSerieAssociated(seasonId);
 
-		serie.getSeasons().remove(season);
-		this.serieService.save(serie);
+		form = this.seasonService.deconstruct(season);
 		form.setSerieId(serie.getId());
-
 		result = this.createModelAndViewWithSystemConfiguration("season/publisher/edit");
 		result.addObject("season", form);
 		return result;
@@ -132,11 +132,10 @@ public class SeasonController extends AbstractController {
 	public ModelAndView adminEdit(@RequestParam final int seasonId) {
 		ModelAndView result;
 		final Season season = this.seasonService.findOne(seasonId);
-		final SeasonForm form = this.seasonService.createForm(season);
+		final SeasonForm form;
 		final Serie serie = this.serieService.findSerieAssociated(seasonId);
 
-		serie.getSeasons().remove(season);
-		this.serieService.save(serie);
+		form = this.seasonService.deconstruct(season);
 		form.setSerieId(serie.getId());
 
 		result = this.createModelAndViewWithSystemConfiguration("season/administrator/edit");
@@ -168,6 +167,8 @@ public class SeasonController extends AbstractController {
 				serie.setSeasons(seasons);
 				this.serieService.save(serie);
 				result = this.list(serie.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(season, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(season, "season.commit.error");
 			}
@@ -195,6 +196,8 @@ public class SeasonController extends AbstractController {
 				serie.setSeasons(seasons);
 				this.serieService.save(serie);
 				result = this.publicList(serie.getId());
+			} catch (final ValidationException oops) {
+				result = this.createAndEditModelAndView(season, "season.commit.error");
 			} catch (final Throwable oops) {
 				result = this.adminEditModelAndView(season, "season.commit.error");
 			}
