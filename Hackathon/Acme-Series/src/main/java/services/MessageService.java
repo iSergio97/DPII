@@ -117,4 +117,8 @@ public class MessageService extends AbstractService<MessageRepository, Message> 
 	public Collection<Message> getRecieved(final int id) {
 		return this.repository.getRecieved(id);
 	}
+
+	public Collection<Message> findAllMessages(final int id) {
+		return this.repository.findMessagesAll(id);
+	}
 }
