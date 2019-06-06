@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ChapterService;
-import services.SeasonService;
 import domain.Chapter;
 import domain.Season;
 import forms.ChapterForm;
+import services.ChapterService;
+import services.SeasonService;
 
 @Controller
 @RequestMapping("/chapter")
@@ -144,24 +144,6 @@ public class ChapterController extends AbstractController {
 		form.setSeasonId(s.getId());
 
 		result = this.createModelAndViewWithSystemConfiguration("chapter/publisher/edit");
-		result.addObject("chapter", form);
-
-		return result;
-	}
-
-	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
-	public ModelAndView adminEdit(@RequestParam final int chapterId) {
-		ModelAndView result;
-		Chapter chapter;
-		ChapterForm form;
-		final Season s = this.seasonService.findSeasonAssociated(chapterId);
-
-		chapter = this.chapterService.findOne(chapterId);
-		s.getChapters().remove(chapter);
-		form = this.chapterService.createForm(chapter);
-		form.setSeasonId(s.getId());
-
-		result = this.createModelAndViewWithSystemConfiguration("chapter/administrator/edit");
 		result.addObject("chapter", form);
 
 		return result;

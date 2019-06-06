@@ -17,14 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ApplicationService;
-import services.ChapterService;
-import services.CommentService;
-import services.CritiqueService;
-import services.PublisherService;
-import services.SeasonService;
-import services.SerieService;
-import services.UserService;
 import domain.Application;
 import domain.Chapter;
 import domain.Comment;
@@ -34,6 +26,14 @@ import domain.Season;
 import domain.Serie;
 import domain.User;
 import forms.SerieForm;
+import services.ApplicationService;
+import services.ChapterService;
+import services.CommentService;
+import services.CritiqueService;
+import services.PublisherService;
+import services.SeasonService;
+import services.SerieService;
+import services.UserService;
 
 @Controller
 @RequestMapping("/serie")
@@ -402,24 +402,21 @@ public class SerieController extends AbstractController {
 		ModelAndView result;
 		Serie serie;
 
-		serie = this.serieService.reconstruct(serieForm, binding);
-		if (binding.hasErrors())
-			result = this.createAndEditModelAndView(serieForm);
-		else
-			try {
-				if (serie.getSeasons().isEmpty()) {
-					final Season season = this.seasonService.create();
-					final Chapter chapter = this.chapterService.create();
-					season.getChapters().add(chapter);
-					serie.getSeasons().add(season);
-				}
-				this.serieService.save(serie);
-				result = this.publisherList();
-			} catch (final ValidationException oops) {
-				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
-			} catch (final Throwable oops) {
-				result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
+		try {
+			serie = this.serieService.reconstruct(serieForm, binding);
+			if (serie.getSeasons().isEmpty()) {
+				final Season season = this.seasonService.create();
+				final Chapter chapter = this.chapterService.create();
+				season.getChapters().add(chapter);
+				serie.getSeasons().add(season);
 			}
+			this.serieService.save(serie);
+			result = this.publisherList();
+		} catch (final ValidationException oops) {
+			result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
+		} catch (final Throwable oops) {
+			result = this.createAndEditModelAndView(serieForm, "serie.commit.error");
+		}
 		return result;
 	}
 
