@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+messages.xml
+
+Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd        
+	">
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="1" />
+		<property name="basenames" ref="messages" />
+		<property name="defaultEncoding" value="ISO-8859-1" />
+		<property name="fallbackToSystemLocale" value="false" />
+	</bean>
+
+</beans>
