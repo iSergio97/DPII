@@ -47,7 +47,7 @@ public class SponsorshipController extends AbstractController {
 		final Provider provider = this.providerService.findPrincipal();
 		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByProviderId(provider.getId());
 
-		result = new ModelAndView("sponsorship/provider/list");
+		result = this.createModelAndViewWithSystemConfiguration("sponsorship/provider/list");
 		result.addObject("sponsorships", sponsorships);
 
 		return result;
@@ -63,7 +63,7 @@ public class SponsorshipController extends AbstractController {
 		Sponsorship sponsorship;
 
 		sponsorship = this.sponsorshipService.findOne(sponsorshipId);
-		result = new ModelAndView("sponsorship/provider/show");
+		result = this.createModelAndViewWithSystemConfiguration("sponsorship/provider/show");
 		result.addObject("sponsorship", sponsorship);
 
 		return result;
@@ -95,7 +95,7 @@ public class SponsorshipController extends AbstractController {
 
 		form = this.sponsorshipService.deconstruct(sponsorship);
 
-		result = new ModelAndView("sponsorship/provider/edit");
+		result = this.createModelAndViewWithSystemConfiguration("sponsorship/provider/edit");
 		result.addObject("sponsorship", form);
 		result.addObject("positions", positions);
 
@@ -160,7 +160,7 @@ public class SponsorshipController extends AbstractController {
 		final ModelAndView result;
 		final Collection<Position> positions = this.positionService.findAll();
 
-		result = new ModelAndView("sponsorship/provider/create");
+		result = this.createModelAndViewWithSystemConfiguration("sponsorship/provider/create");
 		result.addObject("sponsorship", sponsorship);
 		result.addObject("positions", positions);
 		result.addObject("message", message);

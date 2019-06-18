@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Curriculum;
-import domain.EducationData;
-import forms.EducationDataForm;
 import security.LoginService;
 import services.CurriculumService;
 import services.EducationDataService;
+import domain.Curriculum;
+import domain.EducationData;
+import forms.EducationDataForm;
 
 @Controller
 @RequestMapping("/education-data/rookie")
-public class EducationDataController {
+public class EducationDataController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -74,7 +74,7 @@ public class EducationDataController {
 		educationDataForm.setCurriculumId(curriculumId);
 		Assert.notNull(educationData);
 		if (LoginService.getPrincipal().getId() != educationDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			result = this.createEditModelAndView(educationDataForm, "edit");
 
@@ -95,13 +95,13 @@ public class EducationDataController {
 		else
 			curriculumOwnerId = this.educationDataService.findOwner(educationDataForm.getId());
 		if (educationDataForm.getId() != 0 && LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				educationData = this.educationDataService.reconstruct(educationDataForm, binding);
 				curriculum = this.curriculumService.findOne(educationDataForm.getCurriculumId());
 				if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Save Personal Data
 					this.educationDataService.save(educationData);
@@ -113,7 +113,7 @@ public class EducationDataController {
 					curriculum.setEducationData(curriculumEducationDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(educationDataForm, "edit");
@@ -134,12 +134,12 @@ public class EducationDataController {
 
 		educationDataOwnerId = this.educationDataService.findOwner(educationDataForm.getId());
 		if (educationDataForm.getId() != 0 && LoginService.getPrincipal().getId() != educationDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				educationData = this.educationDataService.reconstruct(educationDataForm, binding);
 				if (LoginService.getPrincipal().getId() != educationDataOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Remove educationData from Curriculum
 					final Curriculum c = this.curriculumService.findOne(educationDataForm.getCurriculumId());
@@ -149,7 +149,7 @@ public class EducationDataController {
 					this.curriculumService.save(c);
 					// Delete educationData
 					this.educationDataService.delete(educationData);
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + educationDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(educationDataForm, "parade.commit.error", "edit");
@@ -167,7 +167,7 @@ public class EducationDataController {
 	protected ModelAndView createEditModelAndView(final EducationData educationData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("education-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("education-data/rookie/" + method);
 
 		result.addObject("educationData", educationData);
 
@@ -182,7 +182,7 @@ public class EducationDataController {
 	protected ModelAndView createEditModelAndView(final EducationDataForm educationDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("education-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("education-data/rookie/" + method);
 
 		result.addObject("educationData", educationDataForm);
 

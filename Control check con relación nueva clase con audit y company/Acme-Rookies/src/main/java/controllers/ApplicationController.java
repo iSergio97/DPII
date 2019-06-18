@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ApplicationService;
+import services.CompanyService;
+import services.CurriculumService;
+import services.PositionService;
+import services.RookieService;
 import domain.Application;
 import domain.Company;
 import domain.Curriculum;
@@ -25,11 +30,6 @@ import domain.Position;
 import domain.Problem;
 import domain.Rookie;
 import forms.ApplicationForm;
-import services.ApplicationService;
-import services.CompanyService;
-import services.CurriculumService;
-import services.PositionService;
-import services.RookieService;
 
 @Controller
 @RequestMapping("/application")
@@ -65,10 +65,10 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfRookie(rookie));
 
-		result = new ModelAndView("application/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/list");
 		result.addObject("pendingApplications", applications.get("PENDING"));
 		result.addObject("submittedApplications", applications.get("SUBMITTED"));
 		result.addObject("rejectedApplications", applications.get("REJECTED"));
@@ -87,14 +87,14 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getRookie().equals(rookie))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("application/show");
+		result = this.createModelAndViewWithSystemConfiguration("application/show");
 
 		result.addObject("application", application);
 
@@ -111,17 +111,17 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		position = this.positionService.findOne(positionId);
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
-			return new ModelAndView("redirect:/welcome/index.do");
-		result = new ModelAndView("application/rookie/create");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
+		result = this.createModelAndViewWithSystemConfiguration("application/rookie/create");
 
 		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByRookie(rookie);
 		if (curricula.size() == 0)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Map<Integer, String> curriculaMap = new HashMap<>();
 		for (final Curriculum curriculum : curricula)
@@ -142,15 +142,15 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		position = this.positionService.findOne(positionId);
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		curriculum = this.curriculumService.findOne(curriculumId);
 		if (curriculum == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!curriculum.getRookie().equals(rookie))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		// Copy curriculum and set rookie to null so it doesn't show up in the rookie's curriculums
 		curriculum = this.curriculumService.copy(curriculum);
@@ -158,7 +158,7 @@ public class ApplicationController extends AbstractController {
 		curriculum = this.curriculumService.save(curriculum);
 
 		final List<Problem> problems = (List<Problem>) position.getProblems();
-		int chosenProblemIndex = ThreadLocalRandom.current().nextInt(problems.size());
+		final int chosenProblemIndex = ThreadLocalRandom.current().nextInt(problems.size());
 		problem = problems.get(chosenProblemIndex);
 
 		// Create application
@@ -182,16 +182,16 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getRookie().equals(rookie))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getStatus().equals("PENDING"))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("application/rookie/submit");
+		result = this.createModelAndViewWithSystemConfiguration("application/rookie/submit");
 
 		result.addObject("applicationForm", this.applicationService.deconstruct(application));
 
@@ -206,21 +206,21 @@ public class ApplicationController extends AbstractController {
 
 		rookie = this.rookieService.findPrincipal();
 		if (rookie == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(applicationForm.getId());
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getRookie().equals(rookie))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getStatus().equals("PENDING"))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!bindingResult.hasErrors()) {
 			application = this.applicationService.reconstructForm(applicationForm, bindingResult);
 			application.setStatus("SUBMITTED");
 			application = this.applicationService.save(application);
 			result = this.rookieShow(application.getId());
 		} else {
-			result = new ModelAndView("application/rookie/submit");
+			result = this.createModelAndViewWithSystemConfiguration("application/rookie/submit");
 			result.addObject("applicationForm", applicationForm);
 		}
 
@@ -238,13 +238,13 @@ public class ApplicationController extends AbstractController {
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		position = this.positionService.findOne(positionId);
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		applications = ApplicationService.groupByStatus(this.applicationService.getApplicationsOfPosition(position));
 
-		result = new ModelAndView("application/list");
+		result = this.createModelAndViewWithSystemConfiguration("application/list");
 		result.addObject("pendingApplications", applications.get("PENDING"));
 		result.addObject("submittedApplications", applications.get("SUBMITTED"));
 		result.addObject("rejectedApplications", applications.get("REJECTED"));
@@ -263,14 +263,14 @@ public class ApplicationController extends AbstractController {
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getPosition().getCompany().equals(company))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("application/show");
+		result = this.createModelAndViewWithSystemConfiguration("application/show");
 
 		result.addObject("application", application);
 
@@ -286,12 +286,12 @@ public class ApplicationController extends AbstractController {
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getPosition().getCompany().equals(company))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		application.setStatus("ACCEPTED");
 		this.applicationService.save(application);
@@ -308,12 +308,12 @@ public class ApplicationController extends AbstractController {
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		application = this.applicationService.findOne(id);
 		if (application == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!application.getPosition().getCompany().equals(company))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		application.setStatus("REJECTED");
 		this.applicationService.save(application);

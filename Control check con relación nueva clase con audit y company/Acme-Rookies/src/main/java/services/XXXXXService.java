@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
@@ -10,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import repositories.XXXXXRepository;
+import domain.Audit;
+import domain.Company;
 import domain.XXXXX;
 import forms.XXXXXForm;
-import repositories.XXXXXRepository;
 
 @Service
 @Transactional
@@ -85,6 +88,14 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		return x;
 	}
 
+	public Collection<XXXXX> findByAudit(final Audit audit) {
+		return this.repository.findByAuditId(audit.getId());
+	}
+
+	public Collection<XXXXX> findByCompany(final Company company) {
+		return this.repository.findByCompanyId(company.getId());
+	}
+
 	//Generador de tickers con el patrón de YYMMDD-AAAAA
 	private void generateTicker(final XXXXX xxxxx) {
 		String ticker = "";
@@ -97,4 +108,5 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		while (this.repository.findByTicker(ticker).size() > 0);
 		xxxxx.setTicker(ticker);
 	}
+
 }

@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Curriculum;
-import domain.PersonalData;
-import domain.Rookie;
-import forms.PersonalDataForm;
 import security.LoginService;
 import services.CurriculumService;
 import services.PersonalDataService;
 import services.RookieService;
+import domain.Curriculum;
+import domain.PersonalData;
+import domain.Rookie;
+import forms.PersonalDataForm;
 
 @Controller
 @RequestMapping("/personal-data/rookie")
-public class PersonalDataController {
+public class PersonalDataController extends AbstractController {
 
 	@Autowired
 	private PersonalDataService	personalDataService;
@@ -69,9 +69,9 @@ public class PersonalDataController {
 				this.curriculumService.saveAllCr(cr);
 				cr.setName(personalData.getCurriculumName());
 				this.curriculumService.save(cr);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 			} else
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException valExp) {
 			result = this.createEditModelAndView(personalData);
 		} catch (final Throwable ops) {
@@ -91,7 +91,7 @@ public class PersonalDataController {
 			ls.add(c.getPersonalData().getId());
 
 		if (!ls.contains(personalDataID))
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else {
 			final PersonalData pd = this.personalDataService.findOne(personalDataID);
 			final PersonalDataForm pdForm = this.personalDataService.deconstruct(pd);
@@ -108,7 +108,7 @@ public class PersonalDataController {
 	protected ModelAndView createEditModelAndView(final PersonalDataForm pdForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("personal-data/rookie/edit");
+		result = this.createModelAndViewWithSystemConfiguration("personal-data/rookie/edit");
 
 		result.addObject("personalData", pdForm);
 

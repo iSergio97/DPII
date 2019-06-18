@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Actor;
-import domain.Message;
-import domain.MessageBox;
 import security.LoginService;
 import services.ActorService;
 import services.MessageBoxService;
 import services.MessageService;
+import domain.Actor;
+import domain.Message;
+import domain.MessageBox;
 
 @Controller
 @RequestMapping("/message-box/all")
-public class MessageBoxController {
+public class MessageBoxController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -53,10 +53,10 @@ public class MessageBoxController {
 		try {
 			final Collection<MessageBox> messageBoxes = this.messageBoxService.findMessageBoxes(LoginService.getPrincipal().getId());
 
-			result = new ModelAndView("message-box/all/list");
+			result = this.createModelAndViewWithSystemConfiguration("message-box/all/list");
 			result.addObject("messageBoxes", messageBoxes);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect::/welcome");
+			result = this.createModelAndViewWithSystemConfiguration("redirect::/welcome");
 		}
 
 		return result;
@@ -101,7 +101,7 @@ public class MessageBoxController {
 		else
 			try {
 				this.messageBoxService.save(messageBox);
-				result = new ModelAndView("redirect:list.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 			}
@@ -117,7 +117,7 @@ public class MessageBoxController {
 
 		try {
 			this.messageBoxService.delete(messageBox);
-			result = new ModelAndView("redirect:list.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(messageBox, "messageBox.commit.error", "edit");
 		}
@@ -143,7 +143,7 @@ public class MessageBoxController {
 
 			result.addObject("messageCode", null);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect::/welcome");
+			result = this.createModelAndViewWithSystemConfiguration("redirect::/welcome");
 		}
 
 		return result;
@@ -170,7 +170,7 @@ public class MessageBoxController {
 		messages = this.messageService.findMessages(messageBox.getId());
 
 		// Ligera modificación por motivos de tiles.xml (<h1>)
-		result = new ModelAndView("message-box/all/" + viewName);
+		result = this.createModelAndViewWithSystemConfiguration("message-box/all/" + viewName);
 		result.addObject("messageBox", messageBox);
 		result.addObject("name", name);
 		result.addObject("actor", actor);

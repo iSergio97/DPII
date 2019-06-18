@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.UserAccount;
+import security.UserAccountRepository;
+import services.AdministratorService;
+import services.AuditorService;
+import services.CompanyService;
+import services.MessageBoxService;
+import services.ProviderService;
+import services.RookieService;
 import domain.Administrator;
 import domain.Auditor;
 import domain.Company;
@@ -24,18 +32,10 @@ import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
 import forms.RegisterProviderForm;
 import forms.RegisterRookieForm;
-import security.UserAccount;
-import security.UserAccountRepository;
-import services.AdministratorService;
-import services.AuditorService;
-import services.CompanyService;
-import services.MessageBoxService;
-import services.ProviderService;
-import services.RookieService;
 
 @Controller
 @RequestMapping("/register")
-public class RegisterController {
+public class RegisterController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
@@ -105,7 +105,7 @@ public class RegisterController {
 					mb.setActor(rookieSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerRookieForm);
 		} catch (final Throwable valExp) {
@@ -148,7 +148,7 @@ public class RegisterController {
 					mb.setActor(companySaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerCompanyForm);
 		} catch (final Throwable valExp) {
@@ -197,7 +197,7 @@ public class RegisterController {
 					mb.setActor(auditorSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerAuditorForm);
 		} catch (final Throwable valExp) {
@@ -247,7 +247,7 @@ public class RegisterController {
 					mb.setActor(providerSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerProviderForm);
 		} catch (final Throwable valExp) {
@@ -295,7 +295,7 @@ public class RegisterController {
 					mb.setActor(administratorSaved);
 					this.messageBoxService.save(mb);
 				}
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(registerAdministratorForm);
 		} catch (final Throwable valExp) {
@@ -327,19 +327,19 @@ public class RegisterController {
 		ModelAndView result = null;
 
 		if (t instanceof RegisterAdministratorForm) {
-			result = new ModelAndView("register/administrator/create");
+			result = this.createModelAndViewWithSystemConfiguration("register/administrator/create");
 			result.addObject("administrator", t);
 		} else if (t instanceof RegisterAuditorForm) {
-			result = new ModelAndView("register/auditor/create");
+			result = this.createModelAndViewWithSystemConfiguration("register/auditor/create");
 			result.addObject("auditor", t);
 		} else if (t instanceof RegisterRookieForm) {
-			result = new ModelAndView("register/rookie/create");
+			result = this.createModelAndViewWithSystemConfiguration("register/rookie/create");
 			result.addObject("rookie", t);
 		} else if (t instanceof RegisterCompanyForm) {
-			result = new ModelAndView("register/company/create");
+			result = this.createModelAndViewWithSystemConfiguration("register/company/create");
 			result.addObject("company", t);
 		} else if (t instanceof RegisterProviderForm) {
-			result = new ModelAndView("register/provider/create");
+			result = this.createModelAndViewWithSystemConfiguration("register/provider/create");
 			result.addObject("provider", t);
 		}
 

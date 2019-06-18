@@ -18,7 +18,7 @@ import domain.Position;
 
 @Controller
 @RequestMapping("/company")
-public class CompanyController {
+public class CompanyController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -43,7 +43,7 @@ public class CompanyController {
 		ModelAndView res;
 		final Collection<Company> companies = this.companyService.findAll();
 
-		res = new ModelAndView("company/all/list");
+		res = this.createModelAndViewWithSystemConfiguration("company/all/list");
 		res.addObject("companies", companies);
 		res.addObject("scoresByCompany", this.auditService.getScoresByCompany());
 
@@ -59,7 +59,7 @@ public class CompanyController {
 		final Company company = this.companyService.findOne(companyId);
 		final Collection<Position> positions = this.positionService.findPositionsForPublic(company);
 
-		res = new ModelAndView("company/all/show");
+		res = this.createModelAndViewWithSystemConfiguration("company/all/show");
 		res.addObject("positions", positions);
 		return res;
 	}

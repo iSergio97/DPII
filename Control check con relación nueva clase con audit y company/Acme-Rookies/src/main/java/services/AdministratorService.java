@@ -1,6 +1,6 @@
 /*
  * AdministratorService.java
- *
+ * 
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
@@ -13,31 +13,33 @@ import java.util.List;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import domain.Administrator;
-import domain.CreditCard;
-import forms.RegisterAdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import domain.Administrator;
+import domain.CreditCard;
+import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
 public class AdministratorService extends AbstractService<AdministratorRepository, Administrator> {
 
 	@Autowired
-	private UserAccountRepository userAccountRepository;
+	private UserAccountRepository	userAccountRepository;
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// CRUD methods
-
 
 	@Override
 	public Administrator create() {
@@ -243,8 +245,15 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 	}
 
 	public Administrator findPrincipal() {
-		final UserAccount userAccount = LoginService.getPrincipal();
-		return this.findByUserAccountId(userAccount.getId());
+		if (SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)
+			return null;
+		else {
+			final UserAccount userAccount = LoginService.getPrincipal();
+			for (final Authority authority : userAccount.getAuthorities())
+				if (authority.getAuthority().equals(Authority.ADMINISTRATOR))
+					return this.findByUserAccountId(userAccount.getId());
+			return null;
+		}
 	}
 
 }

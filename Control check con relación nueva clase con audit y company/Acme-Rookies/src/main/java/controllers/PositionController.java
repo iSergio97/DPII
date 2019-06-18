@@ -74,7 +74,7 @@ public class PositionController extends AbstractController {
 			final PositionForm posForm = this.positionService.deconstruct(pos);
 			res = this.createEditModelAndView(posForm);
 		} else
-			res = new ModelAndView("redirect:../welcome/index.do");
+			res = this.createModelAndViewWithSystemConfiguration("redirect:../welcome/index.do");
 
 		return res;
 	}
@@ -92,7 +92,7 @@ public class PositionController extends AbstractController {
 				final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 				if (company != null && (pos.getCompany().equals(company) && pos.getIsDraft()))
 					this.positionService.save(pos);
-				result = new ModelAndView("redirect:list.do");
+				result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 			} catch (final ValidationException valExp) {
 				result = this.createEditModelAndView(positionForm);
 			} catch (final Throwable oops) {
@@ -111,7 +111,7 @@ public class PositionController extends AbstractController {
 			pos.setStatus("ACCEPTED");
 			this.positionService.save(pos);
 		}
-		return new ModelAndView("redirect:list.do");
+		return this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 	}
 
 	// Cancel -------------------------------------------------------------------
@@ -123,14 +123,14 @@ public class PositionController extends AbstractController {
 			pos.setStatus("CANCELLED");
 			this.positionService.save(pos);
 		}
-		return new ModelAndView("redirect:list.do");
+		return this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 	}
 
 	// Show -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam final int positionId) {
-		ModelAndView result = new ModelAndView("redirect:list.do");
+		ModelAndView result = this.createModelAndViewWithSystemConfiguration("redirect:list.do");
 		Position position;
 		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByPositionId(positionId);
 
@@ -143,7 +143,7 @@ public class PositionController extends AbstractController {
 		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
 		if (position != null && position.getCompany() == company) {
-			result = new ModelAndView("position/company/show");
+			result = this.createModelAndViewWithSystemConfiguration("position/company/show");
 			result.addObject("position", position);
 			result.addObject("draft", position.getIsDraft());
 			result.addObject("problems", position.getProblems());
@@ -162,7 +162,7 @@ public class PositionController extends AbstractController {
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Collection<Position> pos = this.positionService.findPositionsByCompany(company);
 
-		result = new ModelAndView("position/company/list");
+		result = this.createModelAndViewWithSystemConfiguration("position/company/list");
 
 		result.addObject("positions", pos);
 
@@ -176,7 +176,7 @@ public class PositionController extends AbstractController {
 		ModelAndView res;
 		final Collection<Position> positions;
 		positions = this.positionService.findAll();
-		res = new ModelAndView("position/all/list");
+		res = this.createModelAndViewWithSystemConfiguration("position/all/list");
 		res.addObject("positions", positions);
 
 		return res;
@@ -190,7 +190,7 @@ public class PositionController extends AbstractController {
 			positions = this.positionService.findAll();
 		else
 			positions = this.positionService.searchQuery(keyword);
-		res = new ModelAndView("position/all/list");
+		res = this.createModelAndViewWithSystemConfiguration("position/all/list");
 		res.addObject("positions", positions);
 
 		return res;
@@ -203,7 +203,7 @@ public class PositionController extends AbstractController {
 		ModelAndView res;
 		final Position p = this.positionService.findOne(positionId);
 		final Company company = p.getCompany();
-		res = new ModelAndView("position/all/show-company");
+		res = this.createModelAndViewWithSystemConfiguration("position/all/show-company");
 		res.addObject("company", company);
 		return res;
 	}
@@ -224,7 +224,7 @@ public class PositionController extends AbstractController {
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
 		problems = this.positionService.findProblemsByCompany(company);
 
-		result = new ModelAndView("position/company/create");
+		result = this.createModelAndViewWithSystemConfiguration("position/company/create");
 		result.addObject("problems", problems);
 		result.addObject("message", message);
 		result.addObject("position", position);

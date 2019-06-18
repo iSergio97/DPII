@@ -33,7 +33,7 @@ public class ProviderController extends AbstractController {
 		ModelAndView result;
 		final Collection<Provider> providers = this.providerService.findAll();
 
-		result = new ModelAndView("provider/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("provider/public/list");
 		result.addObject("providers", providers);
 
 		return result;
@@ -44,7 +44,7 @@ public class ProviderController extends AbstractController {
 		ModelAndView result;
 		final Provider provider = this.providerService.findOne(providerId);
 
-		result = new ModelAndView("provider/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("provider/public/show");
 		result.addObject("provider", provider);
 
 		return result;

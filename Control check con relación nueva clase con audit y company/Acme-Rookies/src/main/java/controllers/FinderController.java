@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Finder;
-import domain.Position;
-import domain.Rookie;
-import forms.FinderForm;
 import services.FinderService;
 import services.PositionService;
 import services.RookieService;
 import services.SystemConfigurationService;
+import domain.Finder;
+import domain.Position;
+import domain.Rookie;
+import forms.FinderForm;
 
 @Controller
 @RequestMapping("/finder")
@@ -69,7 +69,7 @@ public class FinderController extends AbstractController {
 			positions = this.positionService.findAll();
 			if (now.before(overCache) && !finder.getPositions().isEmpty())
 				positions.retainAll(finder.getPositions());
-			result = new ModelAndView("/finder/list");
+			result = this.createModelAndViewWithSystemConfiguration("/finder/list");
 			result.addObject("positions", positions);
 			result.addObject("requestURI", "finder/list.do");
 		}
@@ -82,8 +82,8 @@ public class FinderController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		FinderForm finder;
-		Rookie rookie = this.rookieService.findPrincipal();
-		Finder finder2 = finderService.findPrincipal(rookie.getId());
+		final Rookie rookie = this.rookieService.findPrincipal();
+		final Finder finder2 = this.finderService.findPrincipal(rookie.getId());
 		if (finder2 == null) {
 			finder = this.finderService.createForm();
 			result = this.createAndEditModelAndView(finder);
@@ -100,29 +100,27 @@ public class FinderController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("finder") final FinderForm finder, final BindingResult binding) {
 		ModelAndView result;
 		Finder finder2;
-		Date date = new Date();
+		final Date date = new Date();
 		Collection<Position> positions;
 		try {
 			finder2 = this.finderService.reconstruct(finder, binding);
 			//finder2.setMoment(finder2.getMoment().getSeconds() + scs);
 			//Revisar esta parte para el finder
-			finder2.getMoment().setHours(finder2.getMoment().getHours() + scs.getSystemConfiguration().getFinderCacheTime());
+			finder2.getMoment().setHours(finder2.getMoment().getHours() + this.scs.getSystemConfiguration().getFinderCacheTime());
 			if (finder2.getMoment().compareTo(date) < 0 || finder2.getId() == 0) {
 				positions = this.finderService.findPositions("%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%",
 					"%'" + finder.getKeyword() + "'%", finder.getDeadline(), finder.getMaximumDeadline(), finder.getMinimumSalary());
 				if (positions.isEmpty())
 					positions = this.positionService.findAll();
 				finder2.setMoment(new Date());
-				List<Position> subList = new ArrayList<>(positions);
-				if (positions.size() > scs.getSystemConfiguration().getMaximumFinderResults()) {
-					finder2.setPositions(subList.subList(0, scs.getSystemConfiguration().getMaximumFinderResults()));
-				} else {
+				final List<Position> subList = new ArrayList<>(positions);
+				if (positions.size() > this.scs.getSystemConfiguration().getMaximumFinderResults())
+					finder2.setPositions(subList.subList(0, this.scs.getSystemConfiguration().getMaximumFinderResults()));
+				else
 					finder2.setPositions(positions);
-				}
 				this.finderService.save(finder2);
-			} else {
+			} else
 				positions = finder2.getPositions();
-			}
 
 			result = this.list();
 		} catch (final Throwable oops) {
@@ -144,7 +142,7 @@ public class FinderController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final FinderForm finder, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("/finder/create");
+		result = this.createModelAndViewWithSystemConfiguration("/finder/create");
 		result.addObject("finder", finder);
 		result.addObject("message", message);
 

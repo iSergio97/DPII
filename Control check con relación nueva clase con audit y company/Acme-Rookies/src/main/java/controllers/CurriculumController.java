@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
+import services.CurriculumService;
+import services.PersonalDataService;
+import services.RookieService;
 import domain.Curriculum;
 import domain.EducationData;
 import domain.MiscellaneousData;
@@ -17,14 +21,10 @@ import domain.PersonalData;
 import domain.PositionData;
 import domain.Rookie;
 import forms.PersonalDataForm;
-import security.LoginService;
-import services.CurriculumService;
-import services.PersonalDataService;
-import services.RookieService;
 
 @Controller
 @RequestMapping("/curriculum/rookie")
-public class CurriculumController {
+public class CurriculumController extends AbstractController {
 
 	@Autowired
 	private CurriculumService	curriculumService;
@@ -58,7 +58,7 @@ public class CurriculumController {
 		final Rookie rookie = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
 		final Collection<Curriculum> curricula = this.curriculumService.findCurriculaByRookie(rookie);
 
-		result = new ModelAndView("curriculum/rookie/list");
+		result = this.createModelAndViewWithSystemConfiguration("curriculum/rookie/list");
 		result.addObject("curricula", curricula);
 
 		return result;
@@ -71,9 +71,9 @@ public class CurriculumController {
 		final Rookie rookie = curriculum.getRookie();
 		final Rookie principal = this.rookieService.findByUserAccountId(LoginService.getPrincipal().getId());
 		if (rookie != principal)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else {
-			result = new ModelAndView("curriculum/rookie/show");
+			result = this.createModelAndViewWithSystemConfiguration("curriculum/rookie/show");
 
 			final PersonalData personalData = curriculum.getPersonalData();
 			final Collection<MiscellaneousData> miscellaneousDataList = curriculum.getMiscellaneousData();
@@ -98,7 +98,7 @@ public class CurriculumController {
 	protected ModelAndView createEditModelAndView(final PersonalDataForm personalDataForm, final String message) {
 		ModelAndView result;
 
-		result = new ModelAndView("curriculum/rookie/create");
+		result = this.createModelAndViewWithSystemConfiguration("curriculum/rookie/create");
 
 		result.addObject("personalData", personalDataForm);
 

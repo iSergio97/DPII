@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Curriculum;
-import domain.PositionData;
-import forms.PositionDataForm;
 import security.LoginService;
 import services.CurriculumService;
 import services.PositionDataService;
+import domain.Curriculum;
+import domain.PositionData;
+import forms.PositionDataForm;
 
 @Controller
 @RequestMapping("/position-data/rookie")
-public class PositionDataController {
+public class PositionDataController extends AbstractController {
+
 	// Services ---------------------------------------------------------------
 
 	@Autowired
@@ -73,7 +74,7 @@ public class PositionDataController {
 		positionDataForm.setCurriculumId(curriculumId);
 		Assert.notNull(positionData);
 		if (LoginService.getPrincipal().getId() != positionDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			result = this.createEditModelAndView(positionDataForm, "edit");
 
@@ -94,13 +95,13 @@ public class PositionDataController {
 		else
 			curriculumOwnerId = this.positionDataService.findOwner(positionDataForm.getId());
 		if (positionDataForm.getId() != 0 && LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				positionData = this.positionDataService.reconstruct(positionDataForm, binding);
 				curriculum = this.curriculumService.findOne(positionDataForm.getCurriculumId());
 				if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Save Position Data
 					this.positionDataService.save(positionData);
@@ -112,7 +113,7 @@ public class PositionDataController {
 					curriculum.setPositionData(curriculumPositionDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(positionDataForm, "edit");
@@ -133,12 +134,12 @@ public class PositionDataController {
 
 		positionDataOwnerId = this.positionDataService.findOwner(positionDataForm.getId());
 		if (positionDataForm.getId() != 0 && LoginService.getPrincipal().getId() != positionDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				positionData = this.positionDataService.reconstruct(positionDataForm, binding);
 				if (LoginService.getPrincipal().getId() != positionDataOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Remove positionData from Curriculum
 					final Curriculum c = this.curriculumService.findOne(positionDataForm.getCurriculumId());
@@ -148,7 +149,7 @@ public class PositionDataController {
 					this.curriculumService.save(c);
 					// Delete positionData
 					this.positionDataService.delete(positionData);
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + positionDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(positionDataForm, "parade.commit.error", "edit");
@@ -166,7 +167,7 @@ public class PositionDataController {
 	protected ModelAndView createEditModelAndView(final PositionData positionData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("position-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("position-data/rookie/" + method);
 
 		result.addObject("positionData", positionData);
 
@@ -181,7 +182,7 @@ public class PositionDataController {
 	protected ModelAndView createEditModelAndView(final PositionDataForm positionDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("position-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("position-data/rookie/" + method);
 
 		result.addObject("positionData", positionDataForm);
 

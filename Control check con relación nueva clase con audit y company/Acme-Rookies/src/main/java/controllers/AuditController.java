@@ -48,9 +48,9 @@ public class AuditController extends AbstractController {
 
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("audit/list");
+		result = this.createModelAndViewWithSystemConfiguration("audit/list");
 
 		result.addObject("audits", this.auditService.getAuditsOfAuditor(auditor));
 
@@ -63,11 +63,11 @@ public class AuditController extends AbstractController {
 
 		final Position position = this.positionService.findOne(positionId);
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("audit/list");
+		result = this.createModelAndViewWithSystemConfiguration("audit/list");
 
 		result.addObject("audits", this.auditService.getAuditsOfPosition(position));
 
@@ -82,15 +82,15 @@ public class AuditController extends AbstractController {
 
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Audit audit = this.auditService.findOne(auditId);
 		if (audit == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getAuditor().equals(auditor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("audit/show");
+		result = this.createModelAndViewWithSystemConfiguration("audit/show");
 
 		result.addObject("audit", audit);
 
@@ -105,15 +105,15 @@ public class AuditController extends AbstractController {
 
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Position position = this.positionService.findOne(positionId);
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("audit/edit");
+		result = this.createModelAndViewWithSystemConfiguration("audit/edit");
 
 		final AuditForm auditForm = this.auditService.createForm();
 		auditForm.setPositionId(positionId);
@@ -131,17 +131,17 @@ public class AuditController extends AbstractController {
 
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Audit audit = this.auditService.findOne(auditId);
 		if (audit == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getAuditor().equals(auditor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = new ModelAndView("audit/edit");
+		result = this.createModelAndViewWithSystemConfiguration("audit/edit");
 
 		result.addObject("auditForm", this.auditService.deconstruct(audit));
 
@@ -156,22 +156,22 @@ public class AuditController extends AbstractController {
 
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Position position = this.positionService.findOne(auditForm.getPositionId());
 		if (position == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!position.getStatus().equals("ACCEPTED"))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		if (auditForm.getId() != 0) {
 			final Audit audit = this.auditService.findOne(auditForm.getId());
 			if (audit == null)
-				return new ModelAndView("redirect:/welcome/index.do");
+				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 			if (!audit.getIsDraft())
-				return new ModelAndView("redirect:/welcome/index.do");
+				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 			if (!audit.getAuditor().equals(auditor))
-				return new ModelAndView("redirect:/welcome/index.do");
+				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		}
 
 		if (!bindingResult.hasErrors()) {
@@ -180,7 +180,7 @@ public class AuditController extends AbstractController {
 			audit = this.auditService.save(audit);
 			result = this.show(audit.getId());
 		} else {
-			result = new ModelAndView("audit/edit");
+			result = this.createModelAndViewWithSystemConfiguration("audit/edit");
 			result.addObject("auditForm", auditForm);
 		}
 
@@ -193,15 +193,15 @@ public class AuditController extends AbstractController {
 	public ModelAndView saveAsFinal(@RequestParam(value = "auditId") final int auditId) {
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Audit audit = this.auditService.findOne(auditId);
 		if (audit == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getAuditor().equals(auditor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		audit.setIsDraft(false);
 		this.auditService.save(audit);
@@ -215,15 +215,15 @@ public class AuditController extends AbstractController {
 	public ModelAndView delete(@RequestParam(value = "auditId") final int auditId) {
 		final Auditor auditor = this.auditorService.findPrincipal();
 		if (auditor == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		final Audit audit = this.auditService.findOne(auditId);
 		if (audit == null)
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getIsDraft())
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		if (!audit.getAuditor().equals(auditor))
-			return new ModelAndView("redirect:/welcome/index.do");
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		this.auditService.delete(audit);
 

@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Curriculum;
-import domain.MiscellaneousData;
-import forms.MiscellaneousDataForm;
 import security.LoginService;
 import services.CurriculumService;
 import services.MiscellaneousDataService;
+import domain.Curriculum;
+import domain.MiscellaneousData;
+import forms.MiscellaneousDataForm;
 
 @Controller
 @RequestMapping("/miscellaneous-data/rookie")
-public class MiscellaneousDataController {
+public class MiscellaneousDataController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -74,7 +74,7 @@ public class MiscellaneousDataController {
 		miscellaneousDataForm.setCurriculumId(curriculumId);
 		Assert.notNull(miscellaneousData);
 		if (LoginService.getPrincipal().getId() != miscellaneousDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			result = this.createEditModelAndView(miscellaneousDataForm, "edit");
 
@@ -95,13 +95,13 @@ public class MiscellaneousDataController {
 		else
 			curriculumOwnerId = this.miscellaneousDataService.findOwner(miscellaneousDataForm.getId());
 		if (miscellaneousDataForm.getId() != 0 && LoginService.getPrincipal().getId() != curriculumOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				miscellaneousData = this.miscellaneousDataService.reconstruct(miscellaneousDataForm, binding);
 				curriculum = this.curriculumService.findOne(miscellaneousDataForm.getCurriculumId());
 				if (LoginService.getPrincipal().getId() != curriculumOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Save Misc Data
 					this.miscellaneousDataService.save(miscellaneousData);
@@ -113,7 +113,7 @@ public class MiscellaneousDataController {
 					curriculum.setMiscellaneousData(curriculumMiscellaneousDataList);
 					this.curriculumService.save(curriculum);
 
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final ValidationException oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "edit");
@@ -134,12 +134,12 @@ public class MiscellaneousDataController {
 
 		miscellaneousDataOwnerId = this.miscellaneousDataService.findOwner(miscellaneousDataForm.getId());
 		if (miscellaneousDataForm.getId() != 0 && LoginService.getPrincipal().getId() != miscellaneousDataOwnerId)
-			result = new ModelAndView("redirect:/welcome/index.do");
+			result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		else
 			try {
 				miscellaneousData = this.miscellaneousDataService.reconstruct(miscellaneousDataForm, binding);
 				if (LoginService.getPrincipal().getId() != miscellaneousDataOwnerId)
-					result = new ModelAndView("redirect:/welcome/index.do");
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 				else {
 					// Remove miscellaneousData from Curriculum
 					final Curriculum c = this.curriculumService.findOne(miscellaneousDataForm.getCurriculumId());
@@ -149,7 +149,7 @@ public class MiscellaneousDataController {
 					this.curriculumService.save(c);
 					// Delete miscellaneousData
 					this.miscellaneousDataService.delete(miscellaneousData);
-					result = new ModelAndView("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
+					result = this.createModelAndViewWithSystemConfiguration("redirect:/curriculum/rookie/show.do" + "?curriculumId=" + miscellaneousDataForm.getCurriculumId());
 				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(miscellaneousDataForm, "parade.commit.error", "edit");
@@ -167,7 +167,7 @@ public class MiscellaneousDataController {
 	protected ModelAndView createEditModelAndView(final MiscellaneousData miscellaneousData, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("miscellaneous-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("miscellaneous-data/rookie/" + method);
 
 		result.addObject("miscellaneousData", miscellaneousData);
 
@@ -182,7 +182,7 @@ public class MiscellaneousDataController {
 	protected ModelAndView createEditModelAndView(final MiscellaneousDataForm miscellaneousDataForm, final String messageCode, final String method) {
 		ModelAndView result;
 
-		result = new ModelAndView("miscellaneous-data/rookie/" + method);
+		result = this.createModelAndViewWithSystemConfiguration("miscellaneous-data/rookie/" + method);
 
 		result.addObject("miscellaneousData", miscellaneousDataForm);
 

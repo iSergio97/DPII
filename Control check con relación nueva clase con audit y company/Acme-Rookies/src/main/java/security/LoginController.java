@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
 import services.ActorService;
+import controllers.AbstractController;
 
 @Controller
 @RequestMapping("/security")
@@ -45,12 +45,12 @@ public class LoginController extends AbstractController {
 	// Login ------------------------------------------------------------------
 
 	@RequestMapping("/login")
-	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) boolean showError) {
+	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult, @RequestParam(required = false) final boolean showError) {
 		Assert.notNull(credentials);
 		Assert.notNull(bindingResult);
 
 		ModelAndView result;
-		result = new ModelAndView("security/login");
+		result = this.createModelAndViewWithSystemConfiguration("security/login");
 		result.addObject("credentials", credentials);
 		result.addObject("showError", showError);
 
@@ -64,7 +64,7 @@ public class LoginController extends AbstractController {
 	 * if(a == b) {
 	 * 
 	 * } else {
-	 * result = new ModelAndView("j_spring_security_check");
+	 * result = createModelAndViewWithSystemConfiguration("j_spring_security_check");
 	 * }
 	 * }
 	 */
@@ -74,7 +74,7 @@ public class LoginController extends AbstractController {
 	public ModelAndView failure() {
 		ModelAndView result;
 
-		result = new ModelAndView("redirect:login.do?showError=true");
+		result = this.createModelAndViewWithSystemConfiguration("redirect:login.do?showError=true");
 
 		return result;
 	}

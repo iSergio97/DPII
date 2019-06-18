@@ -24,7 +24,7 @@ public class ProfileController extends AbstractController {
 	public ModelAndView action1() {
 		ModelAndView result;
 
-		result = new ModelAndView("profile/action-1");
+		result = this.createModelAndViewWithSystemConfiguration("profile/action-1");
 
 		return result;
 	}
@@ -35,7 +35,7 @@ public class ProfileController extends AbstractController {
 	public ModelAndView action2() {
 		ModelAndView result;
 
-		result = new ModelAndView("profile/action-2");
+		result = this.createModelAndViewWithSystemConfiguration("profile/action-2");
 
 		return result;
 	}

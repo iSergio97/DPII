@@ -49,7 +49,7 @@ public class ItemController extends AbstractController {
 		final Provider provider = this.providerService.findPrincipal();
 		final Collection<Item> items = this.itemService.findByProviderId(provider.getId());
 
-		result = new ModelAndView("item/provider/list");
+		result = this.createModelAndViewWithSystemConfiguration("item/provider/list");
 		result.addObject("items", items);
 
 		return result;
@@ -60,7 +60,7 @@ public class ItemController extends AbstractController {
 		ModelAndView result;
 		final Collection<Item> items = this.itemService.findAll();
 
-		result = new ModelAndView("item/public/list");
+		result = this.createModelAndViewWithSystemConfiguration("item/public/list");
 		result.addObject("items", items);
 
 		return result;
@@ -71,7 +71,7 @@ public class ItemController extends AbstractController {
 		ModelAndView result;
 		final Collection<Item> items = this.itemService.findByProviderId(providerId);
 
-		result = new ModelAndView("item/public/listP");
+		result = this.createModelAndViewWithSystemConfiguration("item/public/listP");
 		result.addObject("items", items);
 
 		return result;
@@ -88,7 +88,7 @@ public class ItemController extends AbstractController {
 		item = this.itemService.findOne(itemId);
 		Assert.notNull(item);
 
-		result = new ModelAndView("item/provider/show");
+		result = this.createModelAndViewWithSystemConfiguration("item/provider/show");
 		result.addObject("item", item);
 
 		return result;
@@ -99,7 +99,7 @@ public class ItemController extends AbstractController {
 		ModelAndView result;
 		final Item item = this.itemService.findOne(itemId);
 
-		result = new ModelAndView("item/public/show");
+		result = this.createModelAndViewWithSystemConfiguration("item/public/show");
 		result.addObject("item", item);
 
 		return result;
@@ -130,7 +130,7 @@ public class ItemController extends AbstractController {
 		item = this.itemService.findOne(itemId);
 		Assert.notNull(item);
 
-		result = new ModelAndView("item/provider/edit");
+		result = this.createModelAndViewWithSystemConfiguration("item/provider/edit");
 		result.addObject("item", item);
 
 		return result;
@@ -191,7 +191,7 @@ public class ItemController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final ItemForm item, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("item/provider/create");
+		result = this.createModelAndViewWithSystemConfiguration("item/provider/create");
 		result.addObject("item", item);
 		result.addObject("message", message);
 

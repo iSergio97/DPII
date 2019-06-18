@@ -53,7 +53,7 @@ public class ProblemController extends AbstractController {
 		position = this.positionService.findOne(positionId);
 		problems = position.getProblems();
 
-		result = new ModelAndView("problem/list");
+		result = this.createModelAndViewWithSystemConfiguration("problem/list");
 		result.addObject("problems", problems);
 		result.addObject("positionId", positionId);
 		result.addObject("requestURI", "problem/list.do");
@@ -71,7 +71,7 @@ public class ProblemController extends AbstractController {
 		problem = this.problemService.findOne(problemId);
 		Assert.notNull(problem);
 
-		result = new ModelAndView("/problem/show");
+		result = this.createModelAndViewWithSystemConfiguration("/problem/show");
 
 		result.addObject("problem", problem);
 
@@ -109,7 +109,7 @@ public class ProblemController extends AbstractController {
 
 		Assert.isTrue(problem.getIsDraft());
 
-		result = new ModelAndView("/problem/edit");
+		result = this.createModelAndViewWithSystemConfiguration("/problem/edit");
 		result.addObject("problem", form);
 
 		return result;
@@ -179,7 +179,7 @@ public class ProblemController extends AbstractController {
 				p.getProblems().remove(problem);
 				this.positionService.save(p);
 				this.problemService.delete(problem);
-				result = new ModelAndView("redirect:/problem/list.do?positionId=" + p.getId());
+				result = this.createModelAndViewWithSystemConfiguration("redirect:/problem/list.do?positionId=" + p.getId());
 
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problemForm, "parade.commit.error");
@@ -200,7 +200,7 @@ public class ProblemController extends AbstractController {
 	protected ModelAndView createAndEditModelAndView(final ProblemForm problem, final String message) {
 		final ModelAndView result;
 
-		result = new ModelAndView("/problem/create");
+		result = this.createModelAndViewWithSystemConfiguration("/problem/create");
 		result.addObject("problem", problem);
 		result.addObject("message", message);
 
