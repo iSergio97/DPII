@@ -40,28 +40,38 @@
 		<display:column property="title" sortable="true" sortName="title">
 			<jstl:out value="${row.title}" />
 		</display:column>
+		
 		<display:column property="description" sortable="true"
 			sortName="description">
 			<jstl:out value="${row.description}" />
 		</display:column>
+		
 		<display:column property="deadline" sortable="true"
 			sortName="deadline">
 			<jstl:out value="${row.deadline }" />
 		</display:column>
+		
 		<display:column property="profile" sortable="true" sortName="profile">
 			<jstl:out value="${row.profile}" />
 		</display:column>
+		
 		<display:column property="skills" sortable="true" sortName="skills">
 			<jstl:out value="${row.skills}" />
 		</display:column>
+		
 		<display:column property="technologies" sortable="true"
 			sortName="technologies">
 			<jstl:out value="${row.technologies}" />
 		</display:column>
+		
 		<display:column property="salary" sortable="true" sortName="salary">
 			<jstl:out value="${row.salary}" />
 		</display:column>
-	
+		
+		<display:column>
+			<a href="audit/all/list.do?positionId=${row.id}"><spring:message code="audits" /></a>
+		</display:column>
+		
 		<security:authorize access="hasRole('AUDITOR')">
 			<jstl:if test="${row.status eq 'ACCEPTED'}">
 				<display:column>
