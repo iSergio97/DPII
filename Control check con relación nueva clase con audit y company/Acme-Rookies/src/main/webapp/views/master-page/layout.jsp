@@ -69,8 +69,6 @@
 			<jstl:set var="localeCode" value="${pageContext.response.locale.language}" />
 			<br />
 			<jstl:out value="${systemConfiguration.welcomeMessages[localeCode]}" />
-			<br />
-			<jstl:out value="${systemConfiguration.warningMessages[localeCode]}" />
 		</jstl:if>
 	</div>
 	<div>
