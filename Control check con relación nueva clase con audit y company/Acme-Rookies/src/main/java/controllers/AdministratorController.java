@@ -10,6 +10,8 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +30,15 @@ import services.ActorService;
 import services.ApplicationService;
 import services.AuditService;
 import services.ItemService;
+import services.MessageBoxService;
 import services.MessageService;
 import services.PositionService;
 import services.SponsorshipService;
 import services.SystemConfigurationService;
 import domain.Actor;
 import domain.Company;
+import domain.Message;
+import domain.MessageBox;
 import domain.SystemConfiguration;
 import forms.SystemConfigurationForm;
 
@@ -44,21 +49,23 @@ public class AdministratorController extends AbstractController {
 	// Services --------------------------------------------------------------------
 
 	@Autowired
+	private ActorService				actorService;
+	@Autowired
 	private ApplicationService			applicationService;
 	@Autowired
 	private AuditService				auditService;
 	@Autowired
 	private ItemService					itemService;
 	@Autowired
-	private SponsorshipService			sponsorshipService;
+	private MessageService				messageService;
+	@Autowired
+	private MessageBoxService			messageBoxService;
 	@Autowired
 	private PositionService				positionService;
 	@Autowired
+	private SponsorshipService			sponsorshipService;
+	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
-	@Autowired
-	private ActorService				actorService;
-	@Autowired
-	private MessageService				messageService;
 
 
 	// Constructors ----------------------------------------------------------------
@@ -92,8 +99,25 @@ public class AdministratorController extends AbstractController {
 			result.addObject("systemConfigurationForm", systemConfigurationForm);
 			result.addObject("error", true);
 		} else {
+			final String currentSystemName = this.systemConfigurationService.getSystemConfiguration().getSystemName();
 			systemConfiguration = this.systemConfigurationService.reconstruct(systemConfigurationForm, bindingResult);
-			this.systemConfigurationService.save(systemConfiguration);
+			systemConfiguration = this.systemConfigurationService.save(systemConfiguration);
+			if (!currentSystemName.equals(systemConfiguration.getSystemName())) {
+				final List<Actor> allActors = this.actorService.findAll();
+				final Message message = this.messageService.create();
+				message.setDate(new Date());
+				message.setSubject("System name change");
+				message.setBody("The name of the system has been changed from " + currentSystemName + " to " + systemConfiguration.getSystemName());
+				message.setPriority("HIGH");
+				message.setRecipients(allActors);
+				final List<MessageBox> messageBoxes = new ArrayList<>();
+				for (final Actor actor : allActors) {
+					final MessageBox actorNotificationBox = this.messageBoxService.findNotificationBox(actor.getId());
+					messageBoxes.add(actorNotificationBox);
+				}
+				message.setMessageBoxes(messageBoxes);
+				this.messageService.save(message);
+			}
 			result = this.createModelAndViewWithSystemConfiguration("administrator/systemconfiguration");
 			result.addObject("systemConfigurationForm", systemConfigurationForm);
 			result.addObject("success", true);

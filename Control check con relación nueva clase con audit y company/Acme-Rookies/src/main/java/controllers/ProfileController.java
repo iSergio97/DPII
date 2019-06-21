@@ -1,8 +1,8 @@
 /*
  * ProfileController.java
- *
+ * 
  * Copyright (C) 2019 Universidad de Sevilla
- *
+ * 
  * The use of this project is hereby constrained to the conditions of the
  * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
@@ -22,6 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.AdministratorService;
+import services.AuditorService;
+import services.CompanyService;
+import services.ProviderService;
+import services.RookieService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Auditor;
@@ -33,12 +39,6 @@ import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
 import forms.RegisterProviderForm;
 import forms.RegisterRookieForm;
-import services.ActorService;
-import services.AdministratorService;
-import services.AuditorService;
-import services.CompanyService;
-import services.ProviderService;
-import services.RookieService;
 
 @Controller
 @RequestMapping("/profile")
@@ -81,7 +81,7 @@ public class ProfileController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/rookie/show", method = RequestMethod.GET)
+	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView showCompany() {
 		final ModelAndView result;
 		final Company admin = this.companyService.findPrincipal();
