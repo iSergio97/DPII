@@ -15,7 +15,7 @@
 	<jstl:choose>
 		<jstl:when test="${systemConfiguration != null}">
 			<jstl:choose>
-				<jstl:when test="${empty systemConfiguration.banner}">
+				<jstl:when test="${systemConfiguration.banner != null}">
 					<a href="#"><img
 						src="<jstl:out value="${systemConfiguration.banner}" />"
 						alt="Acme Parade Co., Inc." /></a>
