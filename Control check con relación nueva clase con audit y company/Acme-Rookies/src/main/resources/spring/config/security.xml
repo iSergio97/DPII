@@ -48,7 +48,6 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<!-- AUTHENTICATED -->
 
 		<security:intercept-url pattern="/socialprofile/actor/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 
 		<!-- ROOKIE -->
 
@@ -67,7 +66,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<!-- [PUBLIC] -->
 		
 		<!-- [COMPANY] -->
-
+		<security:intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<!-- COMPANY -->
 
 		<security:intercept-url pattern="/position/company/**" access="hasRole('COMPANY')" />

@@ -5,17 +5,19 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
-import repositories.XXXXXRepository;
 import domain.Audit;
 import domain.Company;
 import domain.XXXXX;
 import forms.XXXXXForm;
+import repositories.XXXXXRepository;
 
 @Service
 @Transactional
@@ -60,21 +62,26 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 	}
 
 	public XXXXX reconstruct(final XXXXXForm form, final BindingResult bindingResult) {
-		XXXXX xxxxx;
+		XXXXX res;
 
 		if (form.getId() == 0)
-			xxxxx = this.create();
+			res = this.create();
 		else
-			xxxxx = this.findOne(form.getId());
+			res = this.findOne(form.getId());
 
-		Assert.isTrue(xxxxx.getDraftMode());
+		Assert.isTrue(res.getDraftMode());
 
-		xxxxx.setAudit(this.auditService.findOne(form.getAuditId()));
-		xxxxx.setBody(form.getBody());
-		xxxxx.setPicture(form.getPicture());
-		xxxxx.setCompany(this.companyService.findPrincipal());
+		res.setAudit(this.auditService.findOne(form.getAuditId()));
+		res.setBody(form.getBody());
+		res.setPicture(form.getPicture());
+		res.setCompany(this.companyService.findPrincipal());
 
-		return xxxxx;
+		this.validator.validate(res, bindingResult);
+		this.repository.flush();
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
+
+		return res;
 	}
 
 	public XXXXXForm deconstruct(final XXXXX xxxxx) {
@@ -94,6 +101,10 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 
 	public Collection<XXXXX> findByCompany(final Company company) {
 		return this.repository.findByCompanyId(company.getId());
+	}
+
+	public Collection<XXXXX> findPublicByAudit(final int auditId) {
+		return this.repository.findPublic(auditId);
 	}
 
 	//Generador de tickers con el patrón de YYMMDD-AAAAA

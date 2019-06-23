@@ -1,8 +1,8 @@
 /*
  * ProfileController.java
- * 
+ *
  * Copyright (C) 2019 Universidad de Sevilla
- * 
+ *
  * The use of this project is hereby constrained to the conditions of the
  * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
@@ -22,12 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.AdministratorService;
-import services.AuditorService;
-import services.CompanyService;
-import services.ProviderService;
-import services.RookieService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Auditor;
@@ -39,6 +33,12 @@ import forms.RegisterAuditorForm;
 import forms.RegisterCompanyForm;
 import forms.RegisterProviderForm;
 import forms.RegisterRookieForm;
+import services.ActorService;
+import services.AdministratorService;
+import services.AuditorService;
+import services.CompanyService;
+import services.ProviderService;
+import services.RookieService;
 
 @Controller
 @RequestMapping("/profile")
@@ -198,16 +198,16 @@ public class ProfileController extends AbstractController {
 			result = this.createModelAndViewWithSystemConfiguration("profile/administrator/" + messageCode);
 			result.addObject("actor", t);
 		} else if (t instanceof RegisterRookieForm || t instanceof Rookie) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/publisher/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/rookie/" + messageCode);
 			result.addObject("actor", t);
 		} else if (t instanceof RegisterCompanyForm || t instanceof Company) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/critic/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/company/" + messageCode);
 			result.addObject("actor", t);
 		} else if (t instanceof RegisterProviderForm || t instanceof Provider) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/user/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/provider/" + messageCode);
 			result.addObject("actor", t);
 		} else if (t instanceof RegisterAuditorForm || t instanceof Auditor) {
-			result = this.createModelAndViewWithSystemConfiguration("profile/user/" + messageCode);
+			result = this.createModelAndViewWithSystemConfiguration("profile/auditor/" + messageCode);
 			result.addObject("actor", t);
 
 		}

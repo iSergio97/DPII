@@ -4,6 +4,7 @@ package controllers;
 import java.util.Collection;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AuditService;
-import services.CompanyService;
-import services.XXXXXService;
 import domain.Audit;
 import domain.Company;
 import domain.XXXXX;
 import forms.XXXXXForm;
+import services.AuditService;
+import services.CompanyService;
+import services.XXXXXService;
 
 @Controller
-@RequestMapping("/xxxxx/company")
+@RequestMapping("/xxxxx")
 public class XXXXXController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -44,7 +45,7 @@ public class XXXXXController extends AbstractController {
 
 	// List -------------------------------------------------------------------
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/company/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
 		final Company company;
@@ -57,13 +58,14 @@ public class XXXXXController extends AbstractController {
 
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/list");
 		result.addObject("xxxxxs", xxxxxs);
+		result.addObject("loged", "loged");
 
 		return result;
 	}
 
 	// Show -------------------------------------------------------------------
 
-	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
 	public ModelAndView show(@RequestParam(value = "xxxxxId") final int xxxxxId) {
 		final ModelAndView result;
 		final Company company;
@@ -78,16 +80,17 @@ public class XXXXXController extends AbstractController {
 		if (!xxxxx.getCompany().equals(company))
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/all/show");
+		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/show");
 
 		result.addObject("xxxxx", xxxxx);
+		result.addObject("loged", "loged");
 
 		return result;
 	}
 
 	// Create -----------------------------------------------------------------
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/company/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam(value = "auditId") final int auditId) {
 		final ModelAndView result;
 		final Company company;
@@ -104,7 +107,7 @@ public class XXXXXController extends AbstractController {
 		xxxxxForm = this.xxxxxService.createForm();
 		xxxxxForm.setId(auditId);
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/all/edit");
+		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
 		result.addObject("xxxxxForm", xxxxxForm);
 
 		return result;
@@ -112,7 +115,7 @@ public class XXXXXController extends AbstractController {
 
 	// Edit -------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/company/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(value = "xxxxxId") final int xxxxxId) {
 		final ModelAndView result;
 		final Company company;
@@ -129,7 +132,7 @@ public class XXXXXController extends AbstractController {
 		if (!xxxxx.getDraftMode())
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/all/edit");
+		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
 
 		result.addObject("xxxxxForm", this.xxxxxService.deconstruct(xxxxx));
 
@@ -138,39 +141,25 @@ public class XXXXXController extends AbstractController {
 
 	// Save -------------------------------------------------------------------
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
 	public ModelAndView edit(@Valid @ModelAttribute("xxxxxForm") final XXXXXForm xxxxxForm, final BindingResult bindingResult) {
-		final ModelAndView result;
-		final Company company;
+		ModelAndView result;
 		XXXXX xxxxx;
-
-		company = this.companyService.findPrincipal();
-		if (company == null)
-			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (xxxxxForm.getId() != 0) {
-			xxxxx = this.xxxxxService.findOne(xxxxxForm.getId());
-			if (xxxxx == null)
-				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-			if (!xxxxx.getCompany().equals(company))
-				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-			if (!xxxxx.getDraftMode())
-				return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		}
-		if (!bindingResult.hasErrors()) {
+		try {
 			xxxxx = this.xxxxxService.reconstruct(xxxxxForm, bindingResult);
 			xxxxx = this.xxxxxService.save(xxxxx);
 			result = this.show(xxxxx.getId());
-		} else {
-			result = this.createModelAndViewWithSystemConfiguration("xxxxx/all/edit");
-			result.addObject("xxxxxForm", xxxxxForm);
+		} catch (final ValidationException valExp) {
+			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+		} catch (final Throwable oops) {
+			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
 		}
-
 		return result;
 	}
 
 	// Declare as final -------------------------------------------------------
 
-	@RequestMapping(value = "/saveAsFinal", method = RequestMethod.POST)
+	@RequestMapping(value = "/company/saveAsFinal", method = RequestMethod.POST)
 	public ModelAndView saveAsFinal(@RequestParam(value = "xxxxxId") final int xxxxxId) {
 		final Company company;
 		XXXXX xxxxx;
@@ -194,7 +183,7 @@ public class XXXXXController extends AbstractController {
 
 	// Delete -----------------------------------------------------------------
 
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/company/delete", method = RequestMethod.POST)
 	public ModelAndView delete(@RequestParam(value = "xxxxxId") final int xxxxxId) {
 		final Company company;
 		XXXXX xxxxx;
@@ -213,6 +202,24 @@ public class XXXXXController extends AbstractController {
 		this.xxxxxService.delete(xxxxx);
 
 		return this.list();
+	}
+
+	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
+	public ModelAndView publicList(@RequestParam final int auditId) {
+		final Collection<XXXXX> xxxxx = this.xxxxxService.findPublicByAudit(auditId);
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("xxxxx/public/list");
+		result.addObject("xxxxx", xxxxx);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
+	public ModelAndView publicShow(@RequestParam final int xxxxxId) {
+		final XXXXX x = this.xxxxxService.findOne(xxxxxId);
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("xxxxx/public/show");
+		result.addObject("x", "x");
+
+		return result;
 	}
 
 }

@@ -21,4 +21,6 @@ public interface XXXXXRepository extends AbstractRepository<XXXXX> {
 	@Query("select x from XXXXX x where x.company.id = ?1")
 	Collection<XXXXX> findByCompanyId(int companyId);
 
+	@Query("select x from XXXXX x where x.audit.id = ?1 and x.draftMode = false")
+	Collection<XXXXX> findPublic(int auditId);
 }
