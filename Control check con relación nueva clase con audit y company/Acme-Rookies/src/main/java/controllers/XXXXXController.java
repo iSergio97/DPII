@@ -58,7 +58,7 @@ public class XXXXXController extends AbstractController {
 
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/list");
 		result.addObject("xxxxxs", xxxxxs);
-		result.addObject("loged", "loged");
+		result.addObject("logged", "logged");
 
 		return result;
 	}
@@ -83,7 +83,7 @@ public class XXXXXController extends AbstractController {
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/show");
 
 		result.addObject("xxxxx", xxxxx);
-		result.addObject("loged", "loged");
+		result.addObject("logged", "logged");
 
 		return result;
 	}
