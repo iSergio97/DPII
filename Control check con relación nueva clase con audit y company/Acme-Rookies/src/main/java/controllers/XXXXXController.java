@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AuditService;
+import services.CompanyService;
+import services.XXXXXService;
 import domain.Audit;
 import domain.Company;
 import domain.XXXXX;
 import forms.XXXXXForm;
-import services.AuditService;
-import services.CompanyService;
-import services.XXXXXService;
 
 @Controller
 @RequestMapping("/xxxxx")
@@ -50,15 +50,17 @@ public class XXXXXController extends AbstractController {
 		final ModelAndView result;
 		final Company company;
 		final Collection<XXXXX> xxxxxs;
+		Boolean logged;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 		xxxxxs = this.xxxxxService.findByCompany(company);
+		logged = true;
 
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/list");
 		result.addObject("xxxxxs", xxxxxs);
-		result.addObject("logged", "logged");
+		result.addObject("logged", logged);
 
 		return result;
 	}
@@ -217,7 +219,7 @@ public class XXXXXController extends AbstractController {
 	public ModelAndView publicShow(@RequestParam final int xxxxxId) {
 		final XXXXX x = this.xxxxxService.findOne(xxxxxId);
 		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("xxxxx/public/show");
-		result.addObject("x", "x");
+		result.addObject("x", x);
 
 		return result;
 	}
