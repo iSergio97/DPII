@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="xxxxxForm" method="POST"
+<form:form modelAttribute="xxxxx" method="POST"
 	action="xxxxx/company/save.do">
 
 	<!-- Hidden Fields -->

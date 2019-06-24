@@ -111,7 +111,7 @@ public class XXXXXController extends AbstractController {
 		xxxxxForm.setAuditId(auditId);
 
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
-		result.addObject("xxxxxForm", xxxxxForm);
+		result.addObject("xxxxx", xxxxxForm);
 
 		return result;
 	}
@@ -148,15 +148,19 @@ public class XXXXXController extends AbstractController {
 	public ModelAndView edit(@ModelAttribute("xxxxx") final XXXXXForm xxxxxForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		XXXXX xxxxx;
-		try {
-			xxxxx = this.xxxxxService.reconstruct(xxxxxForm, bindingResult);
-			xxxxx = this.xxxxxService.save(xxxxx);
-			result = this.show(xxxxx.getId());
-		} catch (final ValidationException valExp) {
-			result = this.create(xxxxxForm.getAuditId());
-		} catch (final Throwable oops) {
-			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
-		}
+
+		if (bindingResult.hasErrors())
+			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+		else
+			try {
+				xxxxx = this.xxxxxService.reconstruct(xxxxxForm, bindingResult);
+				xxxxx = this.xxxxxService.save(xxxxx);
+				result = this.show(xxxxx.getId());
+			} catch (final ValidationException valExp) {
+				result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
+			} catch (final Throwable oops) {
+				result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
+			}
 		return result;
 	}
 
