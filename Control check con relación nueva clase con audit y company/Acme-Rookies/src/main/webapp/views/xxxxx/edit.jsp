@@ -9,29 +9,25 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form modelAttribute="xxxxx" method="POST" action="xxxxx/company/edit.do">
+<form:form modelAttribute="xxxxxForm" method="POST"
+	action="xxxxx/company/save.do">
 
 	<!-- Hidden Fields -->
 
 	<form:hidden path="id" />
-	<form:hidden path="isDraft" />
-
+	<form:hidden path="auditId" />
+	
 	<!-- Input Fields -->
-
-	
-	<acme:register path="description" code="xxxxx.description" />
-	<acme:registerDate path="moment" code="xxxxx.moment" />
-	
-	
+	<acme:register path="body" code="body" />
+	<acme:registerWithPlaceholder path="picture" code="picture" placeholder="https://imgur.com/a/TqyGLNB"/>
 	
 	<!-- Buttons -->
-
-	
+	<acme:submit name="save" code="save" />
 	<jstl:if test="${xxxxx.id ne 0 and xxxxx.isDraft}">
-		<acme:submit name="save" code="save"/>
-		<acme:submit name="saveAsFinal" code="saveAsFinal"/>
-		<acme:submit name="delete" code="delete"/>
+		<acme:submit name="saveAsFinal" code="saveAsFinal" />
+		<acme:submit name="delete" code="delete" />
 	</jstl:if>
-	<acme:cancel url="welcome/index.do" code="action.cancel"/>
+	
+	<acme:cancel url="welcome/index.do" code="action.cancel" />
 
 </form:form>

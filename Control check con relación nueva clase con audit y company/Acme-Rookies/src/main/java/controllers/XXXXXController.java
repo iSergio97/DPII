@@ -3,7 +3,6 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AuditService;
-import services.CompanyService;
-import services.XXXXXService;
 import domain.Audit;
 import domain.Company;
 import domain.XXXXX;
 import forms.XXXXXForm;
+import services.AuditService;
+import services.CompanyService;
+import services.XXXXXService;
 
 @Controller
 @RequestMapping("/xxxxx")
@@ -93,7 +92,7 @@ public class XXXXXController extends AbstractController {
 	// Create -----------------------------------------------------------------
 
 	@RequestMapping(value = "/company/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam(value = "auditId") final int auditId) {
+	public ModelAndView create(@RequestParam(value = "auditId") final Integer auditId) {
 		final ModelAndView result;
 		final Company company;
 		final Audit audit;
@@ -105,9 +104,11 @@ public class XXXXXController extends AbstractController {
 		audit = this.auditService.findOne(auditId);
 		if (audit == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
+		if (auditId == null)
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
 		xxxxxForm = this.xxxxxService.createForm();
-		xxxxxForm.setId(auditId);
+		xxxxxForm.setAuditId(auditId);
 
 		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
 		result.addObject("xxxxxForm", xxxxxForm);
@@ -144,7 +145,7 @@ public class XXXXXController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
-	public ModelAndView edit(@Valid @ModelAttribute("xxxxxForm") final XXXXXForm xxxxxForm, final BindingResult bindingResult) {
+	public ModelAndView edit(@ModelAttribute("xxxxx") final XXXXXForm xxxxxForm, final BindingResult bindingResult) {
 		ModelAndView result;
 		XXXXX xxxxx;
 		try {
@@ -152,9 +153,9 @@ public class XXXXXController extends AbstractController {
 			xxxxx = this.xxxxxService.save(xxxxx);
 			result = this.show(xxxxx.getId());
 		} catch (final ValidationException valExp) {
-			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+			result = this.create(xxxxxForm.getAuditId());
 		} catch (final Throwable oops) {
-			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
 		}
 		return result;
 	}

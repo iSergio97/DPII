@@ -1,9 +1,11 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
+import java.util.TimeZone;
 
 import javax.validation.ValidationException;
 
@@ -64,9 +66,14 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 	public XXXXX reconstruct(final XXXXXForm form, final BindingResult bindingResult) {
 		XXXXX res;
 
-		if (form.getId() == 0)
+		if (form.getBody().length() > 100)
+			bindingResult.rejectValue("body", "error.longBody");
+
+		if (form.getId() == 0) {
 			res = this.create();
-		else
+			res.setDraftMode(true);
+			this.generateTicker(res);
+		} else
 			res = this.findOne(form.getId());
 
 		Assert.isTrue(res.getDraftMode());
@@ -77,7 +84,6 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		res.setCompany(this.companyService.findPrincipal());
 
 		this.validator.validate(res, bindingResult);
-		this.repository.flush();
 		if (bindingResult.hasErrors())
 			throw new ValidationException();
 
@@ -110,12 +116,24 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 	//Generador de tickers con el patrón de YYMMDD-AAAAA
 	private void generateTicker(final XXXXX xxxxx) {
 		String ticker = "";
-		final Date date = new Date();
-		ticker += date.getYear() % 100 + "" + date.getMonth() + "" + date.getDay();
+		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		final Date date = calendar.getTime();
+		System.out.println(date.getDay());
+		ticker += date.getYear() % 100 + "";
+		final Integer month = calendar.get(Calendar.MONTH) + 1;
+		if (month < 9)
+			ticker += "0" + month;
+		else
+			ticker += month;
+		final Integer day = calendar.get(Calendar.DAY_OF_MONTH);
+		if (day < 9)
+			ticker += "0" + day;
+		else
+			ticker += day;
 		ticker += "-";
 		do
 			for (int i = 0; i < XXXXXService.TICKER_LENGTH; ++i)
-				ticker += XXXXXService.TICKER_NUMBER.charAt(this.random.nextInt(XXXXXService.TICKER_NUMBER.length()));
+				ticker += XXXXXService.TICKER_ALPHABET.charAt(this.random.nextInt(XXXXXService.TICKER_ALPHABET.length()));
 		while (this.repository.findByTicker(ticker).size() > 0);
 		xxxxx.setTicker(ticker);
 	}

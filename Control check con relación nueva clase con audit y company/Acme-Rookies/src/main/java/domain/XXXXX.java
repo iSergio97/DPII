@@ -5,12 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -29,11 +31,9 @@ public class XXXXX extends DomainEntity {
 	private Company	company;
 
 
-	//query para sacar la company del audit a través de una position
-	//select a.position.company from Audit a where a.id =
-	//Adaptada a XXXXX
-	//select x.audit.position.company from XXXXX x where x.id =
-	//Añadir patrón
+	@NotBlank
+	@Column(unique = true)
+	@Pattern(regexp = "[0-9]{6}-[A-Z]{5}")
 	public String getTicker() {
 		return this.ticker;
 	}

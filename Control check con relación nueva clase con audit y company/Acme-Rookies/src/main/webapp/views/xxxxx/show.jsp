@@ -16,17 +16,14 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <div>
-	
-	<acme:field value="${xxxxx.ticker}" code="ticker" />
-	<acme:field value="${xxxxx.description}" code="description" />
-	<acme:field value="${serie.moment}" code="moment" />
-		
+	<acme:field value="${xxxxx.body}" code="body" />
+	<spring:message code="picture" />: <img src="${xxxxx.picture}" /> 	
 </div>
 
 <jstl:if test="${logged}">
 <security:authorize access="hasRole('XXXXX')">
 		<jstl:if test="${row.isDraft}">
-			<acme:actioncolumn url="xxxxx/company/edit.do?xxxxxId" value="${row.id}" code="edit" />
+			<a href="xxxxx/company/edit.do?${xxxxxId}" > <spring:message code="edit" /></a>
 		</jstl:if>		
 	</security:authorize>
 </jstl:if>

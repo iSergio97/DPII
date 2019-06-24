@@ -15,26 +15,24 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table name="xxxxx" id="row" pagesize="5" class="displaytag">
+<display:table name="xxxxxs" id="row" pagesize="5" class="displaytag">
 
-	<acme:column value="${row.ticker}" code="series.ticker"/>
-	<acme:column value="${row.description}" code="series.description"/>
-	<acme:column value="${row.moment}" code="series.moment"/>
-	<acme:column value="${row.isDraft}" code="series.isDraft"/>
-	<acme:actioncolumn url="xxxxx/company/show.do?xxxxxId" value="${row.id}" code="show" />
+	<display:column property="body">
+	<jstl:out value="${row.body}"></jstl:out>
+	</display:column>
+	<display:column>
+		<a href="xxxxx/company/show.do?xxxxxId=${row.id}"> <spring:message
+				code="show" />
+		</a>
+	</display:column>
+	<security:authorize access="hasRole('COMPANY')">
+		<jstl:if test="${row.draftMode eq true}">
+			<display:column>
+				<a href="xxxxx/company/edit.do?xxxxxId=${row.id}"> <spring:message
+						code="edit" />
+				</a>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 
-	<jstl:if test="${logged }">
-	<acme:actioncolumn url="xxxxx/company/show.do?xxxxxId" value="${row.id}" code="show" />
-	<security:authorize access="hasRole('XXXXX')">
-		<jstl:if test="${row.isDraft}">
-			<acme:actioncolumn url="xxxxx/company/edit.do?xxxxxId" value="${row.id}" code="edit" />
-		</jstl:if>		
-	</security:authorize>
-	<security:authorize access="hasRole('XXXXX')">
-	<p>
-		<a href="xxxxx/company/create.do"><spring:message code="create" /></a>
-	</p>
-	</security:authorize>
-	</jstl:if>
-	
 </display:table>
