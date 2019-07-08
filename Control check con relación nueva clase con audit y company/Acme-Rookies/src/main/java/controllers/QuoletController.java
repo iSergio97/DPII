@@ -1,7 +1,12 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import javax.validation.ValidationException;
 
@@ -15,16 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Audit;
+import domain.Auditor;
 import domain.Company;
-import domain.XXXXX;
-import forms.XXXXXForm;
+import domain.Quolet;
+import forms.QuoletForm;
 import services.AuditService;
+import services.AuditorService;
 import services.CompanyService;
-import services.XXXXXService;
+import services.QuoletService;
 
 @Controller
-@RequestMapping("/xxxxx")
-public class XXXXXController extends AbstractController {
+@RequestMapping("/quolet")
+public class QuoletController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 
@@ -33,12 +40,14 @@ public class XXXXXController extends AbstractController {
 	@Autowired
 	private CompanyService	companyService;
 	@Autowired
-	private XXXXXService	xxxxxService;
+	private QuoletService	quoletService;
+	@Autowired
+	private AuditorService	auditorService;
 
 
 	// Constructors -----------------------------------------------------------
 
-	public XXXXXController() {
+	public QuoletController() {
 		super();
 	}
 
@@ -48,17 +57,27 @@ public class XXXXXController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result;
 		final Company company;
-		final Collection<XXXXX> xxxxxs;
+		final List<Quolet> quolets;
 		Boolean logged;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		xxxxxs = this.xxxxxService.findByCompany(company);
+		quolets = (List<Quolet>) this.quoletService.findByCompany(company);
 		logged = true;
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/list");
-		result.addObject("xxxxxs", xxxxxs);
+		result = this.createModelAndViewWithSystemConfiguration("quolet/company/list");
+
+		final int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		final int month = Calendar.getInstance().get(Calendar.MONTH);
+		final int year = Calendar.getInstance().get(Calendar.YEAR);
+		final Date currentDate = new Date();
+
+		result.addObject("currentDate", currentDate);
+		result.addObject("currentDay", day);
+		result.addObject("currentMonth", month);
+		result.addObject("currentYear", year);
+		result.addObject("quolets", quolets);
 		result.addObject("logged", logged);
 
 		return result;
@@ -67,23 +86,23 @@ public class XXXXXController extends AbstractController {
 	// Show -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/show", method = RequestMethod.GET)
-	public ModelAndView show(@RequestParam(value = "xxxxxId") final int xxxxxId) {
+	public ModelAndView show(@RequestParam(value = "quoletId") final int quoletId) {
 		final ModelAndView result;
 		final Company company;
-		final XXXXX xxxxx;
+		final Quolet quolet;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		xxxxx = this.xxxxxService.findOne(xxxxxId);
-		if (xxxxx == null)
+		quolet = this.quoletService.findOne(quoletId);
+		if (quolet == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getCompany().equals(company))
+		if (!quolet.getCompany().equals(company))
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/show");
+		result = this.createModelAndViewWithSystemConfiguration("quolet/company/show");
 
-		result.addObject("xxxxx", xxxxx);
+		result.addObject("quolet", quolet);
 		result.addObject("logged", "logged");
 
 		return result;
@@ -96,7 +115,7 @@ public class XXXXXController extends AbstractController {
 		final ModelAndView result;
 		final Company company;
 		final Audit audit;
-		final XXXXXForm xxxxxForm;
+		final QuoletForm quoletForm;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
@@ -107,11 +126,11 @@ public class XXXXXController extends AbstractController {
 		if (auditId == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		xxxxxForm = this.xxxxxService.createForm();
-		xxxxxForm.setAuditId(auditId);
+		quoletForm = this.quoletService.createForm();
+		quoletForm.setAuditId(auditId);
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
-		result.addObject("xxxxx", xxxxxForm);
+		result = this.createModelAndViewWithSystemConfiguration("quolet/company/edit");
+		result.addObject("quolet", quoletForm);
 
 		return result;
 	}
@@ -119,25 +138,26 @@ public class XXXXXController extends AbstractController {
 	// Edit -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam(value = "xxxxxId") final int xxxxxId) {
+	public ModelAndView edit(@RequestParam(value = "quoletId") final int quoletId) {
 		final ModelAndView result;
 		final Company company;
-		final XXXXX xxxxx;
+		final Quolet quolet;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		xxxxx = this.xxxxxService.findOne(xxxxxId);
-		if (xxxxx == null)
+		quolet = this.quoletService.findOne(quoletId);
+		if (quolet == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getCompany().equals(company))
+		if (!quolet.getCompany().equals(company))
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getDraftMode())
+		if (!quolet.getDraftMode())
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+		result = this.createModelAndViewWithSystemConfiguration("quolet/company/edit");
 
-		result.addObject("xxxxxForm", this.xxxxxService.deconstruct(xxxxx));
+		result.addObject("quoletOriginal", quolet);
+		result.addObject("quolet", this.quoletService.deconstruct(quolet));
 
 		return result;
 	}
@@ -145,85 +165,121 @@ public class XXXXXController extends AbstractController {
 	// Save -------------------------------------------------------------------
 
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
-	public ModelAndView edit(@ModelAttribute("xxxxx") final XXXXXForm xxxxxForm, final BindingResult bindingResult) {
+	public ModelAndView edit(@ModelAttribute("quolet") final QuoletForm quoletForm, final BindingResult bindingResult) {
 		ModelAndView result;
-		XXXXX xxxxx;
+		Quolet quolet;
 
 		if (bindingResult.hasErrors())
-			result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/edit");
+			result = this.createModelAndViewWithSystemConfiguration("quolet/company/edit");
 		else
 			try {
-				xxxxx = this.xxxxxService.reconstruct(xxxxxForm, bindingResult);
-				xxxxx = this.xxxxxService.save(xxxxx);
-				result = this.show(xxxxx.getId());
+				quolet = this.quoletService.reconstruct(quoletForm, bindingResult);
+				quolet = this.quoletService.save(quolet);
+				result = this.show(quolet.getId());
 			} catch (final ValidationException valExp) {
-				result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
+				result = this.createModelAndViewWithSystemConfiguration("quolet/company/save");
 			} catch (final Throwable oops) {
-				result = this.createModelAndViewWithSystemConfiguration("xxxxx/company/save");
+				result = this.createModelAndViewWithSystemConfiguration("quolet/company/save");
 			}
 		return result;
 	}
 
 	// Declare as final -------------------------------------------------------
 
-	@RequestMapping(value = "/company/saveAsFinal", method = RequestMethod.POST)
-	public ModelAndView saveAsFinal(@RequestParam(value = "xxxxxId") final int xxxxxId) {
+	@RequestMapping(value = "/company/saveAsFinal", method = RequestMethod.GET)
+	public ModelAndView saveAsFinal(@RequestParam(value = "quoletId") final int quoletId) {
 		final Company company;
-		XXXXX xxxxx;
+		Quolet quolet;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		xxxxx = this.xxxxxService.findOne(xxxxxId);
-		if (xxxxx == null)
+		quolet = this.quoletService.findOne(quoletId);
+		if (quolet == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getCompany().equals(company))
+		if (!quolet.getCompany().equals(company))
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getDraftMode())
+		if (!quolet.getDraftMode())
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		xxxxx.setDraftMode(false);
-		this.xxxxxService.save(xxxxx);
+		quolet.setDraftMode(false);
+		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		final Date date = calendar.getTime();
+		quolet.setPublicationMoment(date);
+		this.quoletService.save(quolet);
 
-		return this.show(xxxxxId);
+		return this.show(quoletId);
 	}
 
 	// Delete -----------------------------------------------------------------
 
 	@RequestMapping(value = "/company/delete", method = RequestMethod.POST)
-	public ModelAndView delete(@RequestParam(value = "xxxxxId") final int xxxxxId) {
+	public ModelAndView delete(@RequestParam(value = "quoletId") final int quoletId) {
 		final Company company;
-		XXXXX xxxxx;
+		Quolet quolet;
 
 		company = this.companyService.findPrincipal();
 		if (company == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		xxxxx = this.xxxxxService.findOne(xxxxxId);
-		if (xxxxx == null)
+		quolet = this.quoletService.findOne(quoletId);
+		if (quolet == null)
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getCompany().equals(company))
+		if (!quolet.getCompany().equals(company))
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
-		if (!xxxxx.getDraftMode())
+		if (!quolet.getDraftMode())
 			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
 
-		this.xxxxxService.delete(xxxxx);
+		this.quoletService.delete(quolet);
 
 		return this.list();
 	}
 
+	// Auditors methods
+
+	@RequestMapping(value = "/auditor/show", method = RequestMethod.GET)
+	public ModelAndView showAuditor(@RequestParam(value = "quoletId") final int quoletId) {
+		final ModelAndView result;
+		final Auditor principal;
+		List<Quolet> quolet = new ArrayList<>();
+
+		principal = this.auditorService.findPrincipal();
+		final Audit audit = this.auditService.findOne(quolet.get(0).getAudit().getId());
+		quolet = (List<Quolet>) this.quoletService.findByAudit(audit);
+
+		if (quolet.size() == 0)
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
+
+		final Auditor auditor = this.auditorService.findOne(audit.getId());
+
+		if (principal == null || principal.getId() != auditor.getId())
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
+
+		if (principal.getId() != audit.getId())
+			return this.createModelAndViewWithSystemConfiguration("redirect:/welcome/index.do");
+
+		result = this.createModelAndViewWithSystemConfiguration("quolet/company/show");
+
+		result.addObject("quolet", quolet);
+		result.addObject("logged", "logged");
+
+		return result;
+	}
+
+	//Public methods
+
 	@RequestMapping(value = "/public/list", method = RequestMethod.GET)
 	public ModelAndView publicList(@RequestParam final int auditId) {
-		final Collection<XXXXX> xxxxx = this.xxxxxService.findPublicByAudit(auditId);
-		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("xxxxx/public/list");
-		result.addObject("xxxxx", xxxxx);
+		final Collection<Quolet> quolet = this.quoletService.findPublicByAudit(auditId);
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("quolet/public/list");
+		result.addObject("quolet", quolet);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/public/show", method = RequestMethod.GET)
-	public ModelAndView publicShow(@RequestParam final int xxxxxId) {
-		final XXXXX x = this.xxxxxService.findOne(xxxxxId);
-		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("xxxxx/public/show");
+	public ModelAndView publicShow(@RequestParam final int quoletId) {
+		final Quolet x = this.quoletService.findOne(quoletId);
+		final ModelAndView result = this.createModelAndViewWithSystemConfiguration("quolet/public/show");
 		result.addObject("x", x);
 
 		return result;

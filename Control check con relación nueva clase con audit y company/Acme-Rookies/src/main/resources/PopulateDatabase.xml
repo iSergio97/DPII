@@ -951,7 +951,7 @@
 		<property name="ticker" value="AAAA-0002" />
 		<property name="isDraft" value="true" />
 		<property name="status" value="ACCEPTED" />
-		<property name="company" ref="company1" />
+		<property name="company" ref="company2" />
 		<property name="problems">
 			<list>
 				<ref bean="problem1" />
@@ -1164,5 +1164,62 @@
 	<property name="position" ref="position1"/>
 	</bean>
 	
+	<bean id="audit1" class = "domain.Audit">
+		<property name="moment" value="01/01/2019"/>
+		<property name="text" value="TEST AUDIT 1"/>
+		<property name="score" value="10.0"/>
+		<property name="isDraft" value="false"/>
+		<property name="auditor" ref="auditor1"/>
+		<property name="position" ref="position1"/>
+	</bean>
+	
+	<bean id="audit2" class = "domain.Audit">
+		<property name="moment" value="01/01/2019"/>
+		<property name="text" value="TEST AUDIT 2"/>
+		<property name="score" value="10.0"/>
+		<property name="isDraft" value="false"/>
+		<property name="auditor" ref="auditor1"/>
+		<property name="position" ref="position2"/>
+	</bean>
+	
+	<bean id="quolet1" class = "domain.Quolet">
+		<property name="ticker" value="190401#AAD"/>
+		<property name="publicationMoment" value="06/01/2019 00:00"/>
+		<property name="body" value="TEST QUOLET 1"/>
+		<property name="picture" value=""/>
+		<property name="audit" ref="audit1"/>
+		<property name="draftMode" value="false"/>
+		<property name="company" ref="company1"/>
+	</bean>
+
+	<bean id="quolet2" class = "domain.Quolet">
+		<property name="ticker" value="190401#AAC"/>
+		<property name="publicationMoment" value="05/01/2019 00:00"/>
+		<property name="body" value="TEST QUOLET 2"/>
+		<property name="picture" value=""/>
+		<property name="audit" ref="audit1"/>
+		<property name="draftMode" value="false"/>
+		<property name="company" ref="company1"/>
+	</bean>
+
+	<bean id="quolet3" class = "domain.Quolet">
+		<property name="ticker" value="190401#AAB"/>
+		<property name="publicationMoment" value="04/01/2019 00:00"/>
+		<property name="body" value="TEST QUOLET 1"/>
+		<property name="picture" value=""/>
+		<property name="audit" ref="audit2"/>
+		<property name="draftMode" value="false"/>
+		<property name="company" ref="company2"/>
+	</bean>
+
+	<bean id="quolet4" class = "domain.Quolet">
+		<property name="ticker" value="190401#AAA"/>
+		<property name="publicationMoment" value="04/01/2019 00:00"/>
+		<property name="body" value="TEST QUOLET 2"/>
+		<property name="picture" value=""/>
+		<property name="audit" ref="audit2"/>
+		<property name="draftMode" value="false"/>
+		<property name="company" ref="company2"/>
+	</bean>
 
 </beans>

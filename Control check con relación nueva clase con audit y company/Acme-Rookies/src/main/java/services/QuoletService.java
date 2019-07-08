@@ -17,13 +17,13 @@ import org.springframework.validation.BindingResult;
 
 import domain.Audit;
 import domain.Company;
-import domain.XXXXX;
-import forms.XXXXXForm;
-import repositories.XXXXXRepository;
+import domain.Quolet;
+import forms.QuoletForm;
+import repositories.QuoletRepository;
 
 @Service
 @Transactional
-public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
+public class QuoletService extends AbstractService<QuoletRepository, Quolet> {
 
 	@Autowired
 	private AuditService		auditService;
@@ -31,20 +31,31 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 	@Autowired
 	private CompanyService		companyService;
 
-	private static final int	TICKER_LENGTH	= 5;
-	private static final String	TICKER_NUMBER	= "0123456789";
-	//Por si las moscas, el ticker lleva en vez de números, letras
-	//En este caso, cambiar en el generador de tickers, TICKER_NUMBER por TICKER_LENGTH
+	private static final int	TICKER_LENGTH	= 3;
 	private static final String	TICKER_ALPHABET	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	//Esto no me gusta nada, se aconsejó eliminar toda referencia a objetos fuera de los métodos
-	//para mejorar la eficiencia y otros problemas que puede conllevar
 	private final Random		random			= new Random();
 
 
+	//This methods has been created to be used in QuoletServiceTest.java
+	//This is because our created is inherited from the AbstractService
+	//We are not responsible for misuse or errors that it may cause
+	public Quolet createForJunitTest() {
+		final Quolet quolet = new Quolet();
+		quolet.setTicker("");
+		quolet.setBody("");
+		quolet.setPicture("");
+		quolet.setDraftMode(true);
+		final Company company = this.companyService.findPrincipal();
+		Assert.notNull(company);
+		quolet.setCompany(company);
+
+		return quolet;
+	}
+
 	@Override
-	public XXXXX save(final XXXXX xxxxx) {
+	public Quolet save(final Quolet xxxxx) {
 		Assert.notNull(xxxxx);
-		XXXXX res = this.findOne(xxxxx.getId());
+		Quolet res = this.findOne(xxxxx.getId());
 
 		while (res == null || res.getId() == 0)
 			try {
@@ -55,16 +66,16 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		return xxxxx;
 	}
 
-	public XXXXXForm createForm() {
-		final XXXXXForm form = new XXXXXForm();
+	public QuoletForm createForm() {
+		final QuoletForm form = new QuoletForm();
 		form.setBody("");
 		form.setPicture("");
 
 		return form;
 	}
 
-	public XXXXX reconstruct(final XXXXXForm form, final BindingResult bindingResult) {
-		XXXXX res;
+	public Quolet reconstruct(final QuoletForm form, final BindingResult bindingResult) {
+		Quolet res;
 
 		if (form.getBody().length() > 100)
 			bindingResult.rejectValue("body", "error.longBody");
@@ -90,8 +101,8 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		return res;
 	}
 
-	public XXXXXForm deconstruct(final XXXXX xxxxx) {
-		final XXXXXForm x = this.createForm();
+	public QuoletForm deconstruct(final Quolet xxxxx) {
+		final QuoletForm x = this.createForm();
 
 		x.setAuditId(xxxxx.getAudit().getId());
 		x.setBody(xxxxx.getBody());
@@ -101,20 +112,20 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 		return x;
 	}
 
-	public Collection<XXXXX> findByAudit(final Audit audit) {
+	public Collection<Quolet> findByAudit(final Audit audit) {
 		return this.repository.findByAuditId(audit.getId());
 	}
 
-	public Collection<XXXXX> findByCompany(final Company company) {
+	public Collection<Quolet> findByCompany(final Company company) {
 		return this.repository.findByCompanyId(company.getId());
 	}
 
-	public Collection<XXXXX> findPublicByAudit(final int auditId) {
+	public Collection<Quolet> findPublicByAudit(final int auditId) {
 		return this.repository.findPublic(auditId);
 	}
 
 	//Generador de tickers con el patrón de YYMMDD-AAAAA
-	private void generateTicker(final XXXXX xxxxx) {
+	private void generateTicker(final Quolet xxxxx) {
 		String ticker = "";
 		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
 		final Date date = calendar.getTime();
@@ -130,10 +141,11 @@ public class XXXXXService extends AbstractService<XXXXXRepository, XXXXX> {
 			ticker += "0" + day;
 		else
 			ticker += day;
-		ticker += "-";
+
+		ticker += "#";
 		do
-			for (int i = 0; i < XXXXXService.TICKER_LENGTH; ++i)
-				ticker += XXXXXService.TICKER_ALPHABET.charAt(this.random.nextInt(XXXXXService.TICKER_ALPHABET.length()));
+			for (int i = 0; i < QuoletService.TICKER_LENGTH; ++i)
+				ticker += QuoletService.TICKER_ALPHABET.charAt(this.random.nextInt(QuoletService.TICKER_ALPHABET.length()));
 		while (this.repository.findByTicker(ticker).size() > 0);
 		xxxxx.setTicker(ticker);
 	}

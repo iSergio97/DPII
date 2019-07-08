@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class XXXXXForm {
+public class QuoletForm {
 
 	private String	body;
 	private String	picture;

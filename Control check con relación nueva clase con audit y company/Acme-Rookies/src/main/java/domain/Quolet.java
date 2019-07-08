@@ -8,8 +8,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class XXXXX extends DomainEntity {
+public class Quolet extends DomainEntity {
 
 	private String	ticker;
 	private Date	publicationMoment;
@@ -33,7 +31,7 @@ public class XXXXX extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	@Pattern(regexp = "[0-9]{6}-[A-Z]{5}")
+	@Pattern(regexp = "^\\d{2}[0-1]\\d[0-3]\\d[#]\\w{3}$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -43,8 +41,7 @@ public class XXXXX extends DomainEntity {
 	}
 
 	@NotNull
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getPublicationMoment() {
 		return this.publicationMoment;
 	}

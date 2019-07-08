@@ -59,29 +59,29 @@
 					
 					<security:authorize access="hasRole('ROOKIE')">
 						<li><a href="register/rookie/edit.do"><spring:message code="action.edit" /> </a></li>
-						<li><a href="profile/rookie/show.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="profile/rookie/show.do"><spring:message code="action.show" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('COMPANY')">
 						<li><a href="register/company/edit.do"><spring:message code="action.edit" /> </a></li>
-						<li><a href="profile/company/show.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="profile/company/show.do"><spring:message code="action.show" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('AUDITOR')">
 						<li><a href="register/auditor/edit.do"><spring:message code="action.edit" /> </a></li>
-						<li><a href="profile/auditor/show.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="profile/auditor/show.do"><spring:message code="action.show" /> </a></li>
 					</security:authorize>
 					
 					<security:authorize access="hasRole('PROVIDER')">
 						<li><a href="register/provider/edit.do"><spring:message code="action.edit" /> </a></li>
-						<li><a href="profile/provider/show.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="profile/provider/show.do"><spring:message code="action.show" /> </a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMINISTRATOR')">
 						<li><a href="register/administrator/edit.do"><spring:message code="action.edit" /> </a></li>
 						<li><a href="register/administrator/create.do"><spring:message code="master.page.create.admin" /> </a></li>
 						<li><a href="register/auditor/create.do"><spring:message code="master.page.create.auditor" /> </a></li>
-						<li><a href="profile/administrator/show.do"><spring:message code="action.edit" /> </a></li>
+						<li><a href="profile/administrator/show.do"><spring:message code="action.show" /> </a></li>
 					</security:authorize>
 					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
@@ -123,6 +123,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="audit/auditor/list.do"><spring:message code="master.page.auditor.audits" /></a></li>
+					<li><a href="quolet/auditor/list.do"><spring:message code="master.page.auditor.quolets" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -143,6 +144,7 @@
 					<li class="arrow"></li>
 					<li><a href="position/company/create.do"><spring:message code="action.create.position" /></a></li>
 					<li><a href="position/company/list.do"><spring:message code="action.list.position" /></a></li>
+					<li><a href="quolet/company/list.do"><spring:message code="master.page.auditor.quolets" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

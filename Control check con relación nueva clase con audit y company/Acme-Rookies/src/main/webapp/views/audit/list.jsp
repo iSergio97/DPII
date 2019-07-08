@@ -60,7 +60,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	
 	<security:authorize access="hasRole('COMPANY')">
 		<display:column>
-			<a href="xxxxx/company/create.do?auditId=${row.id}"><spring:message code="XXXXX" /></a>
+			<a href="quolet/company/create.do?auditId=${row.id}"><spring:message code="XXXXX" /></a>
 		</display:column>
 	</security:authorize>
 

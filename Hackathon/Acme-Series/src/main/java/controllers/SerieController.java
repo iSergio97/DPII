@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +12,15 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import domain.Application;
 import domain.Chapter;
@@ -37,6 +42,7 @@ import services.UserService;
 
 @Controller
 @RequestMapping("/serie")
+@CrossOrigin
 public class SerieController extends AbstractController {
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -118,6 +124,14 @@ public class SerieController extends AbstractController {
 				seriesWatchedByPrincipal.put(serieWatchedByPrincipal, true);
 			result.addObject("seriesWatchedByPrincipal", seriesWatchedByPrincipal);
 		}
+		final List<Gson> jsons = new ArrayList<>();
+		final List<Serie> series2 = this.serieService.findAll();
+		for (final Serie s : series2) {
+			final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			gson.toJson(s);
+			jsons.add(gson);
+		}
+		result.addObject("jsons", jsons);
 
 		return result;
 	}

@@ -44,7 +44,7 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Sevillerione
 		<security:intercept-url pattern="/audit/all/**" access="permitAll" />
 		<security:intercept-url pattern="/item/public/**" access="permitAll" />
 		<security:intercept-url pattern="/provider/public/**" access="permitAll" />
-		<security:intercept-url pattern="/xxxxx/public/**" access="permitAll" />
+		<security:intercept-url pattern="/quolet/public/**" access="permitAll" />
 
 		<!-- AUTHENTICATED -->
 
