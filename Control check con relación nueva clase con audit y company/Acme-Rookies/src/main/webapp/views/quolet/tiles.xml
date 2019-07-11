@@ -32,7 +32,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	</definition>
 
 	<definition name="quolet/company/create" extends="master.page">
-		<put-attribute name="title" value="Publish a new Serie" />
+		<put-attribute name="title" value="Publish a new quolet" />
 		<put-attribute name="body" value="/views/quolet/edit.jsp" />
 	</definition>
 
@@ -42,7 +42,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	</definition>
 	
 	<definition name="quolet/company/show" extends="master.page">
-		<put-attribute name="title" value="Show Serie" />
+		<put-attribute name="title" value="Show quolet" />
 		<put-attribute name="body" value="/views/quolet/show.jsp" />
 	</definition>
 	

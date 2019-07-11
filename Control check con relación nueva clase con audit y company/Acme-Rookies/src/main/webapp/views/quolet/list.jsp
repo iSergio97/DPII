@@ -4,6 +4,7 @@
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author Carlos Ruiz Briones
  --%>
+ 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -17,7 +18,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-<display:table name="quolets" id="row" pagesize="5" class="displaytag">
+
+<display:table name="quolets" id="row">
 	<jstl:set var="localeCode" value="${pageContext.response.locale}" />
 	<fmt:formatDate value="${row.publicationMoment}" pattern="dd" var="day" />
 	<fmt:formatDate value="${row.publicationMoment}" pattern="MM"
@@ -69,50 +71,3 @@
 	</security:authorize>
 
 </display:table>
-
-<p>Fecha formateada al inglés</p>
-<fmt:formatDate pattern="yy/MM/dd HH:mm" value="${currentDate}" />
-<br>
-<p>Fecha formateada al Español</p>
-<fmt:formatDate pattern="dd-MM-yy HH:mm" value="${currentDate}" />
-
-<p style="color: Red">Color rojo</p>
-<br>
-<p>Locale code</p>
-<jstl:if test="${localeCode eq 'es' }">
-	<jstl:out value="${day}-${month}-${year%100} ${hours}:${minutes}" />
-</jstl:if>
-<jstl:if test="${localeCode eq 'en' }">
-	<jstl:out value="${year%100}/${month}/${day} ${hours}:${minutes}" />
-</jstl:if>
-
-<fmt:formatDate value="${row.publicationMoment}" pattern="dd" var="day" />
-<fmt:formatDate value="${row.publicationMoment}" pattern="MM"
-	var="month" />
-<fmt:formatDate value="${row.publicationMoment}" pattern="yyyy"
-	var="year" />
-
-<br>
-Día:
-<jstl:out value="${day}"></jstl:out>
-<br>
-Mes:
-<jstl:out value="${month}"></jstl:out>
-<br>
-Año:
-<jstl:out value="${year}"></jstl:out>
-<br>
-<br>
-currentDay:
-<jstl:out value="${currentDay}"></jstl:out>
-<br>
-currentMonth:
-<jstl:out value="${currentMonth}"></jstl:out>
-<br>
-currentYear:
-<jstl:out value="${currentYear}"></jstl:out>
-
-<br>
-<br>
-Prueba de conversión de fecha a mano
-<jstl:out value="${day}-${month}-${year%100} ${hours}:${minutes}" />

@@ -69,7 +69,7 @@ public class QuoletController extends AbstractController {
 		result = this.createModelAndViewWithSystemConfiguration("quolet/company/list");
 
 		final int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		final int month = Calendar.getInstance().get(Calendar.MONTH);
+		final int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		final int year = Calendar.getInstance().get(Calendar.YEAR);
 		final Date currentDate = new Date();
 
