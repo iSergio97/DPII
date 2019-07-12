@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * brotherhood/tiles.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="brotherhood/public/list" extends="master.page">	
+		<put-attribute name="title" value="List Brotherhoods" />
+		<put-attribute name="body" value="/views/brotherhood/list.jsp" />
+	</definition>
+	
+	<definition name="brotherhood/public/show" extends="master.page">
+		<put-attribute name="title" value="Show Brotherhood" />
+		<put-attribute name="body" value="/views/brotherhood/show.jsp" />
+	</definition>
+	
+</tiles-definitions>

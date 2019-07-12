@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * i18n-l10n.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd 
+	">
+
+	<util:list id="messages">
+		<value>/views/master-page/messages</value>
+		<value>/views/misc/messages</value>
+		<value>/views/security/messages</value>		
+		<value>/views/welcome/messages</value>
+		
+		<value>/views/administrator/messages</value>
+		<value>/views/brotherhood/messages</value>
+		<value>/views/enrolment/messages</value>
+		<value>/views/float/messages</value>
+		<value>/views/parade/messages</value>
+		<value>/views/profile/messages</value>
+		<value>/views/inceptionRecord/messages</value>
+		<value>/views/legalRecord/messages</value>
+		<value>/views/linkRecord/messages</value>
+		<value>/views/miscellaneousRecord/messages</value>
+		<value>/views/periodRecord/messages</value>
+		<value>/views/register/messages</value>
+		<value>/views/request/messages</value>
+		<value>/views/history/messages</value>
+	</util:list>
+
+</beans>

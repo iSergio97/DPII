@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * request/tiles_es.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+ 	<definition name="/request/member/create" extends="master.page">
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/memberEdit.jsp" />
+	</definition>
+	
+	<definition name="/request/member/show" extends="master.page">	
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/memberShow.jsp" />
+	</definition> 
+
+	<definition name="/request/member/edit" extends="master.page">
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/memberEdit.jsp" />
+	</definition>  
+
+	<definition name="/request/member/list" extends="master.page">
+		<put-attribute name="title" value="Listado de solicitudes" />
+		<put-attribute name="body" value="/views/request/memberList.jsp" />
+	</definition>
+	
+	<definition name="/request/brotherhood/list" extends="master.page">	
+		<put-attribute name="title" value="Listado de solicitudes" />
+		<put-attribute name="body" value="/views/request/brotherhoodList.jsp" />
+	</definition>
+
+	<definition name="/request/brotherhood/show" extends="master.page">	
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/brotherhoodShow.jsp" />
+	</definition>
+
+	<definition name="/request/brotherhood/reject" extends="master.page">	
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/rejectMember.jsp" />
+	</definition> 
+
+	<definition name="/request/brotherhood/accept" extends="master.page">	
+		<put-attribute name="title" value="Solicitud de Desfile" />
+		<put-attribute name="body" value="/views/request/acceptMember.jsp" />
+	</definition>
+
+</tiles-definitions>
