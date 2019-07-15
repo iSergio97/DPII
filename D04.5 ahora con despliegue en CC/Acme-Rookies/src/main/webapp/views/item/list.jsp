@@ -14,7 +14,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="items" id="row" pagesize="5" class="displaytag">
+<display:table name="items" id="row" pagesize="1" class="displaytag" requestURI="item/provider/list.do">
 
 <display:column titleKey = "name">
 <jstl:out value="${row.name}" />

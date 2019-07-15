@@ -1,10 +1,12 @@
 /*
  * ProblemRepository.java
- * 
+ *
  * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
  */
 
 package repositories;
+
+import java.util.Collection;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,6 @@ import domain.Problem;
 public interface ProblemRepository extends AbstractRepository<Problem> {
 
 	@Query("select p from Position p join p.problems pr where pr.id = ?1")
-	Position findPositionAssociated(int problemId);
+	Collection<Position> findPositionAssociated(int problemId);
 
 }

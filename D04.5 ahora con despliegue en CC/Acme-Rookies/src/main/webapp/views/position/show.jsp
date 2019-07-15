@@ -51,7 +51,6 @@
 <strong><spring:message code="status" /></strong>
 :
 <jstl:if test="${position.status eq 'SUBMITTED' }">
-	<jstl:out value="ENVIADO" />
 	<spring:message code="status.submitted" />
 </jstl:if>
 <jstl:if test="${position.status eq 'ACCEPTED' }">
@@ -66,7 +65,7 @@
 
 
 <jstl:if test="${position.status eq 'SUBMITTED'}">
-	<a href="position/company/final.do?positionId=${position.id}">ç
+	<a href="position/company/final.do?positionId=${position.id}">
 		<spring:message code="final" />
 	</a>
 	<br>

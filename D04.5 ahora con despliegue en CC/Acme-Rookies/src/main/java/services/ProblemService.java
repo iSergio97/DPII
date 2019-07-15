@@ -1,17 +1,19 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.ProblemRepository;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import forms.ProblemForm;
+import repositories.ProblemRepository;
 
 @Service
 @Transactional
@@ -84,7 +86,8 @@ public class ProblemService extends AbstractService<ProblemRepository, Problem> 
 		return result;
 	}
 
-	public Position findPositionAssociated(final int problemId) {
+	public Collection<Position> findPositionAssociated(final int problemId) {
+
 		return this.problemRepository.findPositionAssociated(problemId);
 	}
 }

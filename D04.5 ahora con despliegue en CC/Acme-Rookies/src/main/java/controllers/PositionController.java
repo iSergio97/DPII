@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.AuditService;
-import services.CompanyService;
-import services.PositionService;
-import services.SponsorshipService;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
 import domain.Sponsorship;
 import forms.PositionForm;
+import security.LoginService;
+import services.AuditService;
+import services.CompanyService;
+import services.PositionService;
+import services.SponsorshipService;
 
 @Controller
 @RequestMapping("/position")
@@ -135,10 +135,12 @@ public class PositionController extends AbstractController {
 		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByPositionId(positionId);
 
 		final List<Sponsorship> list = new ArrayList<>(sponsorships);
-		final Random rand = new Random();
-		final int random = rand.nextInt(list.size());
-		final String banner = list.get(random).getBanner();
-
+		if (list.size() > 0) {
+			final Random rand = new Random();
+			final int random = rand.nextInt(list.size());
+			final String banner = list.get(random).getBanner();
+			result.addObject("banner", banner);
+		}
 		final String locale = Locale.getDefault().getLanguage();
 		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
@@ -148,7 +150,6 @@ public class PositionController extends AbstractController {
 			result.addObject("draft", position.getIsDraft());
 			result.addObject("problems", position.getProblems());
 			result.addObject("locale", locale);
-			result.addObject("banner", banner);
 		}
 
 		return result;

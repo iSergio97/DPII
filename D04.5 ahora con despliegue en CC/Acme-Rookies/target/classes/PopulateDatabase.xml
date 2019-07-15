@@ -657,7 +657,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="A.R.G.U.S." />
+		<property name="commercialName" value="ARGUS" />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
@@ -949,6 +949,7 @@
 		<property name="technologies" value="Tecnologías de prueba" />
 		<property name="salary" value="20000.0" />
 		<property name="ticker" value="AAAA-0002" />
+		<property name="status" value="ACCEPTED" />
 		<property name="isDraft" value="true" />
 		<property name="company" ref="company1" />
 		<property name="problems">

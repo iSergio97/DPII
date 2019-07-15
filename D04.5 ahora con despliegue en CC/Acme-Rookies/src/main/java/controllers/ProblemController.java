@@ -1,7 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CompanyService;
-import services.PositionService;
-import services.ProblemService;
 import domain.Position;
 import domain.Problem;
 import forms.ProblemForm;
+import services.CompanyService;
+import services.PositionService;
+import services.ProblemService;
 
 @Controller
 @RequestMapping("/problem")
@@ -101,13 +103,12 @@ public class ProblemController extends AbstractController {
 		ModelAndView result;
 		Problem problem;
 		ProblemForm form;
-		final Position p = this.problemService.findPositionAssociated(problemId);
 
 		problem = this.problemService.findOne(problemId);
 		form = this.problemService.createForm(problem);
-		form.setPositionId(p.getId());
 
-		Assert.isTrue(problem.getIsDraft());
+		if (!form.getIsDraft())
+			result = new ModelAndView("redirect:../welcome/index.do");
 
 		result = new ModelAndView("/problem/edit");
 		result.addObject("problem", form);
@@ -121,18 +122,24 @@ public class ProblemController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("problem") final ProblemForm problem, final BindingResult binding) {
 		ModelAndView result;
 		Problem problem2;
-		final Position pos = this.positionService.findOne(problem.getPositionId());
+		final List<Position> pos = new ArrayList<>();
+		if (problem.getId() == 0) {
+			final Position p = this.positionService.findOne(problem.getPositionId());
+			pos.add(p);
 
+		}
 		problem2 = this.problemService.reconstruct(problem, binding);
 		if (binding.hasErrors())
 			result = this.createAndEditModelAndView(problem);
 		else
 			try {
-				problem2.setIsDraft(true);
 				final Problem p = this.problemService.save(problem2);
-				pos.getProblems().add(p);
-				final Position newPos = this.positionService.save(pos);
-				result = this.list(newPos.getId());
+				for (final Position pos1 : pos) {
+					if (problem2.getId() == 0)
+						pos1.getProblems().add(p);
+					this.positionService.save(pos1);
+				}
+				result = new ModelAndView("redirect:../welcome/index.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problem, "problem.commit.error");
 			}
@@ -146,7 +153,7 @@ public class ProblemController extends AbstractController {
 	public ModelAndView saveFinal(@ModelAttribute("problem") final ProblemForm problem, final BindingResult binding) {
 		ModelAndView result;
 		Problem problem2;
-		final Position pos = this.positionService.findOne(problem.getPositionId());
+		final List<Position> pos = (List<Position>) this.problemService.findPositionAssociated(problem.getId());
 
 		problem2 = this.problemService.reconstruct(problem, binding);
 		if (binding.hasErrors())
@@ -155,9 +162,7 @@ public class ProblemController extends AbstractController {
 			try {
 				problem2.setIsDraft(false);
 				final Problem p = this.problemService.save(problem2);
-				pos.getProblems().add(p);
-				final Position newPos = this.positionService.save(pos);
-				result = this.list(newPos.getId());
+				result = new ModelAndView("redirect:../welcome/index.do");
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problem, "problem.commit.error");
 			}
@@ -175,11 +180,13 @@ public class ProblemController extends AbstractController {
 			result = this.createAndEditModelAndView(problemForm);
 		else
 			try {
-				final Position p = this.problemService.findPositionAssociated(problem.getId());
-				p.getProblems().remove(problem);
-				this.positionService.save(p);
+				final List<Position> p = (List<Position>) this.problemService.findPositionAssociated(problem.getId());
+				for (final Position pos : p) {
+					pos.getProblems().remove(problem);
+					this.positionService.save(pos);
+				}
 				this.problemService.delete(problem);
-				result = new ModelAndView("redirect:/problem/list.do?positionId=" + p.getId());
+				result = new ModelAndView("redirect:../welcome/index.do");
 
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(problemForm, "parade.commit.error");

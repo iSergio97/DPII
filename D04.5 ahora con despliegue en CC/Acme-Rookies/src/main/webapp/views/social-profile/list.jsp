@@ -14,7 +14,7 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="socialProfiles" id="row" class="displaytag">
+<display:table name="socialProfiles" id="row" class="displaytag" requestURI="social-profile/all/list.do">
 
 	<display:column titleKey="nick">
 		<jstl:out value="${row.nick}" />

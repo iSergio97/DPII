@@ -129,7 +129,7 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 	private void generateTicker(final Position position) {
 		String ticker = "";
 		final Company company = this.companyService.findByUserAccountId(LoginService.getPrincipal().getId());
-		ticker += company.getCommercialName().substring(0, 4);
+		ticker += company.getCommercialName().substring(0, 4).toUpperCase();
 		ticker += "-";
 		do
 			for (int i = 0; i < PositionService.TICKER_LENGTH; ++i)
@@ -187,8 +187,8 @@ public class PositionService extends AbstractService<PositionRepository, Positio
 		return this.repository.companyMax();
 	}
 
-	public Collection<Position> searchQuery(String text) {
-		String query = "%" + text + "%";
+	public Collection<Position> searchQuery(final String text) {
+		final String query = "%" + text + "%";
 		return this.repository.searchQuery(query);
 	}
 }
