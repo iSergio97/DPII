@@ -19,7 +19,7 @@
 
 
 
-<display:table name="quolets" id="row">
+<display:table name="quolets" id="row" requestURI="quolet/company/list.do" pagesize="2">
 	<jstl:set var="localeCode" value="${pageContext.response.locale}" />
 	<fmt:formatDate value="${row.publicationMoment}" pattern="dd" var="day" />
 	<fmt:formatDate value="${row.publicationMoment}" pattern="MM"

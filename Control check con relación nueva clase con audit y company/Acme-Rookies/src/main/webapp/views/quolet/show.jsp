@@ -18,7 +18,8 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 <div>
 	<acme:field value="${quolet.body}" code="body" />
 	<spring:message code="picture" />
-	: <img src="${quolet.picture}" />
+	: <a href="${quolet.picture}" target="_blank"> <spring:message code="quoletImage" />
+	</a>
 </div>
 
 <security:authorize access="hasRole('COMPANY')">
@@ -31,7 +32,8 @@ Copyright (C) 2019 Group 16 Desing & Testing II
 				code="saveAsFinal" /></a>
 		<br>
 		<br>
-		<form:form modelAttribute="quolet" action="quolet/company/delete.do?quoletId=${quolet.id}" method="POST">
+		<form:form modelAttribute="quolet"
+			action="quolet/company/delete.do?quoletId=${quolet.id}" method="POST">
 			<acme:submit name="delete" code="delete" />
 		</form:form>
 	</jstl:if>

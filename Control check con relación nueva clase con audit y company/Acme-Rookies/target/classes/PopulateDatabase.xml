@@ -657,7 +657,7 @@
 	<bean id="company1" class="domain.Company">
 		<property name="name" value="Grupo de Investigación Avanzada Apoyo Unificado" />
 		<property name="surnames" value="ARGUS" />
-		<property name="commercialName" value="A.R.G.U.S." />
+		<property name="commercialName" value="ARGUS" />
 		<property name="vat" value="742" />
 		<property name="creditCard" ref="creditCardCompany1" />
 		<property name="photo" value="" />
@@ -1188,7 +1188,7 @@
 		<property name="body" value="TEST QUOLET 1"/>
 		<property name="picture" value=""/>
 		<property name="audit" ref="audit1"/>
-		<property name="draftMode" value="false"/>
+		<property name="draftMode" value="true"/>
 		<property name="company" ref="company1"/>
 	</bean>
 
@@ -1208,7 +1208,7 @@
 		<property name="body" value="TEST QUOLET 1"/>
 		<property name="picture" value=""/>
 		<property name="audit" ref="audit2"/>
-		<property name="draftMode" value="false"/>
+		<property name="draftMode" value="true"/>
 		<property name="company" ref="company2"/>
 	</bean>
 
