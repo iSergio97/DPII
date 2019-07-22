@@ -3,15 +3,14 @@ package controllers;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Finder;
@@ -51,7 +50,11 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 		Rookie rookie;
 		Finder finder;
+<<<<<<< HEAD
 		Collection<Position> positions;
+=======
+		Collection<Position> positions = new ArrayList<Position>();
+>>>>>>> develop
 
 		rookie = this.rookieService.findPrincipal();
 		finder = this.finderService.findPrincipal(rookie.getId());
@@ -78,6 +81,7 @@ public class FinderController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		FinderForm finder;
+<<<<<<< HEAD
 
 		finder = this.finderService.createForm();
 		result = this.createAndEditModelAndView(finder);
@@ -98,6 +102,17 @@ public class FinderController extends AbstractController {
 		result = new ModelAndView("/finder/edit");
 		result.addObject("finder", finder);
 
+=======
+		Rookie rookie = this.rookieService.findPrincipal();
+		Finder finder2 = finderService.findPrincipal(rookie.getId());
+		if (finder2 == null) {
+			finder = this.finderService.createForm();
+			result = this.createAndEditModelAndView(finder);
+		} else {
+			finder = this.finderService.deconstruct(finder2);
+			result = this.createAndEditModelAndView(finder);
+		}
+>>>>>>> develop
 		return result;
 	}
 
@@ -107,6 +122,7 @@ public class FinderController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("finder") final FinderForm finder, final BindingResult binding) {
 		ModelAndView result;
 		Finder finder2;
+<<<<<<< HEAD
 
 		finder2 = this.finderService.reconstruct(finder, binding);
 		if (binding.hasErrors())
@@ -124,22 +140,36 @@ public class FinderController extends AbstractController {
 				result = this.list();
 			} catch (final Throwable oops) {
 				result = this.createAndEditModelAndView(finder, "problem.commit.error");
+=======
+		Date date = new Date();
+		Collection<Position> positions;
+		try {
+			finder2 = this.finderService.reconstruct(finder, binding);
+			//finder2.setMoment(finder2.getMoment().getSeconds() + scs);
+			//Revisar esta parte para el finder
+			finder2.getMoment().setHours(finder2.getMoment().getHours() + scs.getSystemConfiguration().getFinderCacheTime());
+			if (finder2.getMoment().compareTo(date) < 0 || finder2.getId() == 0) {
+				positions = this.finderService.findPositions("%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%", "%'" + finder.getKeyword() + "'%",
+					"%'" + finder.getKeyword() + "'%", finder.getDeadline(), finder.getMaximumDeadline(), finder.getMinimumSalary());
+				if (positions.isEmpty())
+					positions = this.positionService.findAll();
+				finder2.setMoment(new Date());
+				List<Position> subList = new ArrayList<>(positions);
+				if (positions.size() > scs.getSystemConfiguration().getMaximumFinderResults()) {
+					finder2.setPositions(subList.subList(0, scs.getSystemConfiguration().getMaximumFinderResults()));
+				} else {
+					finder2.setPositions(positions);
+				}
+				this.finderService.save(finder2);
+			} else {
+				positions = finder2.getPositions();
+>>>>>>> develop
 			}
 
-		return result;
-	}
-
-	//Delete------------------------------------------
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@RequestParam("finderId") final int finderId) {
-		ModelAndView result;
-		Finder finder;
-
-		finder = this.finderService.findOne(finderId);
-		this.finderService.delete(finder);
-		result = this.list();
-
+			result = this.list();
+		} catch (final Throwable oops) {
+			result = this.createAndEditModelAndView(finder, "problem.commit.error");
+		}
 		return result;
 	}
 
@@ -162,6 +192,7 @@ public class FinderController extends AbstractController {
 
 		return result;
 	}
+<<<<<<< HEAD
 
 	private String dateFormatter(final Date date) {
 		String s = "" + date.getYear() + "-";
@@ -176,4 +207,6 @@ public class FinderController extends AbstractController {
 
 		return s;
 	}
+=======
+>>>>>>> develop
 }

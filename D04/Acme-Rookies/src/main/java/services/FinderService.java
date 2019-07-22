@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +63,6 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		form.setDeadline(new Date());
 		form.setMinimumSalary(0.0);
 		form.setMaximumDeadline(new Date());
-		form.setMoment(new Date());
 
 		return form;
 	}
@@ -78,9 +79,12 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		result.setDeadline(form.getDeadline());
 		result.setMinimumSalary(form.getMinimumSalary());
 		result.setMaximumDeadline(form.getMaximumDeadline());
-		result.setMoment(form.getMoment());
 
 		this.validator.validate(result, binding);
+
+		if (binding.hasErrors()) {
+			throw new ValidationException();
+		}
 
 		return result;
 	}
@@ -97,4 +101,16 @@ public class FinderService extends AbstractService<FinderRepository, Finder> {
 		return f;
 	}
 
+<<<<<<< HEAD
+=======
+	public FinderForm deconstruct(Finder finder) {
+		FinderForm f = this.createForm();
+		f.setKeyword(finder.getKeyword());
+		f.setId(finder.getId());
+		f.setDeadline(finder.getDeadline());
+		f.setMinimumSalary(finder.getMinimumSalary());
+		return f;
+	}
+
+>>>>>>> develop
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+serie/tiles.xml
+
+Copyright (C) 2019 Group 16 Desing & Testing II
+-->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Public -->
+
+	<definition name="quolet/public/list" extends="master.page">
+		<put-attribute name="title" value="All quolet" />
+		<put-attribute name="body" value="/views/quolet/list.jsp" />
+	</definition>
+
+	<definition name="quolet/public/show" extends="master.page">
+		<put-attribute name="title" value="Show quolet" />
+		<put-attribute name="body" value="/views/quolet/show.jsp" />
+	</definition>
+
+	<!-- Company -->
+
+	<definition name="quolet/company/list" extends="master.page">
+		<put-attribute name="title" value="My quolet" />
+		<put-attribute name="body" value="/views/quolet/list.jsp" />
+	</definition>
+
+	<definition name="quolet/company/create" extends="master.page">
+		<put-attribute name="title" value="Publish a new quolet" />
+		<put-attribute name="body" value="/views/quolet/edit.jsp" />
+	</definition>
+
+	<definition name="quolet/company/edit" extends="master.page">
+		<put-attribute name="title" value="Edit quolet" />
+		<put-attribute name="body" value="/views/quolet/edit.jsp" />
+	</definition>
+	
+	<definition name="quolet/company/show" extends="master.page">
+		<put-attribute name="title" value="Show quolet" />
+		<put-attribute name="body" value="/views/quolet/show.jsp" />
+	</definition>
+	
+	<definition name="quolet/company/save" extends="master.page">
+		<put-attribute name="title" value="Edit quolet" />
+		<put-attribute name="body" value="/views/quolet/edit.jsp" />
+	</definition>
+	
+	<definition name="quolet/company/saveAsFinal" extends="master.page">
+		<put-attribute name="title" value="Edit quolet" />
+		<put-attribute name="body" value="/views/quolet/edit.jsp" />
+	</definition>
+	
+</tiles-definitions>

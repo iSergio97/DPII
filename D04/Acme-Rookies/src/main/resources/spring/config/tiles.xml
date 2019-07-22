@@ -27,5 +27,15 @@
 		<value>/views/application/tiles.xml</value>
 		<value>/views/socialprofile/tiles.xml</value>
 		<value>/views/finder/tiles.xml</value>
+<<<<<<< HEAD
+=======
+		<value>/views/audit/tiles.xml</value>
+		<value>/views/message/tiles.xml</value>
+		<value>/views/message-box/tiles.xml</value>
+		<value>/views/company/tiles.xml</value>
+		<value>/views/item/tiles.xml</value>
+		<value>/views/provider/tiles.xml</value>
+		<value>/views/sponsorship/tiles.xml</value>
+>>>>>>> develop
 	</util:list>
 </beans>

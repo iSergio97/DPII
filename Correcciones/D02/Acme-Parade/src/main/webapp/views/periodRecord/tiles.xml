@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * periodRecord/tiles.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	
+	<definition name="/periodRecord/create" extends="master.page">
+		<put-attribute name="title" value="Create period Record" />
+		<put-attribute name="body" value="/views/periodRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/periodRecord/edit" extends="master.page">
+		<put-attribute name="title" value="Edit period Record" />
+		<put-attribute name="body" value="/views/periodRecord/edit.jsp" />
+	</definition>
+	
+	<definition name="/periodRecord/list" extends="master.page">
+		<put-attribute name="title" value="List Period Records" />
+		<put-attribute name="body" value="/views/periodRecord/list.jsp" />
+	</definition>
+	
+	<definition name="/periodRecord/show" extends="master.page">
+		<put-attribute name="title" value="Show Period Record" />
+		<put-attribute name="body" value="/views/periodRecord/show.jsp" />
+	</definition>
+	
+</tiles-definitions>

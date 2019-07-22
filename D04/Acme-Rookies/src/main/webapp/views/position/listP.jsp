@@ -29,6 +29,22 @@
 		<display:column property="commercialName">
 			<jstl:out value="${row.commercialName}" />
 		</display:column>
+	
+		<security:authorize access="hasRole('AUDITOR')">
+			<jstl:if test="${row.status eq 'ACCEPTED'}">
+				<display:column>
+					<a href="audit/auditor/create.do?positionId=${row.id}"><spring:message code="audit" /></a>
+				</display:column>
+			</jstl:if>
+		</security:authorize>
+	
+		<security:authorize access="hasRole('ROOKIE')">
+			<jstl:if test="${row.status eq 'ACCEPTED'}">
+				<display:column>
+					<a href="application/rookie/create.do?positionId=${row.id}"><spring:message code="apply" /></a>
+				</display:column>
+			</jstl:if>
+		</security:authorize>
 
 		<display:column>
 			<a href="position/all/show.do?companyId=${row.id}"><spring:message code="show" /></a>

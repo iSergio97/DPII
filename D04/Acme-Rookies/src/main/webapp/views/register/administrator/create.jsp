@@ -4,6 +4,18 @@
  * Copyright (C) 2019 Group 16 Desing & Testing II
  * @author José Antonio Domínguez Gómez
  --%>
+<<<<<<< HEAD
+=======
+ 
+  <script type="text/javascript">
+      function test() {
+          //let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
+          if(!document.getElementById("phoneNumber").value.includes("(+34)")){
+              return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?");
+          }
+        }
+    </script>
+>>>>>>> develop
 
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
@@ -23,8 +35,8 @@
 	<acme:register code="surnames" path="surnames"/>
 	<acme:register code="vat" path="vat"/>
 	<acme:register code="email" path="email"/>
-	<acme:register code="photo" path="photo"/>
-	<acme:register code="phoneNumber" path="phoneNumber"/>
+	<acme:registerWithPlaceholder code="photo" path="photo" placeholder="https://imgur.com/r/panda/vhGv9Z0"/>
+		<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber" placeholder="+XX (YYY) ZZZZZZ"/>
 	<acme:register code="address" path="address"/>
 	<acme:register code="username" path="username"/>
 	<acme:password code="password" path="password"/>

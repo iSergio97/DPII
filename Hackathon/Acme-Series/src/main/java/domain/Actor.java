@@ -1,0 +1,136 @@
+/*
+ * Actor.java
+ * 
+ * Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+ */
+
+package domain;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
+
+import security.UserAccount;
+
+@Entity
+@Access(AccessType.PROPERTY)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Actor extends DomainEntity {
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Fields
+
+	private String		name;
+	private String		surnames;
+	private String		email;
+	private String		phoneNumber;
+	private String		address;
+	private String		photo;
+	private boolean		isFlagged;
+	private boolean		isBanned;
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationships
+
+	private UserAccount	userAccount;
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Field access methods
+
+	@NotBlank
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	@NotBlank
+	public String getSurnames() {
+		return this.surnames;
+	}
+
+	public void setSurnames(final String surnames) {
+		this.surnames = surnames;
+	}
+
+	@NotBlank
+	// identificator@domain
+	@Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+$")
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	// "+CP (CA) NP" xor "+CP NP" xor empty string
+	@Pattern(regexp = "^(|\\+\\d{1,3} \\(\\d{1,3}\\) \\d{4,}|\\+\\d{1,3} \\d{4,})$")
+	public String getPhoneNumber() {
+		return this.phoneNumber;
+	}
+
+	public void setPhoneNumber(final String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(final String address) {
+		this.address = address;
+	}
+
+	@URL
+	public String getPhoto() {
+		return this.photo;
+	}
+
+	public void setPhoto(final String photo) {
+		this.photo = photo;
+	}
+
+	public boolean getIsFlagged() {
+		return this.isFlagged;
+	}
+
+	public void setIsFlagged(final boolean isFlagged) {
+		this.isFlagged = isFlagged;
+	}
+
+	public boolean getIsBanned() {
+		return this.isBanned;
+	}
+
+	public void setIsBanned(final boolean isBanned) {
+		this.isBanned = isBanned;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Relationship access methods
+
+	@NotNull
+	@Valid
+	@OneToOne(optional = false)
+	public UserAccount getUserAccount() {
+		return this.userAccount;
+	}
+
+	public void setUserAccount(final UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
+
+}

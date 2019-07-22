@@ -1,8 +1,11 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.validation.ValidationException;
 
@@ -16,27 +19,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+<<<<<<< HEAD
 import services.CompanyService;
 import services.PositionService;
+=======
+import services.AuditService;
+import services.CompanyService;
+import services.PositionService;
+import services.SponsorshipService;
+>>>>>>> develop
 import domain.Company;
 import domain.Position;
 import domain.Problem;
+import domain.Sponsorship;
 import forms.PositionForm;
 
 @Controller
 @RequestMapping("/position")
 public class PositionController extends AbstractController {
 
-	// Services
-	@Autowired
-	private PositionService	positionService;
+	// Services ---------------------------------------------------------------
 
 	@Autowired
-	private CompanyService	companyService;
+	private AuditService		auditService;
+	@Autowired
+	private CompanyService		companyService;
+	@Autowired
+	private PositionService		positionService;
+	@Autowired
+	private SponsorshipService	sponsorshipService;
 
 
-	//@Autowired
-	//private ProblemService	problemService;
+	// Constructor ------------------------------------------------------------
 
 	public PositionController() {
 		super();
@@ -123,6 +137,13 @@ public class PositionController extends AbstractController {
 	public ModelAndView show(@RequestParam final int positionId) {
 		ModelAndView result = new ModelAndView("redirect:list.do");
 		Position position;
+		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findByPositionId(positionId);
+
+		final List<Sponsorship> list = new ArrayList<>(sponsorships);
+		final Random rand = new Random();
+		final int random = rand.nextInt(list.size());
+		final String banner = list.get(random).getBanner();
+
 		final String locale = Locale.getDefault().getLanguage();
 		final Company company = this.companyService.findPrincipal();
 		position = this.positionService.findOne(positionId);
@@ -132,6 +153,7 @@ public class PositionController extends AbstractController {
 			result.addObject("draft", position.getIsDraft());
 			result.addObject("problems", position.getProblems());
 			result.addObject("locale", locale);
+			result.addObject("banner", banner);
 		}
 
 		return result;
@@ -153,16 +175,35 @@ public class PositionController extends AbstractController {
 	}
 
 	// Public list ------------------------------------------------------------
+
 	@RequestMapping(value = "/all/list", method = RequestMethod.GET)
 	public ModelAndView publicList() {
 		ModelAndView res;
+<<<<<<< HEAD
 		final Collection<Company> companies = this.companyService.findAll();
 
+=======
+		final Collection<Position> positions;
+		positions = this.positionService.findAll();
+		res = new ModelAndView("position/all/list");
+		res.addObject("positions", positions);
+
+		return res;
+	}
+
+	@RequestMapping(value = "/all/list", method = RequestMethod.POST)
+	public ModelAndView publicList(@RequestParam final String keyword) {
+		ModelAndView res;
+		final Collection<Position> positions;
+		if (keyword == "")
+			positions = this.positionService.findAll();
+		else
+			positions = this.positionService.searchQuery(keyword);
+>>>>>>> develop
 		res = new ModelAndView("position/all/list");
 		res.addObject("companies", companies);
 
 		return res;
-
 	}
 
 	// Public show ------------------------------------------------------------
@@ -170,6 +211,7 @@ public class PositionController extends AbstractController {
 	@RequestMapping(value = "/all/show", method = RequestMethod.GET)
 	public ModelAndView publicShow(@RequestParam final int companyId) {
 		ModelAndView res;
+<<<<<<< HEAD
 		final Company company = this.companyService.findOne(companyId);
 		final Collection<Position> positions = this.positionService.findPositionsForPublic(company);
 
@@ -178,6 +220,17 @@ public class PositionController extends AbstractController {
 		return res;
 	}
 
+=======
+		final Position p = this.positionService.findOne(positionId);
+		final Company company = p.getCompany();
+		res = new ModelAndView("position/all/show-company");
+		res.addObject("company", company);
+		return res;
+	}
+
+	// Public query for public positions list
+
+>>>>>>> develop
 	// Ancillary Methods ------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final PositionForm position) {

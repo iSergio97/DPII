@@ -95,3 +95,8 @@ D04/Acme-Rookies/.settings/org.eclipse.wst.jsdt.ui.superType.container
 D04/Acme-Rookies/.settings/org.eclipse.wst.jsdt.ui.superType.name
 D04/Acme-Rookies/.settings/org.eclipse.wst.validation.prefs
 D04/Acme-Rookies/.sts4-cache/classpath-data.json
+<<<<<<< HEAD
+=======
+
+*.bak
+>>>>>>> develop

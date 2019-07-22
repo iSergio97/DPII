@@ -5,7 +5,16 @@
  * @author José Antonio Domínguez Gómez
  --%>
 
+<<<<<<< HEAD
 <%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+=======
+<script type="text/javascript">
+	function test() {
+		//let patron = "[(][+][0-9]{2}[)] [0-9]{3} [0-9]{6,}";
+		if (!document.getElementById("phoneNumber").value.startsWith("+")) { return !confirm("Your phone number dont have prefix. Do you want to add one? \n Tu teléfono no tiene prefijo de zona. ¿Quiere añadir uno?"); }
+	}
+</script>
+>>>>>>> develop
 
 <%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -19,6 +28,7 @@
 	<form:hidden path="id"/>
 	
 	<%-- Campos de usuario --%>
+<<<<<<< HEAD
 	<acme:register code="name" path="name"/>
 	<acme:register code="surnames" path="surnames"/>
 	<acme:register code="vat" path="vat"/>
@@ -30,6 +40,31 @@
 	<acme:password code="password" path="password"/>
 	<acme:password code="confirmPassword" path="confirmPassword"/>
 	
+=======
+	<fieldset>
+		<legend>
+			<spring:message code="actorProperties" />
+		</legend>
+		<acme:register code="name" path="name" />
+		<acme:register code="surnames" path="surnames" />
+		<acme:register code="vat" path="vat" />
+		<acme:register code="email" path="email" />
+		<acme:registerWithPlaceholder code="photo" path="photo"
+			placeholder="https://imgur.com/r/panda/vhGv9Z0" />
+		<acme:registerWithPlaceholder code="phoneNumber" path="phoneNumber"
+			placeholder="+XX (YYY) ZZZZZZ" />
+		<acme:register code="address" path="address" />
+	</fieldset>
+	<br>
+
+	<spring:message code="userAccountProperties" />
+	<fieldset>
+		<acme:register code="username" path="username" />
+		<acme:password code="password" path="password" />
+		<acme:password code="confirmPassword" path="confirmPassword" />
+	</fieldset>
+	<br>
+>>>>>>> develop
 	<%-- Campos de tarjeta de crédito --%>
 	<acme:register code="holder" path="holder"/>
 	<acme:register code="brand" path="brand"/>

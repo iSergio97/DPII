@@ -30,6 +30,16 @@ Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
 		<value>/views/problem/messages</value>
 		<value>/views/register/messages</value>
 		<value>/views/finder/messages</value>
+<<<<<<< HEAD
+=======
+		<value>/views/audit/messages</value>
+		<value>/views/message/messages</value>
+		<value>/views/message-box/messages</value>
+		<value>/views/company/messages</value>
+		<value>/views/item/messages</value>
+		<value>/views/provider/messages</value>
+		<value>/views/sponsorship/messages</value>
+>>>>>>> develop
 	</util:list>
 
 </beans>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- * serie/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing II -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="chapter/publisher/create"
+		extends="master.page">
+		<put-attribute name="title" value="Crear nuevo capítulo" />
+		<put-attribute name="body"
+			value="/views/chapter/edit.jsp" />
+	</definition>
+	
+	<definition name="chapter/publisher/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Editar capítulo" />
+		<put-attribute name="body"
+			value="/views/chapter/edit.jsp" />
+	</definition>
+
+	<definition name="chapter/publisher/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Capítulos" />
+		<put-attribute name="body"
+			value="/views/chapter/list.jsp" />
+	</definition>
+
+	<definition name="chapter/publisher/show"
+		extends="master.page">
+		<put-attribute name="title" value="Mostrar capítulo" />
+		<put-attribute name="body"
+			value="/views/chapter/show.jsp" />
+	</definition>
+	
+	<definition name="chapter/public/list"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Capítulos" />
+		<put-attribute name="body"
+			value="/views/chapter/list.jsp" />
+	</definition>
+
+	<definition name="chapter/public/show"
+		extends="master.page">
+		<put-attribute name="title" value="Mostrar capítulo" />
+		<put-attribute name="body"
+			value="/views/chapter/show.jsp" />
+	</definition>
+	
+	<definition name="chapter/administrator/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Editar capítulo" />
+		<put-attribute name="body"
+			value="/views/chapter/adminEdit.jsp" />
+	</definition>
+	
+	
+	</tiles-definitions>

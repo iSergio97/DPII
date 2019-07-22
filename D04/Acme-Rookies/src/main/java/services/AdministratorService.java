@@ -7,7 +7,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.ValidationException;
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import domain.Administrator;
+import domain.CreditCard;
+import forms.RegisterAdministratorForm;
 import repositories.AdministratorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Administrator;
-import domain.CreditCard;
-import forms.RegisterAdministratorForm;
 
 @Service
 @Transactional
@@ -78,11 +77,9 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		administratorForm.setUsername("");
 		administratorForm.setPassword("");
 		administratorForm.setConfirmPassword("");
-		administratorForm.setCVV(100);
+		administratorForm.setCVV("");
 		administratorForm.setBrand("");
 		administratorForm.setHolder("");
-		administratorForm.setExpirationMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
-		administratorForm.setExpirationYear(Calendar.getInstance().get(Calendar.YEAR) % 100);
 
 		return administratorForm;
 	}
@@ -113,7 +110,7 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		cc.setNumber(administratorForm.getNumber());
 		cc.setExpirationMonth(administratorForm.getExpirationMonth());
 		cc.setExpirationYear(administratorForm.getExpirationYear());
-		cc.setCVV(administratorForm.getCVV());
+		cc.setCVV(Integer.valueOf(administratorForm.getCVV()));
 
 		result.setCreditCard(cc);
 
@@ -146,7 +143,7 @@ public class AdministratorService extends AbstractService<AdministratorRepositor
 		administratorForm.setNumber(administrator.getCreditCard().getNumber());
 		administratorForm.setExpirationMonth(administrator.getCreditCard().getExpirationMonth());
 		administratorForm.setExpirationYear(administrator.getCreditCard().getExpirationYear());
-		administratorForm.setCVV(administrator.getCreditCard().getCVV());
+		administratorForm.setCVV(String.valueOf(administrator.getCreditCard().getCVV()));
 
 		return administratorForm;
 	}

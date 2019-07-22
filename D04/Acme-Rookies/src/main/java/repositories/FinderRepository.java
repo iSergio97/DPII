@@ -17,8 +17,13 @@ import domain.Position;
 @Repository
 public interface FinderRepository extends AbstractRepository<Finder> {
 
+<<<<<<< HEAD
 	@Query("select p from Position p where p.ticker like ?1 OR p.title like ?2 OR p.description like ?3 OR p.skills like ?4 OR p.technologies like ?5 OR p.profile like ?6 OR p.deadline <= ?7 OR p.deadline <= ?8 OR p.salary = ?9")
 	Collection<Position> findPositions(String kw1, String kw2, String kw3, String kw4, String kw5, String kw6, String deadline, String maximumDeadline, double minimumSalary);
+=======
+	@Query("select p from Position p where p.ticker like ?1 OR p.title like ?2 OR p.description like ?3 OR p.skills like ?4 OR p.technologies like ?5 OR p.profile like ?6 OR (p.deadline >= ?7 AND p.deadline <= ?8) OR p.salary >= ?9")
+	Collection<Position> findPositions(String kw1, String kw2, String kw3, String kw4, String kw5, String kw6, Date deadline, Date maximumDeadline, double minimumSalary);
+>>>>>>> develop
 
 	@Query("select f from Finder f where f.rookie.id = ?1")
 	Finder findPrincipal(int rookieId);

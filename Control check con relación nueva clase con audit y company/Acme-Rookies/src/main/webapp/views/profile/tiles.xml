@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles.xml
+ *
+ * Copyright (C) 2019 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="profile/administrator/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/show.jsp" />
+	</definition>
+	
+		<definition name="profile/rookie/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/show.jsp" />
+	</definition>
+	
+		<definition name="profile/company/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/show.jsp" />
+	</definition>
+	
+	<definition name="profile/provider/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/show.jsp" />
+	</definition>
+	
+	<definition name="profile/auditor/show" extends="master.page">
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body"
+			value="/views/profile/show.jsp" />
+	</definition>
+	
+</tiles-definitions>

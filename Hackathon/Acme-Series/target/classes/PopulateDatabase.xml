@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+PopulateDatabase.xml
+Copyright (c) 2019 Group 16 of Design and Testing II, University of Seville
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<!-- System configuration -->
+
+	<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="systemName" value="Acme Series" />
+		<property name="banner" value="" />
+		<property name="defaultCountryCode" value="34" />
+		<property name="maximumFinderResults" value="10" />
+		<property name="spamWords">
+			<list>
+				<value>sex</value>
+				<value>viagra</value>
+				<value>cialis</value>
+				<value>one million</value>
+				<value>you've been selected</value>
+				<value>you have been selected</value>
+				<value>Nigeria</value>
+				<value>sexo</value>
+				<value>un millón</value>
+				<value>ha sido seleccionado</value>
+				<value>has sido seleccionado</value>
+			</list>
+		</property>
+		<property name="positiveWords">
+			<list>
+				<value>good</value>
+				<value>positive</value>
+				<value>excellent</value>
+				<value>successful</value>
+				<value>better</value>
+				<value>best</value>
+				<value>optimal</value>
+				<value>fantastic</value>
+				<value>unbelievable</value>
+				<value>astonishing</value>
+				<value>magnificent</value>
+				<value>impressing</value>
+				<value>great</value>
+				<value>genial</value>
+				<value>amazing</value>
+				<value>terrific</value>
+				<value>marvellous</value>
+				<value>wonderful</value>
+				<value>master piece</value>
+				<value>wonder</value>
+				<value>fascinating</value>
+				<value>bueno</value>
+				<value>buena</value>
+				<value>positivo</value>
+				<value>positiva</value>
+				<value>excelente</value>
+				<value>satisfactorio</value>
+				<value>satisfactoria</value>
+				<value>mejor</value>
+				<value>óptimo</value>
+				<value>óptima</value>
+				<value>fantástico</value>
+				<value>fantástica</value>
+				<value>increíble</value>
+				<value>asombroso</value>
+				<value>asombrosa</value>
+				<value>magnífico</value>
+				<value>magnífica</value>
+				<value>impresionante</value>
+				<value>maravilla</value>
+				<value>obra maestra</value>
+				<value>fascinante</value>
+			</list>
+		</property>
+		<property name="negativeWords">
+			<list>
+				<value>bad</value>
+				<value>negative</value>
+				<value>deplorable</value>
+				<value>disappointing</value>
+				<value>regretful</value>
+				<value>disaster</value>
+				<value>aberration</value>
+				<value>worse</value>
+				<value>awful</value>
+				<value>disastrous</value>
+				<value>garbage</value>
+				<value>rubbish</value>
+				<value>so-so</value>
+				<value>horrible</value>
+				<value>malo</value>
+				<value>mala</value>
+				<value>negativo</value>
+				<value>negativa</value>
+				<value>decepcionante</value>
+				<value>lamentable</value>
+				<value>desastre</value>
+				<value>aberración</value>
+				<value>peor</value>
+				<value>pésimo</value>
+				<value>pésima</value>
+				<value>desastroso</value>
+				<value>desastrosa</value>
+				<value>bodrio</value>
+				<value>basura</value>
+				<value>mediocre</value>
+			</list>
+		</property>
+		<property name="welcomeMessage">
+			<map>
+				<entry key="en" value="Welcome to Acme Series!" />
+				<entry key="es" value="¡Bienvenidos a Acme Series!" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- User accounts -->
+
+	<bean id="userAccountAdmin1" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password"
+			value="e00cf25ad42683b3df678c61f42c6bda" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMINISTRATOR" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountPublisher1" class="security.UserAccount">
+		<property name="username" value="publisher1" />
+		<property name="password"
+			value="c4a675af07781d21b0488cb1fc23cea1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="PUBLISHER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountPublisher2" class="security.UserAccount">
+		<property name="username" value="publisher2" />
+		<property name="password"
+			value="a86cb59a9b6fbc864161dba10e59e24c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="PUBLISHER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountCritic1" class="security.UserAccount">
+		<property name="username" value="critic1" />
+		<property name="password"
+			value="165d185050bab438668aef6faeee3be5" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CRITIC" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountCritic2" class="security.UserAccount">
+		<property name="username" value="critic2" />
+		<property name="password"
+			value="88fc227c1f12e1f11b8b1584991c88fe" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CRITIC" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountUser1" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password"
+			value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountUser2" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password"
+			value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Administrators -->
+
+	<bean id="admin1" class="domain.Administrator">
+		<property name="name" value="Señor" />
+		<property name="surnames" value="X" />
+		<property name="email" value="x@gmail.com" />
+		<property name="phoneNumber" value="+1 (420) 4206969" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountAdmin1" />
+	</bean>
+
+	<!-- Publishers -->
+
+	<bean id="publisher1" class="domain.Publisher">
+		<property name="name" value="Antonio" />
+		<property name="surnames" value="Publicador" />
+		<property name="email" value="tonno@gmail.com" />
+		<property name="phoneNumber" value="+34 (111) 123456" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountPublisher1" />
+	</bean>
+
+	<bean id="publisher2" class="domain.Publisher">
+		<property name="name" value="María" />
+		<property name="surnames" value="Antonia" />
+		<property name="email" value="marya@gmail.com" />
+		<property name="phoneNumber" value="+34 (999) 678123" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountPublisher2" />
+	</bean>
+
+	<!-- Critics -->
+
+	<bean id="critic1" class="domain.Critic">
+		<property name="name" value="Ana" />
+		<property name="surnames" value="A" />
+		<property name="email" value="anana@gmail.com" />
+		<property name="phoneNumber" value="+1 (199) 192837465" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountCritic1" />
+	</bean>
+
+	<bean id="critic2" class="domain.Critic">
+		<property name="name" value="Javier" />
+		<property name="surnames" value="Z" />
+		<property name="email" value="trigo@gmail.com" />
+		<property name="phoneNumber" value="+1 (963) 111222" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountCritic2" />
+	</bean>
+
+	<!-- Users -->
+
+	<bean id="user1" class="domain.User">
+		<property name="name" value="Pablo" />
+		<property name="surnames" value="Bolo" />
+		<property name="email" value="pb@gmail.com" />
+		<property name="phoneNumber" value="+1 (777) 88888888" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountUser1" />
+	</bean>
+
+	<bean id="user2" class="domain.User">
+		<property name="name" value="Aa" />
+		<property name="surnames" value="Dd" />
+		<property name="email" value="aadd@gmail.com" />
+		<property name="phoneNumber" value="+34 (123) 321123" />
+		<property name="address" value="" />
+		<property name="photo" value="" />
+		<property name="isFlagged" value="false" />
+		<property name="isBanned" value="false" />
+		<property name="userAccount" ref="userAccountUser2" />
+	</bean>
+
+	<!-- Message boxes -->
+
+	<bean id="inBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="outBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="spamBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="trashBoxAdmin1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="admin1" />
+	</bean>
+
+	<bean id="inBoxPublisher1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher1" />
+	</bean>
+
+	<bean id="outBoxPublisher1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher1" />
+	</bean>
+
+	<bean id="spamBoxPublisher1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher1" />
+	</bean>
+
+	<bean id="trashBoxPublisher1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher1" />
+	</bean>
+
+	<bean id="inBoxPublisher2" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher2" />
+	</bean>
+
+	<bean id="outBoxPublisher2" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher2" />
+	</bean>
+
+	<bean id="spamBoxPublisher2" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher2" />
+	</bean>
+
+	<bean id="trashBoxPublisher2" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="publisher2" />
+	</bean>
+
+	<bean id="inBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic1" />
+	</bean>
+
+	<bean id="outBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic1" />
+	</bean>
+
+	<bean id="spamBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic1" />
+	</bean>
+
+	<bean id="trashBoxCritic1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic1" />
+	</bean>
+
+	<bean id="inBoxCritic2" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic2" />
+	</bean>
+
+	<bean id="outBoxCritic2" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic2" />
+	</bean>
+
+	<bean id="spamBoxCritic2" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic2" />
+	</bean>
+
+	<bean id="trashBoxCritic2" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="critic2" />
+	</bean>
+
+	<bean id="inBoxUser1" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user1" />
+	</bean>
+
+	<bean id="outBoxUser1" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user1" />
+	</bean>
+
+	<bean id="spamBoxUser1" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user1" />
+	</bean>
+
+	<bean id="trashBoxUser1" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user1" />
+	</bean>
+
+	<bean id="inBoxUser2" class="domain.MessageBox">
+		<property name="name" value="InBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user2" />
+	</bean>
+
+	<bean id="outBoxUser2" class="domain.MessageBox">
+		<property name="name" value="OutBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user2" />
+	</bean>
+
+	<bean id="spamBoxUser2" class="domain.MessageBox">
+		<property name="name" value="SpamBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user2" />
+	</bean>
+
+	<bean id="trashBoxUser2" class="domain.MessageBox">
+		<property name="name" value="TrashBox" />
+		<property name="isSystem" value="true" />
+		<property name="actor" ref="user2" />
+	</bean>
+
+	<!-- Messages -->
+
+	<bean id="message1" class="domain.Message">
+		<property name="moment" value="2019/03/03" />
+		<property name="subject" value="Advertencia" />
+		<property name="body" value="Dese usted por muerto" />
+		<property name="priority" value="HIGH" />
+		<property name="tags" value="#EstoNoEsUnaAmenaza" />
+		<property name="isSpam" value="false" />
+		<property name="sender">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="recipients">
+			<list>
+				<ref bean="critic1"/>
+			</list>
+		</property>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="outBoxPublisher1"/>
+				<ref bean="inBoxCritic1"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Finders -->
+
+	<bean id="finderUser1" class="domain.Finder">
+		<property name="keyword" value=""/>
+		<property name="minDate" value="01/01/2000"/>
+		<property name="maxDate" value ="31/12/2020"/>
+		<property name="user" ref="user1"/>
+		<property name="series">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="finderUser2" class="domain.Finder">
+		<property name="keyword" value=""/>
+		<property name="minDate" value="11/11/2018"/>
+		<property name="maxDate" value ="12/12/2019"/>
+		<property name="user" ref="user1"/>
+		<property name="series">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Social profiles -->
+
+	<bean id="socialProfile1" class="domain.SocialProfile">
+		<property name="nick" value="aaa"/>
+		<property name="socialNetworkName" value="facebook"/>
+		<property name="profileLink" value ="http://www.facebook.com"/>
+		<property name="actor">
+			<ref bean="user1"/>
+		</property>
+	</bean>
+
+	<bean id="socialProfile2" class="domain.SocialProfile">
+		<property name="nick" value="bbb"/>
+		<property name="socialNetworkName" value="twitter"/>
+		<property name="profileLink" value ="http://www.twitter.com"/>
+		<property name="actor">
+			<ref bean="user2"/>
+		</property>
+	</bean>
+
+	<!-- Series, seasons and chapters -->
+
+	<bean id="serie1" class="domain.Serie">
+		<property name="title" value="Dragon Ball"/>
+		<property name="description" value="Un chino busca las 7 bolas de dragón para resucitar a su amigo que no para de morirse"/>
+		<property name="banner" value=""/>
+		<property name="startDate" value="01/01/2000"/>
+		<property name="endDate" value ="31/12/2015"/>
+		<property name="status" value ="FINALIZED"/>
+		<property name="director" value="yo k sé"/>
+		<property name="cast" value="Son Goku, Krilin, Vegeta777 y Willyrex"/>
+		<property name="isDraft" value="true"/>
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="seasons">
+			<list>
+				<ref bean="serie1season1"/>
+				<ref bean="serie1season2"/>
+			</list>
+		</property>
+		<property name="favouritedUsers">
+			<list>
+			</list>
+		</property>
+		<property name="pendingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchedUsers">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season1" class="domain.Season">
+		<property name="number" value="1"/>
+		<property name="startDate" value="01/01/2000"/>
+		<property name="endDate" value ="31/12/2007"/>
+		<property name="chapters">
+			<list>
+				<ref bean="serie1season1chapter1"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season1chapter1" class="domain.Chapter">
+		<property name="number" value="1"/>
+		<property name="title" value="En busca de la bola de dragón 1"/>
+		<property name="description" value="ondecoñostá"/>
+		<property name="releaseDate" value ="01/01/2000"/>
+		<property name="duration" value="20"/>
+	</bean>
+
+	<bean id="serie1season2" class="domain.Season">
+		<property name="number" value="2"/>
+		<property name="startDate" value="01/01/2008"/>
+		<property name="endDate" value ="31/12/2016"/>
+		<property name="chapters">
+			<list>
+				<ref bean="serie1season2chapter1"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="serie1season2chapter1" class="domain.Chapter">
+		<property name="number" value="1"/>
+		<property name="title" value="Me cago en los muertos"/>
+		<property name="description" value="Por fin encontramos todas las putas bolas de dragón y el hijoputa va y se muere otra vez"/>
+		<property name="releaseDate" value ="01/01/2008"/>
+		<property name="duration" value="20"/>
+	</bean>
+
+	<bean id="serie2" class="domain.Serie">
+		<property name="title" value="Rick y Morty"/>
+		<property name="description" value="Mira esto y te aceptarán en Hardvard y te llevarás todos los nobels"/>
+		<property name="banner" value=""/>
+		<property name="startDate" value="01/01/2000"/>
+		<!-- <property name="endDate" value =""/> -->
+		<property name="status" value ="ON EMISSION"/>
+		<property name="director" value="un nota"/>
+		<property name="cast" value="Ricardo y Mórtimer"/>
+		<property name="isDraft" value="true"/>
+		<property name="publisher">
+			<ref bean="publisher2"/>
+		</property>
+		<property name="seasons">
+			<list>
+			</list>
+		</property>
+		<property name="favouritedUsers">
+			<list>
+			</list>
+		</property>
+		<property name="pendingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchingUsers">
+			<list>
+			</list>
+		</property>
+		<property name="watchedUsers">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Critiques -->
+
+	<bean id="critique1" class="domain.Critique">
+		<property name="moment" value="01/01/2000"/>
+		<property name="text" value="Me pica el coño"/>
+		<property name="score" value="6.0"/>
+		<property name="critic">
+			<ref bean="critic1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+
+	<!-- Comments -->
+
+	<bean id="comment1" class="domain.Comment">
+		<property name="moment" value="01/01/2000"/>
+		<property name="text" value="biba begeta 777 y wilireks"/>
+		<property name="score" value="10.0"/>
+		<property name="user">
+			<ref bean="user1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+
+	<!-- Applications -->
+
+	<bean id="application1" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="Me encanta esta serie y no me creo que esté"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+	
+	<bean id="application2" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="ola wenas"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie2"/>
+		</property>
+	</bean>
+	
+	<bean id="application3" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="iyo aceptadme la serie con vuestros muertos"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher1"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie2"/>
+		</property>
+	</bean>
+	
+	<bean id="application4" class="domain.Application">
+		<property name="moment" value="01/01/2000"/>
+		<property name="description" value="AYUWOKI"/>
+		<property name="status" value="PENDING"/>
+		<!-- <property name="administrator">
+			<ref bean=""/>
+		</property> -->
+		<property name="publisher">
+			<ref bean="publisher2"/>
+		</property>
+		<property name="serie">
+			<ref bean="serie1"/>
+		</property>
+	</bean>
+
+</beans>

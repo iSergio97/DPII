@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * enrolment/tiles.xml
+ *
+ * Copyright (C) 2019 Group 16 Desing & Testing II
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="enrolment/member/create" extends="master.page">	
+		<put-attribute name="title" value="Enrol" />
+		<put-attribute name="body" value="/views/enrolment/create.jsp" />
+	</definition>
+	
+	<definition name="enrolment/member/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit brotherhoods" />
+		<put-attribute name="body" value="/views/enrolment/edit.jsp" />
+	</definition>
+	
+	<definition name="enrolment/member/list" extends="master.page">	
+		<put-attribute name="title" value="List of brotherhoods" />
+		<put-attribute name="body" value="/views/enrolment/list.jsp" />
+	</definition>
+	
+	<definition name="enrolment/brotherhood/list" extends="master.page">
+		<put-attribute name="title" value="List of members" />
+		<put-attribute name="body" value="/views/enrolment/listBrotherhood.jsp" />
+	</definition>
+	
+		<definition name="enrolment/brotherhood/show" extends="master.page">
+		<put-attribute name="title" value="Information from the enrol member" />
+		<put-attribute name="body" value="/views/enrolment/show.jsp" />
+	</definition>
+
+	<definition name="enrolment/brotherhood/edit" extends="master.page">
+		<put-attribute name="title" value="Change the position from the member" />
+		<put-attribute name="body" value="/views/enrolment/changePos.jsp" />
+	</definition>
+	
+</tiles-definitions>

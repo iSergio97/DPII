@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- * position-data/tiles.xml * * Copyright (C) 2019 Group 16 Desing & Testing 
+	II * @author José Antonio Domínguez Gómez -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="register/user/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as user" />
+		<put-attribute name="body"
+			value="/views/register/user/create.jsp" />
+	</definition>
+
+	<definition name="profile/user/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/user/edit.jsp" />
+	</definition>
+
+	<definition name="register/publisher/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as publisher" />
+		<put-attribute name="body"
+			value="/views/register/publisher/create.jsp" />
+	</definition>
+
+	<definition name="profile/publisher/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/publisher/edit.jsp" />
+	</definition>
+
+	<definition name="register/administrator/create"
+		extends="master.page">
+		<put-attribute name="title"
+			value="Register as administrator" />
+		<put-attribute name="body"
+			value="/views/register/administrator/create.jsp" />
+	</definition>
+
+	<definition name="profile/administrator/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/administrator/edit.jsp" />
+	</definition>
+	
+	<definition name="register/critic/create"
+		extends="master.page">
+		<put-attribute name="title" value="Register as critic" />
+		<put-attribute name="body"
+			value="/views/register/critic/create.jsp" />
+	</definition>
+
+	<definition name="profile/critic/edit"
+		extends="master.page">
+		<put-attribute name="title" value="Edit your profile" />
+		<put-attribute name="body"
+			value="/views/register/critic/edit.jsp" />
+	</definition>
+
+</tiles-definitions>
